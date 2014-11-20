@@ -56,10 +56,9 @@
     <Content Include="locales\en\app-en.json" />
     <Content Include="locales\en\keystone-en.json" />
     <Content Include="public\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="public\images\employee.png" />
     <Content Include="public\images\kplogo_32.png" />
     <Content Include="public\images\kplogo_50.png" />
-    <Content Include="public\images\student.png" />
-    <Content Include="public\images\student_gs.png" />
     <Content Include="public\images\logo-email.gif" />
     <Content Include="public\images\logo.svg" />
     <Content Include="public\styles\site-ltr.css" />

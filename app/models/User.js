@@ -8,14 +8,17 @@ var keystone = require('keystone'),
  */
 
 var User = new keystone.List('User', {
-    defaultSort: 'tenant name',
+    defaultSort: 'organization name',
 });
 
 User.add({
     name: { type: Types.Name, required: true, index: true },
     email: { type: Types.Email, initial: true, required: true, index: { unique: true } },
     password: { type: Types.Password, initial: true, required: true },
+}, 'Organization', {
     organization: { type: Types.Relationship, ref: 'Organization' },
+    employee: { type: Types.Relationship, ref: 'Employee', filters: { organization : ':organization' } }
+}, 'Verification', {
     isVerified: { type: Boolean, label: 'Email verified', index: true, default: false }
 }, 'Permissions', {
     isAdmin: { type: Boolean, label: 'Can access Keystone', index: true },
@@ -58,5 +61,5 @@ User.schema.plugin(uniqueValidator, { message: '{PATH} already exists' });
  * Registration
  */
 
-User.defaultColumns = 'organization, name, email, isAdmin, isOrgAdmin, isVerified';
+User.defaultColumns = 'organization, name, email, employee, isAdmin, isOrgAdmin, isVerified';
 User.register();

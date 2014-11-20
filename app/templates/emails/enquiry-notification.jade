@@ -1,7 +1,7 @@
 extends email
 
 block body-contents
-  h1 Hi *|first_name|*,
+  h3 Hi *|first_name|*,
   p.text-larger An enquiry was just submitted to #{brand}:
   if enquiry.name.full || enquiry.email
     p.text-larger From 
