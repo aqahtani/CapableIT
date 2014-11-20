@@ -32,6 +32,7 @@
     <Compile Include="models\PostCategory.js" />
     <Compile Include="models\Job.js" />
     <Compile Include="models\Organization.js" />
+    <Compile Include="models\VerificationToken.js" />
     <Compile Include="models\User.js" />
     <Content Include="public\favicon.ico" />
     <Compile Include="public\js\lib\bootswatch.js" />
@@ -39,8 +40,11 @@
     <Compile Include="routes\index.js" />
     <Compile Include="routes\lang.js" />
     <Compile Include="routes\middleware.js" />
+    <Compile Include="routes\user\logout.js" />
+    <Compile Include="routes\user\login.js" />
     <Compile Include="routes\views\assessment.js" />
     <Compile Include="routes\views\job.js" />
+    <Compile Include="routes\user\verify.js" />
     <Compile Include="updates\0.0.2-org.js" />
     <Compile Include="updates\0.0.2-english-levels.js" />
     <Compile Include="updates\0.0.1-soft-skills.js" />
@@ -91,11 +95,16 @@
     <Compile Include="routes\views\contact.js" />
     <Compile Include="routes\views\gallery.js" />
     <Compile Include="routes\views\index.js" />
-    <Compile Include="routes\views\join.js" />
+    <Compile Include="routes\user\join.js" />
     <Compile Include="routes\views\post.js" />
     <Compile Include="routes\views\organization.js" />
     <Compile Include="routes\views\employee.js" />
+    <Content Include="templates\emails\button.jade" />
+    <Content Include="templates\emails\email.jade" />
+    <Content Include="templates\emails\user-verification.jade" />
     <Content Include="templates\emails\enquiry-notification.jade" />
+    <Content Include="templates\emails\styles\default.jade" />
+    <Content Include="templates\emails\styles\ink.jade" />
     <Content Include="templates\layouts\default.jade" />
     <Content Include="templates\mixins\commons.jade" />
     <Content Include="templates\mixins\flash-messages.jade" />
@@ -112,7 +121,10 @@
     <Content Include="templates\views\gallery.jade" />
     <Content Include="templates\views\index.jade" />
     <Content Include="templates\views\assessment.jade" />
-    <Content Include="templates\views\join.jade" />
+    <Content Include="templates\views\user\logout.jade" />
+    <Content Include="templates\views\user\login.jade" />
+    <Content Include="templates\views\user\verify.jade" />
+    <Content Include="templates\views\user\join.jade" />
     <Content Include="templates\views\post.jade" />
     <Content Include="templates\views\organization.jade" />
     <Content Include="templates\views\job.jade" />
@@ -142,13 +154,16 @@
     <Folder Include="public\styles\site" />
     <Folder Include="routes" />
     <Folder Include="routes\api" />
+    <Folder Include="routes\user\" />
     <Folder Include="routes\views" />
     <Folder Include="templates" />
     <Folder Include="templates\emails" />
+    <Folder Include="templates\emails\styles\" />
     <Folder Include="templates\layouts" />
     <Folder Include="templates\mixins" />
     <Folder Include="templates\views" />
     <Folder Include="templates\views\errors" />
+    <Folder Include="templates\views\user\" />
     <Folder Include="updates" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />

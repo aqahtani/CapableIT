@@ -1,4 +1,4 @@
-extends ../layouts/default
+extends ../../layouts/default
 
 mixin step(step, current)
   .col-sm-3.text-center
@@ -19,8 +19,8 @@ block content
           .row
             +step(1, step)
             +step(2, step)
-            +step(3, step)
-            +step(4, step)
+            //- +step(3, step)
+            //- +step(4, step)
     
         case step
           when "1" 
@@ -42,33 +42,6 @@ block content
               .form-actions
                 button(type='submit').btn.btn-primary Send
 
-          when "2"
-            //- Step 2: Log him in
-            h3 Congrats, you're registered. Now, please login
-            form(method="post")
-              input(type='hidden', name='action', value='login')
-              .form-group
-                label(for='email') Email
-                input(type='email', name='email', id='email', value=formData.email).form-control
-              .form-group
-                label(for='password') Password
-                input(type='password', name='password', id='password').form-control
-              .form-actions
-              button(type='submit').btn.btn-primary Sign In
-        
-          when "3"
-            //- verify email
-            h3 Welcome #{user.name.first}
-            form(method="post")
-              input(type='hidden', name='action', value='tenant')
-              .form-group
-                label(for='name') Name
-                input(type='text', name='name', id='name', value=formData.name).form-control
-              .form-group
-                label(for='url') Url
-                input(type='url', name='url', id='url').form-control
-              .form-actions
-              button(type='submit').btn.btn-primary Create Tenant
-
           default
-            h3 Tenant created #{tenantName}
+            h3 You now need to verify your email address
+            pre= JSON.stringify(dump, null, 4)

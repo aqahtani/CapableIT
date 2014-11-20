@@ -65,10 +65,10 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
                 li: a(href='#')= user.name.first
                 if user.canAccessKeystone
                   li: a(href='/keystone',title="#{t('nav.keystone')}"): span.glyphicon.glyphicon-cog
-                li: a(href='/keystone/signout',title="#{t('nav.signout')}"): span.glyphicon.glyphicon-log-out
+                li: a(href='/logout',title="#{t('nav.signout')}"): span.glyphicon.glyphicon-log-out
               else
                 li: a(href='/join')= t('nav.signup') 
-                li: a(href='/keystone/signin',title="#{t('nav.signin')}"): span.glyphicon.glyphicon-log-in
+                li: a(href='/login',title="#{t('nav.signin')}"): span.glyphicon.glyphicon-log-in
               //- language switch
               li.dropdown
                 a.dropdown-toggle(href="#",data-toggle="dropdown")
@@ -98,11 +98,10 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
 
     //- FOOTER
     .container: #footer
-
+      p.pull-left © 2014 <a href="http://knowledge-passion.com" target="_blank">Knowledge-Passion Consulting</a>.
       //- You don't _have_ to include a link saying your site is powered by KeystoneJS, but we appreciate it!
-      p #{t('poweredby')} <a href="http://keystonejs.com" target="_blank">KeystoneJS</a>.
-
-
+      p.pull-right #{t('poweredby')} <a href="http://keystonejs.com" target="_blank">KeystoneJS</a>.
+      
     //- JAVASCRIPT
 
     //- jQuery 1.11.1 is included by default, and required by both Bootstrap

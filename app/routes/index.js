@@ -29,7 +29,8 @@ keystone.pre('render', middleware.flashMessages);
 
 // Import Route Controllers
 var routes = {
-	views: importRoutes('./views')
+    views: importRoutes('./views'),
+    userViews: importRoutes('./user')
 };
 
 // Setup Route Bindings
@@ -47,8 +48,11 @@ exports = module.exports = function(app) {
 	app.get('/gallery', routes.views.gallery);
     app.all('/contact', routes.views.contact);
     
-    // registration:
-    app.all('/join', routes.views.join);
+    // user: registration and authentication 
+    app.all('/join', routes.userViews.join);
+    app.all('/verify/:token', routes.userViews.verify);
+    app.all('/login', routes.userViews.login);
+    app.all('/logout', routes.userViews.logout);
     
     // language switching routes
     app.get('/lang/:language', require('./lang'));
