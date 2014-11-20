@@ -1,0 +1,79 @@
+﻿mixin fieldLabel(lbl)
+  h4: .label.label-default= lbl 
+
+//- one level box: used by hard, soft, and english levelers 
+mixin levelBox(label, kind, description, color)
+  button.btn.btn-xs(
+    type="button"
+    class="#{kind}"
+    style="background-color:#{color}"
+    data-container="body"
+    data-toggle="popover" 
+    data-placement="bottom"
+    data-content="#{description}"
+    data-original-title=""
+    title="")= label
+
+//- Authority as RACI
+mixin authority(raci)
+  case raci
+    when "RESPONSIBLE"
+      .label.label-warning= raci
+    when "ACCOUNTABLE"
+      .label.label-danger= raci
+    when "CONSULTED"
+      .label.label-success= raci
+    when "INFORMED"
+      .label.label-info= raci
+    default
+      .label.label-default= raci
+
+//- Hard Skill Leveler
+mixin hardLeveler(skill, target, current)
+  .row
+    .col-sm-7
+      h5= skill.title
+    .col-sm-5: .bs-component: .btn-group.btn-group-justified
+      for i in [1, 2, 3, 4, 5, 6, 7]
+        if (i == target && i == current)
+          - var kind = "btn-success"
+        else if (i == target)
+          - var kind = "btn-danger"
+        else if (i == current)
+          - var kind = "btn-info"
+        else
+          - var kind = "btn-default"
+        
+        if (i < skill.levels.min || i > skill.levels.max)
+          - var kind = kind + " disabled"
+        
+        +levelBox(i, kind, skill.levels.descriptions[i - skill.levels.min])
+
+//- Hard Skill Leveler
+mixin softLeveler(skill, target, current)
+  .row
+    .col-sm-7
+      h5= skill.title
+    .col-sm-5: .bs-component: .btn-group.btn-group-justified
+      for i in [1, 2, 3, 4, 5]
+        if (i == target && i == current)
+          - var kind = "btn-success"
+        else if (i == target)
+          - var kind = "btn-warning"
+        else if (i == current)
+          - var kind = "btn-info"
+        else
+          - var kind = "btn-default"
+
+        +levelBox(i, kind, skill.levelDescriptions[i])
+
+//- English Language Leveler
+mixin englishLeveler(target, current)
+  .bs-component: .btn-group
+    for i in ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
+      if (target && i == target.grade)
+          +levelBox(i, "btn-default", target.title + ": " + target.description, target.color)
+      else if (current && i == current.grade)
+          +levelBox(i, "btn-default", current.title + ": " + current.description, current.color)
+      else
+          +levelBox(i, "btn-default disabled", "")

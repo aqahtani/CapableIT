@@ -1,0 +1,25 @@
+﻿mixin teacherRow(teacher)
+  //.profile(data-ks-editable=editable(user, { list: 'Teacher', id: teacher.id }))
+  tr
+    td
+      if teacher.photo.exists
+        img(src=teacher._.photo.fit(160,160)).img.pull-right
+    td: a(href='/school/' + teacher.school + '/teacher/' + teacher.id)= teacher.name.full
+    td.lead.text-muted 
+      if teacher.birthDate
+        | born on #{teacher._.birthDate.format('MMMM Do, YYYY')} 
+    td: p!= teacher.bio
+
+mixin teacherPanel(teacher)
+  .panel.panel-default( data-ks-editable=editable(user, { list: 'Teacher', id: teacher.id }) )
+    .panel-heading.text-center
+        span.img-thumbnail
+          if teacher.photo.exists
+            img(src=teacher._.photo.fit(100,100),alt="teacher photo")
+          else
+            img(src="/images/teacher.png")
+    .panel-body
+      h4.text-primary: a(href='/school/' + teacher.school + '/teacher/' + teacher.id)= teacher.name.full 
+      p.text-muted #{teacher._.birthDate.format('MMMM Do, YYYY')}
+      p= teacher.state
+      p= teacher.email

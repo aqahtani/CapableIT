@@ -1,0 +1,12 @@
+﻿mixin employeeBrief(employee)
+  .panel.panel-default( data-ks-editable=editable(user, { list: 'Employee', id: employee.id }) )
+    .panel-heading.text-center
+        //-span.thumbnail.qrcode!= employee.qrCode
+        span.img-thumbnail
+          if employee.photo.exists
+            img(src=employee._.photo.fit(100,100),alt="employee photo")
+          else
+            img(src="/images/employee.png")
+    .panel-body 
+      p.text-primary: a(href='/organization/' + filters.organization + '/employee/' + employee.slug)= employee.name.full
+      p.text-muted= employee.arName

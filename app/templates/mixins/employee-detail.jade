@@ -1,0 +1,77 @@
+﻿include commons
+
+//- Employee in Detail View
+mixin employeeDetail(employee)
+  h2 Employee Profile
+  hr
+  .row
+    .col-md-2.text-center
+      .img-thumbnail
+        if employee.photo.exists
+          img(src=employee._.photo.fit(150,150),alt="employee photo")
+        else
+          img(src="/images/employee.png")
+    .col-md-10
+      .row
+        .col-md-2: +fieldLabel("Name")
+        .col-md-4: h4= employee.name.full
+        .col-md-6: h4= employee.arName
+      .row
+        .col-md-2: +fieldLabel("Employee ID")
+        .col-md-4: h4= employee.empId
+        .col-md-2: +fieldLabel("Telephone")
+        .col-md-4: h4= employee.telephone
+      .row
+        .col-md-2: +fieldLabel("Job Title")
+        .col-md-4
+          if employee.job
+            h4: a(href='/organization/' + employee.organization.slug + '/job/' + employee.job.slug)= employee.job.title
+        .col-md-2: +fieldLabel("Email")
+        .col-md-4: h4= employee.email
+      .row
+        .col-md-2: +fieldLabel("Department")
+        .col-md-4
+          if employee.orgDepartment
+            h4= employee.orgDepartment.name
+        .col-md-2: +fieldLabel("Function")
+        .col-md-4
+          if employee.orgFunction
+            h4= employee.orgFunction.name
+      .row
+        .col-md-2: +fieldLabel("Birth Date")
+        .col-md-4: h4= employee._.birthDate.format('MMMM Do, YYYY')
+        .col-md-2: +fieldLabel("Formal Title")
+        .col-md-4: h4= employee.formalTitle
+  //- output bio if exists
+  if employee.bio
+    hr
+    blockquote
+      p= employee.bio
+      p: footer.pull-right= employee.name.first
+
+  hr
+  h3 Education and Certification        
+  .row
+    .col-sm-6
+      .panel.panel-success
+        .panel-heading
+          h4 Education
+        .panel-body
+          .row
+            .col-md-3: +fieldLabel("English")
+            .col-md-9: h4
+              if employee.english.level
+                +englishLeveler(null, employee.english.level)
+          .row
+            .col-md-3: +fieldLabel("Education")
+            .col-md-9: h4 #{employee.education.field}, #{employee.education.level}        
+    .col-sm-6
+      .panel.panel-info
+        .panel-heading
+          h4 Certification
+        if employee.certificates.length
+          ul.list-group
+            each cert in employee.certificates
+              li.list-group-item= cert
+        else 
+          .panel-body No certificates found

@@ -1,0 +1,24 @@
+extends ../layouts/default
+include ../mixins/employee-detail
+
+block content
+  .container
+    .row: .col-sm-12
+      article
+        p: a(href='/organization/#{filters.organization}') &larr; back to the organization page
+        hr
+        if !data.employee
+          h2 Invalid Employee.
+        else
+          +employeeDetail(data.employee)
+      hr
+      h3 Assessments
+      if assessments.length
+        .list-group
+          each assessment in assessments
+            a.list-group-item(href='/organization/' + filters.organization + '/employee/' + filters.employee + '/assessment/' + assessment.id )
+              | #{assessment._.createdAt.format('DD/MM/YYYY - HH:mm')}
+              | by
+              | #{assessment.doneBy.name.full}
+      else
+        p No assessments found for this employee

@@ -1,0 +1,23 @@
+{
+    "title": "حلقات القرآن",
+    "brand": "حلقات",
+    "direction": "rtl",
+    "language":  "ar",
+    "poweredby": "يعمل على منصة",
+    "msg": {
+        "language_changed": "تم تغيير اللغة للعربية."
+    },
+    "nav": {
+        "home": "الرئيسية",
+        "about": "عن الموقع",
+        "contact": "تواصل",
+        "more": "المزيد؟",
+        "schools": "المدارس",
+        "blog": "المدونة",
+        "gallery": "معرض الصور",
+        "signout": "خروج",
+        "signin": "دخول",
+        "keystone": "إدارة النظام",
+        "signup": "انضم إلينا"
+    }
+}

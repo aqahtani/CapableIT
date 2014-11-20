@@ -1,0 +1,13 @@
+extends ../layouts/default
+include ../mixins/assessment-detail
+
+block content
+  .container
+    .row: .col-sm-12
+      article
+        p: a(href='/organization/#{filters.organization}/employee/#{filters.employee}') &larr; back to the employee page
+        hr
+        if !data.assessment
+          h2 Invalid Assessment.
+        else
+          +assessmentDetail(data.assessment)

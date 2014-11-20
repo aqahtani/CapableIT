@@ -1,0 +1,74 @@
+extends ../layouts/default
+
+mixin step(step, current)
+  .col-sm-3.text-center
+    if step == current
+      span.label.label-success= step
+    else
+      span.label.label-default= step
+
+block intro
+  .container
+    //-h1 Join
+    
+block content
+  .container
+    .row: .col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3
+      .jumbotron
+        h3
+          .row
+            +step(1, step)
+            +step(2, step)
+            +step(3, step)
+            +step(4, step)
+    
+        case step
+          when "1" 
+            //- Step 1: Create User
+            h3 Create your user account
+            form(method='post')
+              input(type='hidden', name='action', value='join')
+              .form-group(class=validationErrors.name ? 'has-error' : null)
+                label(for='name') Name
+                input(type='text', name='name.full', id='name', value=formData['name.full']).form-control
+              .form-group(class=validationErrors.email ? 'has-error' : null)
+                label(for='email') Email
+                input(type='email', name='email', id='email', value=formData.email).form-control
+              .form-group(class=validationErrors.password ? 'has-error' : null)
+                label(for='password') Password
+                input(type='password', name='password', id='password', value=formData.password).form-control
+                label(for='password_confirm')  Confirm Password
+                input(type='password', name='password_confirm', id='password_confirm').form-control
+              .form-actions
+                button(type='submit').btn.btn-primary Send
+
+          when "2"
+            //- Step 2: Log him in
+            h3 Congrats, you're registered. Now, please login
+            form(method="post")
+              input(type='hidden', name='action', value='login')
+              .form-group
+                label(for='email') Email
+                input(type='email', name='email', id='email', value=formData.email).form-control
+              .form-group
+                label(for='password') Password
+                input(type='password', name='password', id='password').form-control
+              .form-actions
+              button(type='submit').btn.btn-primary Sign In
+        
+          when "3"
+            //- verify email
+            h3 Welcome #{user.name.first}
+            form(method="post")
+              input(type='hidden', name='action', value='tenant')
+              .form-group
+                label(for='name') Name
+                input(type='text', name='name', id='name', value=formData.name).form-control
+              .form-group
+                label(for='url') Url
+                input(type='url', name='url', id='url').form-control
+              .form-actions
+              button(type='submit').btn.btn-primary Create Tenant
+
+          default
+            h3 Tenant created #{tenantName}

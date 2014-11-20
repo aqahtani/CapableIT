@@ -1,0 +1,39 @@
+var keystone = require('keystone'),
+	Types = keystone.Field.Types,
+    uniqueValidator = require('mongoose-unique-validator');
+
+/**
+ * Organization Model
+ * =============
+ */
+
+var Organization = new keystone.List('Organization', {
+    autokey: { path: 'slug', from: 'title', unique: true },
+});
+
+Organization.add({
+    name: { type: String, required: true, match: /^[a-zA-Z0-9]*$/, uppercase: true, unique: true },
+    createdAt: { type: Date, default: Date.now },
+    title: { type: String, required: true, initial: true },
+    logo: { type: Types.CloudinaryImage, autoCleanup : true },
+    url: { type: Types.Url },
+}, 'Address', {
+    images: { type: Types.CloudinaryImages },
+    location: { type: Types.Location }
+});
+
+Organization.defaultColumns = 'name, slug, createdAt, title, url';
+
+Organization.relationship({ path: 'users', ref: 'User', refPath: 'organization' });
+Organization.relationship({ path: 'employees', ref: 'Employee', refPath: 'organization' });
+Organization.relationship({ path: 'jobs', ref: 'Job', refPath: 'organization' });
+Organization.relationship({ path: 'tasks', ref: 'JobTask', refPath: 'organization' });
+Organization.relationship({ path: 'departments', ref: 'OrgDepartment', refPath: 'organization' });
+Organization.relationship({ path: 'functions', ref: 'OrgFunction', refPath: 'organization' });
+
+/**
+ * Plugins
+ */
+Organization.schema.plugin(uniqueValidator, { message: '{PATH} already exists' });
+
+Organization.register();

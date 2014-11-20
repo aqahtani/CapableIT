@@ -1,0 +1,6 @@
+extends ../layouts/default
+
+block content
+  .container: .jumbotron
+    if data.organization
+      a(href="/organization/#{data.organization.slug}") org

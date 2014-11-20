@@ -1,0 +1,64 @@
+﻿include commons
+
+//- Assessment in Details
+mixin assessmentDetail(assessment)
+  h2 Capability Assessment
+  hr
+  .row
+    .col-sm-2: +fieldLabel("Assessment For")
+    .col-sm-4
+      if assessment.employee
+        h4: a(href='/organization/' + filters.organization + '/employee/' + assessment.employee.slug)= assessment.employee.name.full
+    .col-sm-2: +fieldLabel("Assessment By")
+    .col-sm-4
+      if assessment.doneBy
+        h4: a(href='/organization/' + filters.organization + '/employee/' + assessment.doneBy.slug)= assessment.doneBy.name.full
+  .row
+    .col-sm-2: +fieldLabel("Job Assessed")
+    .col-sm-4
+      if assessment.job
+        h4: a(href='/organization/' + filters.organization + '/job/' + assessment.job.slug)= assessment.job.title
+    .col-sm-2: +fieldLabel("Assessment Date")
+    .col-sm-4: h4= assessment._.createdAt.format('DD/MM/YYYY - HH:mm')
+  .row
+    .col-sm-2.col-sm-offset-6: +fieldLabel("English Level")
+    .col-sm-4: h4: +englishLeveler(assessment.english.targetLevel, assessment.english.currentLevel)
+  
+  hr
+  h3 Overview Assessment
+  blockquote
+    p= assessment.overview
+    p
+      if assessment.doneBy
+        footer.pull-right= assessment.doneBy.name.first
+  hr
+  .row
+    .col-sm-6
+      .panel.panel-success
+        .panel-heading
+          h4 Knowledge
+        .panel-body= assessment.knowledge
+  
+    .col-sm-6
+      .panel.panel-info
+        .panel-heading
+          h4 Experience & Qualifications
+        .panel-body= assessment.experience
+
+  hr
+  h3 Skill Assessment
+  .row
+    .col-sm-6
+      .panel.panel-danger
+        .panel-heading
+          h4 Professional Skills
+        .panel-body
+          for hardSkill, index in assessment.professional.skills
+            +hardLeveler(hardSkill, assessment.professional.targetLevels[index], assessment.professional.currentLevels[index])
+    .col-sm-6
+      .panel.panel-warning
+        .panel-heading
+          h4 Behavioral Skills
+        .panel-body
+          for softSkill, index in assessment.behavioral.skills
+            +softLeveler(softSkill, assessment.behavioral.targetLevels[index], assessment.behavioral.currentLevels[index])

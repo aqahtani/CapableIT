@@ -1,0 +1,74 @@
+﻿include commons
+
+//- Job Description in Details
+mixin jobDetail(job)
+  h2 JOB DESCRIPTION
+  hr
+  .row
+    .col-sm-2: +fieldLabel("Job Title")
+    .col-sm-4: h4= job.title
+    .col-sm-2: +fieldLabel("Alternative Title")
+    .col-sm-4: h4= job.altTitle
+  .row
+    .col-sm-2: +fieldLabel("Reports To")
+    .col-sm-4
+      if job.reportsTo
+        h4: a(href='/organization/' + job.organization.slug + '/job/' + job.reportsTo.slug)= job.reportsTo.title
+  .row
+    .col-sm-2: +fieldLabel("Department")
+    .col-sm-4
+      if job.orgDepartment
+        h4= job.orgDepartment.name
+    .col-sm-2: +fieldLabel("Function")
+    .col-sm-4
+      if job.orgFunction
+        h4= job.orgFunction.name
+  hr
+  h3 RESPONSIBILITIES
+  ul.list-group
+    for task, index in job.jobTasks
+      li.list-group-item
+        | #{task.title}
+        .badge= job.authorities[index]
+  hr
+  h3 JOB CONTEXT
+  .row
+    .col-sm-2: +fieldLabel("Environment")
+    .col-sm-10: h4= job.environment
+  .row
+    .col-sm-2: +fieldLabel("Audience")
+    .col-sm-10: h4= job.audience
+  .row
+    .col-sm-2: +fieldLabel("Internal")
+    .col-sm-10: h4= job.internal
+  .row
+    .col-sm-2: +fieldLabel("External")
+    .col-sm-10: h4= job.external
+  hr
+  h3 CAPABILITIES
+  .row
+    .col-sm-6
+      .panel.panel-success
+        .panel-heading
+          h4 Knowledge
+        .panel-body= job.knowledge
+    .col-sm-6
+      .panel.panel-info
+        .panel-heading
+          h4 Experience & Qualifications
+        .panel-body= job.experience
+  .row
+    .col-sm-6
+      .panel.panel-danger
+        .panel-heading
+          h4 Professional Skills
+        .panel-body
+          for hardSkill, index in job.professional.skills
+            +hardLeveler(hardSkill, job.professional.levels[index])
+    .col-sm-6
+      .panel.panel-warning
+        .panel-heading
+          h4 Behavioral Skills
+        .panel-body
+          for softSkill, index in job.behavioral.skills
+            +softLeveler(softSkill, job.behavioral.levels[index])

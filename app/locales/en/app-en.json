@@ -1,0 +1,23 @@
+{
+    "title": "OrgIT",
+    "brand": "Organize IT",
+    "direction": "ltr",
+    "language": "en",
+    "poweredby": "Powered by",
+    "msg": {
+        "language_changed": "Language changed to English."
+    },
+    "nav": {
+        "home": "Home",
+        "about": "About",
+        "contact": "Contact",
+        "more": "More",
+        "schools": "Schools",
+        "blog": "Blog",
+        "gallery": "Gallery",
+        "signout": "Sign Out",
+        "signin": "Sign In",
+        "keystone": "Administration",
+        "signup": "Join"
+    }
+}
