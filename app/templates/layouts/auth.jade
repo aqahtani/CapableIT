@@ -1,0 +1,35 @@
+include ../mixins/flash-messages
+
+doctype html
+html(dir="#{ t('direction') }",lang="#{ t('language') }")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width")
+    title Sign into #{brand ? brand : 'Keystone'}
+    link(href="/styles/site-#{t('direction')}.min.css", rel="stylesheet", media="all")
+    link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+    block css
+      
+  body
+    .container
+      .row: .col-sm-10.col-sm-offset-1
+        .alert &nbsp;
+        .jumbotron(class=messages && messages.error.length ? 'has-errors' : null)
+          +flash-messages(messages)
+          if !messages
+            .alert &nbsp;
+          .row
+            .col-sm-6
+              a(href='/'): img(src='/images/kp_logo_long.png', alt=brand)
+    
+            .col-sm-6
+              block content
+          
+        block footer
+          p.text-muted.pull-left © 2014 <a href="http://knowledge-passion.com" target="_blank">Knowledge-Passion Consulting</a>.
+          //- You don't _have_ to include a link saying your site is powered by KeystoneJS, but we appreciate it!
+          p.text-muted.pull-right #{t('poweredby')} <a href="http://keystonejs.com" target="_blank">KeystoneJS</a>.
+      
+    
+    //- Page Scripts
+    block js

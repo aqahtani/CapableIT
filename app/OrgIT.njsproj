@@ -59,6 +59,7 @@
     <Content Include="public\images\employee.png" />
     <Content Include="public\images\kplogo_32.png" />
     <Content Include="public\images\kplogo_50.png" />
+    <Content Include="public\images\kp_logo_long.png" />
     <Content Include="public\images\logo-email.gif" />
     <Content Include="public\images\logo.svg" />
     <Content Include="public\styles\site-ltr.css" />
@@ -104,6 +105,7 @@
     <Content Include="templates\emails\enquiry-notification.jade" />
     <Content Include="templates\emails\styles\default.jade" />
     <Content Include="templates\emails\styles\ink.jade" />
+    <Content Include="templates\layouts\auth.jade" />
     <Content Include="templates\layouts\default.jade" />
     <Content Include="templates\mixins\commons.jade" />
     <Content Include="templates\mixins\flash-messages.jade" />

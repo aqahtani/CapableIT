@@ -16,18 +16,21 @@ exports = module.exports = function (req, res) {
     // Step 1: log the user in
     view.on('post', { action: 'login' }, function (next) {
         
+        if (!req.body.email || !req.body.password) {
+            req.flash('error', 'Please enter your email address and password.');
+            return next();
+        }
+
         // prepare callbacks for success and failure
         var onFail = function () {
             req.flash('error', 'Sorry, that email and password combo are not valid.');
-            //locals.step = '1';
             next();
         };
 
         var onSuccess = function (user) {
             req.flash('success', 'Welcome ' + user.name.first);
             locals.user = user;
-            //locals.step = '2';
-            next();
+            res.redirect('/');
         };
         
         // sign the user in using lib from keystone
