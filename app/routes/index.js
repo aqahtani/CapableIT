@@ -30,25 +30,31 @@ keystone.pre('render', middleware.flashMessages);
 // Import Route Controllers
 var routes = {
     views: importRoutes('./views'),
-    userViews: importRoutes('./user')
+    userViews: importRoutes('./user'),
+    post: importRoutes('./post'),
 };
 
 // Setup Route Bindings
 exports = module.exports = function(app) {    
 	
-	// Views
-	app.get('/', routes.views.index);
-	app.get('/blog/:category?', routes.views.blog);
-//    app.get('/schools', middleware.requireUser, routes.views.schools);
-    app.get('/organization/:organization', routes.views.organization);
-    app.get('/organization/:organization/employee/:employee', routes.views.employee);
-    app.get('/organization/:organization/job/:job', routes.views.job);
-    app.get('/organization/:organization/employee/:employee/assessment/:assessment', routes.views.assessment);
+    // Public views
+    app.get('/', routes.views.home);
+    app.get('/blog/:category?', routes.views.blog);
     app.get('/blog/post/:post', routes.views.post);
-	app.get('/gallery', routes.views.gallery);
+    app.get('/gallery', routes.views.gallery);
     app.all('/contact', routes.views.contact);
+
+    // GET routes/views (Authenticated)
+    app.get('/organization/:organization', middleware.requireUser, routes.views.organization);
+    app.get('/organization/:organization/employee/:employee', middleware.requireUser, routes.views.employee);
+    app.get('/employee', middleware.requireUser, routes.views.employee);
+    app.get('/organization/:organization/job/:job', middleware.requireUser, routes.views.job);
+    app.get('/organization/:organization/employee/:employee/assessment/:assessment', middleware.requireUser, routes.views.assessment);
     
-    // user: registration and authentication 
+    // Post routes: new and update (Authenticated) 
+    app.all('/update/employee/:employee', middleware.requireUser, routes.post.employee);
+    
+    // User routes: registration and authentication 
     app.all('/join', routes.userViews.join);
     app.all('/verify/:token', routes.userViews.verify);
     app.all('/login', routes.userViews.login);

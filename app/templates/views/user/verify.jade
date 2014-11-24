@@ -1,18 +1,15 @@
-extends ../../layouts/default
-
-block intro
-  .container
-    h1 Verify
+extends ../../layouts/auth
     
 block content
-  .container
-    .row: .col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3
-      .jumbotron
-        if data.verified
-          h3 Thank you for verifying your email, you can now sign in.
+  if data.verified
+    p.text-primary Thank you for verifying your email, you can now 
+      a(href='/login').btn.btn-success login
 
-        if data.linked
-          h3 We have also linked your account to your organization
+  if data.orgLinked
+    p: small.text-info We have also linked your account to your organization
+
+  if data.empLinked
+    p: small.text-success And linked your account to your employee profile
   
-        //-pre= JSON.stringify(data.dump, null, 4)
+  //-pre= JSON.stringify(data.dump, null, 4)
         

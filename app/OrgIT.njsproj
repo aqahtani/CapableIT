@@ -43,6 +43,7 @@
     <Compile Include="routes\user\logout.js" />
     <Compile Include="routes\user\login.js" />
     <Compile Include="routes\views\assessment.js" />
+    <Compile Include="routes\post\employee.js" />
     <Compile Include="routes\views\job.js" />
     <Compile Include="routes\user\verify.js" />
     <Compile Include="updates\0.0.2-org.js" />
@@ -94,7 +95,7 @@
     <Compile Include="routes\views\blog.js" />
     <Compile Include="routes\views\contact.js" />
     <Compile Include="routes\views\gallery.js" />
-    <Compile Include="routes\views\index.js" />
+    <Compile Include="routes\views\home.js" />
     <Compile Include="routes\user\join.js" />
     <Compile Include="routes\views\post.js" />
     <Compile Include="routes\views\organization.js" />
@@ -117,10 +118,11 @@
     <Content Include="templates\mixins\job-brief.jade" />
     <Content Include="templates\mixins\student-mixin.jade" />
     <Content Include="templates\mixins\teacher-mixin.jade" />
+    <Content Include="templates\views\post\employee.jade" />
     <Content Include="templates\views\blog.jade" />
     <Content Include="templates\views\contact.jade" />
     <Content Include="templates\views\gallery.jade" />
-    <Content Include="templates\views\index.jade" />
+    <Content Include="templates\views\home.jade" />
     <Content Include="templates\views\assessment.jade" />
     <Content Include="templates\views\user\logout.jade" />
     <Content Include="templates\views\user\login.jade" />
@@ -155,6 +157,7 @@
     <Folder Include="public\styles\site" />
     <Folder Include="routes" />
     <Folder Include="routes\api" />
+    <Folder Include="routes\post\" />
     <Folder Include="routes\user\" />
     <Folder Include="routes\views" />
     <Folder Include="templates" />
@@ -162,6 +165,7 @@
     <Folder Include="templates\emails\styles\" />
     <Folder Include="templates\layouts" />
     <Folder Include="templates\mixins" />
+    <Folder Include="templates\views\post\" />
     <Folder Include="templates\views" />
     <Folder Include="templates\views\errors" />
     <Folder Include="templates\views\user\" />

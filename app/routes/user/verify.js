@@ -2,6 +2,7 @@
     session = keystone.session,
     User = keystone.list('User'),
     Organization = keystone.list('Organization'),
+    Employee = keystone.list('Employee'),
     VerificationToken = keystone.list('VerificationToken');
 
 exports = module.exports = function (req, res) {
@@ -20,7 +21,8 @@ exports = module.exports = function (req, res) {
     
     locals.data = {
         verified : false,
-        linked: false,
+        orgLinked: false,
+        empLinked: false,
         dump: {}
     }
     
@@ -28,6 +30,7 @@ exports = module.exports = function (req, res) {
         var tkn = locals.filters.token;
         var async = require("async");
         
+        // finds the given token and returns user attached
         var findToken = function (callback) {
             var q = VerificationToken.model.findOne()
                     .where({ 'token': tkn })
@@ -50,6 +53,7 @@ exports = module.exports = function (req, res) {
             });
         }
         
+        // sets isVerified for the user upon successful verification
         var verifyUser = function (callback, results) {
             var user = results.user;
             if (!user) {
@@ -64,7 +68,8 @@ exports = module.exports = function (req, res) {
             });
         }
         
-        var linkUser = function (callback, results) {
+        // links user to his organization if a matching one is found
+        var linkOrg = function (callback, results) {
             // get the domain part from the email
             var userId = results.user.id;
             var emailDomain = results.user.email.split('@')[1];
@@ -83,10 +88,31 @@ exports = module.exports = function (req, res) {
             });
         }
         
+        // links user to his employee profile if a matching one is found
+        var linkEmp = function (callback, results) {
+            // get user's email
+            var userId = results.user.id;
+            var userEmail = results.user.email;
+            
+            var q = Employee.model.findOne()
+                    .where({ 'email': userEmail });
+            
+            q.exec(function (err, result) {
+                if (err) return callback(err);
+                if (!result) return callback(null, false);
+                
+                User.model.update({ '_id' : userId }, { 'employee' : result.id }).exec(function (err, doc) {
+                    if (err) return callback(err);
+                    callback(null, true);
+                });
+            });
+        }
+        
         async.auto({
             user: findToken, 
             verified: ['user', verifyUser], 
-            linked: ['verified', linkUser]
+            orgLinked: ['verified', linkOrg],
+            empLinked: ['verified', linkEmp]
         }, function (err, results) {
             // All tasks are done now and you have results as an object 
             if (err) {
@@ -95,8 +121,9 @@ exports = module.exports = function (req, res) {
             else {
                 // successful: set locals and do next()
                 locals.data.verified = results.verified;
-                locals.data.linked = results.linked;
-                locals.data.dump = results;
+                locals.data.orgLinked = results.orgLinked;
+                locals.data.empLinked = results.empLinked;
+                //locals.data.dump = results;
             }
             next();
         });

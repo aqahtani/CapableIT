@@ -2,6 +2,8 @@
     session = keystone.session,
     User = keystone.list('User');
 
+var util = require('util');
+
 exports = module.exports = function (req, res) {
     var view = new keystone.View(req, res),
         locals = res.locals;
@@ -10,17 +12,18 @@ exports = module.exports = function (req, res) {
     locals.section = 'user';
     locals.formData = req.body || {};
     locals.validationErrors = {};
-    //locals.step = '1'; // default step: signup user
-    locals.dump = '';
-    
-    // Step 1: log the user in
+
     view.on('post', { action: 'login' }, function (next) {
-        
+
         if (!req.body.email || !req.body.password) {
             req.flash('error', 'Please enter your email address and password.');
             return next();
         }
-
+        
+        // get the redirect url, or set it to /
+        locals.returnTo = req.session.returnTo ? req.session.returnTo : '/';
+        delete req.session.returnTo; // clean up the session
+        
         // prepare callbacks for success and failure
         var onFail = function () {
             req.flash('error', 'Sorry, that email and password combo are not valid.');
@@ -30,7 +33,13 @@ exports = module.exports = function (req, res) {
         var onSuccess = function (user) {
             req.flash('success', 'Welcome ' + user.name.first);
             locals.user = user;
-            res.redirect('/');
+            
+            // alert the user if he hasn't verified his account yet!
+            if (!user.isVerified) {
+                req.flash('warning', 'You have not verified your account yet!');
+            }
+            // redirect to the orginginal requested page
+            res.redirect(locals.returnTo);
         };
         
         // sign the user in using lib from keystone

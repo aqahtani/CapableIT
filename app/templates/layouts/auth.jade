@@ -13,23 +13,29 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
   body
     .container
       .row: .col-sm-10.col-sm-offset-1
-        .alert &nbsp;
-        .jumbotron(class=messages && messages.error.length ? 'has-errors' : null)
-          +flash-messages(messages)
-          if !messages
-            .alert &nbsp;
+        p &nbsp;
+        p &nbsp;
+        +flash-messages(messages)
+        .jumbotron.auth-body(class=messages && messages.error.length ? 'has-errors' : null)
           .row
-            .col-sm-6
-              a(href='/'): img(src='/images/kp_logo_long.png', alt=brand)
+            .col-sm-5
+              a(href='/'): img(src='/images/kp_logo_long.png', width=300, alt=brand)
     
-            .col-sm-6
+            .col-sm-7
               block content
           
         block footer
-          p.text-muted.pull-left © 2014 <a href="http://knowledge-passion.com" target="_blank">Knowledge-Passion Consulting</a>.
-          //- You don't _have_ to include a link saying your site is powered by KeystoneJS, but we appreciate it!
-          p.text-muted.pull-right #{t('poweredby')} <a href="http://keystonejs.com" target="_blank">KeystoneJS</a>.
-      
+          footer
+            p.text-muted.pull-left
+              span.glyphicon.glyphicon-copyright-mark 
+              |  2014 <a href="http://knowledge-passion.com" target="_blank">Knowledge-Passion Consulting</a>
+            //- You don't _have_ to include a link saying your site is powered by KeystoneJS, but we appreciate it!
+            p.text-muted.pull-right #{t('poweredby')} <a href="http://keystonejs.com" target="_blank">KeystoneJS</a>
     
+    // jquery and bootstrap
+    script(src='/js/lib/jquery/jquery-1.11.1.min.js')
+    script(src='/js/lib/bootstrap/bootstrap-3.2.0.min.js')
+    script(src='/js/lib/bootswatch.js')     
+
     //- Page Scripts
     block js

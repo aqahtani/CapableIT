@@ -1,0 +1,12 @@
+extends ../../layouts/default
+
+block content
+  .container
+    .row: .col-sm-12
+      form(method='post')
+        input(type='hidden', name='action', value='update')
+        .form-group(class=validationErrors.name ? 'has-error' : null)
+          label(for='arName') Arabic Name
+          input(type='text', name='arName', id='arName', value=formData['arName']).form-control
+        .form-actions
+          button(type='submit').btn.btn-primary Update

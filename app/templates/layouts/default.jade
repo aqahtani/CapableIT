@@ -90,7 +90,8 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
 
       //- Flash messages allow you to display once-off status messages to users, e.g. form
       //- validation errors, success messages, etc.
-      +flash-messages(messages)
+      .container
+        +flash-messages(messages)
 
       //- The content block should contain the body of your template's content
       block content
@@ -98,9 +99,11 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
 
     //- FOOTER
     .container: #footer
-      p.pull-left © 2014 <a href="http://knowledge-passion.com" target="_blank">Knowledge-Passion Consulting</a>.
-      //- You don't _have_ to include a link saying your site is powered by KeystoneJS, but we appreciate it!
-      p.pull-right #{t('poweredby')} <a href="http://keystonejs.com" target="_blank">KeystoneJS</a>.
+        p.text-muted.pull-left
+          span.glyphicon.glyphicon-copyright-mark 
+          |  2014 <a href="http://knowledge-passion.com" target="_blank">Knowledge-Passion Consulting</a>
+        //- You don't _have_ to include a link saying your site is powered by KeystoneJS, but we appreciate it!
+        p.text-muted.pull-right #{t('poweredby')} <a href="http://keystonejs.com" target="_blank">KeystoneJS</a>
       
     //- JAVASCRIPT
 

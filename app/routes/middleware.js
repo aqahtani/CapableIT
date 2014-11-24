@@ -35,18 +35,21 @@ exports.initLocals = function(req, res, next) {
 	
     locals.user = req.user;
     
-    // get the tenant id of the current user
+    // get the organization id of the current user
     // and make available to all routes/views
     if (req.user) {
         locals.orgId = req.user.organization;
         // a global tenant filter to be used in queries 
         locals.orgFilter = { 'organization' : req.user.organization };
     }
+    else {
+        locals.orgId = null;
+        locals.orgFilter = null;
+    }
 	
 	next();
 	
 };
-
 
 /**
 	Fetches and clears the flashMessages before a view is rendered
@@ -75,8 +78,9 @@ exports.flashMessages = function(req, res, next) {
 exports.requireUser = function(req, res, next) {
 	
 	if (!req.user) {
-		req.flash('error', 'Please sign in to access this page.');
-		res.redirect('/keystone/signin');
+        req.flash('error', 'Please sign in to access this page.');
+        req.session.returnTo = req.path;
+        res.redirect('/login');
 	} else {
 		next();
 	}

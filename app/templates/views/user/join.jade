@@ -1,4 +1,4 @@
-extends ../../layouts/default
+extends ../../layouts/auth
 
 mixin step(step, current)
   .col-sm-3.text-center
@@ -7,41 +7,32 @@ mixin step(step, current)
     else
       span.label.label-default= step
 
-block intro
-  .container
-    //-h1 Join
-    
 block content
-  .container
-    .row: .col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3
-      .jumbotron
-        h3
-          .row
-            +step(1, step)
-            +step(2, step)
-            //- +step(3, step)
-            //- +step(4, step)
+  .row
+      +step(1, step)
+      +step(2, step)
+      //- +step(3, step)
+      //- +step(4, step)
     
-        case step
-          when "1" 
-            //- Step 1: Create User
-            h3 Create your user account
-            form(method='post')
-              input(type='hidden', name='action', value='join')
-              .form-group(class=validationErrors.name ? 'has-error' : null)
-                label(for='name') Name
-                input(type='text', name='name.full', id='name', value=formData['name.full']).form-control
-              .form-group(class=validationErrors.email ? 'has-error' : null)
-                label(for='email') Email
-                input(type='email', name='email', id='email', value=formData.email).form-control
-              .form-group(class=validationErrors.password ? 'has-error' : null)
-                label(for='password') Password
-                input(type='password', name='password', id='password', value=formData.password).form-control
-                label(for='password_confirm')  Confirm Password
-                input(type='password', name='password_confirm', id='password_confirm').form-control
-              .form-actions
-                button(type='submit').btn.btn-primary Send
+  case step
+    when "1" 
+      //- Step 1: Create User
+      h3 Create your user account
+      form(method='post')
+        input(type='hidden', name='action', value='join')
+        .form-group(class=validationErrors.name ? 'has-error' : null)
+          label(for='name') Name
+          input(type='text', name='name.full', id='name', value=formData['name.full']).form-control
+        .form-group(class=validationErrors.email ? 'has-error' : null)
+          label(for='email') Email
+          input(type='email', name='email', id='email', value=formData.email).form-control
+        .form-group(class=validationErrors.password ? 'has-error' : null)
+          label(for='password') Password
+          input(type='password', name='password', id='password', value=formData.password).form-control
+          label(for='password_confirm')  Confirm Password
+          input(type='password', name='password_confirm', id='password_confirm').form-control
+        .form-actions
+          button(type='submit').btn.btn-primary Send
 
-          default
-            h3 You now need to verify your email address
-            pre= JSON.stringify(dump, null, 4)
+    default
+      h3 You now need to verify your email address

@@ -9,7 +9,7 @@ exports = module.exports = function(req, res) {
 	// item in the header navigation.
     locals.section = 'home';
     locals.data = {
-        organization: {}
+        organization: null
     };
     
     // Load the organization information
@@ -35,6 +35,6 @@ exports = module.exports = function(req, res) {
     });
 	
 	// Render the view
-	view.render('index');
+	view.render('home');
 	
 };
