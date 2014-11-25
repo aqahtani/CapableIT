@@ -113,10 +113,8 @@ keystone.set('nav', {
     'Employees': ['employees', 'assessments'],
     'Professional Skills': ['hard-skill-categories', 'hard-skill-sub-categories', 'hard-levels', 'hard-skills'],
     'Behavioral Skills': ['english-levels', 'soft-levels', 'soft-skills'],
-    'posts': ['posts', 'post-categories'],
-    'galleries': 'galleries',
-    'enquiries': 'enquiries',
-    'users': ['users', 'verification-tokens']
+    'users': ['users', 'verification-tokens', 'permissions', 'roles', 'user-authorizations', 'role-authorizations'],
+    'Content': ['posts', 'post-categories', 'galleries', 'enquiries']
 });
 
 //=============================================================================

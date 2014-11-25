@@ -28,7 +28,7 @@ exports = module.exports = function(req, res) {
         // find the employee using id:
         var q = Employee.model.findOne()
             .where(locals.orgFilter)//always apply tenant filter first
-            .where({ '_id': locals.filters.employee });
+            .where({ 'slug': locals.filters.employee });
         
         q.exec(function (err, emp) {
             if (err) {
@@ -65,7 +65,6 @@ exports = module.exports = function(req, res) {
 
     });
 
-	
 	// Render the view
 	view.render('post/employee');
 };

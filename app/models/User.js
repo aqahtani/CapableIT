@@ -22,7 +22,7 @@ User.add({
     isVerified: { type: Boolean, label: 'Email verified', index: true, default: false }
 }, 'Permissions', {
     isAdmin: { type: Boolean, label: 'Can access Keystone', index: true },
-    isOrgAdmin: { type: Boolean, label: 'Can manage organization', index: true }
+    roles: { type: Types.Relationship, ref: 'Role', many: true }
 });
 
 // Provide access to Keystone
@@ -61,5 +61,5 @@ User.schema.plugin(uniqueValidator, { message: '{PATH} already exists' });
  * Registration
  */
 
-User.defaultColumns = 'organization, name, email, employee, isAdmin, isOrgAdmin, isVerified';
+User.defaultColumns = 'organization, name, email, employee, role, isAdmin, isVerified';
 User.register();

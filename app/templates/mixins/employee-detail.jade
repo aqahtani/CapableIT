@@ -3,7 +3,7 @@
 //- Employee in Detail View
 mixin employeeDetail(employee)
   h2 Employee Profile
-    p.pull-right: a(href='/update/employee/#{employee.id}').btn.btn-primary update
+    p.pull-right: a(href='/update/employee/#{employee.slug}').btn.btn-primary update
   hr
   .row
     .col-md-2.text-center

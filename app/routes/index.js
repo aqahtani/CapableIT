@@ -52,7 +52,8 @@ exports = module.exports = function(app) {
     app.get('/organization/:organization/employee/:employee/assessment/:assessment', middleware.requireUser, routes.views.assessment);
     
     // Post routes: new and update (Authenticated) 
-    app.all('/update/employee/:employee', middleware.requireUser, routes.post.employee);
+    app.get('/update/employee/:employee', middleware.requireUser, middleware.authorizeUser('view'), routes.post.employee);
+    app.post('/update/employee/:employee', middleware.requireUser, middleware.authorizeUser('edit'), routes.post.employee);
     
     // User routes: registration and authentication 
     app.all('/join', routes.userViews.join);

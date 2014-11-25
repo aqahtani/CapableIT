@@ -32,6 +32,7 @@
     <Compile Include="models\PostCategory.js" />
     <Compile Include="models\Job.js" />
     <Compile Include="models\Organization.js" />
+    <Compile Include="models\Authorization.js" />
     <Compile Include="models\VerificationToken.js" />
     <Compile Include="models\User.js" />
     <Content Include="public\favicon.ico" />
