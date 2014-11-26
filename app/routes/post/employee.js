@@ -1,3 +1,6 @@
+/*
+ * Controller: Update Employee
+ */
 var keystone = require('keystone'),
     _ = require('underscore'),
     Employee = keystone.list('Employee');
@@ -15,7 +18,6 @@ exports = module.exports = function(req, res) {
 	};
     locals.data = {
         employee: null,
-        assessments: []
     };
     
     // updating?
@@ -25,7 +27,7 @@ exports = module.exports = function(req, res) {
     // Updating employee profile
     view.on('post', { action: 'update' }, function (next) {
         
-        // find the employee using id:
+        // find the employee
         var q = Employee.model.findOne()
             .where(locals.orgFilter)//always apply tenant filter first
             .where({ 'slug': locals.filters.employee });
@@ -38,19 +40,17 @@ exports = module.exports = function(req, res) {
             
             if (!emp)
             {
-                // no results
-                // apparantly, user and employee tenants do not match 
+                // no results 
                 req.flash('warning', 'We cannot find a matching employee profile');
                 return next();
             }
 
             // employee found, update it
-            //var newEmployee = new User.model(),
             updater = emp.getUpdateHandler(req);
             
             updater.process(req.body, {
                 flashErrors: true,
-                fields: 'arName',
+                fields: 'name, arName, empId, email, telephone',
                 errorMessage: 'There was a problem with your update:'
             }, function (err, result) {
                 if (err) {

@@ -8,5 +8,5 @@
           else
             img(src="/images/employee.png")
     .panel-body 
-      p.text-primary: a(href='/organization/' + filters.organization + '/employee/' + employee.slug)= employee.name.full
+      p.text-primary: a(href='/employee/' + employee.id)= employee.name.full
       p.text-muted= employee.arName

@@ -36,7 +36,9 @@
     <Compile Include="models\VerificationToken.js" />
     <Compile Include="models\User.js" />
     <Content Include="public\favicon.ico" />
-    <Compile Include="public\js\lib\bootswatch.js" />
+    <Compile Include="public\js\ui.js" />
+    <Compile Include="public\js\lib\select2-3.5.2\select2.min.js" />
+    <Compile Include="public\js\lib\select2-3.5.2\select2_locale_ar.js" />
     <Compile Include="routes\emails.js" />
     <Compile Include="routes\index.js" />
     <Compile Include="routes\lang.js" />
@@ -64,6 +66,10 @@
     <Content Include="public\images\kp_logo_long.png" />
     <Content Include="public\images\logo-email.gif" />
     <Content Include="public\images\logo.svg" />
+    <Content Include="public\js\lib\select2-3.5.2\select2-spinner.gif" />
+    <Content Include="public\js\lib\select2-3.5.2\select2.png" />
+    <Content Include="public\js\lib\select2-3.5.2\select2x2.png" />
+    <Content Include="public\js\lib\select2-3.5.2\select2_locale_en.js.template" />
     <Content Include="public\styles\site-ltr.css" />
     <Content Include="public\styles\site-ltr.min.css" />
     <Content Include="public\styles\site-rtl.css" />
@@ -101,6 +107,10 @@
     <Compile Include="routes\views\post.js" />
     <Compile Include="routes\views\organization.js" />
     <Compile Include="routes\views\employee.js" />
+    <Content Include="public\styles\site\select2-bootstrap.css" />
+    <Content Include="public\styles\site\select2-spinner.gif" />
+    <Content Include="public\styles\site\select2.css" />
+    <Content Include="public\styles\site\select2.png" />
     <Content Include="templates\emails\button.jade" />
     <Content Include="templates\emails\email.jade" />
     <Content Include="templates\emails\user-verification.jade" />
@@ -117,8 +127,6 @@
     <Content Include="templates\mixins\assessment-brief.jade" />
     <Content Include="templates\mixins\job-detail.jade" />
     <Content Include="templates\mixins\job-brief.jade" />
-    <Content Include="templates\mixins\student-mixin.jade" />
-    <Content Include="templates\mixins\teacher-mixin.jade" />
     <Content Include="templates\views\post\employee.jade" />
     <Content Include="templates\views\blog.jade" />
     <Content Include="templates\views\contact.jade" />
@@ -149,6 +157,7 @@
     <Folder Include="public\js\lib" />
     <Folder Include="public\js\lib\bootstrap" />
     <Folder Include="public\js\lib\jquery" />
+    <Folder Include="public\js\lib\select2-3.5.2\" />
     <Folder Include="public\styles" />
     <Folder Include="public\styles\bootstrap" />
     <Folder Include="public\styles\bootstrap\mixins" />

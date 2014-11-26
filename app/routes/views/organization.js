@@ -14,7 +14,6 @@ exports = module.exports = function(req, res) {
     };
     locals.data = {
         organization: {},
-        jobs: []
 	};
     
     // Load the current organization

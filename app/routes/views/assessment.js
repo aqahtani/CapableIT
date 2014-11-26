@@ -8,8 +8,6 @@ exports = module.exports = function(req, res) {
 	// Set locals
 	locals.section = 'employee';
     locals.filters = {
-        organization: req.params.organization,
-        employee: req.params.employee,
 		assessment: req.params.assessment
 	};
     locals.data = {

@@ -131,10 +131,10 @@ var keystoneRest = require('keystone-rest');
 
 // restify models: Expose selected models via REST api
 // get references to selected keystone models
-var User = keystone.list('User');
+var EnglishLevel = keystone.list('EnglishLevel');
 
 // create routes for each model with given http methods
-keystoneRest.addRoutes(User, 'get post put delete');
+keystoneRest.addRoutes(EnglishLevel, 'get');
 //=============================================================================
 
 // Start Keystone to connect to your database and initialise the web server

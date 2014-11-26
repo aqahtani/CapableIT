@@ -77,3 +77,11 @@ mixin englishLeveler(target, current)
           +levelBox(i, "btn-default", current.title + ": " + current.description, current.color)
       else
           +levelBox(i, "btn-default disabled", "")
+
+mixin formEnglishLeveler(levels, selected)
+  select(name='english.level', id='english.level').form-control
+    each level in levels
+      if level.id == selected
+        option(value="#{level.id}",selected)= level.grade
+      else
+        option(value="#{level.id}")= level.grade

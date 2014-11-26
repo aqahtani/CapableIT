@@ -9,20 +9,18 @@ exports = module.exports = function(req, res) {
 	// Set locals
 	locals.section = 'job';
     locals.filters = {
-        organization: req.params.organization,
 		job: req.params.job
 	};
     locals.data = {
-        job: {},
-		jobs: []
-	};
+        job: {}
+    };
 	
 	// Load the current job
 	view.on('init', function(next) {
 		
 		var q = keystone.list('Job').model.findOne()
             .where(locals.orgFilter)//always apply tenant filter first
-            .where({ slug: locals.filters.job })
+            .where({ _id: locals.filters.job })
             .populate('organization reportsTo orgDepartment orgFunction jobTasks professional.skills behavioral.skills');
 		
         q.exec(function (err, result) {

@@ -13,7 +13,7 @@ mixin jobDetail(job)
     .col-sm-2: +fieldLabel("Reports To")
     .col-sm-4
       if job.reportsTo
-        h4: a(href='/organization/' + job.organization.slug + '/job/' + job.reportsTo.slug)= job.reportsTo.title
+        h4: a(href='/job/' + job.reportsTo.id)= job.reportsTo.title
   .row
     .col-sm-2: +fieldLabel("Department")
     .col-sm-4

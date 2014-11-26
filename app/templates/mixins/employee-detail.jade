@@ -3,7 +3,7 @@
 //- Employee in Detail View
 mixin employeeDetail(employee)
   h2 Employee Profile
-    p.pull-right: a(href='/update/employee/#{employee.slug}').btn.btn-primary update
+    p.pull-right: a(href='/edit/employee/#{employee.id}').btn.btn-primary edit
   hr
   .row
     .col-md-2.text-center
@@ -26,7 +26,7 @@ mixin employeeDetail(employee)
         .col-md-2: +fieldLabel("Job Title")
         .col-md-4
           if employee.job
-            h4: a(href='/organization/' + employee.organization.slug + '/job/' + employee.job.slug)= employee.job.title
+            h4: a(href='/job/' + employee.job.id)= employee.job.title
         .col-md-2: +fieldLabel("Email")
         .col-md-4: h4= employee.email
       .row

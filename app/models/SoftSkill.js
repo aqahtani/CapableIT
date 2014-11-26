@@ -11,7 +11,7 @@
 // ============================================================================
 var EnglishLevel = new keystone.List('EnglishLevel', {
     map: { name: 'title' },
-    autokey: { path: 'slug', from: 'title', unique: true },
+    //autokey: { path: 'slug', from: 'title', unique: true },
     defaultSort: '-grade'
 });
 

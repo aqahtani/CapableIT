@@ -8,16 +8,16 @@ mixin assessmentDetail(assessment)
     .col-sm-2: +fieldLabel("Assessment For")
     .col-sm-4
       if assessment.employee
-        h4: a(href='/organization/' + filters.organization + '/employee/' + assessment.employee.slug)= assessment.employee.name.full
+        h4: a(href='/employee/' + assessment.employee.id)= assessment.employee.name.full
     .col-sm-2: +fieldLabel("Assessment By")
     .col-sm-4
       if assessment.doneBy
-        h4: a(href='/organization/' + filters.organization + '/employee/' + assessment.doneBy.slug)= assessment.doneBy.name.full
+        h4: a(href='/employee/' + assessment.doneBy.id)= assessment.doneBy.name.full
   .row
     .col-sm-2: +fieldLabel("Job Assessed")
     .col-sm-4
       if assessment.job
-        h4: a(href='/organization/' + filters.organization + '/job/' + assessment.job.slug)= assessment.job.title
+        h4: a(href='/job/' + assessment.job.id)= assessment.job.title
     .col-sm-2: +fieldLabel("Assessment Date")
     .col-sm-4: h4= assessment._.createdAt.format('DD/MM/YYYY - HH:mm')
   .row
