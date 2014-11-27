@@ -23,8 +23,7 @@ keystone.init({
     
     'emails': 'templates/emails',
     
-    'mongo' : 'mongodb://localhost:27017/orgit', 
-    //'mongo' : process.env.MONGO_URI,
+    'mongo' : process.env.MONGO_URI,
     'cloudinary config' : process.env.CLOUDINARY_URL,
     
     'mandrill api key' : process.env.MANDRILL_API_KEY,
