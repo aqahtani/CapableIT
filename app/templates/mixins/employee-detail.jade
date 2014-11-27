@@ -2,9 +2,6 @@
 
 //- Employee in Detail View
 mixin employeeDetail(employee)
-  h2 Employee Profile
-    p.pull-right: a(href='/edit/employee/#{employee.id}').btn.btn-primary edit
-  hr
   .row
     .col-md-2.text-center
       .img-thumbnail
@@ -59,13 +56,22 @@ mixin employeeDetail(employee)
           h4 Education
         .panel-body
           .row
-            .col-md-3: +fieldLabel("English")
+            .col-md-3: +fieldLabel("Education")
+            .col-md-9
+              h4 
+                | #{employee.education.field}  
+                .badge= employee.education.level
+          .row
+            .col-md-3: +fieldLabel("English Level")
             .col-md-9: h4
               if employee.english.level
                 +englishLeveler(null, employee.english.level)
           .row
-            .col-md-3: +fieldLabel("Education")
-            .col-md-9: h4 #{employee.education.field}, #{employee.education.level}        
+            .col-md-3: +fieldLabel("English Test")
+            .col-md-9
+              h4
+                | #{employee.english.test}  
+                .badge= employee.english.score
     .col-sm-6
       .panel.panel-info
         .panel-heading

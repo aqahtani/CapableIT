@@ -27,7 +27,9 @@ Employee.add({
     job: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }, initial: true }
 }, 'Education and Certification', {
     english: {
-        level: { type: Types.Relationship, ref: 'EnglishLevel' }
+        level: { type: Types.Relationship, ref: 'EnglishLevel' },
+        test: { type: Types.Select, options: 'TOEFL IBT, IELTS' },
+        score: { type: Types.Number }
     },
     education: {
         field: { type: Types.Text },

@@ -1,6 +1,6 @@
 ﻿var keystone = require('keystone'),
-    Types = keystone.Field.Types
-uniqueValidator = require('mongoose-unique-validator');
+    Types = keystone.Field.Types,
+    uniqueValidator = require('mongoose-unique-validator');
 
 /**
  * Assessment Model

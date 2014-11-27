@@ -1,0 +1,27 @@
+﻿mixin formEnglishLeveler(levels, selected)
+  select(name='english.level', id='english.level').form-control
+    each level in levels
+      - var text = level.grade + ' - ' + level.title
+      if level.id == selected
+        option(value="#{level.id}",selected)= text
+      else
+        option(value="#{level.id}")= text
+
+//- A mixin to generate multiple text inputs for a TextArray Field
+mixin formMultiText(field, items)
+  div(data-field-path='#{field}').field-textarray
+    div
+      each item in items
+        .input-group.input-group-sm
+          input(type="text", name="#{field}", value="#{item}").form-control
+          span.input-group-btn: button(type="button").btn.btn-danger.btn-remove-item: span.glyphicon.glyphicon-remove
+    .btn.btn-info.btn-add-item: span.glyphicon.glyphicon-plus
+
+//- A mixin to select/options for a Select Field
+mixin formSelectInput(field, items, selected)
+  select(name='#{field}', id='#{field}').form-control
+    each item in items
+      if item == selected
+        option(value="#{item}", selected)= item
+      else
+        option(value="#{item}")= item

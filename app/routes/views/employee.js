@@ -1,5 +1,6 @@
 var keystone = require('keystone'),
     _ = require('underscore'),
+    util = require('util'),
     Employee = keystone.list('Employee');
 
 exports = module.exports = function (req, res) {
@@ -18,6 +19,7 @@ exports = module.exports = function (req, res) {
         assessments: []
     };
     locals.validationErrors = {};
+    locals.formData = {};
     
     // Load the current employee
     view.on('init', function (next) {
@@ -44,9 +46,8 @@ exports = module.exports = function (req, res) {
                 
                 if (!result) {
                     // no results
-                    // apparantly, user and employee tenants do not match 
-                    req.flash('warning', 'We cannot find a matching employee profile');
-                    return callback(null);
+                    var e = new Error('Cannot find employee');
+                    return callback(e);
                 }
                 
                 callback(null, result);
@@ -55,7 +56,6 @@ exports = module.exports = function (req, res) {
         
         // Load assessments of the current employee
         var getEmpAssessments = function (callback, results) {
-            
             var q = keystone.list('Assessment').model.find()
                     .where(locals.orgFilter)//always apply tenant filter first
                     .where('employee', results.employee.id)
@@ -75,10 +75,14 @@ exports = module.exports = function (req, res) {
         function (err, results) {
             // All tasks are done now and you have results as an object 
             if (err) {
-                req.flash('error', err);
+                req.flash('error', err.message);
                 return next();
             }
             
+            // get education.level and english.test options from list fileds options
+            locals.data.eduLevelOptions = _.pluck(keystone.list('Employee').fields['education.level'].ops, 'value');
+            locals.data.engTestOptions = _.pluck(keystone.list('Employee').fields['english.test'].ops, 'value');
+                        
             // success: set locals for english levels, employee, and assessments
             locals.data.englishLevels = results.englishLevels;
             locals.data.employee = results.employee;
@@ -88,7 +92,9 @@ exports = module.exports = function (req, res) {
             locals.formData = results.employee;
             // reset some nested formData fields to match the form elements
             locals.formData['name.full'] = locals.formData.name.first + ' ' + locals.formData.name.last;
-            locals.formData['english.level'] = locals.formData.english.level.id;
+            locals.formData['english.level'] = locals.formData.english.level.id; 
+            locals.formData['english.test'] = locals.formData.english.test;
+            locals.formData['english.score'] = locals.formData.english.score;
             locals.formData['education.field'] = locals.formData.education.field;
             locals.formData['education.level'] = locals.formData.education.level;
             next();
@@ -124,7 +130,7 @@ exports = module.exports = function (req, res) {
             
             updater.process(req.body, {
                 flashErrors: true,
-                fields: 'name, arName, empId, email, telephone, english.level, education.field, education.level',
+                fields: 'name, arName, empId, email, telephone, english.level, english.test, english.score, education.field, education.level, certificates, bio',
                 errorMessage: 'There was a problem with your update:'
             }, function (err, result) {
                 if (err) {
@@ -132,7 +138,8 @@ exports = module.exports = function (req, res) {
                 } else {
                     req.flash('success', 'Update successfully completed.');
                 }
-                next();
+                //next();
+                res.redirect('back');
             });
 
         });

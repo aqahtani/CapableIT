@@ -49,6 +49,7 @@
     <Compile Include="routes\post\employee.js" />
     <Compile Include="routes\views\job.js" />
     <Compile Include="routes\user\verify.js" />
+    <Compile Include="templates\modals\form-employee.jade" />
     <Compile Include="updates\0.0.2-org.js" />
     <Compile Include="updates\0.0.2-english-levels.js" />
     <Compile Include="updates\0.0.1-soft-skills.js" />
@@ -107,10 +108,6 @@
     <Compile Include="routes\views\post.js" />
     <Compile Include="routes\views\organization.js" />
     <Compile Include="routes\views\employee.js" />
-    <Content Include="public\styles\site\select2-bootstrap.css" />
-    <Content Include="public\styles\site\select2-spinner.gif" />
-    <Content Include="public\styles\site\select2.css" />
-    <Content Include="public\styles\site\select2.png" />
     <Content Include="templates\emails\button.jade" />
     <Content Include="templates\emails\email.jade" />
     <Content Include="templates\emails\user-verification.jade" />
@@ -127,6 +124,7 @@
     <Content Include="templates\mixins\assessment-brief.jade" />
     <Content Include="templates\mixins\job-detail.jade" />
     <Content Include="templates\mixins\job-brief.jade" />
+    <Content Include="templates\modals\form-mixins.jade" />
     <Content Include="templates\views\post\employee.jade" />
     <Content Include="templates\views\blog.jade" />
     <Content Include="templates\views\contact.jade" />
@@ -175,6 +173,7 @@
     <Folder Include="templates\emails\styles\" />
     <Folder Include="templates\layouts" />
     <Folder Include="templates\mixins" />
+    <Folder Include="templates\modals\" />
     <Folder Include="templates\views\post\" />
     <Folder Include="templates\views" />
     <Folder Include="templates\views\errors" />

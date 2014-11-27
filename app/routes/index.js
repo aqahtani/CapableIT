@@ -49,14 +49,15 @@ exports = module.exports = function(app) {
     app.get('/job/:job', middleware.requireUser, routes.views.job);
     app.get('/assessment/:assessment', middleware.requireUser, routes.views.assessment);
     
-    // employee
+    // Employee Routes
     app.get('/employee', middleware.requireUser, routes.views.employee);
+    app.post('/employee', middleware.requireUser, routes.views.employee);
     app.get('/employee/:employee', middleware.requireUser, routes.views.employee);
     app.post('/employee/:employee', middleware.requireUser, routes.views.employee);
     
     // Post routes: new and update (Authenticated) 
-    app.get('/edit/employee/:employee', middleware.requireUser, middleware.authorizeUser('view'), routes.post.employee);
-    app.post('/edit/employee/:employee', middleware.requireUser, middleware.authorizeUser('edit'), routes.post.employee);
+    //app.get('/edit/employee/:employee', middleware.requireUser, middleware.authorizeUser('view'), routes.post.employee);
+    //app.post('/edit/employee/:employee', middleware.requireUser, middleware.authorizeUser('edit'), routes.post.employee);
     
     // User routes: registration and authentication 
     app.all('/join', routes.userViews.join);

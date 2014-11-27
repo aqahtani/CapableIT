@@ -1,13 +1,20 @@
 extends ../layouts/default
 include ../mixins/employee-detail
+include ../modals/form-employee
 
 block content
+  //- embed the employee form modal
+  +modalEmployee('formEmployeeModal')
   .container
     .row: .col-sm-12
       article
         if !data.employee
           h2 no employee information.
         else
+          h2 Employee Profile
+            //- button to trigger edit modal
+            button(type="button", data-toggle="modal", data-target="#formEmployeeModal").btn.btn-primary.pull-right Edit
+          hr
           +employeeDetail(data.employee)
           hr
           h3 Assessments
@@ -20,43 +27,3 @@ block content
                   | #{assessment.doneBy.name.full}
           else
             p No assessments found for this employee
-
-    .row: .col-sm-12
-      hr
-      h2 Edit Employee
-      hr
-      form(method='post').form-horizontal
-        .row
-          .col-sm-6
-            input(type='hidden', name='action', value='update')
-            .form-group(class=validationErrors.name ? 'has-error' : null)
-              label(for='name').col-sm-3.control-label Name
-              .col-sm-9: input(type='text', name='name.full', id='name', value=formData['name.full']).form-control
-            .form-group(class=validationErrors.arName ? 'has-error' : null)
-              label(for='arName').col-sm-3.control-label  Arabic Name
-              .col-sm-9: input(type='text', name='arName', id='arName', value=formData['arName']).form-control
-            .form-group(class=validationErrors.empId ? 'has-error' : null)
-              label(for='empId').col-sm-3.control-label  Employee ID
-              .col-sm-9: input(type='text', name='empId', id='empId', value=formData['empId']).form-control
-            .form-group(class=validationErrors.email ? 'has-error' : null)
-              label(for='email').col-sm-3.control-label  Email
-              .col-sm-9: input(type='text', name='email', id='email', value=formData['email']).form-control
-            .form-group(class=validationErrors.telephone ? 'has-error' : null)
-              label(for='telephone').col-sm-3.control-label  Telephone
-              .col-sm-9: input(type='text', name='telephone', id='telephone', value=formData['telephone']).form-control
-          .col-sm-6
-            .form-group(class=validationErrors.english ? 'has-error' : null)
-              label(for='english.level').col-sm-3.control-label  English Level
-              .col-sm-9: +formEnglishLeveler(data.englishLevels, formData['english.level'])
-            hr
-            .form-group(class=validationErrors.education ? 'has-error' : null)
-              label(for='education.field').col-sm-3.control-label  Education Field
-              .col-sm-9: input(type='text', name='education.field', id='education.field', value=formData['education.field']).form-control
-        .row: .col-sm-12
-          .form-actions
-            button(type='submit').btn.btn-primary.pull-right Update
-      hr
-      //-pre= JSON.stringify(formData, null, 4)
-block js
-  script(src='/js/lib/select2-3.5.2/select2.min.js')
-  script(src='/js/lib/select.js')

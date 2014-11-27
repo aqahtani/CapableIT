@@ -2,17 +2,18 @@
   h4: .label.label-default= lbl 
 
 //- one level box: used by hard, soft, and english levelers 
-mixin levelBox(label, kind, description, color)
-  button.btn.btn-xs(
-    type="button"
+mixin levelBox(title, label, kind, description, color)
+  button(
     class="#{kind}"
     style="background-color:#{color}"
     data-container="body"
     data-toggle="popover" 
-    data-placement="bottom"
+    data-trigger="focus"
+    data-placement="top"
     data-content="#{description}"
     data-original-title=""
-    title="")= label
+    tabindex="0" 
+    title="#{title}").btn.btn-xs= label
 
 //- Authority as RACI
 mixin authority(raci)
@@ -33,7 +34,7 @@ mixin hardLeveler(skill, target, current)
   .row
     .col-sm-7
       h5= skill.title
-    .col-sm-5: .bs-component: .btn-group.btn-group-justified
+    .col-sm-5: .bs-component: .btn-group
       for i in [1, 2, 3, 4, 5, 6, 7]
         if (i == target && i == current)
           - var kind = "btn-success"
@@ -47,14 +48,14 @@ mixin hardLeveler(skill, target, current)
         if (i < skill.levels.min || i > skill.levels.max)
           - var kind = kind + " disabled"
         
-        +levelBox(i, kind, skill.levels.descriptions[i - skill.levels.min])
+        +levelBox(skill.title, i, kind, skill.levels.descriptions[i - skill.levels.min])
 
 //- Hard Skill Leveler
 mixin softLeveler(skill, target, current)
   .row
     .col-sm-7
       h5= skill.title
-    .col-sm-5: .bs-component: .btn-group.btn-group-justified
+    .col-sm-5: .bs-component: .btn-group
       for i in [1, 2, 3, 4, 5]
         if (i == target && i == current)
           - var kind = "btn-success"
@@ -65,23 +66,16 @@ mixin softLeveler(skill, target, current)
         else
           - var kind = "btn-default"
 
-        +levelBox(i, kind, skill.levelDescriptions[i])
+        +levelBox(skill.title, i, kind, skill.levelDescriptions[i])
 
 //- English Language Leveler
 mixin englishLeveler(target, current)
   .bs-component: .btn-group
     for i in ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
       if (target && i == target.grade)
-          +levelBox(i, "btn-default", target.title + ": " + target.description, target.color)
+          +levelBox(target.title, i, "btn-default", target.description, target.color)
       else if (current && i == current.grade)
-          +levelBox(i, "btn-default", current.title + ": " + current.description, current.color)
+          +levelBox(current.title, i, "btn-default", current.description, current.color)
       else
-          +levelBox(i, "btn-default disabled", "")
+          +levelBox("", i, "btn-default disabled", "")
 
-mixin formEnglishLeveler(levels, selected)
-  select(name='english.level', id='english.level').form-control
-    each level in levels
-      if level.id == selected
-        option(value="#{level.id}",selected)= level.grade
-      else
-        option(value="#{level.id}")= level.grade
