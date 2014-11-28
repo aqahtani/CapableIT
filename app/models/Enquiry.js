@@ -52,10 +52,10 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
         new keystone.Email('enquiry-notification').send({
             to: admins,
             from: {
-                name: 'OrgIT',
+                name: 'CapableIT',
                 email: 'info@knowledge-passion.com'
             },
-            subject: 'New Enquiry for OrgIT',
+            subject: 'New Enquiry for CapableIT',
             enquiry: enqiury
         }, callback);
 		

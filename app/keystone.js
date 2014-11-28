@@ -12,8 +12,8 @@ var keystone = require('keystone'),
 
 keystone.init({
     
-    'name': 'OrgIT',
-    'brand': 'OrgIT',
+    'name': 'CapableIT',
+    'brand': 'CapableIT',
     
     'less': 'public',
     'static': 'public',

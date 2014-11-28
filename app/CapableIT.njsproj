@@ -1,0 +1,389 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8b9934bd-db65-4fc6-8363-706706ab17ae}</ProjectGuid>
+    <ProjectHome />
+    <ProjectView>ShowAllFiles</ProjectView>
+    <StartupFile>keystone.js</StartupFile>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>CapableIT</Name>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <ItemGroup>
+    <Content Include="package.json" />
+    <Compile Include="keystone.js" />
+    <Compile Include="config\i18next.js" />
+    <Compile Include="models\Assessment.js" />
+    <Compile Include="models\Employee.js" />
+    <Compile Include="models\Enquiry.js" />
+    <Compile Include="models\Gallery.js" />
+    <Compile Include="models\OrgFunction.js" />
+    <Compile Include="models\OrgDepartment.js" />
+    <Compile Include="models\SoftSkill.js" />
+    <Compile Include="models\HardSkill.js" />
+    <Compile Include="models\JobTask.js" />
+    <Compile Include="models\Post.js" />
+    <Compile Include="models\PostCategory.js" />
+    <Compile Include="models\Job.js" />
+    <Compile Include="models\Organization.js" />
+    <Compile Include="models\Authorization.js" />
+    <Compile Include="models\VerificationToken.js" />
+    <Compile Include="models\User.js" />
+    <Compile Include="public\js\lib\bootstrap\affix.js" />
+    <Compile Include="public\js\lib\bootstrap\alert.js" />
+    <Compile Include="public\js\lib\bootstrap\bootstrap-3.2.0.js" />
+    <Compile Include="public\js\lib\bootstrap\bootstrap-3.2.0.min.js" />
+    <Compile Include="public\js\lib\bootstrap\button.js" />
+    <Compile Include="public\js\lib\bootstrap\carousel.js" />
+    <Compile Include="public\js\lib\bootstrap\collapse.js" />
+    <Compile Include="public\js\lib\bootstrap\dropdown.js" />
+    <Compile Include="public\js\lib\bootstrap\modal.js" />
+    <Compile Include="public\js\lib\bootstrap\popover.js" />
+    <Compile Include="public\js\lib\bootstrap\scrollspy.js" />
+    <Compile Include="public\js\lib\bootstrap\tab.js" />
+    <Compile Include="public\js\lib\bootstrap\tooltip.js" />
+    <Compile Include="public\js\lib\bootstrap\transition.js" />
+    <Compile Include="public\js\lib\jquery\jquery-1.11.1.js" />
+    <Compile Include="public\js\lib\jquery\jquery-1.11.1.min.js" />
+    <Compile Include="public\js\lib\jquery\jquery-2.1.1.js" />
+    <Compile Include="public\js\lib\jquery\jquery-2.1.1.min.js" />
+    <Compile Include="public\js\lib\select2-3.5.2\select2.min.js" />
+    <Compile Include="public\js\lib\select2-3.5.2\select2_locale_ar.js" />
+    <Compile Include="public\js\ui.js" />
+    <Compile Include="routes\emails.js" />
+    <Compile Include="routes\index.js" />
+    <Compile Include="routes\lang.js" />
+    <Compile Include="routes\middleware.js" />
+    <Compile Include="routes\user\logout.js" />
+    <Compile Include="routes\user\login.js" />
+    <Compile Include="routes\views\assessment.js" />
+    <Compile Include="routes\post\employee.js" />
+    <Compile Include="routes\views\job.js" />
+    <Compile Include="routes\user\verify.js" />
+    <Compile Include="templates\modals\form-employee.jade" />
+    <Compile Include="updates\0.0.2-org.js" />
+    <Compile Include="updates\0.0.2-english-levels.js" />
+    <Compile Include="updates\0.0.1-soft-skills.js" />
+    <Compile Include="updates\0.0.1-sfia-levels.js" />
+    <Compile Include="updates\0.0.1-sfia.js" />
+    <Compile Include="updates\0.0.1-admins.js" />
+    <Content Include="locales\ar\app-ar.json" />
+    <Content Include="locales\en\app-en.json" />
+    <Compile Include="routes\api\keystone-rest.js" />
+    <Compile Include="routes\api\users.js" />
+    <Compile Include="routes\views\blog.js" />
+    <Compile Include="routes\views\contact.js" />
+    <Compile Include="routes\views\gallery.js" />
+    <Compile Include="routes\views\home.js" />
+    <Compile Include="routes\user\join.js" />
+    <Compile Include="routes\views\post.js" />
+    <Compile Include="routes\views\organization.js" />
+    <Compile Include="routes\views\employee.js" />
+    <Content Include="public\favicon.ico" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="public\images\employee.png" />
+    <Content Include="public\images\kplogo_32.png" />
+    <Content Include="public\images\kplogo_50.png" />
+    <Content Include="public\images\kp_logo_long.png" />
+    <Content Include="public\images\logo-email.gif" />
+    <Content Include="public\images\logo.svg" />
+    <Content Include="public\js\lib\select2-3.5.2\select2-spinner.gif" />
+    <Content Include="public\js\lib\select2-3.5.2\select2.png" />
+    <Content Include="public\js\lib\select2-3.5.2\select2x2.png" />
+    <Content Include="public\js\lib\select2-3.5.2\select2_locale_en.js.template" />
+    <Content Include="public\styles\bootstrap-rtl\.csscomb.json" />
+    <Content Include="public\styles\bootstrap-rtl\.csslintrc" />
+    <Content Include="public\styles\bootstrap-rtl\alerts.less" />
+    <Content Include="public\styles\bootstrap-rtl\badges.less" />
+    <Content Include="public\styles\bootstrap-rtl\bi-app\bi-app-ltr.less" />
+    <Content Include="public\styles\bootstrap-rtl\bi-app\bi-app-rtl.css" />
+    <Content Include="public\styles\bootstrap-rtl\bi-app\bi-app-rtl.css.map" />
+    <Content Include="public\styles\bootstrap-rtl\bi-app\bi-app-rtl.less" />
+    <Content Include="public\styles\bootstrap-rtl\bi-app\bi-app-rtl.min.css" />
+    <Content Include="public\styles\bootstrap-rtl\bi-app\mixins.less" />
+    <Content Include="public\styles\bootstrap-rtl\bi-app\variables-ltr.less" />
+    <Content Include="public\styles\bootstrap-rtl\bi-app\variables-rtl.less" />
+    <Content Include="public\styles\bootstrap-rtl\bootstrap.less" />
+    <Content Include="public\styles\bootstrap-rtl\breadcrumbs.less" />
+    <Content Include="public\styles\bootstrap-rtl\button-groups.less" />
+    <Content Include="public\styles\bootstrap-rtl\buttons.less" />
+    <Content Include="public\styles\bootstrap-rtl\carousel.less" />
+    <Content Include="public\styles\bootstrap-rtl\close.less" />
+    <Content Include="public\styles\bootstrap-rtl\code.less" />
+    <Content Include="public\styles\bootstrap-rtl\component-animations.less" />
+    <Content Include="public\styles\bootstrap-rtl\dropdowns.less" />
+    <Content Include="public\styles\bootstrap-rtl\forms.less" />
+    <Content Include="public\styles\bootstrap-rtl\glyphicons.less" />
+    <Content Include="public\styles\bootstrap-rtl\grid.less" />
+    <Content Include="public\styles\bootstrap-rtl\input-groups.less" />
+    <Content Include="public\styles\bootstrap-rtl\jumbotron.less" />
+    <Content Include="public\styles\bootstrap-rtl\labels.less" />
+    <Content Include="public\styles\bootstrap-rtl\list-group.less" />
+    <Content Include="public\styles\bootstrap-rtl\media.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\alerts.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\background-variant.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\border-radius.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\buttons.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\center-block.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\clearfix.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\forms.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\gradients.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\grid-framework.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\grid.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\hide-text.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\image.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\labels.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\list-group.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\nav-divider.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\nav-vertical-align.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\opacity.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\pagination.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\panels.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\progress-bar.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\reset-filter.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\resize.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\responsive-visibility.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\size.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\tab-focus.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\table-row.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\text-emphasis.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\text-overflow.less" />
+    <Content Include="public\styles\bootstrap-rtl\mixins\vendor-prefixes.less" />
+    <Content Include="public\styles\bootstrap-rtl\modals.less" />
+    <Content Include="public\styles\bootstrap-rtl\navbar.less" />
+    <Content Include="public\styles\bootstrap-rtl\navs.less" />
+    <Content Include="public\styles\bootstrap-rtl\normalize.less" />
+    <Content Include="public\styles\bootstrap-rtl\pager.less" />
+    <Content Include="public\styles\bootstrap-rtl\pagination.less" />
+    <Content Include="public\styles\bootstrap-rtl\panels.less" />
+    <Content Include="public\styles\bootstrap-rtl\popovers.less" />
+    <Content Include="public\styles\bootstrap-rtl\print.less" />
+    <Content Include="public\styles\bootstrap-rtl\progress-bars.less" />
+    <Content Include="public\styles\bootstrap-rtl\responsive-embed.less" />
+    <Content Include="public\styles\bootstrap-rtl\responsive-utilities.less" />
+    <Content Include="public\styles\bootstrap-rtl\scaffolding.less" />
+    <Content Include="public\styles\bootstrap-rtl\tables.less" />
+    <Content Include="public\styles\bootstrap-rtl\theme.less" />
+    <Content Include="public\styles\bootstrap-rtl\thumbnails.less" />
+    <Content Include="public\styles\bootstrap-rtl\tooltip.less" />
+    <Content Include="public\styles\bootstrap-rtl\type.less" />
+    <Content Include="public\styles\bootstrap-rtl\utilities.less" />
+    <Content Include="public\styles\bootstrap-rtl\variables.less" />
+    <Content Include="public\styles\bootstrap-rtl\wells.less" />
+    <Content Include="public\styles\bootstrap\alerts.less" />
+    <Content Include="public\styles\bootstrap\badges.less" />
+    <Content Include="public\styles\bootstrap\bootstrap.css" />
+    <Content Include="public\styles\bootstrap\bootstrap.css.map" />
+    <Content Include="public\styles\bootstrap\bootstrap.less" />
+    <Content Include="public\styles\bootstrap\bootstrap.min.css" />
+    <Content Include="public\styles\bootstrap\breadcrumbs.less" />
+    <Content Include="public\styles\bootstrap\button-groups.less" />
+    <Content Include="public\styles\bootstrap\buttons.less" />
+    <Content Include="public\styles\bootstrap\carousel.less" />
+    <Content Include="public\styles\bootstrap\close.less" />
+    <Content Include="public\styles\bootstrap\code.less" />
+    <Content Include="public\styles\bootstrap\component-animations.less" />
+    <Content Include="public\styles\bootstrap\dropdowns.less" />
+    <Content Include="public\styles\bootstrap\forms.less" />
+    <Content Include="public\styles\bootstrap\glyphicons.less" />
+    <Content Include="public\styles\bootstrap\grid.less" />
+    <Content Include="public\styles\bootstrap\input-groups.less" />
+    <Content Include="public\styles\bootstrap\jumbotron.less" />
+    <Content Include="public\styles\bootstrap\labels.less" />
+    <Content Include="public\styles\bootstrap\list-group.less" />
+    <Content Include="public\styles\bootstrap\media.less" />
+    <Content Include="public\styles\bootstrap\mixins.less" />
+    <Content Include="public\styles\bootstrap\mixins\alerts.less" />
+    <Content Include="public\styles\bootstrap\mixins\background-variant.less" />
+    <Content Include="public\styles\bootstrap\mixins\border-radius.less" />
+    <Content Include="public\styles\bootstrap\mixins\buttons.less" />
+    <Content Include="public\styles\bootstrap\mixins\center-block.less" />
+    <Content Include="public\styles\bootstrap\mixins\clearfix.less" />
+    <Content Include="public\styles\bootstrap\mixins\forms.less" />
+    <Content Include="public\styles\bootstrap\mixins\gradients.less" />
+    <Content Include="public\styles\bootstrap\mixins\grid-framework.less" />
+    <Content Include="public\styles\bootstrap\mixins\grid.less" />
+    <Content Include="public\styles\bootstrap\mixins\hide-text.less" />
+    <Content Include="public\styles\bootstrap\mixins\image.less" />
+    <Content Include="public\styles\bootstrap\mixins\labels.less" />
+    <Content Include="public\styles\bootstrap\mixins\list-group.less" />
+    <Content Include="public\styles\bootstrap\mixins\nav-divider.less" />
+    <Content Include="public\styles\bootstrap\mixins\nav-vertical-align.less" />
+    <Content Include="public\styles\bootstrap\mixins\opacity.less" />
+    <Content Include="public\styles\bootstrap\mixins\pagination.less" />
+    <Content Include="public\styles\bootstrap\mixins\panels.less" />
+    <Content Include="public\styles\bootstrap\mixins\progress-bar.less" />
+    <Content Include="public\styles\bootstrap\mixins\reset-filter.less" />
+    <Content Include="public\styles\bootstrap\mixins\resize.less" />
+    <Content Include="public\styles\bootstrap\mixins\responsive-visibility.less" />
+    <Content Include="public\styles\bootstrap\mixins\size.less" />
+    <Content Include="public\styles\bootstrap\mixins\tab-focus.less" />
+    <Content Include="public\styles\bootstrap\mixins\table-row.less" />
+    <Content Include="public\styles\bootstrap\mixins\text-emphasis.less" />
+    <Content Include="public\styles\bootstrap\mixins\text-overflow.less" />
+    <Content Include="public\styles\bootstrap\mixins\vendor-prefixes.less" />
+    <Content Include="public\styles\bootstrap\modals.less" />
+    <Content Include="public\styles\bootstrap\navbar.less" />
+    <Content Include="public\styles\bootstrap\navs.less" />
+    <Content Include="public\styles\bootstrap\normalize.less" />
+    <Content Include="public\styles\bootstrap\pager.less" />
+    <Content Include="public\styles\bootstrap\pagination.less" />
+    <Content Include="public\styles\bootstrap\panels.less" />
+    <Content Include="public\styles\bootstrap\popovers.less" />
+    <Content Include="public\styles\bootstrap\print.less" />
+    <Content Include="public\styles\bootstrap\progress-bars.less" />
+    <Content Include="public\styles\bootstrap\responsive-embed.less" />
+    <Content Include="public\styles\bootstrap\responsive-utilities.less" />
+    <Content Include="public\styles\bootstrap\scaffolding.less" />
+    <Content Include="public\styles\bootstrap\tables.less" />
+    <Content Include="public\styles\bootstrap\theme.less" />
+    <Content Include="public\styles\bootstrap\thumbnails.less" />
+    <Content Include="public\styles\bootstrap\tooltip.less" />
+    <Content Include="public\styles\bootstrap\type.less" />
+    <Content Include="public\styles\bootstrap\utilities.less" />
+    <Content Include="public\styles\bootstrap\variables.less" />
+    <Content Include="public\styles\bootstrap\wells.less" />
+    <Content Include="public\styles\site-ltr.css" />
+    <Content Include="public\styles\site-ltr.css.map" />
+    <Content Include="public\styles\site-ltr.less" />
+    <Content Include="public\styles\site-ltr.min.css" />
+    <Content Include="public\styles\site-rtl.css" />
+    <Content Include="public\styles\site-rtl.css.map" />
+    <Content Include="public\styles\site-rtl.less" />
+    <Content Include="public\styles\site-rtl.min.css" />
+    <Content Include="public\styles\site.css" />
+    <Content Include="public\styles\site.css.map" />
+    <Content Include="public\styles\site.min.css" />
+    <Content Include="public\styles\site\auth.css" />
+    <Content Include="public\styles\site\auth.css.map" />
+    <Content Include="public\styles\site\auth.less" />
+    <Content Include="public\styles\site\auth.min.css" />
+    <Content Include="public\styles\site\bootswatch.flatly.less" />
+    <Content Include="public\styles\site\layout.less" />
+    <Content Include="public\styles\site\print.css" />
+    <Content Include="public\styles\site\variables.flatly.less" />
+    <Content Include="templates\emails\button.jade" />
+    <Content Include="templates\emails\email.jade" />
+    <Content Include="templates\emails\user-verification.jade" />
+    <Content Include="templates\emails\enquiry-notification.jade" />
+    <Content Include="templates\emails\styles\default.jade" />
+    <Content Include="templates\emails\styles\ink.jade" />
+    <Content Include="templates\layouts\auth.jade" />
+    <Content Include="templates\layouts\default.jade" />
+    <Content Include="templates\mixins\commons.jade" />
+    <Content Include="templates\mixins\flash-messages.jade" />
+    <Content Include="templates\mixins\employee-detail.jade" />
+    <Content Include="templates\mixins\employee-brief.jade" />
+    <Content Include="templates\mixins\assessment-detail.jade" />
+    <Content Include="templates\mixins\assessment-brief.jade" />
+    <Content Include="templates\mixins\footer.jade" />
+    <Content Include="templates\mixins\job-detail.jade" />
+    <Content Include="templates\mixins\job-brief.jade" />
+    <Content Include="templates\modals\form-mixins.jade" />
+    <Content Include="templates\views\post\employee.jade" />
+    <Content Include="templates\views\blog.jade" />
+    <Content Include="templates\views\contact.jade" />
+    <Content Include="templates\views\gallery.jade" />
+    <Content Include="templates\views\home.jade" />
+    <Content Include="templates\views\assessment.jade" />
+    <Content Include="templates\views\user\logout.jade" />
+    <Content Include="templates\views\user\login.jade" />
+    <Content Include="templates\views\user\verify.jade" />
+    <Content Include="templates\views\user\join.jade" />
+    <Content Include="templates\views\post.jade" />
+    <Content Include="templates\views\organization.jade" />
+    <Content Include="templates\views\job.jade" />
+    <Content Include="templates\views\employee.jade" />
+    <Content Include="templates\views\errors\404.jade" />
+    <Content Include="templates\views\errors\500.jade" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="config" />
+    <Folder Include="locales" />
+    <Folder Include="locales\ar" />
+    <Folder Include="locales\en" />
+    <Folder Include="models" />
+    <Folder Include="public\" />
+    <Folder Include="public\fonts\" />
+    <Folder Include="public\images\" />
+    <Folder Include="public\js\" />
+    <Folder Include="public\js\lib\" />
+    <Folder Include="public\js\lib\bootstrap\" />
+    <Folder Include="public\js\lib\jquery\" />
+    <Folder Include="public\js\lib\select2-3.5.2\" />
+    <Folder Include="public\styles\" />
+    <Folder Include="public\styles\bootstrap-rtl\" />
+    <Folder Include="public\styles\bootstrap-rtl\bi-app\" />
+    <Folder Include="public\styles\bootstrap-rtl\mixins\" />
+    <Folder Include="public\styles\bootstrap\" />
+    <Folder Include="public\styles\bootstrap\mixins\" />
+    <Folder Include="public\styles\site\" />
+    <Folder Include="routes" />
+    <Folder Include="routes\api" />
+    <Folder Include="routes\post\" />
+    <Folder Include="routes\user\" />
+    <Folder Include="routes\views" />
+    <Folder Include="templates" />
+    <Folder Include="templates\emails" />
+    <Folder Include="templates\emails\styles\" />
+    <Folder Include="templates\layouts" />
+    <Folder Include="templates\mixins" />
+    <Folder Include="templates\modals\" />
+    <Folder Include="templates\views\post\" />
+    <Folder Include="templates\views" />
+    <Folder Include="templates\views\errors" />
+    <Folder Include="templates\views\user\" />
+    <Folder Include="updates" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

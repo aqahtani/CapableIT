@@ -54,10 +54,10 @@ exports = module.exports = function (req, res) {
             new keystone.Email('user-verification').send({
                 to: user.email,
                 from: {
-                    name: 'OrgIT',
+                    name: 'CapableIT',
                     email: 'info@knowledge-passion.com'
                 },
-                subject: 'OrgIT - Verify Your Email',
+                subject: 'CapableIT - Verify Your Email',
                 user: user,
                 token: token
             }, callback);

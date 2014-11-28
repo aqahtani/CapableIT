@@ -5,7 +5,7 @@
     ignoreRoutes: ['javascripts/', 'stylesheets/', 'images/'],
     saveMissing: true,
     ns: {
-        namespaces: ['app', 'keystone'], 
+        namespaces: ['app'], 
         defaultNs: 'app'
     }, 
     cookieName: 'lang',
