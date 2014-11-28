@@ -1,7 +1,5 @@
 ﻿mixin jobBrief(job)
-  .panel.panel-default( data-ks-editable=editable(user, { list: 'Job', id: job.id }) )
-    .panel-heading.text-center
-        span.qrcode.thumbnail!= job.qrCode
-        h4.text-primary: a(href='/job/' + job.id)= job.title
-    .panel-body 
-      p.text-muted= job.altTitle
+  //-span.qrcode.thumbnail!= job.qrCode
+  span.text-primary: a(href='/job/' + job.id)= job.title
+  span &nbsp;
+  span.text-muted= job.altTitle

@@ -6,7 +6,7 @@ exports = module.exports = function(req, res) {
 		locals = res.locals;
 	
 	// Set locals
-	locals.section = 'employee';
+	locals.section = 'employees';
     locals.filters = {
 		assessment: req.params.assessment
 	};

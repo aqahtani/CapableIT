@@ -10,7 +10,7 @@ exports = module.exports = function(req, res) {
 	// Init locals
     locals.section = 'organization';
     locals.filters = {
-        organization: req.params.organization
+        organization: req.params.organization || locals.orgId
     };
     locals.data = {
         organization: {},
@@ -19,15 +19,22 @@ exports = module.exports = function(req, res) {
     // Load the current organization
     view.on('init', function (next) {
         var q = keystone.list('Organization').model.findOne()
-            .where({ slug: locals.filters.organization });
+            .where({ '_id' : locals.filters.organization });
 
         q.exec(function (err, result) {
-            if (!err && !result) { // no error and no results?!
-                // apparantly, user and school tenants do not match 
-                req.flash('error', 'You do not have any organizations!');
+            if (err) {
+                req.flash('error', err.message);
+                return next();
             }
+
+            if (!result) { 
+                // no results
+                req.flash('warning', 'You are not part of any organization');
+                return next();
+            }
+
             locals.data.organization = result;
-            next(err);
+            next();
         });
 		
     });
@@ -40,15 +47,11 @@ exports = module.exports = function(req, res) {
             var rels = _.values(keystone.list('Organization').relationships);
         
             // push a query on the view for each relationship found
-            // maintaining the filters on school and tenant
+            // maintaining the filters on organization
             _.each(rels, function (rel) {
-                view.query(rel.path, keystone.list(rel.ref).paginate({
-                    filters: locals.orgFilter,
-                    page: req.query.page || 1,
-                    perPage: 8,
-                    maxPages: 10
-                })
-                );
+                view.query(rel.path, keystone.list(rel.ref).model.find()
+                    .where(locals.orgFilter)
+                    .limit(5))
             });
         }
 

@@ -1,0 +1,29 @@
+extends ../layouts/default
+include ../mixins/job-brief
+include ../mixins/paging
+          
+//-block intro
+  .container
+    header
+      if !data.organization
+        h2 Invalid Organization.
+      else
+        h2= data.organization.title
+    hr
+
+block content
+  .container
+    .row
+      .col-sm-8
+        //- show jobs
+        if data.jobs
+          section
+            +showing(data.jobs, 'job')
+            ul.list-group
+              each job in data.jobs.results
+                li.list-group-item
+                  +jobBrief(job)
+          
+            +pages(data.jobs)
+        else
+          h3.text-muted There are no jobs yet.

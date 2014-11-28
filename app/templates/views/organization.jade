@@ -1,6 +1,4 @@
 extends ../layouts/default
-include ../mixins/job-brief
-include ../mixins/employee-brief
           
 block intro
   .container
@@ -12,80 +10,34 @@ block intro
     hr
 
 block content
-  .container 
-    //- show jobs
-    if jobs
-      .row
-        .col-sm-12.col-md-12
+  .container
+    .row
+      .col-sm-12
+        //- show organization info
+
+    .row
+      .col-sm-6
+        //- show jobs
+        if jobs
           section
-            if jobs.results.length
-              if jobs.totalPages > 1
-                h4.text-weight-normal Showing 
-                  strong #{jobs.first}
-                  |  to 
-                  strong #{jobs.last}
-                  |  of 
-                  strong #{jobs.total}
-                  |  jobs.
-              else
-                h4.text-weight-normal Showing #{utils.plural(jobs.results.length, '* job')}.
-          
-              .row
-                each job in jobs.results
-                  .col-xs-9.col-sm-3
-                    +jobBrief(job)
-          
-              if jobs.totalPages > 1
-                ul.pagination
-                  if jobs.previous
-                    li: a(href='?page=' + jobs.previous): span.glyphicon.glyphicon-chevron-left
-                  else
-                    li.disabled: a(href='?page=' + 1): span.glyphicon.glyphicon-chevron-left
-                  each p, i in jobs.pages
-                    li(class=jobs.currentPage == p ? 'active' : null)
-                      a(href='?page=' + (p == '...' ? (i ? jobs.totalPages : 1) : p ))= p
-                  if jobs.next
-                    li: a(href='?page=' + jobs.next): span.glyphicon.glyphicon-chevron-right
-                  else
-                    li.disabled: a(href='?page=' + jobs.totalPages): span.entypo.glyphicon.glyphicon-chevron-right
-            else
-              h3.text-muted There are no jobs yet.
-    
-    //- show employees
-    //- pre= JSON.stringify(employees, null, 4)
-    if employees
-      .row
-        .col-sm-12.col-md-12
+            .list-group
+              each job in jobs
+                a(href='/job/' + job.id).list-group-item
+                  span.text-primary= job.title
+                  span &nbsp;
+                  span.text-muted= job.altTitle
+            a(href="/jobs").btn.btn-default.pull-right more jobs
+        else
+          h3.text-muted There are no jobs yet.
+
+      .col-sm-6
+        //- show employees
+        if employees
           section
-            if employees.results.length
-              if employees.totalPages > 1
-                h4.text-weight-normal Showing 
-                  strong #{employees.first}
-                  |  to 
-                  strong #{employees.last}
-                  |  of 
-                  strong #{employees.total}
-                  |  employees.
-              else
-                h4.text-weight-normal Showing #{utils.plural(employees.results.length, '* employee')}.
-          
-              .row
-                each employee in employees.results
-                  .col-xs-9.col-sm-3
-                    +employeeBrief(employee)
-          
-              if employees.totalPages > 1
-                ul.pagination
-                  if employees.previous
-                    li: a(href='?page=' + employees.previous): span.glyphicon.glyphicon-chevron-left
-                  else
-                    li.disabled: a(href='?page=' + 1): span.glyphicon.glyphicon-chevron-left
-                  each p, i in employees.pages
-                    li(class=employees.currentPage == p ? 'active' : null)
-                      a(href='?page=' + (p == '...' ? (i ? employees.totalPages : 1) : p ))= p
-                  if employees.next
-                    li: a(href='?page=' + employees.next): span.glyphicon.glyphicon-chevron-right
-                  else
-                    li.disabled: a(href='?page=' + employees.totalPages): span.entypo.glyphicon.glyphicon-chevron-right
-            else
-              h3.text-muted There are no employees yet.
+            .list-group
+              each employee in employees
+                a(href='/employee/' + employee.id).list-group-item
+                  span.text-primary= employee.name.full
+                  span &nbsp;
+                  span.text-muted= employee.arName
+            a(href="/employees").btn.btn-default.pull-right more employees

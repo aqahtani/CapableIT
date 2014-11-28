@@ -4,7 +4,9 @@ include ../modals/form-employee
 
 block content
   //- embed the employee form modal
-  +modalEmployee('formEmployeeModal')
+  if data.employee
+    +modalEmployee('formEmployeeModal')
+  //- display the employee
   .container
     .row: .col-sm-12
       article

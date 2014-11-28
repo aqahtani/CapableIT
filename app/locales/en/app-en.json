@@ -3,7 +3,7 @@
     "brand": "CapableIT",
     "direction": "ltr",
     "language": "en",
-    "poweredby": "Powered by",
+    "poweredby": "powered by",
     "msg": {
         "language_changed": "Language changed to English."
     },
@@ -12,7 +12,11 @@
         "about": "About",
         "contact": "Contact",
         "more": "More",
-        "schools": "Schools",
+        "organization": "Organization",
+        "jobs": "Jobs",
+        "employees": "Employees",
+        "employee": "Employee",
+        "guide": "Guide",
         "blog": "Blog",
         "gallery": "Gallery",
         "signout": "Sign Out",

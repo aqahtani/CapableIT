@@ -30,8 +30,7 @@ keystone.pre('render', middleware.flashMessages);
 // Import Route Controllers
 var routes = {
     views: importRoutes('./views'),
-    userViews: importRoutes('./user'),
-    post: importRoutes('./post'),
+    userViews: importRoutes('./user')
 };
 
 // Setup Route Bindings
@@ -45,19 +44,18 @@ exports = module.exports = function(app) {
     app.all('/contact', routes.views.contact);
 
     // GET routes/views (Authenticated)
+    app.get('/organization', middleware.requireUser, routes.views.organization);
     app.get('/organization/:organization', middleware.requireUser, routes.views.organization);
     app.get('/job/:job', middleware.requireUser, routes.views.job);
+    app.get('/jobs', middleware.requireUser, routes.views.jobs);
     app.get('/assessment/:assessment', middleware.requireUser, routes.views.assessment);
     
-    // Employee Routes
+    // Employee Routes (Authenticated)
+    app.get('/employees', middleware.requireUser, routes.views.employees);
     app.get('/employee', middleware.requireUser, routes.views.employee);
     app.post('/employee', middleware.requireUser, routes.views.employee);
     app.get('/employee/:employee', middleware.requireUser, routes.views.employee);
     app.post('/employee/:employee', middleware.requireUser, routes.views.employee);
-    
-    // Post routes: new and update (Authenticated) 
-    //app.get('/edit/employee/:employee', middleware.requireUser, middleware.authorizeUser('view'), routes.post.employee);
-    //app.post('/edit/employee/:employee', middleware.requireUser, middleware.authorizeUser('edit'), routes.post.employee);
     
     // User routes: registration and authentication 
     app.all('/join', routes.userViews.join);

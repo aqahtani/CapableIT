@@ -61,9 +61,18 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
             ul.nav.navbar-nav.navbar-left
               each link in navLinks
                 li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+              li.dropdown(class=(section == 'guide' ? 'active' : null))
+                a.dropdown-toggle(href="#",data-toggle="dropdown")
+                  | #{t("nav.guide")} 
+                  span.caret
+                ul.dropdown-menu(role="menu")
+                  li: a(href="/blog")= t('nav.blog')
+                  li: a(href="/gallery")= t('nav.gallery')
+                  li.divider
+                  li: a(href="/contact")= t('nav.contact')
             ul.nav.navbar-nav.navbar-right
               if user
-                li: a(href='#')= user.name.first
+                li: a(href='/employee')= user.name.first
                 if user.canAccessKeystone
                   li: a(href='/keystone',title="#{t('nav.keystone')}"): span.glyphicon.glyphicon-cog
                 li: a(href='/logout',title="#{t('nav.signout')}"): span.glyphicon.glyphicon-log-out
