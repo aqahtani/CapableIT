@@ -14,7 +14,7 @@ var VerificationToken = new keystone.List('VerificationToken', {
 VerificationToken.add({
     user: { type: Types.Relationship, ref: 'User' },
     token: { type: String },
-    createdAt: { type: Date, required: true, default: Date.now, expires: 600 }
+    createdAt: { type: Date, required: true, default: Date.now, expires: 7200 }
 });
 
 // a method to create a token as a UUID string

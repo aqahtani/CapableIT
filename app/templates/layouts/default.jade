@@ -80,13 +80,14 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
                 li: a(href='/join')= t('nav.signup') 
                 li: a(href='/login',title="#{t('nav.signin')}"): span.glyphicon.glyphicon-log-in
               //- language switch
-              li.dropdown
-                a.dropdown-toggle(href="#",data-toggle="dropdown")
-                  | #{t("language")} 
-                  span.caret
-                ul.dropdown-menu(role="menu")
-                  li: a(href="/lang/ar") عربي
-                  li: a(href="/lang/en") English
+              //- disabled untill formal support
+                li.dropdown
+                  a.dropdown-toggle(href="#",data-toggle="dropdown")
+                    | #{t("language")} 
+                    span.caret
+                  ul.dropdown-menu(role="menu")
+                    li: a(href="/lang/ar") عربي
+                    li: a(href="/lang/en") English
 
     //- BODY
     #body
@@ -105,10 +106,10 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
 
       //- The content block should contain the body of your template's content
       block content
-
-
+      
     //- FOOTER
-    +footer      
+    .container
+      +footer
     
     //- JAVASCRIPT
 

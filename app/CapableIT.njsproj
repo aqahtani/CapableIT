@@ -77,8 +77,6 @@
     <Compile Include="updates\0.0.1-admins.js" />
     <Content Include="locales\ar\app-ar.json" />
     <Content Include="locales\en\app-en.json" />
-    <Compile Include="routes\api\keystone-rest.js" />
-    <Compile Include="routes\api\users.js" />
     <Compile Include="routes\views\blog.js" />
     <Compile Include="routes\views\contact.js" />
     <Compile Include="routes\views\gallery.js" />
@@ -333,7 +331,6 @@
     <Folder Include="public\styles\bootstrap\mixins\" />
     <Folder Include="public\styles\site\" />
     <Folder Include="routes" />
-    <Folder Include="routes\api" />
     <Folder Include="routes\user\" />
     <Folder Include="routes\views" />
     <Folder Include="templates" />

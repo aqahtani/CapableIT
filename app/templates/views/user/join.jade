@@ -1,18 +1,16 @@
 extends ../../layouts/auth
 
 mixin step(step, current)
-  .col-sm-3.text-center
+  .text-center
     if step == current
-      span.label.label-success= step
+      h3: span.label.label-success= step
     else
-      span.label.label-default= step
+      h3: span.label.label-default= step
 
 block content
   .row
-      +step(1, step)
-      +step(2, step)
-      //- +step(3, step)
-      //- +step(4, step)
+    .col-sm-6: +step(1, step)
+    .col-sm-6: +step(2, step)
     
   case step
     when "1" 
@@ -32,7 +30,7 @@ block content
           label(for='password_confirm')  Confirm Password
           input(type='password', name='password_confirm', id='password_confirm').form-control
         .form-actions
-          button(type='submit').btn.btn-primary Send
+          button(type='submit').btn.btn-primary Join
 
     default
       h3 You now need to verify your email address

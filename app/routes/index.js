@@ -48,15 +48,17 @@ exports = module.exports = function(app) {
     app.get('/organization/:organization', middleware.requireUser, routes.views.organization);
     app.get('/job/:job', middleware.requireUser, routes.views.job);
     app.get('/jobs', middleware.requireUser, routes.views.jobs);
-    app.get('/assessment/:assessment', middleware.requireUser, routes.views.assessment);
-    
-    // Employee Routes (Authenticated)
     app.get('/employees', middleware.requireUser, routes.views.employees);
-    app.get('/employee', middleware.requireUser, routes.views.employee);
-    app.post('/employee', middleware.requireUser, routes.views.employee);
-    app.get('/employee/:employee', middleware.requireUser, routes.views.employee);
-    app.post('/employee/:employee', middleware.requireUser, routes.views.employee);
     
+    // Employee Routes (Authenticated/Authorized)
+    app.get('/employee', middleware.requireUser, middleware.authorizeUser('view'), routes.views.employee);
+    app.post('/employee', middleware.requireUser, middleware.authorizeUser('edit'), routes.views.employee);
+    app.get('/employee/:employee', middleware.requireUser, middleware.authorizeUser('view'), routes.views.employee);
+    app.post('/employee/:employee', middleware.requireUser, middleware.authorizeUser('edit'), routes.views.employee);
+    
+    // Assessment Routes
+    app.get('/assessment/:assessment', middleware.requireUser, middleware.authorizeUser('view'), routes.views.assessment);
+
     // User routes: registration and authentication 
     app.all('/join', routes.userViews.join);
     app.all('/verify/:token', routes.userViews.verify);
@@ -69,6 +71,4 @@ exports = module.exports = function(app) {
     // allow CORS on /api routes
     app.all('/api*', middleware.allowOrigins);
 	
-    // NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
-	// app.get('/protected', middleware.requireUser, routes.views.protected);
 };

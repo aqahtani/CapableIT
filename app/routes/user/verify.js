@@ -101,9 +101,24 @@ exports = module.exports = function (req, res) {
                 if (err) return callback(err);
                 if (!result) return callback(null, false);
                 
-                User.model.update({ '_id' : userId }, { 'employee' : result.id }).exec(function (err, doc) {
+                // ************************************************************
+                // this update logic doesn't trigger middleware pre/post hooks!
+                // avoid it as much as you can
+                //User.model.update({ '_id' : userId }, { 'employee' : result.id }).exec(function (err, doc) {
+                //    if (err) return callback(err);
+                //    callback(null, true);
+                //});
+                // ************************************************************
+                
+                // the following update logic respects pre/post mongo middleware
+                User.model.findOne({ '_id' : userId }, function (err, user) {
                     if (err) return callback(err);
-                    callback(null, true);
+
+                    user.employee = result.id;
+                    user.save(function (err) {
+                        if (err) return callback(err);
+                        callback(null, true);
+                    });
                 });
             });
         }
@@ -112,7 +127,7 @@ exports = module.exports = function (req, res) {
             user: findToken, 
             verified: ['user', verifyUser], 
             orgLinked: ['verified', linkOrg],
-            empLinked: ['verified', linkEmp]
+            empLinked: ['orgLinked', linkEmp]
         }, function (err, results) {
             // All tasks are done now and you have results as an object 
             if (err) {

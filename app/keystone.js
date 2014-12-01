@@ -70,16 +70,16 @@ keystone.set('routes', require('./routes'));
 // default email templates, you may remove them if you're using your own.
 
 keystone.set('email locals', {
-    logo_src: '/images/logo-email.gif',
-    logo_width: 194,
-    logo_height: 76,
+    logo_src: '/images/kp_logo_email.png',
+    logo_width: 150,
+    logo_height: 45,
     theme: {
-        email_bg: '#f9f9f9',
-        link_color: '#2697de',
+        email_bg: '#F9F9F9',
+        link_color: '#EE7700',
         buttons: {
             color: '#fff',
-            background_color: '#2697de',
-            border_color: '#1a7cb7'
+            background_color: '#626262',
+            border_color: '#4D4D4D'
         }
     }
 });
@@ -92,13 +92,13 @@ keystone.set('email locals', {
 
 keystone.set('email rules', [{
         find: '/images/',
-        replace: (keystone.get('env') == 'production') ? 'http://www.your-server.com/images/' : 'http://localhost:3000/images/'
+        replace: (keystone.get('env') == 'production') ? 'http://cit.knowledge-passion.net/images/' : 'http://localhost:3000/images/'
     }, {
         find: '/keystone/',
-        replace: (keystone.get('env') == 'production') ? 'http://www.your-server.com/keystone/' : 'http://localhost:3000/keystone/'
+        replace: (keystone.get('env') == 'production') ? 'http://cit.knowledge-passion.net/keystone/' : 'http://localhost:3000/keystone/'
     }, {
         find: '/root/',
-        replace: (keystone.get('env') == 'production') ? 'http://www.your-server.com/' : 'http://localhost:3000/'
+        replace: (keystone.get('env') == 'production') ? 'http://cit.knowledge-passion.net/' : 'http://localhost:3000/'
     }]);
 
 // Load your project's email test routes

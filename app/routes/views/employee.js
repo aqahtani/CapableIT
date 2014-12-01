@@ -92,7 +92,7 @@ exports = module.exports = function (req, res) {
             locals.formData = results.employee;
             // reset some nested formData fields to match the form elements
             locals.formData['name.full'] = locals.formData.name.first + ' ' + locals.formData.name.last;
-            locals.formData['english.level'] = locals.formData.english.level.id; 
+            locals.formData['english.level'] = locals.formData.english.level ? locals.formData.english.level.id : ''; 
             locals.formData['english.test'] = locals.formData.english.test;
             locals.formData['english.score'] = locals.formData.english.score;
             locals.formData['education.field'] = locals.formData.education.field;

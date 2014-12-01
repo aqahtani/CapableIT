@@ -45,8 +45,11 @@ exports.initLocals = function(req, res, next) {
         locals.orgId = null;
         locals.orgFilter = null;
     }
-	
-	next();
+    
+    // reset authorizations
+    locals.authorized = null; 
+    
+    next();
 	
 };
 
@@ -96,6 +99,10 @@ exports.authorizeUser = function (action) {
             orgId = req.user.organization,
             resource = req.path;
         
+        // get an '*' version of the path
+        var regex = new RegExp('/[^/]*$');
+        var resourceAny = resource.replace(regex, '/*');
+        
         var async = require('async');
         
         // async function to check user authorization
@@ -104,7 +111,7 @@ exports.authorizeUser = function (action) {
                 .where({
                     'organization': orgId,
                     'user': userId,
-                    'resource' : resource
+                    'resource' : { "$in": [resource, resourceAny] }
                 }).populate('user permissions');
             
             q.exec(function (err, userAuth) {
@@ -138,7 +145,7 @@ exports.authorizeUser = function (action) {
                 .where({
                     'organization': orgId,
                     'role': { "$in" : userRoles },
-                    'resource' : resource
+                    'resource' : { "$in": [ resource, resourceAny ]}
                 }).populate('role permissions');
             
             q.exec(function (err, roleAuths) {
@@ -177,15 +184,24 @@ exports.authorizeUser = function (action) {
             roleAuths : isRoleAuthorized
         }, function (err, results) {
             if (err) {
-                req.flash('error', err);
+                // something wrong happened!
+                req.flash('error', err.message);
                 res.redirect('/');
             }
             else if (results.userAuth) {
-                req.flash('info', 'User authorized as "' + results.userAuth.user + '" with permissions: ' + results.userAuth.permissions);
+                res.locals.authorized = {
+                    'user': results.userAuth.user,
+                    'permissions': results.userAuth.permissions
+                };
+                //req.flash('info', 'User authorized as "' + results.userAuth.user + '" with permissions: ' + results.userAuth.permissions);
                 next();
             }
             else if (results.roleAuths) {
-                req.flash('info', 'Role authorized as "' + results.roleAuths.roles + '" with permissions: ' + results.roleAuths.permissions);
+                res.locals.authorized = {
+                    'roles': results.roleAuths.roles,
+                    'permissions': results.roleAuths.permissions
+                };                
+                //req.flash('info', 'Role authorized as "' + results.roleAuths.roles + '" with permissions: ' + results.roleAuths.permissions);
                 next();
             }
             else {
