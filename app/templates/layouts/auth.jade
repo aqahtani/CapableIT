@@ -13,17 +13,13 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
       
   body
     .container
-      .row: .col-sm-10.col-sm-offset-1
-        p &nbsp;
+      .row: .col-sm-8.col-sm-offset-2
         p &nbsp;
         +flash-messages(messages)
         .jumbotron.auth-body(class=messages && messages.error.length ? 'has-errors' : null)
-          .row
-            .col-sm-5
-              a(href='/'): img(src='/images/kp_logo_long.png', width=300, alt=brand)
-    
-            .col-sm-7
-              block content
+          .text-center: a(href='/'): img(src='/images/cit_logo.svg', width=500, alt=brand)
+          hr
+          block content
           
         block footer
           +footer

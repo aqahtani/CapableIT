@@ -2,5 +2,22 @@ extends ../layouts/default
 
 block content
   .container: .jumbotron
-    if data.organization
-      a(href="/organization/#{data.organization.slug}") org
+    img.pull-right(src='/images/cit_logo.svg', width='200')
+    h1 Welcome
+    p This is #{t("brand")} from <a href='http://knowledge-passion.com', target='_blank'>Knowledge-Passion Consulting</a>.
+    
+    p 
+      | #{t("brand")} is a cloud service that automates stages of the Capability Management Cycle:
+      | Organize, Acquire, Deploy, Assess, Appraise, Develop, and Reward.
+    p It is based on the <a href='http://www.sfia-online.org', target='_blank'>Skills Framework for the Information Age (SFIA)</a> from the SFIA Foundation.
+    
+    hr
+    if user && user.canAccessKeystone
+      p
+        a(href='/keystone/signin').btn.btn-lg.btn-primary Open the Admin UI
+    else
+      p
+        a(href='/login').btn.btn-lg.btn-info Login
+        |  or 
+        a(href='/join').btn.btn-lg.btn-primary Join
+      p.text-primary Remember to use your organization's email address.
