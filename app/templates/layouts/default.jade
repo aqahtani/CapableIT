@@ -79,6 +79,8 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
               else
                 li: a(href='/join')= t('nav.signup') 
                 li: a(href='/login',title="#{t('nav.signin')}"): span.glyphicon.glyphicon-log-in
+              //- BETA/Release?
+              p.navbar-text= t('nav.version')
               //- language switch
               //- disabled untill formal support
                 li.dropdown

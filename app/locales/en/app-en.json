@@ -22,6 +22,7 @@
         "signout": "Sign Out",
         "signin": "Sign In",
         "keystone": "Administration",
-        "signup": "Join"
+        "signup": "Join",
+        "version": "BETA"
     }
 }
