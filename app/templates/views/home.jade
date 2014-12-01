@@ -12,10 +12,7 @@ block content
     p It is based on the <a href='http://www.sfia-online.org', target='_blank'>Skills Framework for the Information Age (SFIA)</a> from the SFIA Foundation.
     
     hr
-    if user && user.canAccessKeystone
-      p
-        a(href='/keystone/signin').btn.btn-lg.btn-primary Open the Admin UI
-    else
+    if !user 
       p
         a(href='/login').btn.btn-lg.btn-info Login
         |  or 

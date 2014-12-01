@@ -309,6 +309,7 @@
     <Content Include="templates\views\employee.jade" />
     <Content Include="templates\views\errors\404.jade" />
     <Content Include="templates\views\errors\500.jade" />
+    <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="config" />
