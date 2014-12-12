@@ -22,9 +22,10 @@ Employee.add({
     telephone: { type: Types.Text }
 }, 'Organization', {
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true, index: true },
-    orgDepartment: { type: Types.Relationship, ref: 'OrgDepartment', filters: { organization: ':organization' }, initial: true },
-    orgFunction: { type: Types.Relationship, ref: 'OrgFunction', filters: { organization: ':organization', department: ':orgDepartment' }, initial: true },
-    job: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }, initial: true }
+    orgDepartment: { type: Types.Relationship, ref: 'OrgDepartment', filters: { organization: ':organization' }, noedit: true  },
+    orgFunction: { type: Types.Relationship, ref: 'OrgFunction', filters: { organization: ':organization' }, noedit: true  },
+    job: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }, initial: true },
+    manager: { type: Types.Relationship, ref: 'Employee', filters: { organization: ':organization' }, index: true, noedit: true }
 }, 'Education and Certification', {
     english: {
         level: { type: Types.Relationship, ref: 'EnglishLevel' },
@@ -57,6 +58,104 @@ Employee.schema.pre('save', function (next) {
     }
     next();
 });
+
+// set/reset manager if job is changed
+Employee.schema.pre('save', function (next) {
+    var employee = this;
+    
+    if (this.isModified('job')) {
+        if (!this.job) {
+            // job has been reset to none
+            this.manager = null;
+            this.orgDepartment = null;
+            this.orgFunction = null;
+            return next();
+        }
+        
+        // we have a new job that is set
+        this.setManager(this.job, function (err, results) {
+            if (err) {
+                console.log("Error in setManager(): %j", err);
+                return next(err);
+            }
+            if (!results.employee) {
+                console.log("Warning: setManager() coudn't find a manager for : %j", employee._id);
+                return next(err);
+            }
+            // manager set successfully
+            console.log("Successfully set employee's manager to : %j", results.employee.manager);
+            next();
+        });
+    }
+    else next();
+});
+
+// assign user roles given as names: e.g. 'edit', 'view', ...
+Employee.schema.methods.setManager = function (job, done) {
+    var employee = this;
+    
+    // otherwise, go and find the manager of the assigned job
+    var async = require("async");
+    
+    // this one to get job reporting
+    var getJob = function (callback) {
+        // get job reporting 
+        keystone.list('Job').model.findOne()
+        .where({ '_id' : job })
+        .exec(function (err, j) {
+            if (err) return callback(err, null);
+            if (!j) return callback(null);
+            // Async call is done, alert via callback
+            callback(null, j);
+        });
+    };
+    
+    // this one is to set employee's dept and function 
+    var setDeptFunction = function (callback, results) {
+        // incoming is the job
+        employee.orgDepartment = results.job.orgDepartment;
+        employee.orgFunction = results.job.orgFunction;
+        callback(null, employee.orgDepartment);
+    };
+    
+    // this one to get manager (employee) from job.reportsTo
+    var getManager = function (callback, results) {
+        // incoming is the employee's job
+        var mgrJob = results.job.reportsTo;
+        
+        if (mgrJob) {
+            // get employee of the managing job
+            keystone.list('Employee').model.findOne()
+                        .where({ 'job' : mgrJob })
+                        .exec(function (err, mgr) {
+                if (err) return callback(err, null);
+                // Async call is done, alert via callback
+                callback(null, mgr);
+            });
+        }
+        else return callback(null);
+    };
+    
+    // this one is to set employee's manager 
+    var setManager = function (callback, results) {
+        var mgr = results.manager;
+        // incoming is the manager
+        if (!mgr) {
+            employee.manager = null;
+            return callback(null);
+        }
+        // otherwise, go set employee's manager
+        employee.manager = mgr._id;
+        callback(null, employee);
+    };
+    
+    async.auto({
+        job : getJob,
+        dept : ['job', setDeptFunction],
+        manager: ['job', getManager],
+        employee : ['manager', setManager]
+    }, done);
+};
 
 /**
  * Plugins

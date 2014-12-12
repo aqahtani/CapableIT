@@ -57,6 +57,7 @@
     <Compile Include="public\js\lib\select2-3.5.2\select2.min.js" />
     <Compile Include="public\js\lib\select2-3.5.2\select2_locale_ar.js" />
     <Compile Include="public\js\ui.js" />
+    <Compile Include="routes\create\assessment.js" />
     <Compile Include="routes\emails.js" />
     <Compile Include="routes\index.js" />
     <Compile Include="routes\lang.js" />
@@ -333,6 +334,7 @@
     <Folder Include="public\styles\bootstrap\mixins\" />
     <Folder Include="public\styles\site\" />
     <Folder Include="routes" />
+    <Folder Include="routes\create\" />
     <Folder Include="routes\user\" />
     <Folder Include="routes\views" />
     <Folder Include="templates" />

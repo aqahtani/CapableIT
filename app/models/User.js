@@ -83,7 +83,7 @@ User.schema.pre('save', function (next) {
         });
     }
     else next();
-})
+});
 
 User.schema.post('save', function (user) {
     if (this.wasEmployeeModified && this.employee) {

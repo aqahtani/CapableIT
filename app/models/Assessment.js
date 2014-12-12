@@ -15,6 +15,7 @@ var Assessment = new keystone.List('Assessment', {
 Assessment.add({
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true },
     createdAt: { type: Date, default: Date.now },
+    status: { type: Types.Select, options: 'draft, final, archived', default: 'draft', index: true },
     employee: { type: Types.Relationship, ref: 'Employee', required: true, initial: true },
     doneBy: { type: Types.Relationship, ref: 'Employee', required: true, initial: true },
     job: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }, required: true, initial: true }
