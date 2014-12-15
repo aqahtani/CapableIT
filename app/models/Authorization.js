@@ -14,7 +14,7 @@ var Permission = new keystone.List('Permission', {
 
 Permission.add({
     name: { type: Types.Text, required: true, initial: true },
-    label: { type: Types.Text }
+    label: { type: Types.Text, initial: true }
 });
 
 Permission.defaultColumns = 'name, label';
@@ -31,9 +31,10 @@ var Role = new keystone.List('Role', {
 
 Role.add({
     name: { type: Types.Text, required: true, initial: true },
-    label: { type: Types.Text }
+    label: { type: Types.Text, initial: true }
 });
 
+Role.relationship({ path: 'users', ref: 'User', refPath: 'roles' });
 Role.defaultColumns = 'name, label';
 Role.register();
 

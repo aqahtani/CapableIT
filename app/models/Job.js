@@ -10,16 +10,16 @@ var keystone = require('keystone'),
 var Job = new keystone.List('Job', {
     map: { name: 'title' },
     autokey: { path: 'slug', from: 'title', unique: true },
-    defaultSort: 'organization',
-    drilldown: 'organization'
+    defaultSort: 'organization orgDepartment orgFunction title',
+    drilldown: 'organization orgDepartment orgFunction'
 });
 
 Job.add({
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true, index: true },
-    code: { type: Types.Text, index: true, unique: true },
+    code: { type: Types.Text, initial: true, index: true, unique: true },
     title: { type: Types.Text, initial: true, required: true, index: true },
-    altTitle: { type: Types.Text, index: true, label: 'Alternative Title' },
-    reportsTo: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }  },
+    altTitle: { type: Types.Text, initial: true, index: true, label: 'Alternative Title' },
+    reportsTo: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }, initial: true  },
     qrCode: { type: String, noedit: true, hidden: true },
     orgDepartment: { type: Types.Relationship, ref: 'OrgDepartment', filters: { organization: ':organization' }, initial: true, label: 'Department' },
     orgFunction: { type: Types.Relationship, ref: 'OrgFunction', filters: { organization: ':organization', department: ':orgDepartment' }, initial: true, label: 'Function' }

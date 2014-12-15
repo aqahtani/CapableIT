@@ -63,6 +63,8 @@ SoftSkill.add({
     levelDescriptions: { type: Types.TextArray }
 });
 
+SoftSkill.relationship({ path: 'jobs', ref: 'Job', refPath: 'behavioral.skills' });
+
 SoftSkill.defaultColumns = 'number, title, color';
 
 SoftSkill.register();

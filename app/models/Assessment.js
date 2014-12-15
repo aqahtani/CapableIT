@@ -9,7 +9,7 @@
  */
 
 var Assessment = new keystone.List('Assessment', {
-    defaultSort: '-createdAt',
+    defaultSort: 'organization -createdAt',
     drilldown: 'organization'
 });
 

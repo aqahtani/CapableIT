@@ -14,7 +14,7 @@ var JobTask = new keystone.List('JobTask', {
 
 JobTask.add({
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true, index: true },
-    title: { type: String, required: true }
+    title: { type: String, initial: true, required: true }
 });
 
 JobTask.defaultColumns = 'organization|10%, title';

@@ -22,9 +22,9 @@ Employee.add({
     telephone: { type: Types.Text }
 }, 'Organization', {
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true, index: true },
+    job: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }, initial: true },
     orgDepartment: { type: Types.Relationship, ref: 'OrgDepartment', filters: { organization: ':organization' }, noedit: true  },
     orgFunction: { type: Types.Relationship, ref: 'OrgFunction', filters: { organization: ':organization' }, noedit: true  },
-    job: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }, initial: true },
     manager: { type: Types.Relationship, ref: 'Employee', filters: { organization: ':organization' }, index: true, noedit: true }
 }, 'Education and Certification', {
     english: {
@@ -50,6 +50,7 @@ Employee.defaultColumns = 'organization|10%, name, slug, arName, job, email, org
 // relationships
 Employee.relationship({ path: 'directReports', ref: 'Employee', refPath: 'manager' });
 Employee.relationship({ path: 'assessments', ref: 'Assessment', refPath: 'employee' });
+Employee.relationship({ path: 'user', ref: 'User', refPath: 'employee' });
 
 // auto create qrqrCode once a new student is created
 Employee.schema.pre('save', function (next) {

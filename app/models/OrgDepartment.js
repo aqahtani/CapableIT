@@ -12,9 +12,7 @@ var OrgDepartment = new keystone.List('OrgDepartment', {
 });
 
 OrgDepartment.add({
-    //*************************************************************************
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true, index: true },
-    //*************************************************************************
     name: { type: Types.Text, required: true, initial: true },
     code: { type: Types.Text, required: true, initial: true, uppercase: true },
     color: { type: Types.Color, initial: true },

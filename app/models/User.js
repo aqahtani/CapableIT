@@ -32,23 +32,6 @@ User.schema.virtual('canAccessKeystone').get(function () {
     return this.isAdmin;
 });
 
-// verify user as a method
-//User.schema.methods.verifyUser = function (token, callback) {
-//    var that = this;
-
-//    keystone.list('VerificationToken').model.findOne({ token: token }, function (err, result) {
-//        if (err) return callback(err);
-
-//        if (result.user === that._id) {
-//            that.isVerified = true;
-//            that.save(function (err) {
-//                callback(err);
-//            })
-//        }
-//    });
-//}
-
-
 
 /**
  * Relationships
