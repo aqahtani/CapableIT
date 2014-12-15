@@ -30,7 +30,8 @@ keystone.pre('render', middleware.flashMessages);
 // Import Route Controllers
 var routes = {
     views: importRoutes('./views'),
-    userViews: importRoutes('./user')
+    userViews: importRoutes('./user'),
+    createViews: importRoutes('./create'),
 };
 
 // Setup Route Bindings
@@ -57,8 +58,12 @@ exports = module.exports = function(app) {
     app.post('/employee/:employee', middleware.requireUser, middleware.authorizeUser('edit'), routes.views.employee);
     
     // Assessment Routes
+    app.get('/assess', middleware.requireUser, routes.views.assess);
+    app.post('/assess/new', middleware.requireUser, routes.createViews.assess);
     app.get('/assessment/:assessment', middleware.requireUser, middleware.authorizeUser('view'), routes.views.assessment);
-
+    app.post('/assessment/:assessment', middleware.requireUser, middleware.authorizeUser('edit'), routes.views.assessment); 
+    app.get('/assessments', middleware.requireUser, routes.views.assessments);
+    
     // User routes: registration and authentication 
     app.all('/join', routes.userViews.join);
     app.all('/verify/:token', routes.userViews.verify);

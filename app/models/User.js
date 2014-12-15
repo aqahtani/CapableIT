@@ -86,15 +86,18 @@ User.schema.pre('save', function (next) {
 });
 
 User.schema.post('save', function (user) {
-    if (this.wasEmployeeModified && this.employee) {
-        this.createAuthorizations(function (err, results) {
-            if (err) {
-                console.log("Error in createAuthorizations(): %j", err);
+    if (this.wasEmployeeModified && user.employee) {
+        
+        keystone.list('UserAuthorization').model.authorize(
+            user.organization,
+            user.id,
+            '/employee/' + user.employee,
+            ['view', 'edit'], 
+            function (err, results) {
+                if (err) console.log("Error in authorizing user on his employee profile(): %j", err)
+                else console.log("Successfully created a user authorization: %j", results.authorization);
             }
-            else {
-                console.log("Successfully created a user authorization: %j", results.authorization);
-            }
-        });
+        );
     }
 });
 

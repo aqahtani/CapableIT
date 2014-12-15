@@ -1,6 +1,7 @@
 ﻿var keystone = require('keystone'),
     Types = keystone.Field.Types,
-    uniqueValidator = require('mongoose-unique-validator');
+    uniqueValidator = require('mongoose-unique-validator'),
+    _ = require('underscore');
 
 /**
  * Assessment Model
@@ -14,8 +15,8 @@ var Assessment = new keystone.List('Assessment', {
 
 Assessment.add({
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true },
-    createdAt: { type: Date, default: Date.now },
-    status: { type: Types.Select, options: 'draft, final, archived', default: 'draft', index: true },
+    createdAt: { type: Date, required: true, default: Date.now },
+    status: { type: Types.Select, options: 'draft, final, archived', required: true, default: 'new', index: true },
     employee: { type: Types.Relationship, ref: 'Employee', required: true, initial: true },
     doneBy: { type: Types.Relationship, ref: 'Employee', required: true, initial: true },
     job: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }, required: true, initial: true }
@@ -48,7 +49,7 @@ Assessment.defaultColumns = 'organization|10%, createdAt, employee, doneBy, job'
 //Assessment.schema.plugin(uniqueValidator, { message: '{PATH} already exists' });
 
 Assessment.schema.pre('save', function (next) {
-    var that = this;
+    var assessment = this;
     
     if (this.isNew) {
         var async = require("async");
@@ -58,16 +59,11 @@ Assessment.schema.pre('save', function (next) {
         var getJobSkills = function (callback) {
             // get the assigned Job 
             var Job = keystone.list('Job');
-            Job.model.findById(that.job).exec(function (err, job) {
-                if (err) {
-                    callback(err, null);
-                    return;
-                };
-                
+            Job.model.findById(assessment.job).exec(function (err, job) {
+                if (err) return callback(err, null);
                 if (!job) {
                     var e = new Error('you need to pick a job for assessment');
-                    callback(e, null);
-                    return;
+                    return callback(e, null);
                 }
                 
                 var skills = {
@@ -84,18 +80,46 @@ Assessment.schema.pre('save', function (next) {
                 callback(null, skills);
             });
         };
+        
+        var getUser = function (callback) {
+            keystone.list('User').model.findOne()
+            .where({
+                'organization': assessment.organization,
+                'employee': assessment.doneBy
+            }).select('id').exec(function (err, user) {
+                if (err) return callback(err, null);
+                if (!user) {
+                    var e = new Error('no user associated with creator of assessment');
+                    return callback(e, null);
+                }
 
-        async.auto({ skills: getJobSkills } , function (err, results) {
+                callback(null, user);
+            });
+        };
+
+        // assigns the creator full permissions 
+        var authorizeCreator = function (callback, results) {
+            keystone.list('UserAuthorization').model.authorize(
+                assessment.organization,
+                results.user._id,
+                '/assessment/' + assessment.id,
+                ['*'], callback);
+        };
+
+        async.auto({
+            skills : getJobSkills,
+            user: getUser, 
+            authorization: ['user', authorizeCreator]
+        } , function (err, results) {
             // All tasks are done now and you have results as an object 
             // with the following { skills: { hard: ..., soft: ... } }
-            
             if (!err) {
                 // just copy over the skills to this assessment
-                that.english.targetLevel = results.skills.english.level;
-                that.professional.skills = results.skills.hard.skills;
-                that.professional.targetLevels = results.skills.hard.levels;
-                that.behavioral.skills = results.skills.soft.skills;
-                that.behavioral.targetLevels = results.skills.soft.levels;
+                assessment.english.targetLevel = results.skills.english.level;
+                assessment.professional.skills = results.skills.hard.skills;
+                assessment.professional.targetLevels = results.skills.hard.levels;
+                assessment.behavioral.skills = results.skills.soft.skills;
+                assessment.behavioral.targetLevels = results.skills.soft.levels;
                 next();
             }
             else {
@@ -108,5 +132,15 @@ Assessment.schema.pre('save', function (next) {
     }
 });
 
+// make sure that associated authorizations are removed
+// when an assessment is removed as well
+Assessment.schema.post('remove', function (assessment) {
+    keystone.list('UserAuthorization').model.removeResource(
+        assessment.organization, 
+        '/assessment/' + assessment.id,
+        function (err) {
+            console.log('Assessment (%s) has been removed along with its authorizations', assessment._id);
+        });
+});
 
 Assessment.register();

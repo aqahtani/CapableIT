@@ -3,7 +3,7 @@
 
 //- one level box: used by hard, soft, and english levelers 
 mixin levelBox(title, label, kind, description, color)
-  button(
+  .btn-group: button(
     class="#{kind}"
     style="background-color:#{color}"
     data-container="body"
@@ -34,7 +34,7 @@ mixin hardLeveler(skill, target, current)
   .row
     .col-sm-7
       h5= skill.title
-    .col-sm-5: .bs-component: .btn-group
+    .col-sm-5: .bs-component: .btn-group.btn-group-justified
       for i in [1, 2, 3, 4, 5, 6, 7]
         if (i == target && i == current)
           - var kind = "btn-success"
@@ -50,12 +50,12 @@ mixin hardLeveler(skill, target, current)
         
         +levelBox(skill.title, i, kind, skill.levels.descriptions[i - skill.levels.min])
 
-//- Hard Skill Leveler
+//- Soft Skill Leveler
 mixin softLeveler(skill, target, current)
   .row
     .col-sm-7
       h5= skill.title
-    .col-sm-5: .bs-component: .btn-group
+    .col-sm-5: .bs-component: .btn-group.btn-group-justified
       for i in [1, 2, 3, 4, 5]
         if (i == target && i == current)
           - var kind = "btn-success"
@@ -70,7 +70,7 @@ mixin softLeveler(skill, target, current)
 
 //- English Language Leveler
 mixin englishLeveler(target, current)
-  .bs-component: .btn-group
+  .bs-component: .btn-group.btn-group-justified
     for i in ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
       if (target && i == target.grade)
           +levelBox(target.title, i, "btn-default", target.description, target.color)

@@ -48,6 +48,7 @@ Employee.add({
 Employee.defaultColumns = 'organization|10%, name, slug, arName, job, email, orgDepartment, orgFunction';
 
 // relationships
+Employee.relationship({ path: 'directReports', ref: 'Employee', refPath: 'manager' });
 Employee.relationship({ path: 'assessments', ref: 'Assessment', refPath: 'employee' });
 
 // auto create qrqrCode once a new student is created

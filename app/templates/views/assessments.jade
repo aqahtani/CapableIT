@@ -1,0 +1,25 @@
+extends ../layouts/default
+include ../mixins/paging
+
+block content
+  .container
+    .row: .col-sm-12
+      section
+        if !assessments
+          h2 you didn't assess anyone.
+        else
+          h2 You have assessed the following employees
+          hr
+          +showing(assessments, 'assessment')
+
+          .list-group
+            each assessment in assessments.results
+              a(href="/assessment/" + assessment.id).list-group-item
+                span.text-primary= assessment.employee.name.full
+                strong  as  
+                span.text-success= assessment.job.title
+                strong  on  
+                span.text-muted= assessment._.createdAt.format('DD/MM/YYYY - HH:mm')
+                .badge= assessment.status
+
+          +pages(assessments)

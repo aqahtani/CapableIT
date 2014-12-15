@@ -45,7 +45,7 @@ mixin modalEmployee(modalId)
             .col-sm-6
               .form-group.form-group-sm(class=validationErrors['english.level'] ? 'has-error' : null)
                 label(for='english.level').col-sm-4.control-label  English Level
-                .col-sm-8: +formEnglishLeveler(data.englishLevels, formData['english.level'])
+                .col-sm-8: +formEnglishLeveler('english.level', data.englishLevels, formData['english.level'])
               .form-group.form-group-sm(class=validationErrors['english.test'] ? 'has-error' : null)
                 label(for='english.test').col-sm-4.control-label  English Test
                 .col-sm-8: +formSelectInput('english.test', data.engTestOptions, formData['english.test']) 

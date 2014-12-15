@@ -1,0 +1,72 @@
+﻿include form-mixins
+
+//- Modal: Edit Assessment Form
+mixin modalAssessment(modalId, assessment, englishLevels)
+  .modal.fade(id="#{modalId}")
+    .modal-dialog.modal-lg
+      form(method='post').modal-content
+        input(type='hidden', name='action', value='update')
+        .modal-header
+          button(type="button", data-dismiss="modal").close
+            span(aria-hidden="true") &times;
+            span.sr-only Close
+          h4.modal-title Assessment
+        .modal-body
+          //- 1: Overview Assessment
+          .panel.panel-default
+            .panel-heading(data-cursor="hand", data-toggle="collapse", data-target="#overviewPanel")
+              h4 General Assessment
+            #overviewPanel.panel-body.collapse.in
+              .row
+                .col-sm-12
+                  .form-group(class=validationErrors.overview ? 'has-error' : null)
+                    label(for='overview').control-label  Overview
+                    textarea(name='overview', id='overview', rows='3').form-control= assessment.overview
+          
+          //- 2: Knowledge, Experience, and Qualifications Assessment
+          .panel.panel-success
+            .panel-heading(data-cursor="hand", data-toggle="collapse", data-target="#generalPanel")
+              h4 Knowledge, Experience and Qualifications
+            #generalPanel.panel-body.collapse
+              .row
+                .col-sm-6
+                  .form-group(class=validationErrors.knowledge ? 'has-error' : null)
+                    label(for='knowledge').control-label  Knowledge
+                    textarea(name='knowledge', id='knowledge', rows='3').form-control= assessment.knowledge
+                .col-sm-6
+                  .form-group(class=validationErrors.experience ? 'has-error' : null)
+                    label(for='experience').control-label  Experience & Qualifications
+                    textarea(name='experience', id='experience', rows='3').form-control= assessment.experience
+          
+          //- 3: English Skill Level 
+          .panel.panel-info
+            .panel-heading(data-toggle="collapse", data-target="#englishPanel")
+              h4 English Skill Assessment
+            #englishPanel.panel-body.collapse
+              .form-group.form-group-sm(class=validationErrors['english.currentLevel'] ? 'has-error' : null)
+                - var current = assessment.english.currentLevel ? assessment.english.currentLevel.id : '';
+                +formEnglishLeveler('english.currentLevel', englishLevels, current)
+
+          //- 4: Hard Skill Assessment 
+          .panel.panel-danger
+            .panel-heading(data-toggle="collapse", data-target="#hardskillsPanel")
+              h4 Professional Skills Assessment
+            #hardskillsPanel.panel-body.collapse
+              .form-group.form-group-xm(class=validationErrors['professional.currentLevels'] ? 'has-error' : null)
+                for hardSkill, index in assessment.professional.skills
+                  +formHardLeveler(hardSkill, assessment.professional.targetLevels[index], assessment.professional.currentLevels[index])
+          
+          //- 5: Soft Skill Assessment 
+          .panel.panel-warning
+            .panel-heading(data-toggle="collapse", data-target="#softskillsPanel")
+              h4 Behavioral Skills Assessment
+            #softskillsPanel.panel-body.collapse
+              .form-group.form-group(class=validationErrors['behavioral.currentLevels'] ? 'has-error' : null)
+                for softSkill, index in assessment.behavioral.skills
+                  +formSoftLeveler(softSkill, assessment.behavioral.targetLevels[index], assessment.behavioral.currentLevels[index])
+         
+        .modal-footer
+          //- status input HERE
+          span.pull-left: +formSelectInput('status', statusOptions, assessment.status)
+          button(type='submit').btn.btn-primary Submit
+          button(type="button", data-dismiss="modal").btn.btn-danger Cancel

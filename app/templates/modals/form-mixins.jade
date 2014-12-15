@@ -1,11 +1,70 @@
-﻿mixin formEnglishLeveler(levels, selected)
-  select(name='english.level', id='english.level').form-control
+﻿//- one level box: used by hard, soft, and english levelers 
+mixin formLevelBox(title, label, kind, description, color)
+  a(
+    href="#"
+    role="button"
+    class="#{kind}"
+    style="background-color:#{color}"
+    data-container="body"
+    data-toggle="popover" 
+    data-trigger="focus"
+    data-placement="right"
+    data-content="#{description}"
+    data-original-title=""
+    tabindex="-1" 
+    title="#{title}").btn.btn-sm= label
+
+
+//- a mixin to display english levels as select input
+mixin formEnglishLeveler(inputName, levels, selected)
+  select(name='#{inputName}', id='#{inputName}').form-control
     each level in levels
       - var text = level.grade + ' - ' + level.title
       if level.id == selected
         option(value="#{level.id}",selected)= text
       else
         option(value="#{level.id}")= text
+
+
+//- form mixin for hard skill leveler with inputs for current 
+mixin formHardLeveler(skill, target, current)
+  - current = current === undefined ? 0 : current 
+  .row
+    .col-sm-6
+      h5= skill.title
+    .col-sm-4: .bs-component: .btn-group.btn-group-justified
+      for i in [1, 2, 3, 4, 5, 6, 7]
+        if (i == target && i == current)
+          - var kind = "btn-success"
+        else if (i == target)
+          - var kind = "btn-danger"
+        else if (i == current)
+          - var kind = "btn-info"
+        else
+          - var kind = "btn-default"
+        if (i < skill.levels.min || i > skill.levels.max)
+          - var kind = kind + " disabled"
+        +formLevelBox(skill.title, i, kind, skill.levels.descriptions[i - skill.levels.min])
+    .col-sm-2: input(type="text", name="professional.currentLevels", value="#{current}", required).form-control.input-sm
+
+//- form mixin for soft skill leveler with inputs for current 
+mixin formSoftLeveler(skill, target, current)
+  - current = current === undefined ? 0 : current 
+  .row
+    .col-sm-6
+      h5= skill.title
+    .col-sm-4: .bs-component: .btn-group.btn-group-justified
+      for i in [1, 2, 3, 4, 5]
+        if (i == target && i == current)
+          - var kind = "btn-success"
+        else if (i == target)
+          - var kind = "btn-warning"
+        else if (i == current)
+          - var kind = "btn-info"
+        else
+          - var kind = "btn-default"
+        +formLevelBox(skill.title, i, kind, skill.levelDescriptions[i])
+    .col-sm-2: input(type="text", name="behavioral.currentLevels", value="#{current}", required).form-control.input-sm
 
 //- A mixin to generate multiple text inputs for a TextArray Field
 mixin formMultiText(field, items)
@@ -19,7 +78,7 @@ mixin formMultiText(field, items)
 
 //- A mixin to select/options for a Select Field
 mixin formSelectInput(field, items, selected)
-  select(name='#{field}', id='#{field}').form-control
+  select(name='#{field}', id='#{field}').form-control.input-sm
     each item in items
       if item == selected
         option(value="#{item}", selected)= item
