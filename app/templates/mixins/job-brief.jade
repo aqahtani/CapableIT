@@ -1,5 +1,5 @@
 ﻿mixin jobBrief(job)
   //-span.qrcode.thumbnail!= job.qrCode
-  span.text-primary: a(href='/job/' + job.id)= job.title
+  span.text-info= job.title
   span &nbsp;
-  span.text-muted= job.altTitle
+  span.text-muted.pull-right= job.altTitle

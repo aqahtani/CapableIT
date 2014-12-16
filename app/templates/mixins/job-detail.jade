@@ -14,6 +14,10 @@ mixin jobDetail(job)
     .col-sm-4
       if job.reportsTo
         h4: a(href='/job/' + job.reportsTo.id)= job.reportsTo.title
+    .col-md-2: +fieldLabel("English Level")
+    .col-md-4: h4
+      if job.english.level
+        +englishLeveler(job.english.level, null)
   .row
     .col-sm-2: +fieldLabel("Department")
     .col-sm-4

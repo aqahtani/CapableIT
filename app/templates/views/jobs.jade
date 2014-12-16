@@ -16,14 +16,15 @@ block content
     .row
       .col-sm-8
         //- show jobs
-        if data.jobs
+        if jobs.results.length
           section
-            +showing(data.jobs, 'job')
+            +showing(jobs, 'job')
+
             ul.list-group
-              each job in data.jobs.results
-                li.list-group-item
+              each job in jobs.results
+                a(href='/job/' + job.id).list-group-item
                   +jobBrief(job)
           
-            +pages(data.jobs)
+            +pages(jobs)
         else
           h3.text-muted There are no jobs yet.

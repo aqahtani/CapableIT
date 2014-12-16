@@ -1,28 +1,19 @@
 extends ../layouts/default
 include ../mixins/employee-brief
 include ../mixins/paging
-          
-//-block intro
-  .container
-    header
-      if !data.organization
-        h2 Invalid Organization.
-      else
-        h2= data.organization.title
-    hr
 
 block content
   .container
     .row
       .col-sm-12
         //- show employees
-        if data.employees
+        if employees.results.length
           section
-            +showing(data.employees, 'employee')
+            +showing(employees, 'employee')
             .row
-              each employee in data.employees.results
+              each employee in employees.results
                 .col-xm-9.col-md-3
-                  +employeeBrief(employee)
-            +pages(data.employees)
+                  +employeePanel(employee)
+            +pages(employees)
         else
           h3.text-muted There are no employees yet.

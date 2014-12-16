@@ -23,9 +23,9 @@ Employee.add({
 }, 'Organization', {
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true, index: true },
     job: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }, initial: true },
-    orgDepartment: { type: Types.Relationship, ref: 'OrgDepartment', filters: { organization: ':organization' }, noedit: true  },
-    orgFunction: { type: Types.Relationship, ref: 'OrgFunction', filters: { organization: ':organization' }, noedit: true  },
-    manager: { type: Types.Relationship, ref: 'Employee', filters: { organization: ':organization' }, index: true, noedit: true }
+    orgDepartment: { type: Types.Relationship, ref: 'OrgDepartment', filters: { organization: ':organization' } },
+    orgFunction: { type: Types.Relationship, ref: 'OrgFunction', filters: { organization: ':organization' } },
+    manager: { type: Types.Relationship, ref: 'Employee', filters: { organization: ':organization' }, index: true}
 }, 'Education and Certification', {
     english: {
         level: { type: Types.Relationship, ref: 'EnglishLevel' },

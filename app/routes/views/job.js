@@ -11,30 +11,14 @@ exports = module.exports = function(req, res) {
     locals.filters = {
 		job: req.params.job
 	};
-    locals.data = {
-        job: {}
-    };
-	
-	// Load the current job
-	view.on('init', function(next) {
-		
-		var q = keystone.list('Job').model.findOne()
+    
+    // query current job
+    view.query('job', keystone.list('Job').model.findOne()
             .where(locals.orgFilter)//always apply tenant filter first
-            .where({ _id: locals.filters.job })
-            .populate('organization reportsTo orgDepartment orgFunction jobTasks professional.skills behavioral.skills');
-		
-        q.exec(function (err, result) {
-            if (!err && !result) { // no error and no results?!
-                // apparantly, user and org do not match 
-                req.flash('error', 'Cannot access this job!');
-            }
-			locals.data.job = result;
-			next(err);
-		});
-		
-	});
+            .where({ '_id': locals.filters.job })
+            .populate('organization reportsTo orgDepartment orgFunction jobTasks english.level professional.skills behavioral.skills')
+    );
 	
 	// Render the view
 	view.render('job');
-	
 };

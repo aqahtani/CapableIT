@@ -16,11 +16,13 @@ mixin formLevelBox(title, label, kind, description, color)
 
 
 //- a mixin to display english levels as select input
+//- levels is an array of english level objects
+//- selected is an english level object
 mixin formEnglishLeveler(inputName, levels, selected)
   select(name='#{inputName}', id='#{inputName}').form-control
     each level in levels
       - var text = level.grade + ' - ' + level.title
-      if level.id == selected
+      if (selected && level.id == selected.id)
         option(value="#{level.id}",selected)= text
       else
         option(value="#{level.id}")= text

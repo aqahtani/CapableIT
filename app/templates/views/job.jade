@@ -5,7 +5,7 @@ block content
   .container
     .row: .col-sm-12
       article
-        if !data.job
+        if !job
           h2 Invalid Job.
         else
-          +jobDetail(data.job)
+          +jobDetail(job)

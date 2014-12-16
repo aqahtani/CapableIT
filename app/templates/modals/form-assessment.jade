@@ -44,8 +44,7 @@ mixin modalAssessment(modalId, assessment, englishLevels)
               h4 English Skill Assessment
             #englishPanel.panel-body.collapse
               .form-group.form-group-sm(class=validationErrors['english.currentLevel'] ? 'has-error' : null)
-                - var current = assessment.english.currentLevel ? assessment.english.currentLevel.id : '';
-                +formEnglishLeveler('english.currentLevel', englishLevels, current)
+                +formEnglishLeveler('english.currentLevel', englishLevels, assessment.english.currentLevel)
 
           //- 4: Hard Skill Assessment 
           .panel.panel-danger

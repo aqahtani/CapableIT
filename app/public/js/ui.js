@@ -27,7 +27,7 @@
         var jobId = modal.find('.modal-body input[name="jobId"]').val();
         
         // initiate post with employee and job data
-        $.post("/assess/new", {
+        $.post("/api/assess/new", {
             "employee": employeeId, 
             "job": jobId
         })

@@ -31,7 +31,7 @@ keystone.pre('render', middleware.flashMessages);
 var routes = {
     views: importRoutes('./views'),
     userViews: importRoutes('./user'),
-    createViews: importRoutes('./create'),
+    api: importRoutes('./api'),
 };
 
 // Setup Route Bindings
@@ -59,10 +59,12 @@ exports = module.exports = function(app) {
     
     // Assessment Routes
     app.get('/assess', middleware.requireUser, routes.views.assess);
-    app.post('/assess/new', middleware.requireUser, routes.createViews.assess);
     app.get('/assessment/:assessment', middleware.requireUser, middleware.authorizeUser('view'), routes.views.assessment);
     app.post('/assessment/:assessment', middleware.requireUser, middleware.authorizeUser('edit'), routes.views.assessment); 
     app.get('/assessments', middleware.requireUser, routes.views.assessments);
+    
+    // API: new assessment
+    app.post('/api/assess/new', middleware.requireUser, routes.api.assess);
     
     // User routes: registration and authentication 
     app.all('/join', routes.userViews.join);

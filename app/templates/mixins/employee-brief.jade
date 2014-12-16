@@ -1,4 +1,4 @@
-﻿mixin employeeBrief(employee)
+﻿mixin employeePanel(employee)
   .panel.panel-default( data-ks-editable=editable(user, { list: 'Employee', id: employee.id }) )
     .panel-heading.text-center
         //-span.thumbnail.qrcode!= employee.qrCode
@@ -10,3 +10,8 @@
     .panel-body 
       p.text-primary: a(href='/employee/' + employee.id)= employee.name.full
       p.text-muted= employee.arName
+
+mixin employeeBrief(employee)
+  span.text-info= employee.name.full
+  span &nbsp;
+  span.text-muted.pull-right= employee.arName

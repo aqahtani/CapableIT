@@ -1,16 +1,17 @@
 extends ../layouts/default
 include ../mixins/employee-detail
 include ../modals/form-employee
+include ../mixins/assessment-brief
 
 block content
   //- embed the employee form modal
-  if data.employee
-    +modalEmployee('formEmployeeModal')
+  if employee
+    +modalEmployee('formEmployeeModal', employee, englishLevels, eduLevelOptions, engTestOptions)
   //- display the employee
   .container
     .row: .col-sm-12
       article
-        if !data.employee
+        if !employee
           h2 no employee information.
         else
           h2 Employee Profile
@@ -18,15 +19,12 @@ block content
             if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
               button(type="button", data-toggle="modal", data-target="#formEmployeeModal").btn.btn-primary.pull-right Edit
           hr
-          +employeeDetail(data.employee)
+          +employeeDetail(employee)
           hr
           h3 Assessments
-          if data.assessments.length
+          if assessments
             .list-group
-              each assessment in data.assessments
-                a.list-group-item(href='/assessment/' + assessment.id )
-                  | #{assessment._.createdAt.format('DD/MM/YYYY - HH:mm')}
-                  | by
-                  | #{assessment.doneBy.name.full}
+              each assessment in assessments
+                +assessmentBrief(assessment)
           else
             p No assessments found for this employee

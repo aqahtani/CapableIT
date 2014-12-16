@@ -57,7 +57,7 @@
     <Compile Include="public\js\lib\select2-3.5.2\select2.min.js" />
     <Compile Include="public\js\lib\select2-3.5.2\select2_locale_ar.js" />
     <Compile Include="public\js\ui.js" />
-    <Compile Include="routes\create\assess.js" />
+    <Compile Include="routes\api\assess.js" />
     <Compile Include="routes\emails.js" />
     <Compile Include="routes\index.js" />
     <Compile Include="routes\lang.js" />
@@ -93,12 +93,10 @@
     <Content Include="public\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="public\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="public\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="public\images\cit_logo.svg" />
     <Content Include="public\images\employee.png" />
+    <Content Include="public\images\kpcit_200.png" />
+    <Content Include="public\images\kpcit_400.png" />
     <Content Include="public\images\kplogo_32.png" />
-    <Content Include="public\images\kplogo_50.png" />
-    <Content Include="public\images\kp_logo_email.png" />
-    <Content Include="public\images\kp_logo_long.png" />
     <Content Include="public\images\logo.svg" />
     <Content Include="public\js\lib\select2-3.5.2\select2-spinner.gif" />
     <Content Include="public\js\lib\select2-3.5.2\select2.png" />
@@ -339,7 +337,7 @@
     <Folder Include="public\styles\bootstrap\mixins\" />
     <Folder Include="public\styles\site\" />
     <Folder Include="routes" />
-    <Folder Include="routes\create\" />
+    <Folder Include="routes\api\" />
     <Folder Include="routes\user\" />
     <Folder Include="routes\views" />
     <Folder Include="templates" />

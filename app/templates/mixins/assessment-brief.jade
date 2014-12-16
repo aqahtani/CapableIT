@@ -1,1 +1,19 @@
-﻿
+﻿mixin assessmentBrief(assessment)
+  //- set the color of the assessment based on the status 
+  case assessment.status
+    when 'draft'
+      - var kind = 'list-group-item-warning'
+    when 'final'
+      - var kind = 'list-group-item-success'
+    when 'archived'
+      - var kind = 'list-group-item-danger'
+    default
+      - var kind = ''
+
+  a.list-group-item(href='/assessment/' + assessment.id, class=kind)
+    span= assessment.employee.name.full
+    strong  as  
+    span= assessment.job.title
+    strong  on  
+    span= assessment._.createdAt.format('DD/MM/YYYY - HH:mm')
+    .badge= assessment.status

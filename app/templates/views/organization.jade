@@ -1,20 +1,19 @@
 extends ../layouts/default
+include ../mixins/job-brief
+include ../mixins/employee-brief
           
 block intro
   .container
     header
-      if !data.organization
+      if !organization
         h2 Invalid Organization.
       else
-        h2= data.organization.title
+        h2= organization.title
+        //- show organization info
     hr
 
 block content
   .container
-    .row
-      .col-sm-12
-        //- show organization info
-
     .row
       .col-sm-6
         //- show jobs
@@ -23,9 +22,7 @@ block content
             .list-group
               each job in jobs
                 a(href='/job/' + job.id).list-group-item
-                  span.text-primary= job.title
-                  span &nbsp;
-                  span.text-muted= job.altTitle
+                  +jobBrief(job)
             a(href="/jobs").btn.btn-default.pull-right more jobs
         else
           h3.text-muted There are no jobs yet.
@@ -37,7 +34,5 @@ block content
             .list-group
               each employee in employees
                 a(href='/employee/' + employee.id).list-group-item
-                  span.text-primary= employee.name.full
-                  span &nbsp;
-                  span.text-muted= employee.arName
+                  +employeeBrief(employee)
             a(href="/employees").btn.btn-default.pull-right more employees

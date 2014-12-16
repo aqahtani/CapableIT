@@ -70,7 +70,7 @@ keystone.set('routes', require('./routes'));
 // default email templates, you may remove them if you're using your own.
 
 keystone.set('email locals', {
-    logo_src: '/images/kp_logo_email.png',
+    logo_src: '/images/kpcit_200.png',
     logo_width: 150,
     logo_height: 45,
     theme: {
