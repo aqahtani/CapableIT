@@ -58,7 +58,6 @@ exports = module.exports = function(app) {
     app.post('/employee/:employee', middleware.requireUser, middleware.authorizeUser('edit'), routes.views.employee);
     
     // Assessment Routes
-    app.get('/assess', middleware.requireUser, routes.views.assess);
     app.get('/assessment/:assessment', middleware.requireUser, middleware.authorizeUser('view'), routes.views.assessment);
     app.post('/assessment/:assessment', middleware.requireUser, middleware.authorizeUser('edit'), routes.views.assessment); 
     app.get('/assessments', middleware.requireUser, routes.views.assessments);

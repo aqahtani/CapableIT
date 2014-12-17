@@ -64,7 +64,6 @@
     <Compile Include="routes\middleware.js" />
     <Compile Include="routes\user\logout.js" />
     <Compile Include="routes\user\login.js" />
-    <Compile Include="routes\views\assess.js" />
     <Compile Include="routes\views\assessments.js" />
     <Compile Include="routes\views\assessment.js" />
     <Compile Include="routes\views\employees.js" />
@@ -293,11 +292,12 @@
     <Content Include="templates\mixins\job-brief.jade" />
     <Content Include="templates\mixins\paging.jade" />
     <Content Include="templates\modals\form-assessment.jade" />
+    <Content Include="templates\modals\business-card.jade" />
     <Content Include="templates\modals\form-mixins.jade" />
     <Content Include="templates\views\assessments.jade" />
     <Content Include="templates\views\blog.jade" />
     <Content Include="templates\views\contact.jade" />
-    <Content Include="templates\views\assess.jade" />
+    <Content Include="templates\mixins\assessment-new.jade" />
     <Content Include="templates\views\gallery.jade" />
     <Content Include="templates\views\home.jade" />
     <Content Include="templates\views\assessment.jade" />

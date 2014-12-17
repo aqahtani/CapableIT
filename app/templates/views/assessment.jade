@@ -5,7 +5,7 @@ include ../modals/form-assessment
 block content
   //- embed the assessment form modal
   if assessment
-    +modalAssessment('formAssessmentModal', assessment, englishLevels)
+    +modalAssessment('formAssessmentModal', assessment, englishlevels)
   //- display the assessment
   .container
     .row: .col-sm-12
@@ -19,4 +19,4 @@ block content
             if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
               button(type="button", data-toggle="modal", data-target="#formAssessmentModal").btn.btn-primary.pull-right Edit
           hr
-          +assessmentDetail(assessment)
+          +assessmentDetail(assessment, englishlevels, hardlevels, softlevels)

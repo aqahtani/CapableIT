@@ -1,12 +1,14 @@
 extends ../layouts/default
 include ../mixins/employee-detail
 include ../modals/form-employee
+include ../modals/business-card
 include ../mixins/assessment-brief
 
 block content
   //- embed the employee form modal
   if employee
     +modalEmployee('formEmployeeModal', employee, englishLevels, eduLevelOptions, engTestOptions)
+    +modalBusinessCard('bcardModal', employee)
   //- display the employee
   .container
     .row: .col-sm-12
@@ -14,7 +16,10 @@ block content
         if !employee
           h2 no employee information.
         else
-          h2 Employee Profile
+          h2 Employee Profile 
+            //- button to trigger business card modal 
+            //-button(type="button", data-toggle="modal", data-target="#bcardModal").btn.btn-info.pull-right Business Card
+            small: a(href="#", data-toggle="modal", data-target="#bcardModal"): span.glyphicon.glyphicon-paperclip
             //- button to trigger edit modal only on 'edit' permission
             if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
               button(type="button", data-toggle="modal", data-target="#formEmployeeModal").btn.btn-primary.pull-right Edit

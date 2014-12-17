@@ -1,20 +1,56 @@
 extends ../layouts/default
 include ../mixins/paging
 include ../mixins/assessment-brief
+include ../mixins/assessment-new
 
 block content
+  +modalNewAssessment
   .container
     .row: .col-sm-12
       section
-        if !assessments.results.length
+        if !assessments
           h2 you didn't assess anyone.
         else
           h2 You have assessed the following employees
           hr
-          +showing(assessments, 'assessment')
-
           .list-group
-            each assessment in assessments.results
+            each assessment in assessments
               +assessmentBrief(assessment)
+    
+    hr
+    h2 Create A New Assessment
+    .row
+      .col-sm-6
+        section
+          .panel.panel-default
+            .panel-heading: h3 Assess Yourself and Team
+            .panel-body
+              if !employee
+                p no employee information.
+              else
+                span #{employee.name.full}  
+                +assessBtn(employee, employee.job)
+              hr
+              if directReports.length
+                h4 direct reports
+                ul.list-group
+                  each emp in directReports
+                    li.list-group-item
+                      span #{emp.name.full}  
+                      span: +assessBtn(emp, emp.job)
+              else
+                h4 no direct reports
 
-          +pages(assessments)
+      .col-sm-6
+        if employees.results.length
+          section
+            .panel.panel-default
+              .panel-heading: h3 Assess an Employee
+              .panel-body          
+                +showing(employees, 'employee')
+              ul.list-group
+                each emp in employees.results
+                  li.list-group-item
+                    span #{emp.name.full}  
+                    span: +assessBtn(emp, emp.job)
+              +pages(employees)

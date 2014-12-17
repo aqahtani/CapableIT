@@ -18,15 +18,17 @@ exports = module.exports = function(req, res) {
     // initialize edit/post variables
     locals.validationErrors = {};
     
-    // query current assessment 
+    // 1: query current assessment 
     view.query('assessment', Assessment.model.findOne()
             .where(locals.orgFilter)//always apply tenant filter first
             .where({ '_id': locals.filters.assessment })
             .populate('organization employee doneBy job english.targetLevel english.currentLevel professional.skills behavioral.skills')
     );
     
-    // query all english levels
-    view.query('englishLevels', keystone.list('EnglishLevel').model.find());
+    // 2: get skill levels and labels
+    view.query('hardlevels', keystone.list('HardLevel').model.find().sort('grade'));
+    view.query('softlevels', keystone.list('SoftLevel').model.find().sort('grade'));
+    view.query('englishlevels', keystone.list('EnglishLevel').model.find().sort('grade'));
     
     // Updating assessment
     view.on('post', { action: 'update' }, function (next) {

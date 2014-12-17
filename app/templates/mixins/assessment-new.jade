@@ -1,0 +1,34 @@
+﻿mixin assessBtn(employee, job)
+  if employee && job
+    a(
+      href='#'
+      data-toggle='modal', 
+      data-target='#assessModal',
+      data-employee-name="#{employee.name.full}",
+      data-employee-id="#{employee.id}",
+      data-job-title="#{job.title}",
+      data-job-id="#{job.id}"): span.glyphicon.glyphicon-list-alt.glyphicon-lg 
+
+mixin modalNewAssessment()
+  #assessModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='assessModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal')
+            span(aria-hidden='true') &times;
+            span.sr-only Close
+          h4#assessModalLabel.modal-title New Assessment
+        .modal-body
+          #dataMessage.alert.hidden
+          dl.dl-horizontal
+            dt Employee
+            dd#employeeName
+            dt Job
+            dd#jobTitle 
+          form.form-horizontal
+            input#employeeId(type="hidden", name="employeeId")
+            input#jobId(type="hidden", name="jobId")
+        .modal-footer
+          button.btn.btn-danger(type='button', data-dismiss="modal") Close
+          button#create-assessment.btn.btn-primary(type='button') Create Assessment
+          a#view-assessment.btn.btn-success.hidden(href="#") Goto Assessment

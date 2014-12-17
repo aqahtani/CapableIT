@@ -12,12 +12,17 @@ exports = module.exports = function(req, res) {
 		job: req.params.job
 	};
     
-    // query current job
+    // 1: query current job
     view.query('job', keystone.list('Job').model.findOne()
             .where(locals.orgFilter)//always apply tenant filter first
             .where({ '_id': locals.filters.job })
             .populate('organization reportsTo orgDepartment orgFunction jobTasks english.level professional.skills behavioral.skills')
     );
+    
+    // 2: get skill levels and definitions
+    view.query('hardlevels', keystone.list('HardLevel').model.find().sort('grade'));
+    view.query('softlevels', keystone.list('SoftLevel').model.find().sort('grade'));
+    view.query('englishlevels', keystone.list('EnglishLevel').model.find().sort('grade'));
 	
 	// Render the view
 	view.render('job');

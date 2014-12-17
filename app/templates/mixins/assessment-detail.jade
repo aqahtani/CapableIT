@@ -1,7 +1,7 @@
 ﻿include commons
 
 //- Assessment in Details
-mixin assessmentDetail(assessment)
+mixin assessmentDetail(assessment, englishlevels, hardlevels, softlevels)
   .row
     .col-sm-2: +fieldLabel("Assessment For")
     .col-sm-4
@@ -51,6 +51,7 @@ mixin assessmentDetail(assessment)
         .panel-heading
           h4 Professional Skills
         .panel-body
+          .well.well-sm: +levellabels(hardlevels,'label-danger')
           for hardSkill, index in assessment.professional.skills
             +hardLeveler(hardSkill, assessment.professional.targetLevels[index], assessment.professional.currentLevels[index])
     .col-sm-6
@@ -58,5 +59,6 @@ mixin assessmentDetail(assessment)
         .panel-heading
           h4 Behavioral Skills
         .panel-body
+          .well.well-sm: +levellabels(softlevels,'label-warning')
           for softSkill, index in assessment.behavioral.skills
             +softLeveler(softSkill, assessment.behavioral.targetLevels[index], assessment.behavioral.currentLevels[index])

@@ -8,8 +8,16 @@ block intro
       if !organization
         h2 Invalid Organization.
       else
-        h2= organization.title
         //- show organization info
+        .row
+          .col-xs-10
+            h2= organization.title
+            h3.text-muted= organization.altTitle
+            h3.text-muted: a(href="//#{organization.url}",target="_blank") #{organization.url}
+          .col-xs-2
+            .img-thumbnail
+              if organization.logo.exists
+                img(src=organization._.logo.fit(150,150))         
     hr
 
 block content
@@ -18,7 +26,8 @@ block content
       .col-sm-6
         //- show jobs
         if jobs
-          section
+          .panel.panel-default
+            .panel-heading: h3 Jobs
             .list-group
               each job in jobs
                 a(href='/job/' + job.id).list-group-item
@@ -30,7 +39,8 @@ block content
       .col-sm-6
         //- show employees
         if employees
-          section
+          .panel.panel-default
+            .panel-heading: h3 Employees
             .list-group
               each employee in employees
                 a(href='/employee/' + employee.id).list-group-item

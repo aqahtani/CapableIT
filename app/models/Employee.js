@@ -19,7 +19,8 @@ Employee.add({
     arName: { type: Types.Text, initial: true, label: 'Arabic Name', index: true, unique: true },
     empId: { type: Types.Text, initial: true, required: true, index: true, unique: true, label: 'Employee ID' },
     email: { type: Types.Email, initial: true, required: true, index: true, unique: true },	
-    telephone: { type: Types.Text }
+    telephone: { type: Types.Text },
+    mobile: { type: Types.Text }
 }, 'Organization', {
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true, index: true },
     job: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }, initial: true },

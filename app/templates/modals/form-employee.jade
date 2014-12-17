@@ -35,6 +35,10 @@ mixin modalEmployee(modalId, employee, englishLevels, eduLevelOptions, engTestOp
               .form-group.form-group-sm(class=validationErrors.telephone ? 'has-error' : null)
                 label(for='telephone').col-sm-4.control-label  Telephone
                 .col-sm-8: input(type='text', name='telephone', id='telephone', value=employee.telephone).form-control
+            .col-sm-6
+              .form-group.form-group-sm(class=validationErrors.mobile ? 'has-error' : null)
+                label(for='mobile').col-sm-4.control-label  Mobile
+                .col-sm-8: input(type='text', name='mobile', id='mobile', value=employee.mobile).form-control
           .row
             .col-sm-12
               .form-group(class=validationErrors.bio ? 'has-error' : null)

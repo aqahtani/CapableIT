@@ -15,17 +15,12 @@ mixin employeeDetail(employee)
         .col-md-4: h4= employee.name.full
         .col-md-6: h4= employee.arName
       .row
-        .col-md-2: +fieldLabel("Employee ID")
-        .col-md-4: h4= employee.empId
-        .col-md-2: +fieldLabel("Telephone")
-        .col-md-4: h4= employee.telephone
-      .row
         .col-md-2: +fieldLabel("Job Title")
         .col-md-4
           if employee.job
             h4: a(href='/job/' + employee.job.id)= employee.job.title
-        .col-md-2: +fieldLabel("Email")
-        .col-md-4: h4= employee.email
+        .col-md-2: +fieldLabel("Employee ID")
+        .col-md-4: h4= employee.empId
       .row
         .col-md-2: +fieldLabel("Department")
         .col-md-4
@@ -35,11 +30,21 @@ mixin employeeDetail(employee)
         .col-md-4
           if employee.orgFunction
             h4= employee.orgFunction.name
+      hr
+      .row
+        .col-md-2: +fieldLabel("Mobile")
+        .col-md-4: h4= employee.mobile
+        .col-md-2: +fieldLabel("Telephone")
+        .col-md-4: h4= employee.telephone
+      .row
+        .col-md-2: +fieldLabel("Email")
+        .col-md-4: h4= employee.email   
       .row
         .col-md-2: +fieldLabel("Birth Date")
         .col-md-4: h4= employee._.birthDate.format('MMMM Do, YYYY')
         .col-md-2: +fieldLabel("Formal Title")
         .col-md-4: h4= employee.formalTitle
+  
   //- output bio if exists
   if employee.bio
     hr

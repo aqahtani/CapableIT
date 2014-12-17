@@ -1,5 +1,5 @@
 ﻿mixin fieldLabel(lbl)
-  h4: .label.label-default= lbl 
+  h4: .field-label.label.label-default= lbl 
 
 //- one level box: used by hard, soft, and english levelers 
 mixin levelBox(title, label, kind, description, color)
@@ -79,3 +79,6 @@ mixin englishLeveler(target, current)
       else
           +levelBox("", i, "btn-default disabled", "")
 
+mixin levellabels(levels,kind)
+  for level in levels
+    .label(class=kind, style="display: inline-block;") #{level.grade}. #{level.title}

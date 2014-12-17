@@ -47,7 +47,7 @@ mixin formHardLeveler(skill, target, current)
         if (i < skill.levels.min || i > skill.levels.max)
           - var kind = kind + " disabled"
         +formLevelBox(skill.title, i, kind, skill.levels.descriptions[i - skill.levels.min])
-    .col-sm-2: input(type="text", name="professional.currentLevels", value="#{current}", required).form-control.input-sm
+    .col-sm-2: input(type="number", step="1", min="1", max="7", name="professional.currentLevels", value="#{current}", required).form-control.input-sm
 
 //- form mixin for soft skill leveler with inputs for current 
 mixin formSoftLeveler(skill, target, current)
@@ -66,7 +66,7 @@ mixin formSoftLeveler(skill, target, current)
         else
           - var kind = "btn-default"
         +formLevelBox(skill.title, i, kind, skill.levelDescriptions[i])
-    .col-sm-2: input(type="text", name="behavioral.currentLevels", value="#{current}", required).form-control.input-sm
+    .col-sm-2: input(type="number", step="1", min="1", max="5", name="behavioral.currentLevels", value="#{current}", required).form-control.input-sm
 
 //- A mixin to generate multiple text inputs for a TextArray Field
 mixin formMultiText(field, items)

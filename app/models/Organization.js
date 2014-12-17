@@ -16,6 +16,7 @@ Organization.add({
     name: { type: String, initial: true, required: true, match: /^[a-zA-Z0-9]*$/, uppercase: true, unique: true },
     createdAt: { type: Date, initial: true, default: Date.now },
     title: { type: String, required: true, initial: true },
+    altTitle: { type: String, initial: true },
     logo: { type: Types.CloudinaryImage, autoCleanup : true },
     url: { type: Types.Url, initial: true },
 }, 'Address', {
@@ -23,7 +24,7 @@ Organization.add({
     location: { type: Types.Location }
 });
 
-Organization.defaultColumns = 'name, slug, createdAt, title, url';
+Organization.defaultColumns = 'name, createdAt, title, altTitle, url';
 
 Organization.relationship({ path: 'users', ref: 'User', refPath: 'organization' });
 Organization.relationship({ path: 'employees', ref: 'Employee', refPath: 'organization' });

@@ -1,7 +1,7 @@
 ﻿include commons
 
 //- Job Description in Details
-mixin jobDetail(job)
+mixin jobDetail(job, englishlevels, hardlevels, softlevels)
   h2 JOB DESCRIPTION
   hr
   .row
@@ -67,6 +67,7 @@ mixin jobDetail(job)
         .panel-heading
           h4 Professional Skills
         .panel-body
+          .well.well-sm: +levellabels(hardlevels,'label-danger')
           for hardSkill, index in job.professional.skills
             +hardLeveler(hardSkill, job.professional.levels[index])
     .col-sm-6
@@ -74,5 +75,6 @@ mixin jobDetail(job)
         .panel-heading
           h4 Behavioral Skills
         .panel-body
+          .well.well-sm: +levellabels(softlevels,'label-warning')
           for softSkill, index in job.behavioral.skills
             +softLeveler(softSkill, job.behavioral.levels[index])

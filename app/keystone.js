@@ -71,8 +71,8 @@ keystone.set('routes', require('./routes'));
 
 keystone.set('email locals', {
     logo_src: '/images/kpcit_200.png',
-    logo_width: 150,
-    logo_height: 45,
+    logo_width: 200,
+    logo_height: 35,
     theme: {
         email_bg: '#F9F9F9',
         link_color: '#EE7700',
