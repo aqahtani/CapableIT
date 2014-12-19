@@ -18,7 +18,7 @@ Employee.add({
     name: { type: Types.Name, initial: true, required: true, index: true, unique: true },
     arName: { type: Types.Text, initial: true, label: 'Arabic Name', index: true, unique: true },
     empId: { type: Types.Text, initial: true, required: true, index: true, unique: true, label: 'Employee ID' },
-    email: { type: Types.Email, initial: true, required: true, index: true, unique: true },	
+    email: { type: Types.Email, initial: true, required: true, index: true, unique: true, lowercase: true },	
     telephone: { type: Types.Text },
     mobile: { type: Types.Text }
 }, 'Organization', {
@@ -93,7 +93,31 @@ Employee.schema.pre('save', function (next) {
     else next();
 });
 
-// assign user roles given as names: e.g. 'edit', 'view', ...
+// set/reset manager if job is changed
+Employee.schema.pre('save', function (next) {
+    var employee = this;
+    
+    if (this.isModified('manager') && this.manager) {
+        // we have a new job that is set
+        this.authorizeManager(this.manager, function (err, results) {
+            if (err) {
+                console.log("Error in authorizeManager(): %j", err);
+                return next(err);
+            }
+            if (!results.managerUser) {
+                console.log("Warning: authorizeManager() coudn't find manager's user for : %j", employee._id);
+                return next(err);
+            }
+            // manager authorized successfully
+            console.log("Successfully created an authorization for employee's manager: %j", results.managerAuthorization);
+            next();
+        });
+        
+    }
+    else next();
+});
+
+// set manager, department, and function of employee from his job
 Employee.schema.methods.setManager = function (job, done) {
     var employee = this;
     
@@ -157,6 +181,38 @@ Employee.schema.methods.setManager = function (job, done) {
         dept : ['job', setDeptFunction],
         manager: ['job', getManager],
         employee : ['manager', setManager]
+    }, done);
+};
+
+
+// give manager authorization to view profiles of his direct reports
+Employee.schema.methods.authorizeManager = function (manager, done) {
+    var employee = this;
+    
+    // otherwise, go and find the manager of the assigned job
+    var async = require("async");
+    
+    // get user from manager employee id 
+    // and simply pass the callback as is (no need to raise error on empty result)
+    var getManagerUser = function (callback) {
+        keystone.list('User').model.findByEmployee(employee.organization, employee.manager, callback);
+    };
+    
+    // authorizes the manager to this employee profile with view permissions 
+    var authorizeManager = function (callback, results) {
+        if (results.managerUser) {
+            keystone.list('UserAuthorization').model.authorize(
+                employee.organization,
+                results.managerUser._id,
+                '/employee/' + employee.id,
+                ['view'], callback);
+        }
+        else callback(null);
+    };
+    
+    async.auto({
+        managerUser: getManagerUser,
+        managerAuthorization: ['managerUser', authorizeManager]
     }, done);
 };
 

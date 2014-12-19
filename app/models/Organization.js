@@ -18,7 +18,7 @@ Organization.add({
     title: { type: String, required: true, initial: true },
     altTitle: { type: String, initial: true },
     logo: { type: Types.CloudinaryImage, autoCleanup : true },
-    url: { type: Types.Url, initial: true },
+    url: { type: Types.Url, initial: true, lowercase: true, index: true, unique: true },
 }, 'Address', {
     images: { type: Types.CloudinaryImages },
     location: { type: Types.Location }
