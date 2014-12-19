@@ -49,7 +49,7 @@ var RoleAuthorization = new keystone.List('RoleAuthorization', {
 
 RoleAuthorization.add({
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true, index: true },
-    resource: { type: Types.Text, required: true, initial: true },
+    resource: { type: Types.Text, required: true, initial: true, index: true },
     role: { type: Types.Relationship, ref: 'Role', required: true, initial: true },
     permissions: { type: Types.Relationship, ref: 'Permission', many: true, required: true, initial: true }
 });
@@ -73,7 +73,7 @@ var UserAuthorization = new keystone.List('UserAuthorization', {
 
 UserAuthorization.add({
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true, index: true },
-    resource: { type: Types.Text, required: true, initial: true },
+    resource: { type: Types.Text, required: true, initial: true, index: true },
     user: { type: Types.Relationship, ref: 'User', filters: { organization : ':organization' }, required: true, initial: true },
     permissions: { type: Types.Relationship, ref: 'Permission', many: true, required: true, initial: true }
 });

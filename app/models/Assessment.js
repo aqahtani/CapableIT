@@ -17,8 +17,8 @@ Assessment.add({
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true },
     createdAt: { type: Date, required: true, default: Date.now },
     status: { type: Types.Select, options: 'draft, final, archived', required: true, default: 'new', index: true },
-    employee: { type: Types.Relationship, ref: 'Employee', required: true, initial: true },
-    doneBy: { type: Types.Relationship, ref: 'Employee', required: true, initial: true },
+    employee: { type: Types.Relationship, ref: 'Employee', required: true, initial: true, index: true },
+    doneBy: { type: Types.Relationship, ref: 'Employee', required: true, initial: true, index: true },
     job: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }, required: true, initial: true }
 }, 'General Assessment', {
     overview: { type: Types.Textarea, height: 150 },
@@ -53,7 +53,6 @@ Assessment.schema.pre('save', function (next) {
     
     if (this.isNew) {
         var async = require("async");
-        
         // We don't actually execute the async action here
         // this one to get Job data
         var getJobSkills = function (callback) {
@@ -81,35 +80,57 @@ Assessment.schema.pre('save', function (next) {
             });
         };
         
-        var getUser = function (callback) {
-            keystone.list('User').model.findOne()
-            .where({
-                'organization': assessment.organization,
-                'employee': assessment.doneBy
-            }).select('id').exec(function (err, user) {
-                if (err) return callback(err, null);
-                if (!user) {
-                    var e = new Error('no user associated with creator of assessment');
-                    return callback(e, null);
-                }
-
-                callback(null, user);
+        // get user from assessor employee id
+        // return error if no user is found (although it should never happen!)
+        var getCreatorUser = function (callback) {
+            
+            keystone.list('User').model.findByEmployee(assessment.organization, assessment.doneBy, 
+                function (err, user) {
+                    if (err) return callback(err, null);
+                    if (!user) {
+                        var e = new Error('No user associated with creator of assessment');
+                        return callback(e, null);
+                    };
+                    callback(null, user);
             });
+        };
+        
+        // get user from assessed employee id 
+        // and simply pass the callback as is (no need to raise error on empty result)
+        var getAssessedUser = function (callback) {
+            keystone.list('User').model.findByEmployee(assessment.organization, assessment.employee, callback);
         };
 
         // assigns the creator full permissions 
         var authorizeCreator = function (callback, results) {
-            keystone.list('UserAuthorization').model.authorize(
-                assessment.organization,
-                results.user._id,
-                '/assessment/' + assessment.id,
-                ['*'], callback);
+            if (results.creatorUser) {
+                keystone.list('UserAuthorization').model.authorize(
+                    assessment.organization,
+                    results.creatorUser._id,
+                    '/assessment/' + assessment.id,
+                    ['*'], callback);
+            }
+            else callback(null);
+        };
+        
+        // assigns the assessed employee view permissions 
+        var authorizeAssessed = function (callback, results) {
+            if (results.assessedUser) {
+                keystone.list('UserAuthorization').model.authorize(
+                    assessment.organization,
+                    results.assessedUser._id,
+                    '/assessment/' + assessment.id,
+                    ['view'], callback);
+            }
+            else callback(null);
         };
 
         async.auto({
             skills : getJobSkills,
-            user: getUser, 
-            authorization: ['user', authorizeCreator]
+            creatorUser: getCreatorUser,
+            assessedUser: getAssessedUser, 
+            creatorAuthorization: ['creatorUser', authorizeCreator],
+            assessedAuthorization: ['assessedUser', authorizeAssessed]
         } , function (err, results) {
             // All tasks are done now and you have results as an object 
             // with the following { skills: { hard: ..., soft: ... } }

@@ -14,6 +14,8 @@
     span= assessment.employee.name.full
     strong  as  
     span= assessment.job.title
+    strong  by  
+    span= assessment.doneBy.name.full
     strong  on  
     span= assessment._.createdAt.format('DD/MM/YYYY - HH:mm')
     .badge= assessment.status

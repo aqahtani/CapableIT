@@ -18,8 +18,8 @@ User.add({
     email: { type: Types.Email, initial: true, required: true, index: { unique: true } },
     password: { type: Types.Password, initial: true, required: true },
 }, 'Organization', {
-    organization: { type: Types.Relationship, ref: 'Organization' },
-    employee: { type: Types.Relationship, ref: 'Employee', filters: { organization : ':organization' } }
+    organization: { type: Types.Relationship, ref: 'Organization', index: true },
+    employee: { type: Types.Relationship, ref: 'Employee', filters: { organization : ':organization' }, index: true }
 }, 'Verification', {
     isVerified: { type: Boolean, label: 'Email verified', index: true, default: false }
 }, 'Permissions', {
@@ -166,6 +166,18 @@ User.schema.methods.createAuthorizations = function (done) {
         authorization : ['permissions', authorizeUser]
     } , done);
 }
+
+/* Schema Static Method: findByEmployee()
+ * finds a user by his employee id
+ * @organization: organization id
+ * @employee: employee id
+ */ 
+User.schema.statics.findByEmployee = function (organization, employee, done) {
+    User.model.findOne()
+    .where('organization', organization)
+    .where('employee', employee)
+    .exec(done);
+};
 
 /**
  * Registration
