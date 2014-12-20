@@ -1,0 +1,13 @@
+extends ../layouts/default
+include ../mixins/commons
+
+block content
+  #top.container: .jumbotron
+    h2 Behavioral Skills
+    hr
+    h3.text-center: +levellabels(softlevels,'label-primary')
+    hr
+    .row
+      .col-sm-12
+        each skill in softskills
+          +softSkill(skill)        

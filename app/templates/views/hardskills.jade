@@ -1,0 +1,30 @@
+extends ../layouts/default
+include ../mixins/commons
+
+block intro
+  #top.container: .jumbotron
+    h2 Professional Skills
+    hr
+    h4.text-center: +levellabels(hardlevels,'label-primary')
+    hr
+    .list-group
+      each cat in hsCategories
+        +categoryButton(cat)
+
+block content
+  .container
+    .row
+      .col-sm-12
+        each group, i in _.groupBy(hardskills, function(skill){ return skill.category.title; })
+          - var category = _.findWhere(hsCategories, {'title': i});
+          +categoryLabel(category)
+          hr
+          each subgroup, j in _.groupBy(group, function(skill){ return skill.subCategory.title; })
+            - var subcategory = _.findWhere(hsSubCategories, {'title': j});
+            +subCategoryLabel(subcategory)
+            each skill in subgroup
+              //-p |_ #{skill.title}
+              +hardSkill(skill)
+            +topLink()
+            hr
+        

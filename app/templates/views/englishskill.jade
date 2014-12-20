@@ -1,0 +1,18 @@
+extends ../layouts/default
+include ../mixins/commons
+
+block content
+  #top.container: .jumbotron
+    h2 English Skill
+    hr
+    .row
+      .col-sm-12
+        .list-group
+          each level in englishlevels
+            .list-group-item.panel.panel-default
+                .panel-heading(style="border-style:none; color:white; background-color:#{level.color}")
+                  h4 #{level.category} | #{level.title}  
+                    .badge #{level.grade}
+                .panel-body
+                  h5= level.description
+                     

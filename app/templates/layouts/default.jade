@@ -70,9 +70,12 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
                   | #{t("nav.guide")} 
                   span.caret
                 ul.dropdown-menu(role="menu")
+                  li: a(href="/skills/english")= t('nav.englishskill')
+                  li: a(href="/skills/hard")= t('nav.hardskills')
+                  li: a(href="/skills/soft")= t('nav.softskills')
+                  li.divider
                   li: a(href="/blog")= t('nav.blog')
                   li: a(href="/gallery")= t('nav.gallery')
-                  li.divider
                   li: a(href="/contact")= t('nav.contact')
             ul.nav.navbar-nav.navbar-right
               if user

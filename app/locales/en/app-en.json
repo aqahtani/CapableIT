@@ -24,6 +24,9 @@
         "signin": "Sign In",
         "keystone": "Administration",
         "signup": "Join",
-        "version": "BETA"
+        "version": "BETA",
+        "englishskill": "English Skill",
+        "hardskills": "Professional Skills",
+        "softskills": "Behavioral Skills"
     }
 }

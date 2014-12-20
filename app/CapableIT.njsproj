@@ -67,6 +67,9 @@
     <Compile Include="routes\views\assessments.js" />
     <Compile Include="routes\views\assessment.js" />
     <Compile Include="routes\views\employees.js" />
+    <Compile Include="routes\views\englishskill.js" />
+    <Compile Include="routes\views\softskills.js" />
+    <Compile Include="routes\views\hardskills.js" />
     <Compile Include="routes\views\jobs.js" />
     <Compile Include="routes\views\job.js" />
     <Compile Include="routes\user\verify.js" />
@@ -299,9 +302,12 @@
     <Content Include="templates\views\contact.jade" />
     <Content Include="templates\mixins\assessment-new.jade" />
     <Content Include="templates\views\gallery.jade" />
+    <Content Include="templates\views\englishskill.jade" />
+    <Content Include="templates\views\softskills.jade" />
     <Content Include="templates\views\home.jade" />
     <Content Include="templates\views\assessment.jade" />
     <Content Include="templates\views\employees.jade" />
+    <Content Include="templates\views\hardskills.jade" />
     <Content Include="templates\views\jobs.jade" />
     <Content Include="templates\views\user\logout.jade" />
     <Content Include="templates\views\user\login.jade" />

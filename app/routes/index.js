@@ -43,6 +43,9 @@ exports = module.exports = function(app) {
     app.get('/blog/post/:post', routes.views.post);
     app.get('/gallery', routes.views.gallery);
     app.all('/contact', routes.views.contact);
+    app.get('/skills/english', routes.views.englishskill);
+    app.get('/skills/hard', routes.views.hardskills);
+    app.get('/skills/soft', routes.views.softskills);
 
     // GET routes/views (Authenticated)
     app.get('/organization', middleware.requireUser, routes.views.organization);

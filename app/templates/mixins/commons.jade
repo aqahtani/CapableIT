@@ -3,9 +3,10 @@
 
 //- one level box: used by hard, soft, and english levelers 
 mixin levelBox(title, label, kind, description, color)
+  //- var style = "background-color:#{color};border-style:none";
   .btn-group: button(
     class="#{kind}"
-    style="background-color:#{color}"
+    style="background-color:#{color}; border-style:none"
     data-container="body"
     data-toggle="popover" 
     data-trigger="focus"
@@ -66,7 +67,7 @@ mixin softLeveler(skill, target, current)
         else
           - var kind = "btn-default"
 
-        +levelBox(skill.title, i, kind, skill.levelDescriptions[i])
+        +levelBox(skill.title, i, kind, skill.levelDescriptions[i - 1])
 
 //- English Language Leveler
 mixin englishLeveler(target, current)
@@ -82,3 +83,41 @@ mixin englishLeveler(target, current)
 mixin levellabels(levels,kind)
   for level in levels
     .label(class=kind, style="display: inline-block;") #{level.grade}. #{level.title}
+
+//- Hard Skill Level: display a given skill with its levels
+//- this expects the skill to have category and subcategory populated
+mixin hardSkill(skill)
+  .row
+    .col-sm-7
+      h5= skill.title
+    .col-sm-5: .bs-component: .btn-group.btn-group-justified
+      for i in [1, 2, 3, 4, 5, 6, 7]
+        - var kind = "btn-default"
+        if (i < skill.levels.min || i > skill.levels.max)
+          - var kind = kind + " disabled"
+        +levelBox(skill.title, i, kind, skill.levels.descriptions[i - skill.levels.min], skill.category.color)
+
+//- Soft Skill Leveler
+mixin softSkill(skill)
+  .row
+    .col-sm-7
+      h4= skill.title
+    .col-sm-5: .bs-component: .btn-group.btn-group-justified
+      for i in [1, 2, 3, 4, 5]
+        - var kind = "btn-default"
+        +levelBox(skill.title, i, kind, skill.levelDescriptions[i - 1], skill.color)
+
+mixin categoryButton(category)
+  a.list-group-item(href="#" + category.slug, style="border-style:none; color:white; background-color:#{category.color}")
+    h4 #{category.title}
+
+mixin categoryLabel(category)
+  h2(id="#{category.slug}"): span.label(style="display:inline-block;background-color:#{category.color}")
+    | #{category.title}
+
+mixin subCategoryLabel(subcategory)
+  h3: span.label(style="display:inline-block;background-color:#{subcategory.category.color};opacity:0.5")
+    | #{subcategory.title}
+
+mixin topLink()
+  a.pull-right(href="#top"): span.glyphicon.glyphicon-chevron-up
