@@ -148,5 +148,5 @@ UserAuthorization.schema.statics.removeResource = function (organization, resour
  * Registration
  */
 
-UserAuthorization.defaultColumns = 'organization, resource, user, permissions';
+UserAuthorization.defaultColumns = 'organization|20%, resource|50%, user|20%, permissions|10%';
 UserAuthorization.register();

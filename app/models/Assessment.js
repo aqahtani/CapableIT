@@ -115,14 +115,16 @@ Assessment.schema.pre('save', function (next) {
         
         // assigns the assessed employee view permissions 
         var authorizeAssessed = function (callback, results) {
-            if (results.assessedUser) {
+            if (results.assessedUser && (results.assessedUser.id != results.creatorUser.id)) {
                 keystone.list('UserAuthorization').model.authorize(
                     assessment.organization,
                     results.assessedUser._id,
                     '/assessment/' + assessment.id,
                     ['view'], callback);
             }
-            else callback(null);
+            else {
+                callback(null);
+            }
         };
 
         async.auto({
@@ -130,7 +132,7 @@ Assessment.schema.pre('save', function (next) {
             creatorUser: getCreatorUser,
             assessedUser: getAssessedUser, 
             creatorAuthorization: ['creatorUser', authorizeCreator],
-            assessedAuthorization: ['assessedUser', authorizeAssessed]
+            assessedAuthorization: ['creatorUser', 'assessedUser', authorizeAssessed]
         } , function (err, results) {
             // All tasks are done now and you have results as an object 
             // with the following { skills: { hard: ..., soft: ... } }
