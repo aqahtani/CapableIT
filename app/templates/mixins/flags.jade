@@ -1,0 +1,41 @@
+﻿mixin flag-prime(prime)
+  span.bs-component
+    if prime
+      button(
+        type="button"
+        data-container="body"
+        data-toggle="popover" 
+        data-trigger="focus"
+        data-placement="bottom"
+        data-content="This is a prime assessment which is taken for skill gap analysis"
+        tabindex="0").btn.btn-info: span.glyphicon.glyphicon-plus 
+    else
+      button(
+        type="button"
+        data-container="body"
+        data-toggle="popover" 
+        data-trigger="focus"
+        data-placement="bottom"
+        data-content="This is not a prime assessment which means it won't be taken for skill gap analysis"
+        tabindex="0").btn.btn-warning: span.glyphicon.glyphicon-minus
+
+mixin flag-analyzed(analyzed)
+  span.bs-component
+    if analyzed
+      button(
+        type="button"    
+        data-container="body"
+        data-toggle="popover" 
+        data-trigger="focus"
+        data-placement="bottom"
+        data-content="This assessment has already been taken for skill gap analysis"
+        tabindex="0").btn.btn-success: span.glyphicon.glyphicon-eye-open
+    else
+      button(
+        type="button"    
+        data-container="body"
+        data-toggle="popover" 
+        data-trigger="focus"
+        data-placement="bottom"
+        data-content="This assessment has not yet been taken for skill gap analysis"
+        tabindex="0").btn.btn-danger: span.glyphicon.glyphicon-eye-close

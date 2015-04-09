@@ -34,13 +34,14 @@ exports.initLocals = function(req, res, next) {
     ];
 	
     locals.user = req.user;
-    
+
     // get the organization id of the current user
     // and make available to all routes/views
     if (req.user) {
         locals.orgId = req.user.organization;
         // a global tenant filter to be used in queries 
         locals.orgFilter = { 'organization' : req.user.organization };
+        locals.roleNames = req.session.roleNames;
     }
     else {
         locals.orgId = null;

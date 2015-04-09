@@ -24,6 +24,7 @@
     <Compile Include="models\Employee.js" />
     <Compile Include="models\Enquiry.js" />
     <Compile Include="models\Gallery.js" />
+    <Compile Include="models\SkillGap.js" />
     <Compile Include="models\OrgFunction.js" />
     <Compile Include="models\OrgDepartment.js" />
     <Compile Include="models\SoftSkill.js" />
@@ -64,6 +65,7 @@
     <Compile Include="routes\middleware.js" />
     <Compile Include="routes\user\logout.js" />
     <Compile Include="routes\user\login.js" />
+    <Compile Include="routes\views\assessmentsummary.js" />
     <Compile Include="routes\views\assessments.js" />
     <Compile Include="routes\views\assessment.js" />
     <Compile Include="routes\views\employees.js" />
@@ -284,7 +286,9 @@
     <Content Include="templates\emails\styles\ink.jade" />
     <Content Include="templates\layouts\auth.jade" />
     <Content Include="templates\layouts\default.jade" />
+    <Content Include="templates\modals\assessment-analyze.jade" />
     <Content Include="templates\mixins\commons.jade" />
+    <Content Include="templates\mixins\flags.jade" />
     <Content Include="templates\mixins\flash-messages.jade" />
     <Content Include="templates\mixins\employee-detail.jade" />
     <Content Include="templates\mixins\employee-brief.jade" />
@@ -297,6 +301,7 @@
     <Content Include="templates\modals\form-assessment.jade" />
     <Content Include="templates\modals\business-card.jade" />
     <Content Include="templates\modals\form-mixins.jade" />
+    <Content Include="templates\views\assessmentsummary.jade" />
     <Content Include="templates\views\assessments.jade" />
     <Content Include="templates\views\blog.jade" />
     <Content Include="templates\views\contact.jade" />

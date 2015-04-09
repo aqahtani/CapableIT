@@ -1,6 +1,7 @@
 ﻿var keystone = require('keystone'),
     session = keystone.session,
-    User = keystone.list('User');
+    User = keystone.list('User'),
+    _ = require('underscore');
 
 var util = require('util');
 
@@ -12,7 +13,7 @@ exports = module.exports = function (req, res) {
     locals.section = 'user';
     locals.formData = req.body || {};
     locals.validationErrors = {};
-
+    
     view.on('post', { action: 'login' }, function (next) {
 
         if (!req.body.email || !req.body.password) {
@@ -31,15 +32,28 @@ exports = module.exports = function (req, res) {
         };
 
         var onSuccess = function (user) {
-            req.flash('success', 'Welcome ' + user.name.first);
             locals.user = user;
-            
+
             // alert the user if he hasn't verified his account yet!
             if (!user.isVerified) {
                 req.flash('warning', 'You have not verified your account yet!');
             }
-            // redirect to the orginginal requested page
-            res.redirect(locals.returnTo);
+            
+            // find the role names of the user
+            keystone.list('Role').model.find()
+            .where({ '_id': { "$in" : user.roles }})
+            .exec(function (err, roles) {
+                if (!err) {
+                    var roleNames = _.pluck(roles, 'name');
+                    req.session.roleNames = roleNames;
+                }
+
+                // welcome the user
+                req.flash('success', 'Welcome ' + user.name.first);
+
+                // redirect to the original requested page
+                res.redirect(locals.returnTo);
+            });
         };
         
         // sign the user in using lib from keystone

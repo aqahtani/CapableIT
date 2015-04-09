@@ -52,7 +52,7 @@ exports = module.exports = function(req, res) {
                 req.flash('warning', 'We cannot find a matching assessment');
                 return next();
             }
-            
+
             // assessment found, update it
             var updater = assessment.getUpdateHandler(req);
             
@@ -73,8 +73,83 @@ exports = module.exports = function(req, res) {
         });
 
     });
-	
+    
+    // Analyse assessment: basically extracting gaps 
+    view.on('post', { action: 'analyze' }, function (next) {
+        // find the assessment
+        var q = Assessment.model.findOne()
+            .where(locals.orgFilter)//always apply org filter first
+            .where({ '_id': locals.filters.assessment });
+        
+        q.exec(function (err, assessment) {
+            if (err) {
+                req.flash('error', err);
+                return next();
+            }
+            
+            if (!assessment) {
+                // no results 
+                req.flash('warning', 'We cannot find a matching assessment');
+                return next();
+            }
+            
+            // check to see if the assessment has already been analyzed!
+            if (assessment.analyzed) {
+                req.flash('info', 'Assessment has already been analyzed');
+                return next();
+            }
+
+            // assessment found, extract gaps from it
+            assessment.extractGaps(function (err, result) {
+                if (err) {
+                    req.flash('error', err);
+                } else {
+                    req.flash('success', 'Assessment has been analyzed successfully.');
+                }
+                //next();
+                res.redirect('back');
+            });
+        });
+    });
+    
+    // Reset assessment analysis: basically reseting all related gaps 
+    view.on('post', { action: 'unanalyze' }, function (next) {
+        // find the assessment
+        var q = Assessment.model.findOne()
+            .where(locals.orgFilter)//always apply org filter first
+            .where({ '_id': locals.filters.assessment });
+        
+        q.exec(function (err, assessment) {
+            if (err) {
+                req.flash('error', err);
+                return next();
+            }
+            
+            if (!assessment) {
+                // no results 
+                req.flash('warning', 'We cannot find a matching assessment');
+                return next();
+            }
+            
+            // check to see if the assessment has already been analyzed!
+            if (!assessment.analyzed) {
+                req.flash('info', 'Assessment has has not yet been analyzed');
+                return next();
+            }
+            
+            // assessment found, reset its gaps
+            assessment.resetGaps(function (err, result) {
+                if (err) {
+                    req.flash('error', err);
+                } else {
+                    req.flash('success', 'Assessment has been reset successfully.');
+                }
+                next();
+                //res.redirect('back');
+            });
+        });
+    });
+
 	// Render the view
-	view.render('assessment');
-	
+	view.render('assessment');	
 };

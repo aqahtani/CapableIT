@@ -110,7 +110,7 @@ keystone.set('email tests', require('./routes/emails'));
 keystone.set('nav', {
     'Home': ['organizations'],
     'Organization': ['org-departments', 'org-functions', 'jobs', 'job-tasks'],
-    'Employees': ['employees', 'assessments'],
+    'Employees': ['employees', 'assessments', 'hard-skill-gaps', 'soft-skill-gaps', 'english-skill-gaps'],
     'Professional Skills': ['hard-skill-categories', 'hard-skill-sub-categories', 'hard-levels', 'hard-skills'],
     'Behavioral Skills': ['english-levels', 'soft-levels', 'soft-skills'],
     'users': ['users', 'verification-tokens', 'permissions', 'roles', 'user-authorizations', 'role-authorizations'],

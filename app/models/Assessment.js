@@ -17,6 +17,12 @@ Assessment.add({
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true },
     createdAt: { type: Date, required: true, default: Date.now },
     status: { type: Types.Select, options: 'draft, final, archived', required: true, default: 'new', index: true },
+    // prime: indicates a reference assessment that can be taken for final analysis
+    prime: { type: Types.Boolean, default: false, index: true }, 
+    // analyzed: indicated whether or not this assessment has already been analyzed (i.e. gaps extracted)
+    analyzed: { type: Types.Boolean, default: false, index: true }, 
+    // period: indicates the period of assessment such as 2014H1, 2014H2, 2015H1, ...
+    period: { type: Types.Text, default: '2015H1', required: true, initial: true, index: true },
     employee: { type: Types.Relationship, ref: 'Employee', required: true, initial: true, index: true },
     doneBy: { type: Types.Relationship, ref: 'Employee', required: true, initial: true, index: true },
     job: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }, required: true, initial: true }
@@ -165,5 +171,187 @@ Assessment.schema.post('remove', function (assessment) {
             console.log('Assessment (%s) has been removed along with its authorizations', assessment._id);
         });
 });
+
+/* Schema Method: extractGaps()
+ * extracts gaps from the current assessment into HardSkillGaps & SoftSkillGaps
+ */
+Assessment.schema.methods.extractGaps = function (done) {
+    var assessment = this;
+    // only extract if not already done before
+    if (!assessment.analyzed) {
+        var async = require("async");
+        
+        // this one to get Job data
+        var getJob = function (callback) {
+            // get the assigned Job 
+            keystone.list('Job').model.findById(assessment.job).exec(callback);
+        };
+        
+        // this one to get English target level
+        var getEnglishTarget = function (callback) {
+            // get the assigned Job 
+            keystone.list('EnglishLevel').model.findById(assessment.english.targetLevel).exec(callback);
+        };
+        
+        // this one to get English target level
+        var getEnglishCurrent = function (callback) {
+            // get the assigned Job 
+            keystone.list('EnglishLevel').model.findById(assessment.english.currentLevel).exec(callback);
+        };
+
+        // async function to handle hard skills
+        var extractHards = function (callback, results) {
+            // build the hard skill gaps
+            var hardGaps = [];
+            for (var i = 0; i < assessment.professional.skills.length ; i++) {
+                var target = assessment.professional.targetLevels[i];
+                var current = assessment.professional.currentLevels[i];
+                var gap = target - current;
+                var hGap = {
+                    'organization': assessment.organization,
+                    'employee': assessment.employee,
+                    'job': assessment.job,
+                    'orgDepartment': results.job.orgDepartment,
+                    'orgFunction': results.job.orgFunction,
+                    'skill': assessment.professional.skills[i],
+                    'assessment': assessment.id,
+                    // job info
+                    'jobLevel': results.job.level,
+                    'jobRole': results.job.role,
+                    'isSenior': results.job.senior,
+                    // gap info
+                    'period': assessment.period,
+                    'gap': gap,
+                    'current': current,
+                    'target': target
+                };
+                hardGaps.push(hGap);
+            }
+            
+            keystone.list('HardSkillGap').model.create(hardGaps, function (err) {
+                if (err) return callback(err, hardGaps);
+                // saved
+                return callback(null, hardGaps);
+            });
+        };
+        
+        // async function to handle soft skills
+        var extractSofts = function (callback, results) {
+            // build the soft skill gaps
+            var softGaps = [];
+            for (var i = 0; i < assessment.behavioral.skills.length ; i++) {
+                var target = assessment.behavioral.targetLevels[i];
+                var current = assessment.behavioral.currentLevels[i];
+                var gap = target - current;
+                var sGap = {
+                    'organization': assessment.organization,
+                    'employee': assessment.employee,
+                    'job': assessment.job,
+                    'orgDepartment': results.job.orgDepartment,
+                    'orgFunction': results.job.orgFunction,
+                    'skill': assessment.behavioral.skills[i],
+                    'assessment': assessment.id,
+                    // job info
+                    'jobLevel': results.job.level,
+                    'jobRole': results.job.role,
+                    'isSenior': results.job.senior,
+                    // gap info
+                    'period': assessment.period,
+                    'gap': gap,
+                    'current': current,
+                    'target': target
+                };
+                softGaps.push(sGap);
+            }
+            
+            keystone.list('SoftSkillGap').model.create(softGaps, function (err) {
+                if (err) return callback(err, softGaps);
+                // saved
+                return callback(null, softGaps);
+            });
+        };
+        
+        // async function to handle english skill
+        var extractEnglish = function (callback, results) {
+            // build the english skill gaps
+            
+            var target = results.englishTarget.number;
+            var current = results.englishCurrent.number;
+            var gap = target - current;
+            var eGap = {
+                'organization': assessment.organization,
+                'employee': assessment.employee,
+                'job': assessment.job,
+                'orgDepartment': results.job.orgDepartment,
+                'orgFunction': results.job.orgFunction,
+                'skill': 'English Language Skills',
+                'assessment': assessment.id,
+                // job info
+                'jobLevel': results.job.level,
+                'jobRole': results.job.role,
+                'isSenior': results.job.senior,
+                // gap info
+                'period': assessment.period,
+                'gap': gap,
+                'current': current,
+                'target': target
+            };
+            
+            keystone.list('EnglishSkillGap').model.create(eGap, callback);
+        };
+
+        async.auto({
+            job: getJob,
+            englishTarget: getEnglishTarget,
+            englishCurrent: getEnglishCurrent,
+            hardGaps: ['job', extractHards],
+            softGaps: ['job', extractSofts],
+            engGaps: ['job', 'englishTarget', 'englishCurrent', extractEnglish],
+        } , function (err, results) {
+            // All tasks are done now and you have results as an object 
+            // with the following { hardGaps , softGaps }
+            if (err) return done(err, results);
+            
+            // set this assessment to "analyzed"
+            assessment.analyzed = true;
+            assessment.save(done);
+            //return done(null, results);
+        });
+    }
+    else return done();
+};
+
+/* Schema Method: resetGaps()
+ * resets gaps of the current assessment by clearing related HardSkillGaps & SoftSkillGaps
+ */
+Assessment.schema.methods.resetGaps = function (done) {
+    var assessment = this;
+    var async = require("async");
+    
+    // async function to clear hard skills
+    var resetHards = function (callback) {
+        keystone.list('HardSkillGap').model.remove({ 'assessment' : assessment.id }, callback);
+    };
+    
+    // async function to handle soft skills
+    var resetSofts = function (callback) {
+        keystone.list('SoftSkillGap').model.remove({ 'assessment' : assessment.id }, callback);
+    };
+    
+    // async function to clear english skills
+    var resetEnglish = function (callback) {
+        keystone.list('EnglishSkillGap').model.remove({ 'assessment' : assessment.id }, callback);
+    };
+
+    async.parallel([ resetHards , resetSofts, resetEnglish ] , function (err, results) {
+        // All tasks are done now and you have results as an object 
+        // with the following { hardGaps , softGaps }
+        if (err) return done(err, results);
+        
+        // reset this assessment "analyzed" flag
+        assessment.analyzed = false;
+        assessment.save(done);
+    });
+};
 
 Assessment.register();

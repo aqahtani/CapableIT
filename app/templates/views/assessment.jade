@@ -1,11 +1,17 @@
 extends ../layouts/default
 include ../mixins/assessment-detail
 include ../modals/form-assessment
+include ../modals/assessment-analyze
+include ../mixins/flags
 
 block content
   //- embed the assessment form modal
   if assessment
     +modalAssessment('formAssessmentModal', assessment, englishlevels)
+    if !assessment.analyzed
+      +modalAnalyzeAssessment(assessment, 'analyze')
+    else
+      +modalAnalyzeAssessment(assessment, 'unanalyze')
   //- display the assessment
   .container
     .row: .col-sm-12
@@ -15,8 +21,21 @@ block content
         else
           h2 Capability Assessment
             .badge= assessment.status
-            //- button to trigger edit modal only on 'edit' permission
-            if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
-              button(type="button", data-toggle="modal", data-target="#formAssessmentModal").btn.btn-primary.pull-right Edit
+            +flag-prime(assessment.prime)
+            +flag-analyzed(assessment.analyzed)
+            .pull-right
+              .dropdown
+                button.btn.btn-default.dropdown-toggle(type="button",id="actionMenu",data-toggle="dropdown",aria-expanded="true")
+                  span Actions
+                  span.caret
+                ul.dropdown-menu(role="menu",aria-labelledby="actionMenu")
+                  if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
+                    li(role="presentation"): a(role="menuitem", tabindex="-1", href="#", data-toggle="modal", data-target="#formAssessmentModal") Edit
+                  if _.contains(roleNames, 'master') || _.contains(roleNames, 'owner')
+                    if !assessment.analyzed
+                      li(role="presentation"): a(role="menuitem", tabindex="-1", href="#", data-toggle="modal", data-target="#modalAnalyzeAssessment") Analyze
+                    else
+                      li(role="presentation"): a(role="menuitem", tabindex="-1", href="#", data-toggle="modal", data-target="#modalAnalyzeAssessment") Unanalyze
+                    
           hr
           +assessmentDetail(assessment, englishlevels, hardlevels, softlevels)

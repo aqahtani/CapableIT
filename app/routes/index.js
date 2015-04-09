@@ -64,7 +64,9 @@ exports = module.exports = function(app) {
     app.get('/assessment/:assessment', middleware.requireUser, middleware.authorizeUser('view'), routes.views.assessment);
     app.post('/assessment/:assessment', middleware.requireUser, middleware.authorizeUser('edit'), routes.views.assessment); 
     app.get('/assessments', middleware.requireUser, routes.views.assessments);
-    
+    app.get('/assessments/summary', middleware.requireUser, middleware.authorizeUser('view'), routes.views.assessmentsummary);
+    app.post('/assessments/summary', middleware.requireUser, middleware.authorizeUser('view'), routes.views.assessmentsummary);
+
     // API: new assessment
     app.post('/api/assess/new', middleware.requireUser, routes.api.assess);
     

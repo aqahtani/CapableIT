@@ -21,6 +21,9 @@ Job.add({
     altTitle: { type: Types.Text, initial: true, index: true, label: 'Alternative Title' },
     reportsTo: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }, initial: true  },
     qrCode: { type: String, noedit: true, hidden: true },
+    role: { type: Types.Select, options: 'General Manager, Director, Manager, Architect, Engineer, Analyst, Specialist, Administrator', index: true },
+    level: { type: Types.Number, index: true },
+    senior: { type: Types.Boolean, index: true },
     orgDepartment: { type: Types.Relationship, ref: 'OrgDepartment', filters: { organization: ':organization' }, initial: true, label: 'Department' },
     orgFunction: { type: Types.Relationship, ref: 'OrgFunction', filters: { organization: ':organization', department: ':orgDepartment' }, initial: true, label: 'Function' }
 }, 'Responsibilities', {
