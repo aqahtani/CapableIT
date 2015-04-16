@@ -27,6 +27,7 @@
         "version": "BETA",
         "englishskill": "English Skill",
         "hardskills": "Professional Skills",
-        "softskills": "Behavioral Skills"
+        "softskills": "Behavioral Skills",
+        "dashboard": "Dashboard"
     }
 }

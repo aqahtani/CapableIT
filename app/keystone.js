@@ -2,6 +2,9 @@
 // customising the .env file in your project's root folder.
 require('dotenv').load();
 
+// load Capable-IT version n
+var pjson = require('./package.json');
+
 // Require keystone
 var keystone = require('keystone'),
     i18next = require("i18next");
@@ -59,7 +62,8 @@ keystone.set('locals', {
     _: require('underscore'),
     env: keystone.get('env'),
     utils: keystone.utils,
-    editable: keystone.content.editable
+    editable: keystone.content.editable,
+    citversion: pjson.version
 });
 
 // Load your project's Routes

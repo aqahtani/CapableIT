@@ -4,6 +4,10 @@ include ../modals/form-assessment
 include ../modals/assessment-analyze
 include ../mixins/flags
 
+block js
+  script(src="/js/lib/chartjs/Chart.min.js")
+  script(src="/js/assessment-ui.js")
+
 block content
   //- embed the assessment form modal
   if assessment
@@ -31,11 +35,11 @@ block content
                 ul.dropdown-menu(role="menu",aria-labelledby="actionMenu")
                   if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
                     li(role="presentation"): a(role="menuitem", tabindex="-1", href="#", data-toggle="modal", data-target="#formAssessmentModal") Edit
-                  if _.contains(roleNames, 'master') || _.contains(roleNames, 'owner')
+                  if _.contains(roleNames, 'master')
                     if !assessment.analyzed
                       li(role="presentation"): a(role="menuitem", tabindex="-1", href="#", data-toggle="modal", data-target="#modalAnalyzeAssessment") Analyze
                     else
                       li(role="presentation"): a(role="menuitem", tabindex="-1", href="#", data-toggle="modal", data-target="#modalAnalyzeAssessment") Unanalyze
-                    
           hr
+          //- assessment details
           +assessmentDetail(assessment, englishlevels, hardlevels, softlevels)

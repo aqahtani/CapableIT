@@ -37,6 +37,8 @@
     <Compile Include="models\Authorization.js" />
     <Compile Include="models\VerificationToken.js" />
     <Compile Include="models\User.js" />
+    <Compile Include="public\js\employee-ui.js" />
+    <Compile Include="public\js\lib\chartjs\Chart.min.js" />
     <Compile Include="public\js\lib\bootstrap\affix.js" />
     <Compile Include="public\js\lib\bootstrap\alert.js" />
     <Compile Include="public\js\lib\bootstrap\bootstrap-3.2.0.js" />
@@ -57,6 +59,7 @@
     <Compile Include="public\js\lib\jquery\jquery-2.1.1.min.js" />
     <Compile Include="public\js\lib\select2-3.5.2\select2.min.js" />
     <Compile Include="public\js\lib\select2-3.5.2\select2_locale_ar.js" />
+    <Compile Include="public\js\assessment-ui.js" />
     <Compile Include="public\js\ui.js" />
     <Compile Include="routes\api\assess.js" />
     <Compile Include="routes\emails.js" />
@@ -339,6 +342,7 @@
     <Folder Include="public\js\lib\" />
     <Folder Include="public\js\lib\bootstrap\" />
     <Folder Include="public\js\lib\jquery\" />
+    <Folder Include="public\js\lib\chartjs\" />
     <Folder Include="public\js\lib\select2-3.5.2\" />
     <Folder Include="public\styles\" />
     <Folder Include="public\styles\bootstrap-rtl\" />

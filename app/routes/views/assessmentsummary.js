@@ -8,7 +8,7 @@ exports = module.exports = function(req, res) {
 		locals = res.locals;
 	
 	// Set locals
-	locals.section = 'assessments';
+	locals.section = 'dashboard';
     locals.filters = {
 		employee: req.user.employee
 	};

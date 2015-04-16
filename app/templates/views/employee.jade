@@ -4,6 +4,10 @@ include ../modals/form-employee
 include ../modals/business-card
 include ../mixins/assessment-brief
 
+block js
+  script(src="/js/lib/chartjs/Chart.min.js")
+  script(src="/js/employee-ui.js")
+
 block content
   //- embed the employee form modal
   if employee
@@ -25,11 +29,75 @@ block content
               button(type="button", data-toggle="modal", data-target="#formEmployeeModal").btn.btn-primary.pull-right Edit
           hr
           +employeeDetail(employee)
+          
+          //- The following displays a summary of assessments and skill gaps
           hr
-          h3 Assessments
-          if assessments
-            .list-group
-              each assessment in assessments
-                +assessmentBrief(assessment)
-          else
+          if !assessments.length
             p No assessments found for this employee
+          else
+            //- a brief list of assessments
+            .panel.panel-default
+              .panel-heading
+                h4 Assessments
+              .list-group
+                each assessment in assessments
+                  +assessmentBrief(assessment)
+
+            //- assessment charts
+            - var selfA = _.find(assessments, function(a) { return a.employee.id === a.doneBy.id; })
+            - var primeA = _.find(assessments, function(a) { return a.prime; })
+            .panel.panel-danger
+              .panel-heading
+                h4 Professional Skills Radar
+              .panel-body        
+                .row
+                  .col-sm-9
+                    //- chart showing hard skill gaps
+                    if selfA
+                      - var hardLabels = JSON.stringify(_.pluck(selfA.professional.skills, 'title'));
+                      - var hardTargets = JSON.stringify(selfA.professional.targetLevels);
+                      - var hardSelfCurrents = JSON.stringify(selfA.professional.currentLevels);
+                    if primeA
+                      - var hardPrimeCurrents = JSON.stringify(primeA.professional.currentLevels);
+                    canvas#hardGapsChart(
+                      width="400"
+                      height="400" 
+                      data-cit-assessment-hardlabels="#{hardLabels}"
+                      data-cit-assessment-hardtargets="#{hardTargets}"
+                      data-cit-assessment-hardselfcurrents="#{hardSelfCurrents}"
+                      data-cit-assessment-hardprimecurrents="#{hardPrimeCurrents}"
+                      )
+                  .col-sm-3
+                    ul#hardGapsChartLegend.list-group
+                      li.list-group-item Legend
+                      li.list-group-item.list-group-item-danger Target Levels
+                      li.list-group-item.list-group-item-info Self Assessment
+                      li.list-group-item.list-group-item-success Prime Assessment
+
+            .panel.panel-warning
+              .panel-heading
+                h4 Behavioral Skills Radar
+              .panel-body
+                .row
+                  .col-sm-9
+                    //- chart showing soft skill gaps
+                    if selfA
+                      - var softLabels = JSON.stringify(_.pluck(selfA.behavioral.skills, 'title'));
+                      - var softTargets = JSON.stringify(selfA.behavioral.targetLevels);
+                      - var softSelfCurrents = JSON.stringify(selfA.behavioral.currentLevels);
+                    if primeA
+                      - var softPrimeCurrents = JSON.stringify(primeA.behavioral.currentLevels);
+                    canvas#softGapsChart(
+                      width="400"
+                      height="400"  
+                      data-cit-assessment-softlabels="#{softLabels}"
+                      data-cit-assessment-softtargets="#{softTargets}"
+                      data-cit-assessment-softselfcurrents="#{softSelfCurrents}"
+                      data-cit-assessment-softprimecurrents="#{softPrimeCurrents}"
+                      )
+                  .col-sm-3
+                    ul#softGapsChartLegend.list-group
+                      li.list-group-item Legend
+                      li.list-group-item.list-group-item-warning Target Levels
+                      li.list-group-item.list-group-item-info Self Assessment
+                      li.list-group-item.list-group-item-success Prime Assessment 

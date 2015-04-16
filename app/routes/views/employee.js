@@ -39,11 +39,13 @@ exports = module.exports = function (req, res) {
         .where(locals.orgFilter)//always apply tenant filter first
         .where('employee', locals.filters.employee)
         .where('status', 'final')
-        .select('createdAt status doneBy employee job')
+        .select('createdAt status prime doneBy employee job professional behavioral')
         .sort('-createdAt')
         .populate('doneBy', 'name')
         .populate('employee', 'name')
         .populate('job', 'title')
+        .populate('professional.skills', 'title')
+        .populate('behavioral.skills', 'title')
     );
     
     // query all english levels

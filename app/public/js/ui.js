@@ -80,4 +80,5 @@
         msgAlert.removeClass('alert-success alert-danger');
         msgAlert.addClass('hidden');
     });
+
 })();

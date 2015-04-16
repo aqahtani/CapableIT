@@ -8,8 +8,15 @@
           else
             img(src="/images/employee.png")
     .panel-body 
-      p.text-primary: a(href='/employee/' + employee.id)= employee.name.full
-      p.text-muted= employee.arName
+      center
+        p.text-primary: a(href='/employee/' + employee.id)= employee.name.full
+        p.text-muted= employee.arName
+        if employee.job
+          p.text-primary: a(href='/job/' + employee.job.id)= employee.job.title
+          p.text-muted= employee.job.altTitle
+        else
+          p.text-primary &nbsp;
+          p.text-muted &nbsp;
 
 mixin employeeBrief(employee)
   span.text-info= employee.name.full

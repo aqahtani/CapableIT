@@ -15,9 +15,7 @@ exports = module.exports = function (req, res) {
         perPage: 10,
         maxPages: 10
     })
-        .populate('organization orgDepartment orgFunction')
-        .populate('job', 'code title altTitle')
-        .populate('manager', 'name arName')
+        .populate('organization orgDepartment orgFunction job manager')
         .sort('name.first name.last')
     );
         

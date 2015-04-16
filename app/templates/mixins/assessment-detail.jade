@@ -54,6 +54,7 @@ mixin assessmentDetail(assessment, englishlevels, hardlevels, softlevels)
           .well.well-sm: +levellabels(hardlevels,'label-danger')
           for hardSkill, index in assessment.professional.skills
             +hardLeveler(hardSkill, assessment.professional.targetLevels[index], assessment.professional.currentLevels[index])
+
     .col-sm-6
       .panel.panel-warning
         .panel-heading
@@ -62,3 +63,34 @@ mixin assessmentDetail(assessment, englishlevels, hardlevels, softlevels)
           .well.well-sm: +levellabels(softlevels,'label-warning')
           for softSkill, index in assessment.behavioral.skills
             +softLeveler(softSkill, assessment.behavioral.targetLevels[index], assessment.behavioral.currentLevels[index])
+  .row
+    .col-sm-12
+      .panel.panel-primary
+        .panel-heading
+          h4 Skill Radars
+        .panel-body        
+          .row
+            .col-sm-6
+              //- chart showing hard skill gaps
+              - var hardLabels = JSON.stringify(_.pluck(assessment.professional.skills, 'title'));
+              - var hardTargets = JSON.stringify(assessment.professional.targetLevels);
+              - var hardCurrents = JSON.stringify(assessment.professional.currentLevels);
+              canvas#hardGapsChart(
+                width="400"
+                height="400" 
+                data-cit-assessment-hardlabels="#{hardLabels}"
+                data-cit-assessment-hardtargets="#{hardTargets}"
+                data-cit-assessment-hardcurrents="#{hardCurrents}"
+                )
+            .col-sm-6
+              //- chart showing soft skill gaps
+              - var softLabels = JSON.stringify(_.pluck(assessment.behavioral.skills, 'title'));
+              - var softTargets = JSON.stringify(assessment.behavioral.targetLevels);
+              - var softCurrents = JSON.stringify(assessment.behavioral.currentLevels);
+              canvas#softGapsChart(
+                width="400"
+                height="400"  
+                data-cit-assessment-softlabels="#{softLabels}"
+                data-cit-assessment-softtargets="#{softTargets}"
+                data-cit-assessment-softcurrents="#{softCurrents}"
+                )
