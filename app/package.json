@@ -7,6 +7,7 @@
     "connect-mongo": "^0.4.1",
     "connect-redis": "1.4.7",
     "dotenv": "0.4.0",
+    "flat": "^1.5.1",
     "i18next": "^1.7.4",
     "keystone": "0.2.42",
     "keystone-rest": "^0.5.0",
