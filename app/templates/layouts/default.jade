@@ -20,6 +20,9 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
     //- file tells you.
     link(href="/styles/site-#{t('direction')}.min.css", rel="stylesheet", media="all")
 
+    // jquery-ui
+    link(rel="stylesheet", href="/js/lib/bootstrap-datepicker/bootstrap-datepicker3.min.css")
+
     //- This file provides the default styling for the KeystoneJS Content Editor
     if user && user.canAccessKeystone
       link(href="/keystone/styles/content/editor.min.css", rel="stylesheet")
@@ -142,6 +145,10 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
     //- Customise which Bootstrap javascript files are served by including
     //- them specifically here, instead of bootstrap-3.2.0.min.js
     script(src='/js/lib/bootstrap/bootstrap-3.2.0.min.js')
+
+    //- bootstrap-datepicker
+    script(src='/js/lib/bootstrap-datepicker/bootstrap-datepicker.min.js')
+
     //- custom ui javascript
     script(src='/js/ui.js')
 

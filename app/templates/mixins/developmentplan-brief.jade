@@ -1,0 +1,17 @@
+﻿mixin developmentplanBrief(developmentplan)
+  //- set the color of the plan based on the status 
+  case developmentplan.status
+    when 'draft'
+      - var kind = 'list-group-item-warning'
+    when 'final'
+      - var kind = 'list-group-item-success'
+    when 'archived'
+      - var kind = 'list-group-item-danger'
+    default
+      - var kind = ''
+
+  a.list-group-item(href='/developmentplan/' + developmentplan.id, class=kind)
+    span= developmentplan.employee.name.full
+    strong  on  
+    span= developmentplan._.createdAt.format('DD/MM/YYYY - HH:mm')
+    .badge= developmentplan.status

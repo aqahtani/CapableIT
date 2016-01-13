@@ -1,0 +1,32 @@
+extends ../layouts/default
+include ../mixins/developmentplan-detail
+include ../modals/form-developmentplan
+//-include ../mixins/flags
+
+
+block content
+  //- embed the developmentplan form modal
+  if developmentplan
+    +modalEditDevelopmentPlan('formEditDevelopmentPlanModal', developmentplan)
+    +modalDeleteDevelopmentPlan('formDeleteDevelopmentPlanModal', developmentplan)
+
+  //- display the development plan
+  .container
+    .row: .col-sm-12
+      article
+        if !developmentplan
+          h2 Invalid Development Plan.
+        else
+          h2 Development Plan
+            .badge= developmentplan.status
+            //-+flag-prime(assessment.prime)
+            .pull-right
+              //- button to trigger edit modal only on 'edit' permission
+              if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
+                a(href="#", data-toggle="modal", data-target="#formEditDevelopmentPlanModal", title="Edit Plan"): span.glyphicon.glyphicon-edit
+              | 
+              if _.contains(authorized.permissions, 'delete') || _.contains(authorized.permissions, '*')
+                a(href="#", data-toggle="modal", data-target="#formDeleteDevelopmentPlanModal", title="Delete Plan"): span.glyphicon.glyphicon-remove-circle
+          hr
+          //- developmentplan details
+          +developmentplanDetail(developmentplan, activities)

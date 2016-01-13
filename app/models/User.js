@@ -170,9 +170,13 @@ User.schema.methods.createAuthorizations = function (done) {
 /* Schema Static Method: findByEmployee()
  * finds a user by his employee id
  * @organization: organization id
- * @employee: employee id
+ * @employee: employee id (should not be null)
  */ 
 User.schema.statics.findByEmployee = function (organization, employee, done) {
+    // return null if no organization or employee is given!
+    if (!organization || !employee) return done(null);
+    
+    // else, find the user
     User.model.findOne()
     .where('organization', organization)
     .where('employee', employee)

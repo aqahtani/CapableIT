@@ -20,6 +20,7 @@
     <Content Include="package.json" />
     <Compile Include="keystone.js" />
     <Compile Include="config\i18next.js" />
+    <Compile Include="models\DevelopmentPlan.js" />
     <Compile Include="models\Assessment.js" />
     <Compile Include="models\Employee.js" />
     <Compile Include="models\Enquiry.js" />
@@ -38,6 +39,7 @@
     <Compile Include="models\VerificationToken.js" />
     <Compile Include="models\User.js" />
     <Compile Include="public\js\employee-ui.js" />
+    <Compile Include="public\js\lib\bootstrap-datepicker\bootstrap-datepicker.min.js" />
     <Compile Include="public\js\lib\chartjs\Chart.min.js" />
     <Compile Include="public\js\lib\bootstrap\affix.js" />
     <Compile Include="public\js\lib\bootstrap\alert.js" />
@@ -68,6 +70,9 @@
     <Compile Include="routes\middleware.js" />
     <Compile Include="routes\user\logout.js" />
     <Compile Include="routes\user\login.js" />
+    <Compile Include="routes\views\developmentplan_new.js" />
+    <Compile Include="routes\views\developmentplan.js" />
+    <Compile Include="routes\views\developmentplans.js" />
     <Compile Include="routes\views\assessmentsummary.js" />
     <Compile Include="routes\views\assessments.js" />
     <Compile Include="routes\views\assessment.js" />
@@ -105,6 +110,7 @@
     <Content Include="public\images\kpcit_400.png" />
     <Content Include="public\images\kplogo_32.png" />
     <Content Include="public\images\logo.svg" />
+    <Content Include="public\js\lib\bootstrap-datepicker\bootstrap-datepicker3.min.css" />
     <Content Include="public\js\lib\select2-3.5.2\select2-spinner.gif" />
     <Content Include="public\js\lib\select2-3.5.2\select2.png" />
     <Content Include="public\js\lib\select2-3.5.2\select2x2.png" />
@@ -289,6 +295,8 @@
     <Content Include="templates\emails\styles\ink.jade" />
     <Content Include="templates\layouts\auth.jade" />
     <Content Include="templates\layouts\default.jade" />
+    <Content Include="templates\mixins\developmentplan-detail.jade" />
+    <Content Include="templates\mixins\developmentplan-brief.jade" />
     <Content Include="templates\modals\assessment-analyze.jade" />
     <Content Include="templates\mixins\commons.jade" />
     <Content Include="templates\mixins\flags.jade" />
@@ -301,9 +309,13 @@
     <Content Include="templates\mixins\job-detail.jade" />
     <Content Include="templates\mixins\job-brief.jade" />
     <Content Include="templates\mixins\paging.jade" />
+    <Content Include="templates\modals\form-developmentactivity.jade" />
+    <Content Include="templates\modals\form-developmentplan.jade" />
     <Content Include="templates\modals\form-assessment.jade" />
     <Content Include="templates\modals\business-card.jade" />
     <Content Include="templates\modals\form-mixins.jade" />
+    <Content Include="templates\views\developmentplan.jade" />
+    <Content Include="templates\views\developmentplans.jade" />
     <Content Include="templates\views\assessmentsummary.jade" />
     <Content Include="templates\views\assessments.jade" />
     <Content Include="templates\views\blog.jade" />
@@ -340,6 +352,7 @@
     <Folder Include="public\images\" />
     <Folder Include="public\js\" />
     <Folder Include="public\js\lib\" />
+    <Folder Include="public\js\lib\bootstrap-datepicker\" />
     <Folder Include="public\js\lib\bootstrap\" />
     <Folder Include="public\js\lib\jquery\" />
     <Folder Include="public\js\lib\chartjs\" />

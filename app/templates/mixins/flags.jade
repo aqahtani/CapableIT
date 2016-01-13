@@ -39,3 +39,9 @@ mixin flag-analyzed(analyzed)
         data-placement="bottom"
         data-content="This assessment has not yet been taken for skill gap analysis"
         tabindex="0").btn.btn-danger: span.glyphicon.glyphicon-eye-close
+
+mixin flag-completed(completed)
+  if completed
+    span.glyphicon.glyphicon-ok
+  else
+    span.glyphicon.glyphicon-unchecked

@@ -1,0 +1,124 @@
+﻿include form-mixins
+
+//- Modal: Add DevelopmentActivity Form
+mixin modalAddDevelopmentActivity(modalId)
+  .modal.fade(id="#{modalId}")
+    .modal-dialog.modal-lg
+      form(method='post').modal-content
+        input(type='hidden', name='action', value='create-activity')
+        .modal-header
+          button(type="button", data-dismiss="modal").close
+            span(aria-hidden="true") &times;
+            span.sr-only Close
+          h4.modal-title Add Development Activity
+        .modal-body
+          .row
+            .col-sm-12
+              .form-group.form-group-sm(class=validationErrors.title ? 'has-error' : null)
+                label(for='title').col-sm-2.control-label  Title
+                .col-sm-10: input(type='text', name='title', id='title', placeholder='activity title').form-control
+          
+          .row
+            .col-sm-12
+              .form-group.form-group-sm(class=validationErrors.targetSkill ? 'has-error' : null)
+                label(for='targetSkill').col-sm-2.control-label  Target Skill
+                .col-sm-10: input(type='text', name='targetSkill', id='targetSkill', placeholder='target soft and/or hard skill').form-control
+          
+          .row
+            .col-sm-12
+              .form-group.form-group-sm(class=validationErrors.deadline ? 'has-error' : null)
+                label(for='deadline').col-sm-2.control-label  Deadline
+                .col-sm-10: input(type='text', name='deadline', id='deadline').form-control.datepicker
+          
+          .row
+            .col-sm-12
+              .form-group(class=validationErrors.completed ? 'has-error' : null)
+                label(for='completed').col-sm-2.control-label  Completed
+                .col-sm-10: .checkbox 
+                  input(type='checkbox', name='completed', id='completed')
+          hr
+          .row
+            .col-sm-12
+              .form-group(class=validationErrors.remarks ? 'has-error' : null)
+                label(for='remarks').col-sm-2.control-label  Remarks
+                .col-sm-10: textarea(name='remarks', id='remarks', rows='3', placeholder='details, resources, and general remarks').form-control
+          
+        .modal-footer
+          button(type='submit').btn.btn-info Add
+          button(type="button", data-dismiss="modal").btn Cancel
+
+
+//- Modal: Edit DevelopmentActivity Form
+mixin modalDevelopmentActivity(modalId, activity)
+  .modal.fade(id="#{modalId}")
+    .modal-dialog.modal-lg
+      form(method='post').modal-content
+        input(type='hidden', name='action', value='update-activity')
+        input(type='hidden', name='activityId', value=activity.id)
+        .modal-header
+          button(type="button", data-dismiss="modal").close
+            span(aria-hidden="true") &times;
+            span.sr-only Close
+          h4.modal-title Edit Development Activity
+        .modal-body
+          .row
+            .col-sm-12
+              .form-group.form-group-sm(class=validationErrors.title ? 'has-error' : null)
+                label(for='title').col-sm-2.control-label  Title
+                .col-sm-10: input(type='text', name='title', id='title', value=activity.title).form-control
+          
+          .row
+            .col-sm-12
+              .form-group.form-group-sm(class=validationErrors.targetSkill ? 'has-error' : null)
+                label(for='targetSkill').col-sm-2.control-label  Target Skill
+                .col-sm-10: input(type='text', name='targetSkill', id='targetSkill', value=activity.targetSkill).form-control
+          
+          .row
+            .col-sm-12
+              .form-group.form-group-sm(class=validationErrors.deadline ? 'has-error' : null)
+                label(for='deadline').col-sm-2.control-label  Deadline
+                .col-sm-10: input(type='text', name='deadline', id='deadline', value=activity._.deadline.format('YYYY-MM-DD')).form-control.datepicker
+          
+          .row
+            .col-sm-12
+              .form-group(class=validationErrors.completed ? 'has-error' : null)
+                label(for='completed').col-sm-2.control-label  Completed
+                .col-sm-10: .checkbox 
+                  input(type='checkbox', name='completed', id='completed', checked=activity.completed)
+          hr
+          .row
+            .col-sm-12
+              .form-group(class=validationErrors.remarks ? 'has-error' : null)
+                label(for='remarks').col-sm-2.control-label  Remarks
+                .col-sm-10: textarea(name='remarks', id='remarks', rows='3').form-control= activity.remarks
+          
+        .modal-footer
+          button(type='submit').btn.btn-danger Update
+          button(type="button", data-dismiss="modal").btn Cancel
+
+//- Modal: Delete DevelopmentActivity Form
+mixin modalDeleteDevelopmentActivity(modalId, activity)
+  .modal.fade(id="#{modalId}")
+    .modal-dialog
+      form(method='post').modal-content
+        input(type='hidden', name='action', value='delete-activity')
+        input(type='hidden', name='activityId', value=activity.id)
+        .modal-header
+          button(type="button", data-dismiss="modal").close
+            span(aria-hidden="true") &times;
+            span.sr-only Close
+          h4.modal-title Delete Development Activity
+        .modal-body
+          p Are you sure you want to delete this activity?
+
+          dl.dl-horizontal
+            dt Title
+            dd= activity.title
+            dt Target Skill
+            dd=activity.targetSkill
+            dt Deadline
+            dd=activity._.deadline.format('YYYY-MM-DD')
+          
+        .modal-footer
+          button(type='submit').btn.btn-danger Delete
+          button(type="button", data-dismiss="modal").btn Cancel

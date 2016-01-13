@@ -1,0 +1,20 @@
+extends ../layouts/default
+include ../mixins/paging
+include ../mixins/developmentplan-brief
+include ../modals/form-developmentplan
+
+block content
+  +modalNewDevelopmentPlan('formNewDevelopmentPlanModal')
+
+  .container
+    .row: .col-sm-12
+      section
+        h2 Development Plans
+          .pull-right: a(href="#", data-toggle="modal", data-target="#formNewDevelopmentPlanModal", title="Add a new plan"): span.glyphicon.glyphicon-plus-sign
+        hr
+        if !developmentplans
+          h3 you don't have any development plans.
+        else
+          .list-group
+            each developmentplan in developmentplans
+              +developmentplanBrief(developmentplan)

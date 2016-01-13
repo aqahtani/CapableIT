@@ -30,7 +30,8 @@ exports.initLocals = function(req, res, next) {
 		{ label: t('nav.organization'), key: 'organization',    href: '/organization' },
         { label: t('nav.jobs'),         key: 'jobs',            href: '/jobs' },
         { label: t('nav.employees'),    key: 'employees',       href: '/employees' },
-        { label: t('nav.assessments'),  key: 'assessments',     href: '/assessments' }
+        { label: t('nav.assessments'),  key: 'assessments',     href: '/assessments' },
+        { label: t('nav.development'),  key: 'development',     href: '/developmentplans' }
     ];
 	
     locals.user = req.user;

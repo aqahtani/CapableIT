@@ -1,4 +1,10 @@
 (function () {
+  
+    // bootstrap-datepicker
+    $(".datepicker").datepicker({
+        autoclose: true,
+        format: 'yyyy-mm-dd'
+    });
     
     // popovers and tooltips, whenever they are under .bs-component
     $('.bs-component [data-toggle="popover"]').popover();
