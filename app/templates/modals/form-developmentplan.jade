@@ -64,7 +64,7 @@ mixin modalEditDevelopmentPlan(modalId, developmentplan)
             .col-sm-12
               .form-group(class=validationErrors.period ? 'has-error' : null)
                 label(for='period').col-sm-2.control-label  Target Period
-                .col-sm-10: input(type='text', name='period', id='period', placeholder='YYYY').form-control
+                .col-sm-10: input(type='text', name='period', id='period', value=developmentplan.period, placeholder='YYYY').form-control
           hr
           .row
             .col-sm-12
