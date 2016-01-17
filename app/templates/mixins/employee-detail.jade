@@ -49,7 +49,7 @@ mixin employeeDetail(employee)
   if employee.bio
     hr
     blockquote
-      p= employee.bio
+      p.multi-line= employee.bio
       p: footer.pull-right= employee.name.first
 
   hr

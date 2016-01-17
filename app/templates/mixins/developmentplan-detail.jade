@@ -17,7 +17,7 @@ mixin developmentplanDetail(developmentplan, activities)
   hr
   h3 Professional Goals/Motivations
   blockquote
-    p= developmentplan.goals
+    p.multi-line= developmentplan.goals
 
   hr
   .row
@@ -25,13 +25,15 @@ mixin developmentplanDetail(developmentplan, activities)
       .panel.panel-info
         .panel-heading
           h4 Strengths and Talents to Use (3-5)
-        .panel-body= developmentplan.strengths
+        .panel-body
+          p.multi-line= developmentplan.strengths
   
     .col-sm-6
       .panel.panel-warning
         .panel-heading
           h4 Weaknesses to Develop (3-5)
-        .panel-body= developmentplan.weaknesses
+        .panel-body
+          p.multi-line= developmentplan.weaknesses
   
   +modalAddDevelopmentActivity('formAddDevelopmentActivityModal')
   hr

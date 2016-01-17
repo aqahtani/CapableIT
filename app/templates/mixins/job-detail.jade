@@ -55,12 +55,14 @@ mixin jobDetail(job, englishlevels, hardlevels, softlevels)
       .panel.panel-success
         .panel-heading
           h4 Knowledge
-        .panel-body= job.knowledge
+        .panel-body
+          p.multi-line= job.knowledge
     .col-sm-6
       .panel.panel-info
         .panel-heading
           h4 Experience & Qualifications
-        .panel-body= job.experience
+        .panel-body
+          p.multi-line= job.experience
   .row
     .col-sm-6
       .panel.panel-danger

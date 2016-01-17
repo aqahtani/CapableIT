@@ -138,13 +138,11 @@ DevelopmentPlan.schema.pre('save', function (next) {
 // make sure that associated development activities and authorizations are removed
 // when a development plan is removed as well
 DevelopmentPlan.schema.post('remove', function (developmentplan) {
-    console.log('### About to delete related docs ...');
     var async = require("async");
     // We don't actually execute the async action here
     
     // remove related acitivities
     var removeActivities = function (callback) {
-        console.log('   --> Deleting acts...');
         keystone.list('DevelopmentActivity').model.find()
         .where({
             'organization': developmentplan.organization,
@@ -156,7 +154,6 @@ DevelopmentPlan.schema.post('remove', function (developmentplan) {
 
     // remove related authorizations
     var removeAuthorizations = function (callback) {
-        console.log('   --> Deleting auths...');
         keystone.list('UserAuthorization').model.removeResource(
             developmentplan.organization, 
             '/developmentplan/' + developmentplan.id,
