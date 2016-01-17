@@ -115,7 +115,7 @@ keystone.set('nav', {
     'Home': ['organizations'],
     'Organization': ['org-departments', 'org-functions', 'jobs', 'job-tasks', 'employees'],
     'Assessment': ['assessments', 'hard-skill-gaps', 'soft-skill-gaps', 'english-skill-gaps'],
-    'Development': ['development-plans', 'development-activities'],
+    'Development': ['development-plans', 'development-activities', 'development-methods'],
     'Professional Skills': ['hard-skill-categories', 'hard-skill-sub-categories', 'hard-levels', 'hard-skills'],
     'Behavioral Skills': ['english-levels', 'soft-levels', 'soft-skills'],
     'users': ['users', 'verification-tokens', 'permissions', 'roles', 'user-authorizations', 'role-authorizations'],

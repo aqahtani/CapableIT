@@ -79,6 +79,7 @@ mixin formMultiText(field, items)
     .btn.btn-info.btn-add-item: span.glyphicon.glyphicon-plus
 
 //- A mixin to select/options for a Select Field
+//- which is for a simple list of text inputs
 mixin formSelectInput(field, items, selected)
   select(name='#{field}', id='#{field}').form-control.input-sm
     each item in items
@@ -86,3 +87,15 @@ mixin formSelectInput(field, items, selected)
         option(value="#{item}", selected)= item
       else
         option(value="#{item}")= item
+
+//- a mixin to display a list as select input
+//- list is an array of objects (of the related list items from keystone)
+//- selected is the selected object (a single item from the list)
+//- it assumes that each item has an 'id' and a 'title'
+mixin formSelectList(inputName, list, selected)
+  select(name='#{inputName}', id='#{inputName}').form-control
+    each item in list
+      if (selected && item.id == selected.id)
+        option(value="#{item.id}", selected)= item.title
+      else
+        option(value="#{item.id}")= item.title

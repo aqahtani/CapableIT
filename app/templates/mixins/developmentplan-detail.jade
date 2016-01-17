@@ -3,7 +3,7 @@ include flags
 include ../modals/form-developmentactivity
 
 //- Development Plan in Details
-mixin developmentplanDetail(developmentplan, activities)
+mixin developmentplanDetail(developmentplan, activities, developmentMethods)
   .row
     .col-sm-2: +fieldLabel("Employee")
     .col-sm-4
@@ -35,7 +35,7 @@ mixin developmentplanDetail(developmentplan, activities)
         .panel-body
           p.multi-line= developmentplan.weaknesses
   
-  +modalAddDevelopmentActivity('formAddDevelopmentActivityModal')
+  +modalAddDevelopmentActivity('formAddDevelopmentActivityModal', developmentMethods)
   hr
   .row
     .col-sm-12
@@ -51,6 +51,7 @@ mixin developmentplanDetail(developmentplan, activities)
           table.table.table-condensed
             th #
             th Title
+            th Method
             th Target Skill
             th Deadline
             th.text-center Completed?
@@ -59,6 +60,7 @@ mixin developmentplanDetail(developmentplan, activities)
               tr
                 td #{i+1}
                 td= activity.title
+                td= activity.method.title
                 td= activity.targetSkill
                 td= activity._.deadline.format('YYYY-MM-DD')
                 td.text-center
@@ -67,8 +69,8 @@ mixin developmentplanDetail(developmentplan, activities)
                   //- button to trigger edit modal only on 'edit' permission
                   if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
                     span.text-left
-                      +modalDevelopmentActivity('formDevelopmentActivityModal' + activity.id, activity)
+                      +modalEditDevelopmentActivity('formEditDevelopmentActivityModal' + activity.id, activity, developmentMethods)
                       +modalDeleteDevelopmentActivity('formDeleteDevelopmentActivityModal' + activity.id, activity)
-                    a(href="#", data-toggle="modal", data-target="#formDevelopmentActivityModal" + activity.id, title="Edit Activity"): span.glyphicon.glyphicon-edit
+                    a(href="#", data-toggle="modal", data-target="#formEditDevelopmentActivityModal" + activity.id, title="Edit Activity"): span.glyphicon.glyphicon-edit
                     |  
                     a(href="#", data-toggle="modal", data-target="#formDeleteDevelopmentActivityModal" + activity.id, title="Delete Activity"): span.glyphicon.glyphicon-remove-circle

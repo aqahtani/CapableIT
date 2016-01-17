@@ -84,8 +84,9 @@
     <Compile Include="routes\views\job.js" />
     <Compile Include="routes\user\verify.js" />
     <Compile Include="templates\modals\form-employee.jade" />
-    <Compile Include="updates\0.0.2-org.js" />
     <Compile Include="updates\0.0.2-english-levels.js" />
+    <Compile Include="updates\0.0.2-org.js" />
+    <Compile Include="updates\0.0.3-development-methods.js" />
     <Compile Include="updates\0.0.1-soft-skills.js" />
     <Compile Include="updates\0.0.1-sfia-levels.js" />
     <Compile Include="updates\0.0.1-sfia.js" />

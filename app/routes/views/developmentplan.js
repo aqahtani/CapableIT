@@ -30,10 +30,12 @@ exports = module.exports = function(req, res) {
     view.query('activities', DevelopmentActivity.model.find()
             .where(locals.orgFilter)//always apply tenant filter first
             .where({ 'developmentPlan': locals.filters.developmentplan })
-            .populate('organization employee developmentPlan')
+            .populate('organization employee developmentPlan method')
             .sort('deadline')
     );
     
+    // 3: get all development methods
+    view.query('developmentMethods', keystone.list('DevelopmentMethod').model.find());    
     
     /*
      * Manipulate a Development Plan: Update and Delete
@@ -145,6 +147,7 @@ exports = module.exports = function(req, res) {
                 employee: developmentplan.employee,
                 developmentPlan: developmentplan.id,
                 title: req.body.title,
+                method: req.body.method,
                 targetSkill: req.body.targetSkill,
                 deadline: req.body.deadline,
                 completed: req.body.completed,
@@ -192,7 +195,7 @@ exports = module.exports = function(req, res) {
             
             updater.process(req.body, {
                 flashErrors: true,
-                fields: 'title, targetSkill, deadline, completed, remarks',
+                fields: 'title, method, targetSkill, deadline, completed, remarks',
                 errorMessage: 'There was a problem with your update:'
             }, function (err, result) {
                 if (err) {

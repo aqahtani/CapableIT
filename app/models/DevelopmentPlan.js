@@ -4,6 +4,29 @@
     _ = require('underscore');
 
 /**
+ * DevelopmentMethod Model
+ * ================
+ */
+
+var DevelopmentMethod = new keystone.List('DevelopmentMethod', {
+    map: { name: 'title' },
+    autokey: { path: 'slug', from: 'title', unique: true },
+    defaultSort: 'title'
+});
+
+DevelopmentMethod.add({
+    title: { type: Types.Text, initial: true, required: true },
+    type: { type: Types.Select, options: 'On-The-Job, Off-The-Job', required: true, default: 'Off-The-Job', index: true },
+    description: { type: Types.Textarea, height: 100 },
+    remarks: { type: Types.Textarea, height: 50 },
+    examples: { type: Types.TextArray }
+});
+
+DevelopmentMethod.defaultColumns = 'title, type';
+DevelopmentMethod.register();
+
+
+/**
  * DevelopmentActivity Model
  * ================
  */
@@ -19,13 +42,14 @@ DevelopmentActivity.add({
     employee: { type: Types.Relationship, ref: 'Employee', required: true, initial: true, index: true },
     developmentPlan: { type: Types.Relationship, ref: 'DevelopmentPlan', required: true, initial: true, index: true },
     title: { type: Types.Text, initial: true, required: true },
+    method: { type: Types.Relationship, ref: 'DevelopmentMethod', initial: true, index: true },
     targetSkill: { type: Types.Text, initial: true, required: true },
     deadline: { type: Types.Date, format: 'YYYY-MM-DD', initial: true, required: true },
     completed: { type: Types.Boolean, default: false, index: true },
     remarks: { type: Types.Textarea, height: 150 },
 });
 
-DevelopmentActivity.defaultColumns = 'organization|10%, employee, title, targetSkill, deadline, completed';
+DevelopmentActivity.defaultColumns = 'organization|10%, employee, title, method, targetSkill, deadline, completed';
 DevelopmentActivity.register();
 
 

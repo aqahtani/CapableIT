@@ -30,7 +30,7 @@ Employee.add({
 }, 'Education and Certification', {
     english: {
         level: { type: Types.Relationship, ref: 'EnglishLevel' },
-        test: { type: Types.Select, options: 'TOEFL IBT, IELTS' },
+        test: { type: Types.Select, options: 'None, TOEFL IBT, IELTS', default: 'None' },
         score: { type: Types.Number }
     },
     education: {

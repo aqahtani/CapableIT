@@ -1,7 +1,7 @@
 ﻿include form-mixins
 
 //- Modal: Add DevelopmentActivity Form
-mixin modalAddDevelopmentActivity(modalId)
+mixin modalAddDevelopmentActivity(modalId, developmentMethods)
   .modal.fade(id="#{modalId}")
     .modal-dialog.modal-lg
       form(method='post').modal-content
@@ -18,6 +18,12 @@ mixin modalAddDevelopmentActivity(modalId)
                 label(for='title').col-sm-2.control-label  Title
                 .col-sm-10: input(type='text', name='title', id='title', placeholder='activity title').form-control
           
+          .row
+            .col-sm-12
+              .form-group.form-group-sm(class=validationErrors.method ? 'has-error' : null)
+                label(for='method').col-sm-2.control-label  Method
+                .col-sm-10: +formSelectList('method', developmentMethods, null)
+
           .row
             .col-sm-12
               .form-group.form-group-sm(class=validationErrors.targetSkill ? 'has-error' : null)
@@ -49,7 +55,7 @@ mixin modalAddDevelopmentActivity(modalId)
 
 
 //- Modal: Edit DevelopmentActivity Form
-mixin modalDevelopmentActivity(modalId, activity)
+mixin modalEditDevelopmentActivity(modalId, activity, developmentMethods)
   .modal.fade(id="#{modalId}")
     .modal-dialog.modal-lg
       form(method='post').modal-content
@@ -67,6 +73,12 @@ mixin modalDevelopmentActivity(modalId, activity)
                 label(for='title').col-sm-2.control-label  Title
                 .col-sm-10: input(type='text', name='title', id='title', value=activity.title).form-control
           
+          .row
+            .col-sm-12
+              .form-group.form-group-sm(class=validationErrors.method ? 'has-error' : null)
+                label(for='method').col-sm-2.control-label  Method
+                .col-sm-10: +formSelectList('method', developmentMethods, activity.method)
+
           .row
             .col-sm-12
               .form-group.form-group-sm(class=validationErrors.targetSkill ? 'has-error' : null)
