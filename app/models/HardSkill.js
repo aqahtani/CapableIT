@@ -88,6 +88,7 @@ HardSkill.add({
 });
 
 HardSkill.relationship({ path: 'jobs', ref: 'Job', refPath: 'professional.skills' });
+HardSkill.relationship({ path: 'assessments', ref: 'Assessment', refPath: 'professional.skills' });
 
 HardSkill.defaultColumns = 'number, code, title, category, subCategory, levels.min, levels.max';
 

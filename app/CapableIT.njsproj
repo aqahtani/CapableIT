@@ -18,6 +18,8 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Content Include="package.json" />
+    <Compile Include="updates\0.0.4-sfia-v6-reset.js" />
+    <Compile Include="updates\sfia6.js" />
     <Compile Include="keystone.js" />
     <Compile Include="config\i18next.js" />
     <Compile Include="models\DevelopmentPlan.js" />
@@ -84,6 +86,7 @@
     <Compile Include="routes\views\job.js" />
     <Compile Include="routes\user\verify.js" />
     <Compile Include="templates\modals\form-employee.jade" />
+    <Compile Include="updates\0.0.5-sfia-v6-skills.js" />
     <Compile Include="updates\0.0.2-english-levels.js" />
     <Compile Include="updates\0.0.2-org.js" />
     <Compile Include="updates\0.0.3-development-methods.js" />
