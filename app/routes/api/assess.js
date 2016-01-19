@@ -29,12 +29,14 @@ exports = module.exports = function (req, res) {
     // handle post method
     view.on('post', function (next) {
         if (req.body) {
+            var today = new Date();
             var newAssessment = {
                 'organization': locals.orgId,
                 'status': 'draft',
                 'doneBy': locals.filters.employee,
                 'employee': req.body.employee,
-                'job': req.body.job
+                'job': req.body.job,
+                'period': today.getFullYear()
             };
             
             Assessment.model.create(newAssessment, function (err, doc) {

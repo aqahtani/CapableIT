@@ -21,8 +21,8 @@ Assessment.add({
     prime: { type: Types.Boolean, default: false, index: true }, 
     // analyzed: indicated whether or not this assessment has already been analyzed (i.e. gaps extracted)
     analyzed: { type: Types.Boolean, default: false, index: true }, 
-    // period: indicates the period of assessment such as 2014H1, 2014H2, 2015H1, ...
-    period: { type: Types.Text, default: '2015H1', required: true, initial: true, index: true },
+    // period: indicates the period of assessment such as 2014, 2015, ...
+    period: { type: Types.Text, match: [/^\d\d\d\d$/, "The period has to match a valid year YYYY ({VALUE})"], required: true, initial: true, index: true },
     employee: { type: Types.Relationship, ref: 'Employee', required: true, initial: true, index: true },
     doneBy: { type: Types.Relationship, ref: 'Employee', required: true, initial: true, index: true },
     job: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }, required: true, initial: true }

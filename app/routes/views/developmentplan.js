@@ -11,7 +11,8 @@ exports = module.exports = function(req, res) {
 	// Set locals
 	locals.section = 'development';
     locals.filters = {
-        developmentplan: req.params.developmentplan
+        developmentplan: req.params.developmentplan,
+        employee: req.user.employee
 	};
     
     locals.statusOptions = _.pluck(DevelopmentPlan.fields['status'].ops, 'value');
@@ -35,8 +36,24 @@ exports = module.exports = function(req, res) {
     );
     
     // 3: get all development methods
-    view.query('developmentMethods', keystone.list('DevelopmentMethod').model.find());    
+    view.query('developmentMethods', keystone.list('DevelopmentMethod').model.find());
     
+    // 4: get all hard skill gaps to highlight in development plan
+    view.query('hardGaps', keystone.list('HardSkillGap').model.find()
+        .where(locals.orgFilter)
+        .where({ 'employee': locals.filters.employee })
+        .populate('skill')
+        .sort('-gap')
+    );
+    
+    // 5: get all soft skill gaps to highlight in development plan
+    view.query('softGaps', keystone.list('SoftSkillGap').model.find()
+        .where(locals.orgFilter)
+        .where({ 'employee': locals.filters.employee })
+        .populate('skill')
+        .sort('-gap')
+    );
+
     /*
      * Manipulate a Development Plan: Update and Delete
      */

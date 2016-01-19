@@ -30,13 +30,13 @@ mixin modalNewDevelopmentPlan(modalId)
           //- 2: Strengths and Weaknesses
           .row
             .col-sm-6
-              .panel.panel-info
+              .panel.panel-default
                 .panel-heading: h4 Strengths and Talents to Use (3-5)
                 .panel-body
                   .form-group
                     textarea(name='strengths', id='strengths', rows='3').form-control
             .col-sm-6
-              .panel.panel-warning
+              .panel.panel-default
                 .panel-heading: h4 Weaknesses to Develop (3-5)
                 .panel-body
                   .form-group
@@ -77,13 +77,13 @@ mixin modalEditDevelopmentPlan(modalId, developmentplan)
           //- 2: Strengths and Weaknesses
           .row
             .col-sm-6
-              .panel.panel-info
+              .panel.panel-default
                 .panel-heading: h4 Strengths and Talents to Use (3-5)
                 .panel-body
                   .form-group(class=validationErrors.strengths ? 'has-error' : null)
                     textarea(name='strengths', id='strengths', rows='3').form-control= developmentplan.strengths
             .col-sm-6
-              .panel.panel-warning
+              .panel.panel-default
                 .panel-heading: h4 Weaknesses to Develop (3-5)
                 .panel-body
                   .form-group(class=validationErrors.weaknesses ? 'has-error' : null)

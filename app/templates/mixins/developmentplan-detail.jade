@@ -3,7 +3,7 @@ include flags
 include ../modals/form-developmentactivity
 
 //- Development Plan in Details
-mixin developmentplanDetail(developmentplan, activities, developmentMethods)
+mixin developmentplanDetail(developmentplan, activities, developmentMethods, hardGaps, softGaps)
   .row
     .col-sm-2: +fieldLabel("Employee")
     .col-sm-4
@@ -22,14 +22,14 @@ mixin developmentplanDetail(developmentplan, activities, developmentMethods)
   hr
   .row
     .col-sm-6
-      .panel.panel-info
+      .panel.panel-default
         .panel-heading
           h4 Strengths and Talents to Use (3-5)
         .panel-body
           p.multi-line= developmentplan.strengths
   
     .col-sm-6
-      .panel.panel-warning
+      .panel.panel-default
         .panel-heading
           h4 Weaknesses to Develop (3-5)
         .panel-body
@@ -43,6 +43,33 @@ mixin developmentplanDetail(developmentplan, activities, developmentMethods)
         //- button to trigger add modal only on 'create' permission
         if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
           .pull-right: a(href="#", data-toggle="modal", data-target="#formAddDevelopmentActivityModal", title="Add Activity"): span.glyphicon.glyphicon-plus-sign
+      hr
+      //- Skill Gaps
+      .row
+        .col-sm-6
+          .panel.panel-danger
+            .panel-heading Top professional skill gaps to target
+            .list-group
+              for hardGap, index in _.first(hardGaps, 5)
+                .list-group-item
+                  span.badge= hardGap.gap
+                  span= hardGap.skill.title
+            .panel-footer
+              | More on professional skills can be found under 
+              a(href='/skills/hard') Guide/Professional Skills
+                    
+        .col-sm-6
+          .panel.panel-warning
+            .panel-heading Top behavioral skill gaps to target
+            .list-group
+              for softGap, index in _.first(softGaps, 5)
+                .list-group-item
+                  span.badge= softGap.gap
+                  span= softGap.skill.title
+            .panel-footer 
+              | More on behavioral skills can be found under 
+              a(href='/skills/soft') Guide/Behavioral Skills
+
       hr
       if !activities.length
         h4 No activies found

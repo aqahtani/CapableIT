@@ -69,7 +69,7 @@ DevelopmentPlan.add({
     createdAt: { type: Date, required: true, default: Date.now },
     status: { type: Types.Select, options: 'draft, final, archived', required: true, default: 'draft', index: true },
     // period: indicates the period of assessment such as 2014, 2014, 2015, ...
-    period: { type: Types.Text, default: '2016', required: true, initial: true, index: true },
+    period: { type: Types.Text, match: [/^\d\d\d\d$/, "The period has to match a valid year YYYY ({VALUE})"], required: true, initial: true, index: true },
     goals: { type: Types.Textarea, height: 150 },
     strengths: { type: Types.Textarea, height: 150 },
     weaknesses: { type: Types.Textarea, height: 150 },

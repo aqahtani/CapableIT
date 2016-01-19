@@ -27,6 +27,6 @@ block content
               | 
               if _.contains(authorized.permissions, 'delete') || _.contains(authorized.permissions, '*')
                 a(href="#", data-toggle="modal", data-target="#formDeleteDevelopmentPlanModal", title="Delete Plan"): span.glyphicon.glyphicon-remove-circle
-          hr
+          hr          
           //- developmentplan details
-          +developmentplanDetail(developmentplan, activities, developmentMethods)
+          +developmentplanDetail(developmentplan, activities, developmentMethods, hardGaps, softGaps)
