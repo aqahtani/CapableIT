@@ -1,7 +1,9 @@
 ﻿var keystone = require('keystone'),
     Types = keystone.Field.Types,
     uniqueValidator = require('mongoose-unique-validator'),
-    _ = require('underscore');
+    _ = require('underscore'),
+    util = require('util');
+
 
 /**
  * DevelopmentMethod Model
@@ -106,7 +108,6 @@ DevelopmentPlan.schema.pre('save', function (next) {
         };
         
         // get the user of the direct manager
-        // ...
         var getManagerUser = function (callback) {
             keystone.list('Employee').model.findById(plan.employee, function (err, employee) {
                 if (err) return callback(err, null);
@@ -116,6 +117,26 @@ DevelopmentPlan.schema.pre('save', function (next) {
                     callback(null, user);
                 }
                 );
+            });
+        };
+        
+        // get the user of the director (manager of the manager)
+        var getDirectorUser = function (callback) {
+            keystone.list('Employee').model.findById(plan.employee, function (err, employee) {
+                if (err) return callback(err, null);
+                if (!employee) return callback();
+                
+                // you have the employee, get his manager!
+                keystone.list('Employee').model.findById(employee.manager, function (err, manager) {
+                    if (err) return callback(err, null);
+                    if (!manager) return callback();
+                    
+                    // you have the manager, get user of his manager
+                    keystone.list('User').model.findByEmployee(manager.organization, manager.manager, function (err, directorUser) {
+                        if (err) return callback(err);
+                        callback(null, directorUser);
+                    });
+                });
             });
         };
 
@@ -141,15 +162,31 @@ DevelopmentPlan.schema.pre('save', function (next) {
                     ['view','edit'], callback);
             }
             else {
-                callback(null);
+                callback();
             }
         };
         
+        // assign the manager 'view' and 'edit' permissions
+        var authorizeDirector = function (callback, results) {
+            if (results.directorUser) {
+                keystone.list('UserAuthorization').model.authorize(
+                    plan.organization,
+                    results.directorUser._id,
+                    '/developmentplan/' + plan.id,
+                    ['view', 'edit'], callback);
+            }
+            else {
+                callback();
+            }
+        };
+
         async.auto({
             creatorUser: getCreatorUser,
-            managerUser: getManagerUser, 
+            managerUser: getManagerUser,
+            directorUser: getDirectorUser, 
             creatorAuthorization: ['creatorUser', authorizeCreator],
-            managerAuthorization: ['managerUser', authorizeManager]
+            managerAuthorization: ['managerUser', authorizeManager],
+            directorAuthorization: ['directorUser', authorizeDirector]
         } , function (err, results) {
             next(err);
         });
