@@ -1,14 +1,18 @@
 extends ../layouts/default
 include ../mixins/developmentplan-detail
 include ../modals/form-developmentplan
-//-include ../mixins/flags
+include ../mixins/flags
 
 
 block content
-  //- embed the developmentplan form modal
+  //- embed the developmentplan form modals
   if developmentplan
     +modalEditDevelopmentPlan('formEditDevelopmentPlanModal', developmentplan)
     +modalDeleteDevelopmentPlan('formDeleteDevelopmentPlanModal', developmentplan)
+    if developmentplan.approved
+      +modalApproveDevelopmentPlan('formApproveDevelopmentPlanModal', developmentplan, 'unapprove')
+    else
+      +modalApproveDevelopmentPlan('formApproveDevelopmentPlanModal', developmentplan, 'approve')
 
   //- display the development plan
   .container
@@ -19,14 +23,17 @@ block content
         else
           h2 Development Plan
             .badge= developmentplan.status
-            //-+flag-prime(assessment.prime)
+            +flag-approved(developmentplan.approved)
             .pull-right
-              //- button to trigger edit modal only on 'edit' permission
+              //- buttons to trigger edit, delete, and approve modals based on permissions
               if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
                 a(href="#", data-toggle="modal", data-target="#formEditDevelopmentPlanModal", title="Edit Plan"): span.glyphicon.glyphicon-edit
               | 
               if _.contains(authorized.permissions, 'delete') || _.contains(authorized.permissions, '*')
                 a(href="#", data-toggle="modal", data-target="#formDeleteDevelopmentPlanModal", title="Delete Plan"): span.glyphicon.glyphicon-remove-circle
+              | 
+              if _.contains(authorized.permissions, 'approve') || _.contains(authorized.permissions, '*')
+                a(href="#", data-toggle="modal", data-target="#formApproveDevelopmentPlanModal", title="Approve Plan"): span.glyphicon.glyphicon-check
           hr          
           //- developmentplan details
           +developmentplanDetail(developmentplan, activities, developmentMethods, hardGaps, softGaps)

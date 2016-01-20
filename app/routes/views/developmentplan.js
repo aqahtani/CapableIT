@@ -11,7 +11,7 @@ exports = module.exports = function(req, res) {
 	// Set locals
 	locals.section = 'development';
     locals.filters = {
-        developmentplan: req.params.developmentplan,
+        developmentPlan: req.params.developmentplan,
         employee: req.user.employee
 	};
     
@@ -20,17 +20,17 @@ exports = module.exports = function(req, res) {
     // initialize edit/post variables
     locals.validationErrors = {};
     
-    // 1: get current developmentplan
+    // 1: get current developmentPlan
     view.query('developmentplan', DevelopmentPlan.model.findOne()
             .where(locals.orgFilter)//always apply tenant filter first
-            .where({ '_id': locals.filters.developmentplan })
-            .populate('organization employee')
+            .where({ '_id': locals.filters.developmentPlan })
+            .populate('organization employee approvedBy')
     );
     
     // 2: get related development activities
     view.query('activities', DevelopmentActivity.model.find()
             .where(locals.orgFilter)//always apply tenant filter first
-            .where({ 'developmentPlan': locals.filters.developmentplan })
+            .where({ 'developmentPlan': locals.filters.developmentPlan })
             .populate('organization employee developmentPlan method')
             .sort('deadline')
     );
@@ -55,10 +55,10 @@ exports = module.exports = function(req, res) {
     );
 
     /*
-     * Manipulate a Development Plan: Update and Delete
+     * Manipulate a Development Plan: Update, Delete, and Approve
      */
 
-    // UPDATE developmentplan
+    // UPDATE developmentPlan
     view.on('post', { action: 'update' }, function (next) {
         
         // set locals for edit form
@@ -67,58 +67,60 @@ exports = module.exports = function(req, res) {
         // find the development plan
         var q = DevelopmentPlan.model.findOne()
             .where(locals.orgFilter)//always apply org filter first
-            .where({ '_id': locals.filters.developmentplan });
+            .where({ '_id': locals.filters.developmentPlan });
         
-        q.exec(function (err, developmentplan) {
+        q.exec(function (err, developmentPlan) {
             if (err) {
                 req.flash('error', err);
                 return next();
             }
             
-            if (!developmentplan) {
+            if (!developmentPlan) {
                 // no results 
                 req.flash('warning', 'We cannot find a matching development plan');
                 return next();
             }
 
-            // developmentplan found, update it
-            var updater = developmentplan.getUpdateHandler(req);
+            // developmentPlan found, update it
+            var updater = developmentPlan.getUpdateHandler(req);
             
+            // reset approval of the plan upon any edit
+            req.body.approved = false;
+
             updater.process(req.body, {
                 flashErrors: true,
-                fields: 'status, period, goals, strengths, weaknesses',
+                fields: 'status, approved, period, goals, strengths, weaknesses',
                 errorMessage: 'There was a problem with your update:'
             }, function (err, result) {
                 if (err) {
                     locals.validationErrors = err.errors;
                 } else {
                     req.flash('success', 'Update successfully completed.');
+                    req.flash('warning', 'Development plan approval has been reset');
                 }
-                //next();
                 res.redirect('back');
             });
 
         });
     });
     
-    // DELETE developmentplan    
+    // DELETE developmentPlan    
     view.on('post', { action: 'delete' }, function (next) {
-        console.log('### Removing the plan ...');
         // remove the development it
-        DevelopmentPlan.model.findById(req.body.planId).exec(function (err, developmentplan){
+        DevelopmentPlan.model.findById(req.body.planId).exec(function (err, developmentPlan){
             if (err) {
                 req.flash('error', err);
                 return next();
             }
             
-            if (!developmentplan) {
+            if (!developmentPlan) {
                 req.flash('error', 'Cannot find the development plan to delete');
                 return next();
             }
             
             // all is well, remove the development plan
             // note that you need to call remove on the doc so the middleware can be triggered!
-            developmentplan.remove(function (err) {
+            developmentPlan.remove(function (err) {
                 if (err) {
                     req.flash('error', err);
                     return next();
@@ -132,26 +134,77 @@ exports = module.exports = function(req, res) {
             
         });
     });
+    
+    // [UN]APPROVE developmentPlan    
+    view.on('post', { action: 'approve' }, function (next) {
+        
+        DevelopmentPlan.model.findById(req.body.planId).exec(function (err, developmentPlan) {
+            if (err) {
+                req.flash('error', err);
+                return next();
+            }
+            
+            if (!developmentPlan) {
+                req.flash('error', 'Cannot find the development plan');
+                return next();
+            }
+            
+            // all is well, toggle the development plan 'approved' flag, and set/reset approvedBy
+            // note that you need to call save on the doc so the middleware can be triggered!
+            developmentPlan.approved = !developmentPlan.approved;
+            developmentPlan.approvedBy = (developmentPlan.approved ? locals.filters.employee : null);
 
+            developmentPlan.save(function (err) {
+                if (err) {
+                    req.flash('error', err);
+                    return next();
+                }
+                
+                // approved successful!
+                req.flash('success', 'Successfully completed.');
+                res.redirect('back');
+            });
+        });
+    });
 
     /*
      * Manipulate related activities: Create, Update, and Delete
      */
+
+    // async functions: 
+    //var getDevelopmentPlan = function (callback) { 
+    //    DevelopmentPlan.model.findOne()
+    //        .where(locals.orgFilter)//always apply org filter first
+    //        .where({ '_id': locals.filters.developmentPlan })
+    //        .exec(callback);
+    //};
+    
+    var resetDevelopmentPlanApproval = function (callback) {
+        DevelopmentPlan.model.findOne()
+            .where(locals.orgFilter)//always apply org filter first
+            .where({ '_id': locals.filters.developmentPlan })
+            .exec(function (err, developmentPlan) {   
+                developmentPlan.approved = false;
+                developmentPlan.save(callback);
+        });
+    };
+    
+
     // Create a single activity that belongs to development plan
     view.on('post', { action: 'create-activity' }, function (next) {
         
         // get the current development plan to attach the activity to it
         var q = DevelopmentPlan.model.findOne()
             .where(locals.orgFilter)//always apply org filter first
-            .where({ '_id': locals.filters.developmentplan });
+            .where({ '_id': locals.filters.developmentPlan });
         
-        q.exec(function (err, developmentplan) {
+        q.exec(function (err, developmentPlan) {
             if (err) {
                 req.flash('error', err);
                 return next();
             }
             
-            if (!developmentplan) {
+            if (!developmentPlan) {
                 // no results 
                 req.flash('warning', 'We cannot find a matching development plan');
                 return next();
@@ -160,9 +213,9 @@ exports = module.exports = function(req, res) {
             // all is well, Go! 
             // create a new activity and save
             var newActivity = new DevelopmentActivity.model({
-                organization: developmentplan.organization,
-                employee: developmentplan.employee,
-                developmentPlan: developmentplan.id,
+                organization: developmentPlan.organization,
+                employee: developmentPlan.employee,
+                developmentPlan: developmentPlan.id,
                 title: req.body.title,
                 method: req.body.method,
                 targetSkill: req.body.targetSkill,
@@ -173,13 +226,19 @@ exports = module.exports = function(req, res) {
             
             newActivity.save(function (err) {
                 if (err) {
-                    req.flash('error', err);
+                    // req.flash('error', err);
+                    locals.validationErrors = err.errors;
                     return next();
                 }
                 
-                // create successful!
-                req.flash('success', 'Add activity successfully completed.');
-                res.redirect('back');
+                // create activity successful!
+                // reset approval of the development plan
+                developmentPlan.approved = false;
+                developmentPlan.save(function (err) {
+                    req.flash('success', 'Add activity successfully completed.');
+                    req.flash('warning', 'Development plan approval has been reset');
+                    res.redirect('back');
+                });
             });
         });
     });
@@ -217,11 +276,19 @@ exports = module.exports = function(req, res) {
             }, function (err, result) {
                 if (err) {
                     locals.validationErrors = err.errors;
-                } else {
+                    return next();
+                };
+                
+                // update successful!
+                resetDevelopmentPlanApproval(function (err) {
+                    if (err) {
+                        req.flash('error', err);
+                        return next();
+                    }
                     req.flash('success', 'Update activity successfully completed.');
-                }
-                //next();
-                res.redirect('back');
+                    req.flash('warning', 'Development plan approval has been reset');
+                    res.redirect('back');
+                });
             });
 
         });
@@ -232,15 +299,23 @@ exports = module.exports = function(req, res) {
     view.on('post', { action: 'delete-activity' }, function (next) {
         // find the assessment, and remove it
         DevelopmentActivity.model.findById(req.body.activityId)
-            .remove(function (err) {
+        .remove(function (err) {
             if (err) {
                 req.flash('error', err);
                 return next();
             }
             
             // delete successful!
-            req.flash('success', 'Delete activity successfully completed.');
-            res.redirect('back');
+            resetDevelopmentPlanApproval(function (err) {
+                if (err) {
+                    req.flash('error', err);
+                    return next();
+                } 
+                req.flash('success', 'Delete activity successfully completed.');
+                req.flash('warning', 'Development plan approval has been reset');
+                res.redirect('back');
+            });
+                
         });
     });
     

@@ -119,3 +119,32 @@ mixin modalDeleteDevelopmentPlan(modalId, developmentplan)
         .modal-footer
           button(type='submit').btn.btn-danger Delete
           button(type="button", data-dismiss="modal").btn Cancel
+
+//- Modal: Approve DevelopmentPlan Form
+mixin modalApproveDevelopmentPlan(modalId, developmentplan, action)
+  .modal.fade(id="#{modalId}")
+    .modal-dialog
+      form(method='post').modal-content
+        input(type='hidden', name='action', value='approve')
+        input(type='hidden', name='planId', value=developmentplan.id)
+        .modal-header
+          button(type="button", data-dismiss="modal").close
+            span(aria-hidden="true") &times;
+            span.sr-only Close
+          h4.modal-title #{utils.upcase(action)} Development Plan
+        .modal-body
+          p Are you sure you want to #{action} this plan?
+
+          dl.dl-horizontal
+            dt Employee
+            dd= developmentplan.employee.name.full
+            dt Period
+            dd= developmentplan.period
+            dt Created At
+            dd=developmentplan._.createdAt.format('YYYY-MM-DD')
+            dt Approved?
+            dd= (developmentplan.approved ? 'Yes' : 'No')
+          
+        .modal-footer
+          button(type='submit').btn.btn-danger #{utils.upcase(action)}
+          button(type="button", data-dismiss="modal").btn Cancel

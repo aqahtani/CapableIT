@@ -70,14 +70,16 @@ DevelopmentPlan.add({
     employee: { type: Types.Relationship, ref: 'Employee', required: true, initial: true, index: true },
     createdAt: { type: Date, required: true, default: Date.now },
     status: { type: Types.Select, options: 'draft, final, archived', required: true, default: 'draft', index: true },
-    // period: indicates the period of assessment such as 2014, 2014, 2015, ...
+    approved: { type: Types.Boolean, default: false, index: true },
+    approvedBy: { type: Types.Relationship, ref: 'Employee' },
+    // period: indicates the period of assessment such as 2014, 2015, ...
     period: { type: Types.Text, match: [/^\d\d\d\d$/, "The period has to match a valid year YYYY ({VALUE})"], required: true, initial: true, index: true },
     goals: { type: Types.Textarea, height: 150 },
     strengths: { type: Types.Textarea, height: 150 },
     weaknesses: { type: Types.Textarea, height: 150 },
 });
 
-DevelopmentPlan.defaultColumns = 'organization|10%, employee, createdAt, period, status';
+DevelopmentPlan.defaultColumns = 'organization|10%, employee, createdAt, period, status, approved';
 DevelopmentPlan.relationship({ path: 'activities', ref: 'DevelopmentActivity', refPath: 'developmentPlan' });
 
 
@@ -140,14 +142,14 @@ DevelopmentPlan.schema.pre('save', function (next) {
             });
         };
 
-        // assigns the creator full permissions 
+        // assigns the creator permissions 
         var authorizeCreator = function (callback, results) {
             if (results.creatorUser) {
                 keystone.list('UserAuthorization').model.authorize(
                     plan.organization,
                     results.creatorUser._id,
                     '/developmentplan/' + plan.id,
-                    ['*'], callback);
+                    ['view', 'edit', 'delete'], callback);
             }
             else callback(null);
         };
@@ -159,21 +161,21 @@ DevelopmentPlan.schema.pre('save', function (next) {
                     plan.organization,
                     results.managerUser._id,
                     '/developmentplan/' + plan.id,
-                    ['view','edit'], callback);
+                    ['approve', 'view','edit'], callback);
             }
             else {
                 callback();
             }
         };
         
-        // assign the manager 'view' and 'edit' permissions
+        // assign the director 'view' and 'edit' permissions
         var authorizeDirector = function (callback, results) {
             if (results.directorUser) {
                 keystone.list('UserAuthorization').model.authorize(
                     plan.organization,
                     results.directorUser._id,
                     '/developmentplan/' + plan.id,
-                    ['view', 'edit'], callback);
+                    ['approve', 'view', 'edit'], callback);
             }
             else {
                 callback();

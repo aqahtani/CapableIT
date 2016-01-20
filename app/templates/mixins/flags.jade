@@ -45,3 +45,9 @@ mixin flag-completed(completed)
     span.glyphicon.glyphicon-ok
   else
     span.glyphicon.glyphicon-unchecked
+
+mixin flag-approved(approved)
+  if approved
+    .badge Approved by #{developmentplan.approvedBy.name.full}
+  else
+    .badge Unapproved

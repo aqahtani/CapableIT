@@ -16,7 +16,7 @@ mixin modalAddDevelopmentActivity(modalId, developmentMethods)
             .col-sm-12
               .form-group.form-group-sm(class=validationErrors.title ? 'has-error' : null)
                 label(for='title').col-sm-2.control-label  Title
-                .col-sm-10: input(type='text', name='title', id='title', placeholder='activity title').form-control
+                .col-sm-10: input(type='text', name='title', id='title', placeholder='activity title', required).form-control
           
           .row
             .col-sm-12
@@ -28,13 +28,13 @@ mixin modalAddDevelopmentActivity(modalId, developmentMethods)
             .col-sm-12
               .form-group.form-group-sm(class=validationErrors.targetSkill ? 'has-error' : null)
                 label(for='targetSkill').col-sm-2.control-label  Target Skill
-                .col-sm-10: input(type='text', name='targetSkill', id='targetSkill', placeholder='target soft and/or hard skill').form-control
+                .col-sm-10: input(type='text', name='targetSkill', id='targetSkill', placeholder='target soft and/or hard skill', required).form-control
           
           .row
             .col-sm-12
               .form-group.form-group-sm(class=validationErrors.deadline ? 'has-error' : null)
                 label(for='deadline').col-sm-2.control-label  Deadline
-                .col-sm-10: input(type='text', name='deadline', id='deadline').form-control.datepicker
+                .col-sm-10: input(type='text', name='deadline', id='deadline', required).form-control.datepicker
           
           .row
             .col-sm-12
@@ -71,7 +71,7 @@ mixin modalEditDevelopmentActivity(modalId, activity, developmentMethods)
             .col-sm-12
               .form-group.form-group-sm(class=validationErrors.title ? 'has-error' : null)
                 label(for='title').col-sm-2.control-label  Title
-                .col-sm-10: input(type='text', name='title', id='title', value=activity.title).form-control
+                .col-sm-10: input(type='text', name='title', id='title', value=activity.title, required).form-control
           
           .row
             .col-sm-12
@@ -83,13 +83,13 @@ mixin modalEditDevelopmentActivity(modalId, activity, developmentMethods)
             .col-sm-12
               .form-group.form-group-sm(class=validationErrors.targetSkill ? 'has-error' : null)
                 label(for='targetSkill').col-sm-2.control-label  Target Skill
-                .col-sm-10: input(type='text', name='targetSkill', id='targetSkill', value=activity.targetSkill).form-control
+                .col-sm-10: input(type='text', name='targetSkill', id='targetSkill', value=activity.targetSkill, required).form-control
           
           .row
             .col-sm-12
               .form-group.form-group-sm(class=validationErrors.deadline ? 'has-error' : null)
                 label(for='deadline').col-sm-2.control-label  Deadline
-                .col-sm-10: input(type='text', name='deadline', id='deadline', value=activity._.deadline.format('YYYY-MM-DD')).form-control.datepicker
+                .col-sm-10: input(type='text', name='deadline', id='deadline', value=activity._.deadline.format('YYYY-MM-DD'), required).form-control.datepicker
           
           .row
             .col-sm-12
