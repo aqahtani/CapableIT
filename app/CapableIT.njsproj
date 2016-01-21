@@ -18,6 +18,7 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Content Include="package.json" />
+    <Compile Include="routes\dashboard\developmentplans.js" />
     <Compile Include="updates\0.0.4-sfia-v6-reset.js" />
     <Compile Include="updates\sfia6.js" />
     <Compile Include="keystone.js" />
@@ -73,7 +74,7 @@
     <Compile Include="routes\views\developmentplan_new.js" />
     <Compile Include="routes\views\developmentplan.js" />
     <Compile Include="routes\views\developmentplans.js" />
-    <Compile Include="routes\views\assessmentsummary.js" />
+    <Compile Include="routes\dashboard\assessments.js" />
     <Compile Include="routes\views\assessments.js" />
     <Compile Include="routes\views\assessment.js" />
     <Compile Include="routes\views\employees.js" />
@@ -316,9 +317,10 @@
     <Content Include="templates\modals\form-assessment.jade" />
     <Content Include="templates\modals\business-card.jade" />
     <Content Include="templates\modals\form-mixins.jade" />
+    <Content Include="templates\views\dashboard\developmentplans.jade" />
     <Content Include="templates\views\developmentplan.jade" />
     <Content Include="templates\views\developmentplans.jade" />
-    <Content Include="templates\views\assessmentsummary.jade" />
+    <Content Include="templates\views\dashboard\assessments.jade" />
     <Content Include="templates\views\assessments.jade" />
     <Content Include="templates\views\blog.jade" />
     <Content Include="templates\views\contact.jade" />
@@ -368,6 +370,7 @@
     <Folder Include="public\styles\site\" />
     <Folder Include="routes" />
     <Folder Include="routes\api\" />
+    <Folder Include="routes\dashboard\" />
     <Folder Include="routes\user\" />
     <Folder Include="routes\views" />
     <Folder Include="templates" />
@@ -378,6 +381,7 @@
     <Folder Include="templates\modals\" />
     <Folder Include="templates\views" />
     <Folder Include="templates\views\errors" />
+    <Folder Include="templates\views\dashboard\" />
     <Folder Include="templates\views\user\" />
     <Folder Include="updates" />
   </ItemGroup>

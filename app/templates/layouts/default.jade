@@ -92,6 +92,7 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
                       //-span.caret
                     ul.dropdown-menu(role="menu")
                       li: a(href="/dashboard/assessments")= t('nav.assessments')
+                      li: a(href="/dashboard/developmentplans")= t('nav.developmentplans')
                 //- keystone admin ui
                 if user.canAccessKeystone
                   li: a(href='/keystone',title="#{t('nav.keystone')}"): span.glyphicon.glyphicon-cog

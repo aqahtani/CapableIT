@@ -31,6 +31,7 @@ keystone.pre('render', middleware.flashMessages);
 var routes = {
     views: importRoutes('./views'),
     userViews: importRoutes('./user'),
+    dashboardViews: importRoutes('./dashboard'),
     api: importRoutes('./api'),
 };
 
@@ -72,9 +73,10 @@ exports = module.exports = function(app) {
     app.post('/developmentplan/:developmentplan', middleware.requireUser, middleware.authorizeUser('edit'), routes.views.developmentplan);
     
     // Dashboard Routes
-    app.get('/dashboard/assessments', middleware.requireUser, middleware.authorizeUser('view'), routes.views.assessmentsummary);
-    app.post('/dashboard/assessments', middleware.requireUser, middleware.authorizeUser('edit'), routes.views.assessmentsummary);
-
+    app.get('/dashboard/assessments', middleware.requireUser, middleware.authorizeUser('view'), routes.dashboardViews.assessments);
+    app.post('/dashboard/assessments', middleware.requireUser, middleware.authorizeUser('edit'), routes.dashboardViews.assessments);
+    app.get('/dashboard/developmentplans', middleware.requireUser, middleware.authorizeUser('view'), routes.dashboardViews.developmentplans);
+    
     // API: new assessment
     app.post('/api/assess/new', middleware.requireUser, routes.api.assess);
     

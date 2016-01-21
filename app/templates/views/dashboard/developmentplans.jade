@@ -1,0 +1,32 @@
+extends ../../layouts/default
+
+block content
+  //- rearrange the development plans to be indexed by employee id
+  - var devPlansByEmp = _.groupBy(developmentPlans, 'employee')
+
+  .container
+    .row
+      .col-sm-12
+        section
+          if !employees
+            h2 No employees can be found
+          else
+            h2 Employees and Development Plans
+            hr
+            table.table.table-striped
+              th #
+              th Employee
+              th Development Plans
+              each emp, i in employees
+                - var empDevPlans = devPlansByEmp[emp.id]
+                tr
+                  td #{i+1}
+                  td: a(href="/employee/" + emp.id) #{emp.name.full}
+                  if !empDevPlans
+                    td Nothing yet
+                  else
+                    td
+                      each p in empDevPlans
+                        a.btn.btn-sm.btn-info(href="/developmentplan/" + p.id) Plan for #{p.period}
+                          .badge= (p.approved ? 'Approved' : 'Unapproved')
+                        span   

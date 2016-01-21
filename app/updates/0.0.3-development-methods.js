@@ -19,7 +19,7 @@ exports.create = {
         },
 
         {
-            "title": "Training",
+            "title": "Classroom Training",
             "type": "Off-The-Job",
             "description": "Normal training courses that needs the employee to be off the job.  It takes place outside the workplace and can be in the city, inside or outside the country.  It gets arranged by training institutes, and is highly specialized.",
             "remarks": "Better after practical experience on the field.  Good for exam preparation and certification.  Essential for subject-matter expertise",
@@ -122,6 +122,21 @@ exports.create = {
                 "Employee onboarding process",
                 "Project initiation steps",
                 "Test and development environment"
+            ]
+        },
+
+        {
+            "title": "Certificatoin",
+            "type": "On-The-Job",
+            "description": "Pursue a certification or qualificatoin in a specific field.",
+            "remarks": "Very good to develop and achieve qualification together",
+            "examples": [
+                "PMP",
+                "TOGAF",
+                "ITIL",
+                "COBIT",
+                "CCNA",
+                "CISSP"
             ]
         },
     ]

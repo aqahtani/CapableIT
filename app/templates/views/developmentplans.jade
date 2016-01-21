@@ -14,7 +14,7 @@ block content
           .pull-right: a(href="#", data-toggle="modal", data-target="#formNewDevelopmentPlanModal", title="Add a new plan"): span.glyphicon.glyphicon-plus-sign
         hr
         if !developmentplans.length
-          h4 you don't have any development plans.
+          h4 you don't have any development plans.  Click on the (+) sign to add a new one.
         else
           .list-group
             each ownDevPlan in developmentplans
