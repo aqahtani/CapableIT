@@ -7,14 +7,21 @@ block content
   +modalNewDevelopmentPlan('formNewDevelopmentPlanModal')
 
   .container
-    .row: .col-sm-12
-      section
-        h2 Development Plans
+    .page-header: h1 Development Plans
+    .row
+      section.col-sm-12
+        h3 Your Development Plans
           .pull-right: a(href="#", data-toggle="modal", data-target="#formNewDevelopmentPlanModal", title="Add a new plan"): span.glyphicon.glyphicon-plus-sign
         hr
-        if !developmentplans
-          h3 you don't have any development plans.
+        if !developmentplans.length
+          h4 you don't have any development plans.
         else
           .list-group
-            each developmentplan in developmentplans
-              +developmentplanBrief(developmentplan)
+            each ownDevPlan in developmentplans
+              +developmentplanBrief(ownDevPlan)
+    .row
+      section.col-sm-12
+        h3 Development plans of your team
+        hr
+        each reportsDevPlan in data.reportsDevelopmentPlans
+          +developmentplanBrief(reportsDevPlan)

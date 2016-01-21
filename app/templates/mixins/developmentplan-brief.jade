@@ -1,6 +1,8 @@
-﻿mixin developmentplanBrief(developmentplan)
+﻿include flags
+
+mixin developmentplanBrief(developmentPlan)
   //- set the color of the plan based on the status 
-  case developmentplan.status
+  //-case developmentPlan.status
     when 'draft'
       - var kind = 'list-group-item-warning'
     when 'final'
@@ -10,8 +12,11 @@
     default
       - var kind = ''
 
-  a.list-group-item(href='/developmentplan/' + developmentplan.id, class=kind)
-    span= developmentplan.employee.name.full
+  a.list-group-item(href='/developmentplan/' + developmentPlan.id, class=kind)
+    span= developmentPlan.employee.name.full
     strong  on  
-    span= developmentplan._.createdAt.format('DD/MM/YYYY - HH:mm')
-    .badge= developmentplan.status
+    span= developmentPlan._.createdAt.format('YYYY-MM-DD')
+    .pull-right
+      +flag-approved(developmentPlan.approved, developmentPlan.approvedBy)
+      +flag-status(developmentPlan.status)
+    //-.badge= developmentPlan.status 

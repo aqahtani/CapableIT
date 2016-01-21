@@ -6,24 +6,26 @@ include ../mixins/flags
 
 block content
   //- embed the developmentplan form modals
-  if developmentplan
-    +modalEditDevelopmentPlan('formEditDevelopmentPlanModal', developmentplan)
-    +modalDeleteDevelopmentPlan('formDeleteDevelopmentPlanModal', developmentplan)
-    if developmentplan.approved
-      +modalApproveDevelopmentPlan('formApproveDevelopmentPlanModal', developmentplan, 'unapprove')
+  if developmentPlan
+    +modalEditDevelopmentPlan('formEditDevelopmentPlanModal', developmentPlan)
+    +modalDeleteDevelopmentPlan('formDeleteDevelopmentPlanModal', developmentPlan)
+    if developmentPlan.approved
+      +modalApproveDevelopmentPlan('formApproveDevelopmentPlanModal', developmentPlan, 'unapprove')
     else
-      +modalApproveDevelopmentPlan('formApproveDevelopmentPlanModal', developmentplan, 'approve')
+      +modalApproveDevelopmentPlan('formApproveDevelopmentPlanModal', developmentPlan, 'approve')
 
   //- display the development plan
   .container
     .row: .col-sm-12
       article
-        if !developmentplan
+        if !developmentPlan
           h2 Invalid Development Plan.
         else
           h2 Development Plan
-            .badge= developmentplan.status
-            +flag-approved(developmentplan.approved)
+            //-.badge= developmentPlan.status
+            small
+              +flag-status(developmentPlan.status)
+              +flag-approved(developmentPlan.approved, developmentPlan.approvedBy)
             .pull-right
               //- buttons to trigger edit, delete, and approve modals based on permissions
               if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
@@ -35,5 +37,5 @@ block content
               if _.contains(authorized.permissions, 'approve') || _.contains(authorized.permissions, '*')
                 a(href="#", data-toggle="modal", data-target="#formApproveDevelopmentPlanModal", title="Approve Plan"): span.glyphicon.glyphicon-check
           hr          
-          //- developmentplan details
-          +developmentplanDetail(developmentplan, activities, developmentMethods, hardGaps, softGaps)
+          //- developmentPlan details
+          +developmentplanDetail(developmentPlan, activities, developmentMethods, hardGaps, softGaps)

@@ -1,6 +1,8 @@
 var keystone = require('keystone'),
     Employee = keystone.list('Employee'),
-    DevelopmentPlan = keystone.list('DevelopmentPlan');
+    DevelopmentPlan = keystone.list('DevelopmentPlan'),
+    _ = require('underscore');
+
 
 exports = module.exports = function(req, res) {
 	
@@ -11,15 +13,21 @@ exports = module.exports = function(req, res) {
 	locals.section = 'development';
     locals.filters = {
 		employee: req.user.employee
-	};
+    };
+
+    locals.data = {
+        directReports : [],
+        secondReports : [],
+        reportsDevelopmentPlans : []
+    };
 	
     // 1: Load all plans for this employee
     view.query('developmentplans', DevelopmentPlan.model.find()
         .where(locals.orgFilter)
         .where('employee', locals.filters.employee)
-        .select('createdAt employee status period goals strenghts weaknesses')
         .sort('-createdAt')
-        .populate('employee', 'name')
+        .populate('employee', 'name arName')
+        .populate('approvedBy', 'name arName')
     );
     
     // 2: get current employee
@@ -31,13 +39,75 @@ exports = module.exports = function(req, res) {
     );
     
     // 3: get current employee's direct reports    
-    view.query('directReports', Employee.model.find()
-        .where(locals.orgFilter)//always apply tenant filter first
-        .where('manager', locals.filters.employee)
-        .select('name arName job')
-        .populate('job', 'title')
-        .sort('name.first name.last')
-    );
+    //view.query('directReports', Employee.model.find()
+    //    .where(locals.orgFilter)//always apply tenant filter first
+    //    .where('manager', locals.filters.employee)
+    //    .select('name arName job')
+    //    .populate('job', 'title')
+    //    .sort('name.first name.last')
+    //);
+    
+    // 4: load all development plans of direct reports
+    view.on('init', function (next) {
+        
+        var async = require('async');
+        
+        // async function to load all direct reports
+        var getDirectReports = function (callback) {
+            Employee.model.find()
+                .where(locals.orgFilter)//always apply tenant filter first
+                .where('manager', locals.filters.employee)
+                .select('name arName job')
+                .populate('job', 'title')
+                .sort('name.first name.last')
+                .exec(callback);
+        };
+        
+        // async function to load all 2nd level reports
+        var getSecondReports = function (callback, results) {
+            // results.directReports contains all employees reporting to this one
+            var empIds = _.pluck(results.directReports, '_id');
+            
+            Employee.model.find()
+                .where(locals.orgFilter)//always apply tenant filter first
+                .where('manager').in(empIds)
+                .select('name arName job')
+                .populate('job', 'title')
+                .sort('name.first name.last')
+                .exec(callback);
+        };
+
+        // async function to load all development plans of direct reports
+        var getDevelopmentPlans = function (callback, results) {
+            // results.directReports contains all employees reporting to this one
+            // results.secondReports contains all 2nd level reports
+            var empIds = _.union(_.pluck(results.directReports, '_id'), _.pluck(results.secondReports, '_id'));
+            
+            DevelopmentPlan.model.find()
+                .where(locals.orgFilter)//always apply tenant filter first
+                .where('employee').in(empIds)
+                .where('status', 'final')
+                .populate('employee', 'name arName')
+                .populate('approvedBy', 'name arName')
+                .exec(callback);
+        };
+
+        async.auto({
+            directReports: getDirectReports,
+            secondReports: ['directReports', getSecondReports],
+            developmentPlans: ['directReports', 'secondReports', getDevelopmentPlans]
+        }, function (err, results) {
+            if (err) {
+                req.flash('error', err);
+                return next();
+            };
+
+            locals.data.directReports = results.directReports;
+            locals.data.secondReports = results.secondReports;
+            locals.data.reportsDevelopmentPlans = results.developmentPlans;
+            next();
+        });		
+    });
 
 	// Render the view
 	view.render('developmentplans');

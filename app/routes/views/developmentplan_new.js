@@ -28,8 +28,12 @@ exports = module.exports = function(req, res) {
             
         newPlan.save(function (err) {
             if (err) {
-                req.flash('error', err);
-                return next();
+                req.flash('error', {
+                    type: 'ValidationError',
+                    title: 'There was an error creating your development plan:',
+                    list: _.pluck(err.errors, 'message')
+                });
+                return res.redirect('back');
             }
                 
             // create successful!
@@ -37,23 +41,6 @@ exports = module.exports = function(req, res) {
             res.redirect('back');
         });
     });
-
-    
-    // Delete a single activity that belongs to development plan
-    /*view.on('post', { action: 'delete-activity' }, function (next) {
-        // find the assessment, and remove it
-        DevelopmentActivity.model.findById(req.body.activityId)
-            .remove(function (err) {
-            if (err) {
-                req.flash('error', err);
-                return next();
-            }
-            
-            // delete successful!
-            req.flash('success', 'Delete activity successfully completed.');
-            res.redirect('back');
-        });
-    });*/
     
 	// Render the view
 	view.render('developmentplans');	

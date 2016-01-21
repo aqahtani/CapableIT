@@ -46,8 +46,20 @@ mixin flag-completed(completed)
   else
     span.glyphicon.glyphicon-unchecked
 
-mixin flag-approved(approved)
+mixin flag-approved(approved, approvedBy)
   if approved
-    .badge Approved by #{developmentplan.approvedBy.name.full}
+    .label.label-success Approved by #{approvedBy.name.full}
   else
-    .badge Unapproved
+    .label.label-warning Unapproved
+
+mixin flag-status(status)
+  case status
+    when 'draft'
+      - var kind = 'label-warning'
+    when 'final'
+      - var kind = 'label-success'
+    when 'archived'
+      - var kind = 'label-danger'
+    default
+      - var kind = ''
+  .label(class=kind)= status

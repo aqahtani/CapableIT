@@ -1,7 +1,9 @@
 var keystone = require('keystone'),
     _ = require('underscore'),
     DevelopmentPlan = keystone.list('DevelopmentPlan'),
-    DevelopmentActivity = keystone.list('DevelopmentActivity');
+    DevelopmentActivity = keystone.list('DevelopmentActivity'),
+    HardSkillGap = keystone.list('HardSkillGap'),
+    SoftSkillGap = keystone.list('SoftSkillGap');
 
 exports = module.exports = function(req, res) {
 	
@@ -13,19 +15,24 @@ exports = module.exports = function(req, res) {
     locals.filters = {
         developmentPlan: req.params.developmentplan,
         employee: req.user.employee
-	};
+    };
+    //locals.data = {
+    //    developmentPlan: {},
+    //    hardGaps: [],
+    //    softGaps: []
+    //};
     
     locals.statusOptions = _.pluck(DevelopmentPlan.fields['status'].ops, 'value');
 
     // initialize edit/post variables
     locals.validationErrors = {};
     
-    // 1: get current developmentPlan
-    view.query('developmentplan', DevelopmentPlan.model.findOne()
-            .where(locals.orgFilter)//always apply tenant filter first
-            .where({ '_id': locals.filters.developmentPlan })
-            .populate('organization employee approvedBy')
-    );
+    // 1: get current developmentPlan --> moved to 'init' to get related skill gaps 
+    //view.query('developmentPlan', DevelopmentPlan.model.findOne()
+    //        .where(locals.orgFilter)//always apply tenant filter first
+    //        .where({ '_id': locals.filters.developmentPlan })
+    //        .populate('organization employee approvedBy')
+    //);
     
     // 2: get related development activities
     view.query('activities', DevelopmentActivity.model.find()
@@ -39,20 +46,71 @@ exports = module.exports = function(req, res) {
     view.query('developmentMethods', keystone.list('DevelopmentMethod').model.find());
     
     // 4: get all hard skill gaps to highlight in development plan
-    view.query('hardGaps', keystone.list('HardSkillGap').model.find()
-        .where(locals.orgFilter)
-        .where({ 'employee': locals.filters.employee })
-        .populate('skill')
-        .sort('-gap')
-    );
+    //view.query('hardGaps', keystone.list('HardSkillGap').model.find()
+    //    .where(locals.orgFilter)
+    //    .where({ 'employee': locals.filters.employee })
+    //    .populate('skill')
+    //    .sort('-gap')
+    //);
     
     // 5: get all soft skill gaps to highlight in development plan
-    view.query('softGaps', keystone.list('SoftSkillGap').model.find()
-        .where(locals.orgFilter)
-        .where({ 'employee': locals.filters.employee })
-        .populate('skill')
-        .sort('-gap')
-    );
+    //view.query('softGaps', keystone.list('SoftSkillGap').model.find()
+    //    .where(locals.orgFilter)
+    //    .where({ 'employee': locals.filters.employee })
+    //    .populate('skill')
+    //    .sort('-gap')
+    //);
+    
+    view.on('init', function (next) {
+        var async = require('async');
+        
+        // async function to load current development plan
+        var getDevelopmentPlan = function (callback) {
+            DevelopmentPlan.model.findById(locals.filters.developmentPlan)
+                .populate('organization employee approvedBy')
+                .exec(callback);
+        };
+        
+        var getHardGaps = function (callback, results) {
+            // results contains the development plan
+            var empId = results.developmentPlan.employee;
+
+            HardSkillGap.model.find()
+                .where(locals.orgFilter)
+                .where({ 'employee': empId })
+                .populate('skill')
+                .sort('-gap')
+                .exec(callback)
+        };
+        
+        var getSoftGaps = function (callback, results) {
+            // results contains the development plan
+            var empId = results.developmentPlan.employee;
+            
+            SoftSkillGap.model.find()
+                .where(locals.orgFilter)
+                .where({ 'employee': empId })
+                .populate('skill')
+                .sort('-gap')
+                .exec(callback)
+        };
+
+        async.auto({
+            developmentPlan: getDevelopmentPlan,
+            hardGaps: ['developmentPlan', getHardGaps],
+            softGaps: ['developmentPlan', getSoftGaps]
+        }, function (err, results) {
+            if (err) {
+                req.flash('error', err);
+                return next();
+            };
+            
+            locals.developmentPlan = results.developmentPlan;
+            locals.hardGaps = results.hardGaps;
+            locals.softGaps = results.softGaps;
+            next();
+        });
+    });
 
     /*
      * Manipulate a Development Plan: Update, Delete, and Approve
@@ -228,6 +286,11 @@ exports = module.exports = function(req, res) {
                 if (err) {
                     // req.flash('error', err);
                     locals.validationErrors = err.errors;
+                    req.flash('error', {
+                        type: 'ValidationError',
+                        title: 'There was an error creating your development activity:',
+                        list: _.pluck(err.errors, 'message')
+                    });
                     return next();
                 }
                 
