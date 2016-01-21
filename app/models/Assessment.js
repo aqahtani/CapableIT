@@ -23,8 +23,8 @@ Assessment.add({
     analyzed: { type: Types.Boolean, default: false, index: true }, 
     // period: indicates the period of assessment such as 2014, 2015, ...
     period: { type: Types.Text, match: [/^\d\d\d\d$/, "The period has to match a valid year YYYY ({VALUE})"], required: true, initial: true, index: true },
-    employee: { type: Types.Relationship, ref: 'Employee', required: true, initial: true, index: true },
-    doneBy: { type: Types.Relationship, ref: 'Employee', required: true, initial: true, index: true },
+    employee: { type: Types.Relationship, ref: 'Employee', filters: { organization: ':organization' }, required: true, initial: true, index: true },
+    doneBy: { type: Types.Relationship, ref: 'Employee', filters: { organization: ':organization' }, required: true, initial: true, index: true },
     job: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }, required: true, initial: true }
 }, 'General Assessment', {
     overview: { type: Types.Textarea, height: 150 },
@@ -47,7 +47,7 @@ Assessment.add({
     }
 });
 
-Assessment.defaultColumns = 'organization|10%, createdAt, employee, doneBy, job';
+Assessment.defaultColumns = 'organization|10%, createdAt, employee, doneBy, job, status';
 
 /**
  * Plugins

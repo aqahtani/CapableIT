@@ -28,8 +28,6 @@
     <Compile Include="models\Enquiry.js" />
     <Compile Include="models\Gallery.js" />
     <Compile Include="models\SkillGap.js" />
-    <Compile Include="models\OrgFunction.js" />
-    <Compile Include="models\OrgDepartment.js" />
     <Compile Include="models\SoftSkill.js" />
     <Compile Include="models\HardSkill.js" />
     <Compile Include="models\JobTask.js" />

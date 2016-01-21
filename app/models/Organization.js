@@ -3,8 +3,60 @@ var keystone = require('keystone'),
     uniqueValidator = require('mongoose-unique-validator');
 
 /**
+ * OrgDepartment Model
+ * ===================
+ */
+
+var OrgDepartment = new keystone.List('OrgDepartment', {
+    defaultSort: 'organization name',
+    drilldown: 'organization'
+});
+
+OrgDepartment.add({
+    organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true, index: true },
+    name: { type: Types.Text, required: true, initial: true },
+    code: { type: Types.Text, required: true, initial: true, uppercase: true },
+    color: { type: Types.Color, initial: true },
+    description: { type: Types.Textarea }
+});
+
+OrgDepartment.relationship({ path: 'functions', ref: 'OrgFunction', refPath: 'department' });
+OrgDepartment.relationship({ path: 'jobs', ref: 'Job', refPath: 'orgDepartment' });
+OrgDepartment.relationship({ path: 'employees', ref: 'Employee', refPath: 'orgDepartment' });
+
+OrgDepartment.defaultColumns = 'organization, name, color';
+
+OrgDepartment.register();
+
+/**
+ * OrgFunction Model
+ * =================
+ */
+
+var OrgFunction = new keystone.List('OrgFunction', {
+    defaultSort: 'organization department name',
+    drilldown: 'organization department'
+});
+
+OrgFunction.add({
+    organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true, index: true },
+    name: { type: Types.Text, required: true, initial: true },
+    code: { type: Types.Text, required: true, initial: true, uppercase: true },
+    department: { type: Types.Relationship, ref: 'OrgDepartment', filters: { organization: ':organization' }, required: true, initial: true, index: true }, 
+    description: { type: Types.Textarea }
+});
+
+OrgFunction.relationship({ path: 'jobs', ref: 'Job', refPath: 'orgFunction' });
+OrgFunction.relationship({ path: 'employees', ref: 'Employee', refPath: 'orgFunction' });
+
+OrgFunction.defaultColumns = 'organization, department, name';
+
+OrgFunction.register();
+
+
+/**
  * Organization Model
- * =============
+ * ==================
  */
 
 var Organization = new keystone.List('Organization', {
@@ -33,6 +85,8 @@ Organization.relationship({ path: 'tasks', ref: 'JobTask', refPath: 'organizatio
 Organization.relationship({ path: 'departments', ref: 'OrgDepartment', refPath: 'organization' });
 Organization.relationship({ path: 'functions', ref: 'OrgFunction', refPath: 'organization' });
 Organization.relationship({ path: 'assessments', ref: 'Assessment', refPath: 'organization' });
+Organization.relationship({ path: 'developmentPlans', ref: 'DevelopmentPlan', refPath: 'organization' });
+Organization.relationship({ path: 'developmentActivities', ref: 'DevelopmentActivity', refPath: 'organization' });
 Organization.relationship({ path: 'roleAuthorizations', ref: 'RoleAuthorization', refPath: 'organization' });
 Organization.relationship({ path: 'userAuthorizations', ref: 'UserAuthorization', refPath: 'organization' });
 

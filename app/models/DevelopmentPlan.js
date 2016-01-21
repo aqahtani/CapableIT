@@ -41,8 +41,8 @@ var DevelopmentActivity = new keystone.List('DevelopmentActivity', {
 
 DevelopmentActivity.add({
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true, index: true },
-    employee: { type: Types.Relationship, ref: 'Employee', required: true, initial: true, index: true },
-    developmentPlan: { type: Types.Relationship, ref: 'DevelopmentPlan', required: true, initial: true, index: true },
+    employee: { type: Types.Relationship, ref: 'Employee', filters: { organization: ':organization' }, required: true, initial: true, index: true },
+    developmentPlan: { type: Types.Relationship, ref: 'DevelopmentPlan', filters: { organization: ':organization' }, required: true, initial: true, index: true },
     title: { type: Types.Text, initial: true, required: true },
     method: { type: Types.Relationship, ref: 'DevelopmentMethod', initial: true, index: true },
     targetSkill: { type: Types.Text, initial: true, required: true },
@@ -57,7 +57,7 @@ DevelopmentActivity.register();
 
 /**
  * DevelopmentPlan Model
- * ================
+ * =====================
  */
 
 var DevelopmentPlan = new keystone.List('DevelopmentPlan', {
@@ -67,11 +67,11 @@ var DevelopmentPlan = new keystone.List('DevelopmentPlan', {
 
 DevelopmentPlan.add({
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true },
-    employee: { type: Types.Relationship, ref: 'Employee', required: true, initial: true, index: true },
+    employee: { type: Types.Relationship, ref: 'Employee', filters: { organization: ':organization' }, required: true, initial: true, index: true },
     createdAt: { type: Date, required: true, default: Date.now },
     status: { type: Types.Select, options: 'draft, final, archived', required: true, default: 'draft', index: true },
     approved: { type: Types.Boolean, default: false, index: true },
-    approvedBy: { type: Types.Relationship, ref: 'Employee' },
+    approvedBy: { type: Types.Relationship, ref: 'Employee', filters: { organization: ':organization' } },
     // period: indicates the period of assessment such as 2014, 2015, ...
     period: { type: Types.Text, match: [/^\d\d\d\d$/, "The period has to match a valid year YYYY ({VALUE})"], required: true, initial: true, index: true },
     goals: { type: Types.Textarea, height: 150 },
