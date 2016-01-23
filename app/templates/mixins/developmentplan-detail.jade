@@ -35,7 +35,7 @@ mixin developmentplanDetail(developmentplan, activities, developmentMethods, har
         .panel-body
           p.multi-line= developmentplan.weaknesses
   
-  +modalAddDevelopmentActivity('formAddDevelopmentActivityModal', developmentMethods)
+  +modalAddDevelopmentActivity('formAddDevelopmentActivityModal')
   hr
   .row
     .col-sm-12
@@ -96,7 +96,7 @@ mixin developmentplanDetail(developmentplan, activities, developmentMethods, har
                   //- button to trigger edit modal only on 'edit' permission
                   if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
                     span.text-left
-                      +modalEditDevelopmentActivity('formEditDevelopmentActivityModal' + activity.id, activity, developmentMethods)
+                      +modalEditDevelopmentActivity('formEditDevelopmentActivityModal' + activity.id, activity)
                       +modalDeleteDevelopmentActivity('formDeleteDevelopmentActivityModal' + activity.id, activity)
                     a(href="#", data-toggle="modal", data-target="#formEditDevelopmentActivityModal" + activity.id, title="Edit Activity"): span.glyphicon.glyphicon-edit
                     |  

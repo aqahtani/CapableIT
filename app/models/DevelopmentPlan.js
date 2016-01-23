@@ -45,13 +45,14 @@ DevelopmentActivity.add({
     developmentPlan: { type: Types.Relationship, ref: 'DevelopmentPlan', filters: { organization: ':organization' }, required: true, initial: true, index: true },
     title: { type: Types.Text, initial: true, required: true },
     method: { type: Types.Relationship, ref: 'DevelopmentMethod', initial: true, index: true },
-    targetSkill: { type: Types.Text, initial: true, required: true },
+    targetHardSkills: { type: Types.Relationship, ref: 'HardSkill', many: true },
+    targetSoftSkills: { type: Types.Relationship, ref: 'SoftSkill', many: true },
     deadline: { type: Types.Date, format: 'YYYY-MM-DD', initial: true, required: true },
     completed: { type: Types.Boolean, default: false, index: true },
     remarks: { type: Types.Textarea, height: 150 },
 });
 
-DevelopmentActivity.defaultColumns = 'organization|10%, employee, title, method, targetSkill, deadline, completed';
+DevelopmentActivity.defaultColumns = 'organization|10%, employee, title, method, deadline, completed';
 DevelopmentActivity.register();
 
 

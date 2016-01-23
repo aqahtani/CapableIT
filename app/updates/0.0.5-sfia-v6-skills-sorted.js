@@ -45,18 +45,23 @@ exports = module.exports = function (done) {
     // build a new list of skills to update
     var skills = [];
     var i = 1;
-    _.each(rawSkills, function (value, key, list) {
+    _.each(rawSkills, function (skill, key, list) {
+        // skill contains a list of skill levels and descriptions for a single skill
+        // so sort by level to have a propoer mapping to single skill item
+        var s = _.sortBy(skill, 'level');
+        
+        // create a new skill matching the HardSkill model 
         var newSkill = {
             "number": i++,
-            "category": value[0].category,
-            "subCategory": value[0].subCategory,
+            "category": s[0].category,
+            "subCategory": s[0].subCategory,
             "title": key,
             "slug": keystone.utils.slug(key),
-            "code": value[0].code,
-            "description": value[0].description,
-            "levels.min": _.min(_.pluck(value, 'level')),
-            "levels.max": _.max(_.pluck(value, 'level')),
-            "levels.descriptions": _.pluck(value, 'levelDescription')
+            "code": s[0].code,
+            "description": s[0].description,
+            "levels.min": _.min(_.pluck(s, 'level')),
+            "levels.max": _.max(_.pluck(s, 'level')),
+            "levels.descriptions": _.pluck(s, 'levelDescription')
         };
         skills.push(newSkill);
     });

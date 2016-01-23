@@ -1,10 +1,10 @@
 ﻿include form-mixins
 
 //- Modal: Add DevelopmentActivity Form
-mixin modalAddDevelopmentActivity(modalId, developmentMethods)
+mixin modalAddDevelopmentActivity(modalId)
   .modal.fade(id="#{modalId}")
     .modal-dialog.modal-lg
-      form(method='post').modal-content
+      form(method='post').form-horizontal.modal-content
         input(type='hidden', name='action', value='create-activity')
         .modal-header
           button(type="button", data-dismiss="modal").close
@@ -14,34 +14,39 @@ mixin modalAddDevelopmentActivity(modalId, developmentMethods)
         .modal-body
           .row
             .col-sm-12
-              .form-group.form-group-sm(class=validationErrors.title ? 'has-error' : null)
+              .form-group(class=validationErrors.title ? 'has-error' : null)
                 label(for='title').col-sm-2.control-label  Title
                 .col-sm-10: input(type='text', name='title', id='title', placeholder='activity title', required).form-control
           
           .row
             .col-sm-12
-              .form-group.form-group-sm(class=validationErrors.method ? 'has-error' : null)
+              .form-group(class=validationErrors.method ? 'has-error' : null)
                 label(for='method').col-sm-2.control-label  Method
-                .col-sm-10: +formSelectList('method', developmentMethods, null)
+                .col-sm-10: +formSelect2List('method', developmentMethods, null)
+
+          .row
+            .col-sm-6
+              .form-group(class=validationErrors.deadline ? 'has-error' : null)
+                label(for='deadline').col-sm-4.control-label  Deadline
+                .col-sm-6: input(type='text', name='deadline', id='deadline', required).form-control.datepicker
+
+            .col-sm-6
+              .form-group(class=validationErrors.completed ? 'has-error' : null)
+                label(for='completed').col-sm-4.control-label  Completed
+                .col-sm-6: .checkbox 
+                  input(type='checkbox', name='completed', id='completed')
+          hr
+          .row
+            .col-sm-12
+              .form-group(class=validationErrors.targetHardSkills ? 'has-error' : null)
+                label(for='targetHardSkills').col-sm-2.control-label Target Hard Skills
+                .col-sm-10: +formSelect2Multiple('targetHardSkills', hardSkills)
 
           .row
             .col-sm-12
-              .form-group.form-group-sm(class=validationErrors.targetSkill ? 'has-error' : null)
-                label(for='targetSkill').col-sm-2.control-label  Target Skill
-                .col-sm-10: input(type='text', name='targetSkill', id='targetSkill', placeholder='target soft and/or hard skill', required).form-control
-          
-          .row
-            .col-sm-12
-              .form-group.form-group-sm(class=validationErrors.deadline ? 'has-error' : null)
-                label(for='deadline').col-sm-2.control-label  Deadline
-                .col-sm-10: input(type='text', name='deadline', id='deadline', required).form-control.datepicker
-          
-          .row
-            .col-sm-12
-              .form-group(class=validationErrors.completed ? 'has-error' : null)
-                label(for='completed').col-sm-2.control-label  Completed
-                .col-sm-10: .checkbox 
-                  input(type='checkbox', name='completed', id='completed')
+              .form-group(class=validationErrors.targetSoftSkills ? 'has-error' : null)
+                label(for='targetSoftSkills').col-sm-2.control-label Target Soft Skills
+                .col-sm-10: +formSelect2Multiple('targetSoftSkills', softSkills)
           hr
           .row
             .col-sm-12
@@ -55,10 +60,10 @@ mixin modalAddDevelopmentActivity(modalId, developmentMethods)
 
 
 //- Modal: Edit DevelopmentActivity Form
-mixin modalEditDevelopmentActivity(modalId, activity, developmentMethods)
+mixin modalEditDevelopmentActivity(modalId, activity)
   .modal.fade(id="#{modalId}")
     .modal-dialog.modal-lg
-      form(method='post').modal-content
+      form(method='post').form-horizontal.modal-content
         input(type='hidden', name='action', value='update-activity')
         input(type='hidden', name='activityId', value=activity.id)
         .modal-header
@@ -69,34 +74,40 @@ mixin modalEditDevelopmentActivity(modalId, activity, developmentMethods)
         .modal-body
           .row
             .col-sm-12
-              .form-group.form-group-sm(class=validationErrors.title ? 'has-error' : null)
+              .form-group(class=validationErrors.title ? 'has-error' : null)
                 label(for='title').col-sm-2.control-label  Title
                 .col-sm-10: input(type='text', name='title', id='title', value=activity.title, required).form-control
           
           .row
             .col-sm-12
-              .form-group.form-group-sm(class=validationErrors.method ? 'has-error' : null)
+              .form-group(class=validationErrors.method ? 'has-error' : null)
                 label(for='method').col-sm-2.control-label  Method
-                .col-sm-10: +formSelectList('method', developmentMethods, activity.method)
+                .col-sm-10: +formSelect2List('method', developmentMethods, activity.method)
+
+          .row
+            .col-sm-6
+              .form-group(class=validationErrors.deadline ? 'has-error' : null)
+                label(for='deadline').col-sm-4.control-label  Deadline
+                .col-sm-6: input(type='text', name='deadline', id='deadline', value=activity._.deadline.format('YYYY-MM-DD'), required).form-control.datepicker
+          
+            .col-sm-6
+              .form-group(class=validationErrors.completed ? 'has-error' : null)
+                label(for='completed').col-sm-4.control-label  Completed
+                .col-sm-6: .checkbox 
+                  input(type='checkbox', name='completed', id='completed', checked=activity.completed)
+
+          hr
+          .row
+            .col-sm-12
+              .form-group(class=validationErrors.targetHardSkills ? 'has-error' : null)
+                label(for='targetHardSkills').col-sm-2.control-label Target Hard Skills
+                .col-sm-10: +formSelect2Multiple('targetHardSkills', hardSkills, activity.targetHardSkills)
 
           .row
             .col-sm-12
-              .form-group.form-group-sm(class=validationErrors.targetSkill ? 'has-error' : null)
-                label(for='targetSkill').col-sm-2.control-label  Target Skill
-                .col-sm-10: input(type='text', name='targetSkill', id='targetSkill', value=activity.targetSkill, required).form-control
-          
-          .row
-            .col-sm-12
-              .form-group.form-group-sm(class=validationErrors.deadline ? 'has-error' : null)
-                label(for='deadline').col-sm-2.control-label  Deadline
-                .col-sm-10: input(type='text', name='deadline', id='deadline', value=activity._.deadline.format('YYYY-MM-DD'), required).form-control.datepicker
-          
-          .row
-            .col-sm-12
-              .form-group(class=validationErrors.completed ? 'has-error' : null)
-                label(for='completed').col-sm-2.control-label  Completed
-                .col-sm-10: .checkbox 
-                  input(type='checkbox', name='completed', id='completed', checked=activity.completed)
+              .form-group(class=validationErrors.targetSoftSkills ? 'has-error' : null)
+                label(for='targetSoftSkills').col-sm-2.control-label Target Soft Skills
+                .col-sm-10: +formSelect2Multiple('targetSoftSkills', softSkills, activity.targetSoftSkills)
           hr
           .row
             .col-sm-12

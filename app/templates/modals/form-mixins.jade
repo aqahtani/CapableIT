@@ -99,3 +99,24 @@ mixin formSelectList(inputName, list, selected)
         option(value="#{item.id}", selected)= item.title
       else
         option(value="#{item.id}")= item.title
+
+//- this one uses select2 which enhances the select tag
+mixin formSelect2List(inputName, list, selected)
+  select(name='#{inputName}', id='#{inputName}', style="width: 100%").form-control.select2
+    each item in list
+      if (selected && item.id == selected.id)
+        option(value="#{item.id}", selected)= item.title
+      else
+        option(value="#{item.id}")= item.title
+
+//- Select form field with enhanced select2 functionality + multiple selection
+mixin formSelect2Multiple(inputName, options, selectedOptions)
+  select(name='#{inputName}', id='#{inputName}', multiple='multiple', style='width: 100%').form-control.select2
+    each option in options
+      //- for some reason, the following condition doesn't work!
+      //- if _.contains(activity.targetHardSkills, hSkill.id)
+      //- that's why it is replaced by the indexOf on the array!!
+      if (selectedOptions && selectedOptions.indexOf(option.id) > -1)
+        option(value='#{option.id}', selected)= option.title
+      else
+        option(value='#{option.id}')= option.title

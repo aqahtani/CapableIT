@@ -1,16 +1,15 @@
 ﻿mixin fieldLabel(lbl)
-  h4: .field-label.label.label-default= lbl 
+  h4: .label.label-default.field-label= lbl 
 
 //- one level box: used by hard, soft, and english levelers 
 mixin levelBox(title, label, kind, description, color)
-  //- var style = "background-color:#{color};border-style:none";
   .btn-group: button(
     class="#{kind}"
-    style="background-color:#{color}; border-style:none"
+    style="background-color:#{color}; border-style:none; white-space: nowrap;"
     data-container="body"
     data-toggle="popover" 
     data-trigger="focus"
-    data-placement="top"
+    data-placement="bottom"
     data-content="#{description}"
     data-original-title=""
     tabindex="0" 

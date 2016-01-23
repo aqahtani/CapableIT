@@ -16,11 +16,6 @@ exports = module.exports = function(req, res) {
         developmentPlan: req.params.developmentplan,
         employee: req.user.employee
     };
-    //locals.data = {
-    //    developmentPlan: {},
-    //    hardGaps: [],
-    //    softGaps: []
-    //};
     
     locals.statusOptions = _.pluck(DevelopmentPlan.fields['status'].ops, 'value');
 
@@ -45,13 +40,11 @@ exports = module.exports = function(req, res) {
     // 3: get all development methods
     view.query('developmentMethods', keystone.list('DevelopmentMethod').model.find());
     
-    // 4: get all hard skill gaps to highlight in development plan
-    //view.query('hardGaps', keystone.list('HardSkillGap').model.find()
-    //    .where(locals.orgFilter)
-    //    .where({ 'employee': locals.filters.employee })
-    //    .populate('skill')
-    //    .sort('-gap')
-    //);
+    // 4: get all hard skills to highlight in development plan
+    view.query('hardSkills', keystone.list('HardSkill').model.find());
+
+    // 5: get all soft skills to highlight in development plan
+    view.query('softSkills', keystone.list('SoftSkill').model.find());
     
     // 5: get all soft skill gaps to highlight in development plan
     //view.query('softGaps', keystone.list('SoftSkillGap').model.find()
@@ -276,9 +269,12 @@ exports = module.exports = function(req, res) {
                 developmentPlan: developmentPlan.id,
                 title: req.body.title,
                 method: req.body.method,
-                targetSkill: req.body.targetSkill,
                 deadline: req.body.deadline,
                 completed: req.body.completed,
+                targetSkills: {
+                    professional: req.body.targetHardSkills,
+                    behavioral: req.body.targetSoftSkills
+                },
                 remarks: req.body.remarks
             });
             
@@ -334,7 +330,7 @@ exports = module.exports = function(req, res) {
             
             updater.process(req.body, {
                 flashErrors: true,
-                fields: 'title, method, targetSkill, deadline, completed, remarks',
+                fields: 'title, method, targetHardSkills, targetSoftSkills, deadline, completed, remarks',
                 errorMessage: 'There was a problem with your update:'
             }, function (err, result) {
                 if (err) {

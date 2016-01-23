@@ -6,6 +6,13 @@
         format: 'yyyy-mm-dd'
     });
     
+    // select2: enhanced select
+    $(".select2").select2({
+        theme: "bootstrap",
+        placeholder: "Select ...",
+        //allowClear: true
+    });
+    
     // popovers and tooltips, whenever they are under .bs-component
     $('.bs-component [data-toggle="popover"]').popover();
     $('.bs-component [data-toggle="tooltip"]').tooltip();
