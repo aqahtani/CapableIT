@@ -155,6 +155,7 @@
     <Content Include="public\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="public\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="public\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="public\images\employee.png" />
     <Content Include="public\images\kpcit_200.png" />
     <Content Include="public\images\kpcit_400.png" />
@@ -244,6 +245,8 @@
     <Content Include="public\styles\bootstrap-rtl\utilities.less" />
     <Content Include="public\styles\bootstrap-rtl\variables.less" />
     <Content Include="public\styles\bootstrap-rtl\wells.less" />
+    <Content Include="public\styles\bootstrap\.csscomb.json" />
+    <Content Include="public\styles\bootstrap\.csslintrc" />
     <Content Include="public\styles\bootstrap\alerts.less" />
     <Content Include="public\styles\bootstrap\badges.less" />
     <Content Include="public\styles\bootstrap\bootstrap.css" />
@@ -288,6 +291,7 @@
     <Content Include="public\styles\bootstrap\mixins\panels.less" />
     <Content Include="public\styles\bootstrap\mixins\progress-bar.less" />
     <Content Include="public\styles\bootstrap\mixins\reset-filter.less" />
+    <Content Include="public\styles\bootstrap\mixins\reset-text.less" />
     <Content Include="public\styles\bootstrap\mixins\resize.less" />
     <Content Include="public\styles\bootstrap\mixins\responsive-visibility.less" />
     <Content Include="public\styles\bootstrap\mixins\size.less" />

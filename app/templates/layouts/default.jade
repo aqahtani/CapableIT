@@ -60,9 +60,10 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
               span.icon-bar
               span.icon-bar
               span.icon-bar
-            a.navbar-brand(href='/')
+            .navbar-brand
               img.logo(src="/images/kplogo_32.png")
-              |  #{t("brand")}
+            a.navbar-brand(href='/')
+              span  #{t("brand")}
           .collapse.navbar-collapse
             ul.nav.navbar-nav.navbar-left
               li(class=(section == 'home' ? 'active' : null)): a(href='/')= t('nav.home')
