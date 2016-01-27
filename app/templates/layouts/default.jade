@@ -66,13 +66,31 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
               span  #{t("brand")}
           .collapse.navbar-collapse
             ul.nav.navbar-nav.navbar-left
+              //- Home
               li(class=(section == 'home' ? 'active' : null)): a(href='/')= t('nav.home')
 
               //- display nav links only for logged in users
               if user
-                each link in navLinks
+                
+                //- dynamic navigation is disabled to allow flexibility
+                //-each link in navLinks
                   li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
-              
+                
+                //- Organize
+                li.dropdown(class=(section == 'organize' ? 'active' : null))
+                  a.dropdown-toggle(href="#",data-toggle="dropdown")
+                    | #{t("nav.organize")} 
+                    span.caret
+                  ul.dropdown-menu(role="menu")
+                    li: a(href="/organization")= t('nav.organization')
+                    li: a(href="/jobs")= t('nav.jobs')
+                    li: a(href="/employees")= t('nav.employees')
+
+                //- Others
+                li(class=(section == 'assess' ? 'active' : null)): a(href="/assessments")= t('nav.assess')
+                li(class=(section == 'develop' ? 'active' : null)): a(href="/developmentplans")= t('nav.develop')
+
+              //- Guide
               li.dropdown(class=(section == 'guide' ? 'active' : null))
                 a.dropdown-toggle(href="#",data-toggle="dropdown")
                   | #{t("nav.guide")} 

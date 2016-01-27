@@ -8,7 +8,7 @@ exports = module.exports = function(req, res) {
 		locals = res.locals;
 	
 	// Set locals
-	locals.section = 'assessments';
+	locals.section = 'assess';
     locals.filters = {
 		assessment: req.params.assessment
 	};

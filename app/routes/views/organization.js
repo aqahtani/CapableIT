@@ -8,7 +8,7 @@ exports = module.exports = function(req, res) {
 		locals = res.locals;
 	
 	// Init locals
-    locals.section = 'organization';
+    locals.section = 'organize';
     locals.filters = {
         organization: req.params.organization || locals.orgId
     };

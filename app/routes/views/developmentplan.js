@@ -11,7 +11,7 @@ exports = module.exports = function(req, res) {
 		locals = res.locals;
 	
 	// Set locals
-	locals.section = 'development';
+	locals.section = 'develop';
     locals.filters = {
         developmentPlan: req.params.developmentplan,
         employee: req.user.employee

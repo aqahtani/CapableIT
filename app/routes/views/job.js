@@ -7,7 +7,7 @@ exports = module.exports = function(req, res) {
 		locals = res.locals;
 	
 	// Set locals
-	locals.section = 'jobs';
+	locals.section = 'organize';
     locals.filters = {
 		job: req.params.job
 	};

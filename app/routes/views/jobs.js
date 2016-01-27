@@ -6,7 +6,7 @@ exports = module.exports = function (req, res) {
         locals = res.locals;
     
     // Set locals
-    locals.section = 'jobs';
+    locals.section = 'organize';
     
     // Load all organization jobs
     view.query('jobs', keystone.list('Job').paginate({

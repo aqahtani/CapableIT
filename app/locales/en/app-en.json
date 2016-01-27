@@ -12,11 +12,12 @@
         "about": "About",
         "contact": "Contact",
         "more": "More",
+        "organize": "Organize",
         "organization": "Organization",
         "jobs": "Jobs",
         "employees": "Employees",
-        "assessments": "Assessments",
-        "developmentplans": "Development Plans",
+        "assess": "Assess",
+        "develop": "Develop",
         "employee": "Employee",
         "guide": "Guide",
         "blog": "Blog",
@@ -30,6 +31,8 @@
         "hardskills": "Professional Skills",
         "softskills": "Behavioral Skills",
         "dashboard": "Dashboard",
-        "development": "Development"
+        "assessments": "Assessments",
+        "developmentplans": "Development Plans"
     }
+
 }

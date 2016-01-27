@@ -8,7 +8,7 @@ exports = module.exports = function(req, res) {
 		locals = res.locals;
 	
 	// Set locals
-	locals.section = 'development';
+	locals.section = 'develop';
     
     // initialize edit/post variables
     locals.validationErrors = {};
