@@ -68,6 +68,7 @@
     <Compile Include="public\js\lib\select2\js\select2.js" />
     <Compile Include="public\js\lib\select2\js\select2.min.js" />
     <Compile Include="routes\dashboard\developmentplans.js" />
+    <Compile Include="updates\0.0.2-update-assessment-periods.js" />
     <Compile Include="updates\0.0.4-sfia-v6-reset.js" />
     <Compile Include="updates\sfia6.js" />
     <Compile Include="keystone.js" />
