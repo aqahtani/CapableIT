@@ -17,7 +17,7 @@ mixin assessmentDetail(assessment, englishlevels, hardlevels, softlevels)
       if assessment.job
         h4: a(href='/job/' + assessment.job.id)= assessment.job.title
     .col-sm-2: +fieldLabel("Assessment Date")
-    .col-sm-4: h4= assessment._.createdAt.format('DD/MM/YYYY - HH:mm')
+    .col-sm-4: h4= assessment._.createdAt.format('YYYY-MM-DD')
   .row
     .col-sm-2.col-sm-offset-6: +fieldLabel("English Level")
     .col-sm-4: h4: +englishLeveler(assessment.english.targetLevel, assessment.english.currentLevel)

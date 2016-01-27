@@ -111,12 +111,22 @@ mixin formSelect2List(inputName, list, selected)
 
 //- Select form field with enhanced select2 functionality + multiple selection
 mixin formSelect2Multiple(inputName, options, selectedOptions)
+
   select(name='#{inputName}', id='#{inputName}', multiple='multiple', style='width: 100%').form-control.select2
     each option in options
       //- for some reason, the following condition doesn't work!
-      //- if _.contains(activity.targetHardSkills, hSkill.id)
+      //- if selectedOptions &&_.contains(selectedOptions, option.id)
       //- that's why it is replaced by the indexOf on the array!!
-      if (selectedOptions && selectedOptions.indexOf(option.id) > -1)
+      //- Also, couldn't use indexOf as well!!!
+      //-if selectedOptions && selectedOptions.indexOf(option.id) > -1
+      //- Now I used old school looping through the values and comparing :(
+      - var picked = false
+      if selectedOptions
+        each value in selectedOptions
+          if value == option.id
+            - picked = true
+
+      if picked
         option(value='#{option.id}', selected)= option.title
       else
         option(value='#{option.id}')= option.title

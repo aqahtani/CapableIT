@@ -1,41 +1,41 @@
 ﻿var categories = [
     {
-        "color" : "#ff2200",
+        "color" : "#ee2453",
         "title" : "Strategy and architecture",
         "number" : 1,
         __ref : "Strategy and architecture"
     },
 
     {
-        "color" : "#ac00b8",
+        "color" : "#ce549f",
         "title" : "Change and transformation",
         "number" : 2,
         __ref : "Change and transformation"
     },
 
     {
-        "color" : "#ffed2b",
+        "color" : "#f3c710",
         "title" : "Development and implementation",
         "number" : 3,
         __ref : "Development and implementation"
     },
 
     {
-        "color" : "#ff7e00",
+        "color" : "#b2671f",
         "title" : "Delivery and operation",
         "number" : 4,
         __ref : "Delivery and operation"
     },
 
     {
-        "color" : "#00b3cf",
+        "color" : "#00a5e4",
         "title" : "Skills and quality",
         "number" : 5,
         __ref : "Skills and quality"
     },
 
     {
-        "color" : "#00d732",
+        "color" : "#00a853",
         "title" : "Relationships and engagement",
         "number" : 6,
         __ref : "Relationships and engagement"

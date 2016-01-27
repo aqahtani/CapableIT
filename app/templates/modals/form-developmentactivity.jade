@@ -101,13 +101,13 @@ mixin modalEditDevelopmentActivity(modalId, activity)
             .col-sm-12
               .form-group(class=validationErrors.targetHardSkills ? 'has-error' : null)
                 label(for='targetHardSkills').col-sm-2.control-label Target Hard Skills
-                .col-sm-10: +formSelect2Multiple('targetHardSkills', hardSkills, activity.targetHardSkills)
+                .col-sm-10: +formSelect2Multiple('targetHardSkills', hardSkills, _.pluck(activity.targetHardSkills, '_id'))
 
           .row
             .col-sm-12
               .form-group(class=validationErrors.targetSoftSkills ? 'has-error' : null)
                 label(for='targetSoftSkills').col-sm-2.control-label Target Soft Skills
-                .col-sm-10: +formSelect2Multiple('targetSoftSkills', softSkills, activity.targetSoftSkills)
+                .col-sm-10: +formSelect2Multiple('targetSoftSkills', softSkills, _.pluck(activity.targetSoftSkills, '_id'))
           hr
           .row
             .col-sm-12
@@ -137,11 +137,50 @@ mixin modalDeleteDevelopmentActivity(modalId, activity)
           dl.dl-horizontal
             dt Title
             dd= activity.title
-            dt Target Skill
-            dd=activity.targetSkill
             dt Deadline
             dd=activity._.deadline.format('YYYY-MM-DD')
-          
+            
         .modal-footer
           button(type='submit').btn.btn-danger Delete
           button(type="button", data-dismiss="modal").btn Cancel
+
+//- Modal: View DevelopmentActivity
+mixin modalViewDevelopmentActivity(modalId, activity)
+  .modal.fade(id="#{modalId}")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button(type="button", data-dismiss="modal").close
+            span(aria-hidden="true") &times;
+            span.sr-only Close
+          h4.modal-title Development Activity
+        .modal-body
+          dl.dl-horizontal
+            dt Title
+            dd= activity.title
+            dt Method
+            dd= activity.method.title
+            dt Deadline
+            dd=activity._.deadline.format('YYYY-MM-DD')
+            dt Completed?
+            dd= (activity.completed ? 'Yes' : 'No')
+          hr
+          dl
+            dt Target Skills
+            dd
+              .row
+                .col-sm-6
+                  if activity.targetHardSkills
+                    each thSkill in activity.targetHardSkills
+                      +skillLabel(thSkill, 'label-danger')
+                .col-sm-6
+                  if activity.targetSoftSkills
+                    each tsSkill in activity.targetSoftSkills
+                      +skillLabel(tsSkill, 'label-warning')
+          hr
+          dl
+            dt Remarks
+            dd: p.multi-line= activity.remarks
+          
+        .modal-footer
+          button(type="button", data-dismiss="modal").btn.btn-primary Close

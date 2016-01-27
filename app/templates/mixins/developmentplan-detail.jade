@@ -43,6 +43,38 @@ mixin developmentplanDetail(developmentplan, activities, developmentMethods, har
         //- button to trigger add modal only on 'create' permission
         if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
           .pull-right: a(href="#", data-toggle="modal", data-target="#formAddDevelopmentActivityModal", title="Add Activity"): span.glyphicon.glyphicon-plus-sign
+
+      hr
+      if !activities.length
+        h4 No activies found.  Click on the (+) sign to add a new one.
+      else
+        .table-responsive
+          table.table.table-condensed
+            th #
+            th Title
+            th Method
+            th Deadline
+            th.text-center Completed?
+            th.text-center Actions
+            each activity, i in activities
+              tr
+                td #{i+1}
+                td
+                  +modalViewDevelopmentActivity('viewDevelopmentActivityModal' + activity.id, activity)
+                  a(href="#", data-toggle="modal", data-target="#viewDevelopmentActivityModal" + activity.id)= activity.title 
+                td= activity.method.title
+                td= activity._.deadline.format('YYYY-MM-DD')
+                td.text-center
+                  +flag-completed(activity.completed)
+                td.text-center
+                  //- button to trigger edit/delete modals only on 'edit' permission
+                  if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
+                    span.text-left
+                      +modalEditDevelopmentActivity('formEditDevelopmentActivityModal' + activity.id, activity)
+                      +modalDeleteDevelopmentActivity('formDeleteDevelopmentActivityModal' + activity.id, activity)
+                    a(href="#", data-toggle="modal", data-target="#formEditDevelopmentActivityModal" + activity.id, title="Edit Activity"): span.glyphicon.glyphicon-edit
+                    |  
+                    a(href="#", data-toggle="modal", data-target="#formDeleteDevelopmentActivityModal" + activity.id, title="Delete Activity"): span.glyphicon.glyphicon-remove-circle
       hr
       //- Skill Gaps
       .row
@@ -69,35 +101,3 @@ mixin developmentplanDetail(developmentplan, activities, developmentMethods, har
             .panel-footer 
               | More on behavioral skills can be found under 
               a(href='/skills/soft') Guide/Behavioral Skills
-
-      hr
-      if !activities.length
-        h4 No activies found.  Click on the (+) sign to add a new one.
-      else
-        .table-responsive
-          table.table.table-condensed
-            th #
-            th Title
-            th Method
-            th Target Skill
-            th Deadline
-            th.text-center Completed?
-            th.text-center Actions
-            each activity, i in activities
-              tr
-                td #{i+1}
-                td= activity.title
-                td= activity.method.title
-                td= activity.targetSkill
-                td= activity._.deadline.format('YYYY-MM-DD')
-                td.text-center
-                  +flag-completed(activity.completed)
-                td.text-center
-                  //- button to trigger edit modal only on 'edit' permission
-                  if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
-                    span.text-left
-                      +modalEditDevelopmentActivity('formEditDevelopmentActivityModal' + activity.id, activity)
-                      +modalDeleteDevelopmentActivity('formDeleteDevelopmentActivityModal' + activity.id, activity)
-                    a(href="#", data-toggle="modal", data-target="#formEditDevelopmentActivityModal" + activity.id, title="Edit Activity"): span.glyphicon.glyphicon-edit
-                    |  
-                    a(href="#", data-toggle="modal", data-target="#formDeleteDevelopmentActivityModal" + activity.id, title="Delete Activity"): span.glyphicon.glyphicon-remove-circle

@@ -14,7 +14,7 @@
     "mongoose-unique-validator": "^0.4.1",
     "node-uuid": "^1.4.1",
     "qr-image": "^2.0.0",
-    "underscore": "~1.7.0"
+    "underscore": "^1.8.3"
   },
   "engines": {
     "node": "~0.10.40",

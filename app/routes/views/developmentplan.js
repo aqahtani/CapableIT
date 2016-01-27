@@ -33,7 +33,7 @@ exports = module.exports = function(req, res) {
     view.query('activities', DevelopmentActivity.model.find()
             .where(locals.orgFilter)//always apply tenant filter first
             .where({ 'developmentPlan': locals.filters.developmentPlan })
-            .populate('organization employee developmentPlan method')
+            .populate('organization employee developmentPlan method targetHardSkills targetSoftSkills')
             .sort('deadline')
     );
     

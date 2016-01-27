@@ -15,6 +15,21 @@ mixin levelBox(title, label, kind, description, color)
     tabindex="0" 
     title="#{title}").btn.btn-xs= label
 
+//- skill info icon and popover: used by hard, soft, and english levelers 
+mixin infoIcon(title, description)
+  span.bs-component
+    a(
+      style="color:lightgray;"
+      data-container="body"
+      data-toggle="popover" 
+      data-trigger="focus"
+      data-placement="bottom"
+      data-content="#{description}"
+      data-original-title=""
+      tabindex="0" 
+      title="#{title}"): span.glyphicon.glyphicon-info-sign
+
+
 //- Authority as RACI
 mixin authority(raci)
   case raci
@@ -33,7 +48,9 @@ mixin authority(raci)
 mixin hardLeveler(skill, target, current)
   .row
     .col-sm-7
-      h5= skill.title
+      h5
+        | #{skill.title}  
+        +infoIcon(skill.title, skill.description)
     .col-sm-5: .bs-component: .btn-group.btn-group-justified
       for i in [1, 2, 3, 4, 5, 6, 7]
         if (i == target && i == current)
@@ -54,7 +71,9 @@ mixin hardLeveler(skill, target, current)
 mixin softLeveler(skill, target, current)
   .row
     .col-sm-7
-      h5= skill.title
+      h5
+        | #{skill.title}  
+        +infoIcon(skill.title, skill.description)
     .col-sm-5: .bs-component: .btn-group.btn-group-justified
       for i in [1, 2, 3, 4, 5]
         if (i == target && i == current)
@@ -88,7 +107,9 @@ mixin levellabels(levels,kind)
 mixin hardSkill(skill)
   .row
     .col-sm-7
-      h5= skill.title
+      h5
+        | #{skill.title}  
+        +infoIcon(skill.title, skill.description)
     .col-sm-5: .bs-component: .btn-group.btn-group-justified
       for i in [1, 2, 3, 4, 5, 6, 7]
         - var kind = "btn-default"
@@ -100,7 +121,9 @@ mixin hardSkill(skill)
 mixin softSkill(skill)
   .row
     .col-sm-7
-      h4= skill.title
+      h5
+        | #{skill.title}  
+        +infoIcon(skill.title, skill.description)
     .col-sm-5: .bs-component: .btn-group.btn-group-justified
       for i in [1, 2, 3, 4, 5]
         - var kind = "btn-default"
@@ -120,3 +143,7 @@ mixin subCategoryLabel(subcategory)
 
 mixin topLink()
   a.pull-right(href="#top"): span.glyphicon.glyphicon-chevron-up
+
+
+mixin skillLabel(skill,kind)
+  h4: span.label.field-label(class=kind)= skill.title

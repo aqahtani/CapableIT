@@ -25,7 +25,7 @@ mixin modalNewDevelopmentPlan(modalId)
                 .panel-heading: h4 Professional Goals/Motivations
                 .panel-body
                   .form-group
-                    textarea(name='goals', id='goals', rows='3').form-control
+                    textarea(name='goals', id='goals', rows='3', required).form-control
 
           //- 2: Strengths and Weaknesses
           .row
@@ -34,13 +34,13 @@ mixin modalNewDevelopmentPlan(modalId)
                 .panel-heading: h4 Strengths and Talents to Use (3-5)
                 .panel-body
                   .form-group
-                    textarea(name='strengths', id='strengths', rows='3').form-control
+                    textarea(name='strengths', id='strengths', rows='3', required).form-control
             .col-sm-6
               .panel.panel-default
                 .panel-heading: h4 Weaknesses to Develop (3-5)
                 .panel-body
                   .form-group
-                    textarea(name='weaknesses', id='weaknesses', rows='3').form-control
+                    textarea(name='weaknesses', id='weaknesses', rows='3', required).form-control
           
         .modal-footer
           button(type='submit').btn.btn-info Create
@@ -72,7 +72,7 @@ mixin modalEditDevelopmentPlan(modalId, developmentplan)
                 .panel-heading: h4 Professional Goals/Motivations
                 .panel-body
                   .form-group(class=validationErrors.goals ? 'has-error' : null)
-                    textarea(name='goals', id='goals', rows='3').form-control= developmentplan.goals
+                    textarea(name='goals', id='goals', rows='3', required).form-control= developmentplan.goals
           
           //- 2: Strengths and Weaknesses
           .row
@@ -81,13 +81,13 @@ mixin modalEditDevelopmentPlan(modalId, developmentplan)
                 .panel-heading: h4 Strengths and Talents to Use (3-5)
                 .panel-body
                   .form-group(class=validationErrors.strengths ? 'has-error' : null)
-                    textarea(name='strengths', id='strengths', rows='3').form-control= developmentplan.strengths
+                    textarea(name='strengths', id='strengths', rows='3', required).form-control= developmentplan.strengths
             .col-sm-6
               .panel.panel-default
                 .panel-heading: h4 Weaknesses to Develop (3-5)
                 .panel-body
                   .form-group(class=validationErrors.weaknesses ? 'has-error' : null)
-                    textarea(name='weaknesses', id='weaknesses', rows='3').form-control= developmentplan.weaknesses
+                    textarea(name='weaknesses', id='weaknesses', rows='3', required).form-control= developmentplan.weaknesses
           
         .modal-footer
           //- status input HERE

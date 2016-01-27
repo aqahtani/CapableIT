@@ -12,7 +12,7 @@ exports = module.exports = function (req, res) {
     view.query('employees', keystone.list('Employee').paginate({
         filters: locals.orgFilter, //always apply tenant filter first
         page: req.query.page || 1,
-        perPage: 10,
+        perPage: 12,
         maxPages: 10
     })
         .populate('organization orgDepartment orgFunction job manager')

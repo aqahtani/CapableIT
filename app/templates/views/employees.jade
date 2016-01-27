@@ -10,10 +10,24 @@ block content
         if employees.results.length
           section
             +showing(employees, 'employee')
-            .row
+            hr
+            //- display employees 4 at a time
+            - var len = employees.results.length
+            - var stop, step = 4, rem = len % step
+            each r in _.range(0, len, step)
+              - stop = ((len < (r+step)) ? rem : step)
+              .row
+                each i in _.range(0, stop, 1)
+                  - var employee = employees.results[r+i]
+                  .col-sm-3
+                    +employeePanel(employee)
+              hr
+            
+            //-.row
               each employee in employees.results
                 .col-xm-9.col-md-3
                   +employeePanel(employee)
+
             +pages(employees)
         else
           h3.text-muted There are no employees yet.
