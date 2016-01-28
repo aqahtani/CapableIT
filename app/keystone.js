@@ -1,6 +1,6 @@
 ﻿// Simulate config options from your production environment by
 // customising the .env file in your project's root folder.
-require('dotenv').load();
+require('dotenv').config({ silent: true });
 
 // load Capable-IT version n
 var pjson = require('./package.json');
