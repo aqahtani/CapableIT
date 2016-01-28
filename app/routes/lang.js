@@ -6,7 +6,8 @@ exports = module.exports = function (req, res) {
 
     // set a cookie for the new language, 
     // i18next will pick from there and default to it
-	res.cookie('lang', ln);
+    res.cookie('lang', ln);
+
     // flash a message to user telling him that langage has changed
     // in his own chosen language!
 	req.flash('info', req.t('msg.language_changed', { lng: ln }));

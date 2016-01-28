@@ -33,7 +33,8 @@ exports.initLocals = function(req, res, next) {
         { label: t('nav.assess'),       key: 'assessments',     href: '/assessments' },
         { label: t('nav.develop'),      key: 'development',     href: '/developmentplans' }
     ];
-	
+    
+    locals.t = req.t;	
     locals.user = req.user;
 
     // get the organization id of the current user

@@ -1,22 +1,31 @@
-﻿var options = {
+﻿var detectionOptions = {
+    // order and from where user language should be detected
+    order: [/*'path', 'session', 'querystring', 'header' */ 'cookie'],
+    
+    // keys or params to lookup language from
+    //lookupQuerystring: 'lng',
+    //lookupSession: 'lng',
+    //lookupFromPathIndex: 0,
+
+    lookupCookie: 'lang',
+    // cache user language
+    caches: false, // ['cookie']
+};
+
+var options = {
     lng: 'en',
     preload: ['ar'],
     fallbackLng: 'en',
-    ignoreRoutes: ['javascripts/', 'stylesheets/', 'images/'],
     saveMissing: true,
-    ns: {
-        namespaces: ['app'], 
-        defaultNs: 'app'
-    }, 
-    cookieName: 'lang',
-    // language detection is disabled until you formally support it
-    detectLngFromHeaders: false,  
-    resSetPath: 'locales/__lng__/__ns__-__lng__.json',
-    resGetPath: 'locales/__lng__/__ns__-__lng__.json',
+    ns: ['app'], 
+    defaultNS: 'app',  
+    backend: {
+        loadPath: "locales/{{lng}}/{{ns}}-{{lng}}.json"
+    },
+    detection: detectionOptions,
     debug: false
 };
 
 module.exports = {
     'options': options
 };
-

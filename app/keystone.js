@@ -6,8 +6,7 @@ require('dotenv').load();
 var pjson = require('./package.json');
 
 // Require keystone
-var keystone = require('keystone'),
-    i18next = require("i18next");
+var keystone = require('keystone');
 
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
@@ -43,6 +42,28 @@ keystone.init({
     'signout url': '/keystone/signout',
     'signout redirect': '/'
 });
+
+//=============================================================================
+// initialize i18next v2
+
+var i18next = require('i18next'),
+    i18nextFilesystemBackend = require('i18next-node-fs-backend'),
+    i18nextSprintf = require('i18next-sprintf-postprocessor'),
+    i18nextMiddleware = require('i18next-express-middleware');
+
+var i18nextCfg = require('./config/i18next.js');
+
+i18next
+  .use(i18nextMiddleware.LanguageDetector)
+  .use(i18nextFilesystemBackend)
+  .use(i18nextSprintf)
+  .init(i18nextCfg.options);
+
+// expose req.t with fixed lng
+keystone.app.use(i18nextMiddleware.handle(i18next));
+
+//=============================================================================
+
 
 // optional, will prefix all built-in tags with 'keystone_'
 keystone.set('cloudinary prefix', 'keystone');
@@ -122,14 +143,6 @@ keystone.set('nav', {
     'Content': ['posts', 'post-categories', 'galleries', 'enquiries']
 });
 
-//=============================================================================
-// initialize i18next
-// YOU NEED TO MIGRATE TO v2 : http://i18next.com/docs/migration/
-var i18nextCfg = require('./config/i18next.js');
-i18next.init(i18nextCfg.options);
-i18next.registerAppHelper(keystone.app);
-keystone.app.use(i18next.handle);
-//=============================================================================
 
 //=============================================================================
 // Restify your models using keystone-rest:
