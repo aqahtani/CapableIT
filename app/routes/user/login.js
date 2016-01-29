@@ -1,9 +1,9 @@
 ﻿var keystone = require('keystone'),
     session = keystone.session,
     User = keystone.list('User'),
-    _ = require('underscore');
-
-var util = require('util');
+    _ = require('underscore'),
+    async = require('async'),
+    util = require('util');
 
 exports = module.exports = function (req, res) {
     var view = new keystone.View(req, res),
@@ -39,14 +39,44 @@ exports = module.exports = function (req, res) {
                 req.flash('warning', 'You have not verified your account yet!');
             }
             
-            // find the role names of the user
-            keystone.list('Role').model.find()
-            .where({ '_id': { "$in" : user.roles }})
-            .exec(function (err, roles) {
+            // setup async calls to retrieve user and role permissions
+            // 1. get user authorizations of the current user
+            var getUserAuthorizations = function (callback) {
+                keystone.list('UserAuthorization').model.find()
+                .where('organization', user.organization)
+                .where('user', user.id)
+                .populate('permissions')
+                .exec(callback);
+            };
+            
+            // 2. find roles the user
+            var getUserRoles = function (callback) {
+                keystone.list('Role').model.find()
+                .where({ '_id': { "$in" : user.roles } })
+                .exec(callback);      
+            };
+            
+            // 3. get role authorizations of the current user
+            var getRoleAuthorizations = function (callback, results) {
+                // results.userRoles contains roles assigned to user
+                keystone.list('RoleAuthorization').model.find()
+                .where('organization', user.organization)
+                .where('role').in(results.userRoles)
+                .populate('role')
+                .populate('permissions')
+                .exec(callback);
+            };
+
+            
+            async.auto({
+                userAuthorizations: getUserAuthorizations,
+                userRoles: getUserRoles,
+                roleAuthorizations: ['userRoles', getRoleAuthorizations]
+            }, function (err, results) {
                 if (!err) {
-                    var roleNames = _.pluck(roles, 'name');
-                    req.session.roleNames = roleNames;
-                }
+                    req.session.roleNames = _.pluck(results.userRoles, 'name');
+                    req.session.authorizations = results;
+                };
 
                 // welcome the user
                 req.flash('success', 'Welcome ' + user.name.first);

@@ -38,6 +38,8 @@ User.schema.virtual('canAccessKeystone').get(function () {
  */
 
 User.relationship({ ref: 'Post', refPath: 'author' });
+User.relationship({ ref: 'VerificationToken', refPath: 'user' });
+User.relationship({ ref: 'UserAuthorization', refPath: 'user' });
 
 /**
  * Plugins

@@ -2,9 +2,17 @@
   #footer
     .row
       .col-sm-4
-        p.text-muted.pull-left &copy; 2015 <a href="http://knowledge-passion.com" target="_blank">Knowledge-Passion</a>
+        p.text-muted.pull-left &copy; <a href="http://knowledge-passion.com" target="_blank">Knowledge-Passion</a>
       .col-sm-4
-        if authorized
-          p.text-muted.text-center as #{authorized.user} #{authorized.roles} with #{authorized.permissions}
+        if permits
+          p.text-muted.text-center: small 
+            | as 
+            each type in _.pluck(permits,'type')
+              span.label.label-default #{type}
+              |  
+            |  with 
+            each permission in _.flatten(_.pluck(permits,'permissions'), true)
+              span.label.label-default #{permission}
+              |   
       .col-sm-4 
         p.text-muted.pull-right #{t("brand")} v#{citversion} #{t('poweredby')} <a href="http://keystonejs.com" target="_blank">KeystoneJS</a>

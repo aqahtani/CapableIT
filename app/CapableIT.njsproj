@@ -18,6 +18,7 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Content Include="package.json" />
+    <Compile Include="lib\content.js" />
     <Compile Include="public\js\lib\select2\js\i18n\ar.js" />
     <Compile Include="public\js\lib\select2\js\i18n\az.js" />
     <Compile Include="public\js\lib\select2\js\i18n\bg.js" />
@@ -401,6 +402,7 @@
     <Folder Include="locales\ar" />
     <Folder Include="locales\en" />
     <Folder Include="models" />
+    <Folder Include="lib\" />
     <Folder Include="public\" />
     <Folder Include="public\fonts\" />
     <Folder Include="public\images\" />

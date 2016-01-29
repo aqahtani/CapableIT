@@ -79,11 +79,14 @@ keystone.import('models');
 // bundled templates and layouts. Any runtime locals (that should be set uniquely
 // for each request) should be added to ./routes/middleware.js
 
+var citContent = require('./lib/content');
+
 keystone.set('locals', {
     _: require('underscore'),
     env: keystone.get('env'),
     utils: keystone.utils,
     editable: keystone.content.editable,
+    canDo: citContent.canDo,
     citversion: pjson.version
 });
 
