@@ -33,9 +33,9 @@ block content
                   span Actions
                   span.caret
                 ul.dropdown-menu(role="menu",aria-labelledby="actionMenu")
-                  if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
+                  if canDo(user, permits, 'edit')
                     li(role="presentation"): a(role="menuitem", tabindex="-1", href="#", data-toggle="modal", data-target="#formAssessmentModal") Edit
-                  if _.contains(roleNames, 'master')
+                  if hasRole(user, authorizations, 'master')
                     if !assessment.analyzed
                       li(role="presentation"): a(role="menuitem", tabindex="-1", href="#", data-toggle="modal", data-target="#modalAnalyzeAssessment") Analyze
                     else

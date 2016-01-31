@@ -13,14 +13,28 @@ exports = module.exports = function (req, res) {
     locals.filters = {
         employee: req.params.employee || req.user.employee
     };
-    //locals.data = {
-    //    englishLevels : [],
-    //    employee: null,
-    //    assessments: []
-    //};
     locals.validationErrors = {};
-    //locals.formData = {};
-    
+
+    /*
+    // Cloudinary images are uploaded via the update handeler
+    // in case you want direct brower upload, then see:
+    // http://cloudinary.com/documentation/node_image_upload#direct_uploading_from_the_browser
+    if (keystone.get('cloudinary config')) {
+        var cloudinaryUpload = cloudinary.uploader.direct_upload();
+        locals.cloudinary = {
+            cloud_name: keystone.get('cloudinary config').cloud_name,
+            api_key: keystone.get('cloudinary config').api_key,
+            timestamp: cloudinaryUpload.hidden_fields.timestamp,
+            signature: cloudinaryUpload.hidden_fields.signature,
+            prefix: keystone.get('cloudinary prefix') || '',
+            folders: keystone.get('cloudinary folders'),
+            uploader: cloudinary.uploader
+        };
+        locals.cloudinary_js_config = cloudinary.cloudinary_js_config();
+        locals.cloudinary_cors = '/js/lib/cloundinary/cloudinary_cors.html';
+    };
+    */
+
     // get education.level and english.test options from list fileds options
     locals.eduLevelOptions = _.pluck(keystone.list('Employee').fields['education.level'].ops, 'value');
     locals.engTestOptions = _.pluck(keystone.list('Employee').fields['english.test'].ops, 'value');
@@ -51,11 +65,14 @@ exports = module.exports = function (req, res) {
     // query all english levels
     view.query('englishLevels', keystone.list('EnglishLevel').model.find());    
     
-    // Updating employee profile
+    /*
+     * Manipulate an Employee: Update and Delete
+     */
+
+    // UPDATE employee profile
     view.on('post', { action: 'update' }, function (next) {
         
         // set locals for edit form
-        //locals.formData = req.body || {};
         locals.validationErrors = {};
         
         // find the employee
@@ -76,11 +93,11 @@ exports = module.exports = function (req, res) {
             }
             
             // employee found, update it
-            updater = emp.getUpdateHandler(req);
+            var updater = emp.getUpdateHandler(req);
             
             updater.process(req.body, {
                 flashErrors: true,
-                fields: 'name, arName, empId, email, telephone, mobile, english.level, english.test, english.score, education.field, education.level, certificates, bio, birthDate',
+                fields: 'name, arName, empId, email, telephone, mobile, english.level, english.test, english.score, education.field, education.level, certificates, bio, photo',
                 errorMessage: 'There was a problem with your update:'
             }, function (err, result) {
                 if (err) {
@@ -96,6 +113,38 @@ exports = module.exports = function (req, res) {
 
     });
     
+    // DELETE employee
+    view.on('post', { action: 'delete' }, function (next) {
+        
+        Employee.model.findById(req.body.empId).exec(function (err, employee) {
+            if (err) {
+                req.flash('error', err);
+                return next();
+            }
+            
+            if (!employee) {
+                req.flash('error', 'Cannot find the employee profile to delete');
+                return next();
+            }
+            
+            // all is well, remove the employee
+            // note that you need to call remove on the doc so the middleware can be triggered!
+            employee.remove(function (err) {
+                if (err) {
+                    req.flash('error', err);
+                    return next();
+                }
+                
+                // delete successful!
+                req.flash('success', 'Delete successfully completed.');
+                res.redirect('/employees');
+
+            });
+            
+        });
+    });
+
+
     // Render the view
     view.render('employee');
 };

@@ -63,12 +63,12 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
             .navbar-brand
               img.logo(src="/images/kplogo_32.png")
             a.navbar-brand(href='/')
-              span  #{t("brand")}
+              span= t("brand")
           .collapse.navbar-collapse
             ul.nav.navbar-nav.navbar-left
               //- Home
               li(class=(section == 'home' ? 'active' : null)): a(href='/')= t('nav.home')
-
+                
               //- display nav links only for logged in users
               if user
                 
@@ -77,37 +77,25 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
                   li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
                 
                 //- Organize
-                li.dropdown(class=(section == 'organize' ? 'active' : null))
-                  a.dropdown-toggle(href="#",data-toggle="dropdown")
-                    | #{t("nav.organize")} 
-                    span.caret
-                  ul.dropdown-menu(role="menu")
-                    li: a(href="/organization")= t('nav.organization')
-                    li: a(href="/jobs")= t('nav.jobs')
-                    li: a(href="/employees")= t('nav.employees')
+                if organization
+                  li.dropdown(class=(section == 'organize' ? 'active' : null))
+                    a.dropdown-toggle(href="#",data-toggle="dropdown")
+                      | #{t("nav.organize")} 
+                      span.caret
+                    ul.dropdown-menu(role="menu")
+                      li: a(href="/organization")= t('nav.organization')
+                      li: a(href="/jobs")= t('nav.jobs')
+                      li: a(href="/employees")= t('nav.employees')
 
-                //- Others
-                li(class=(section == 'assess' ? 'active' : null)): a(href="/assessments")= t('nav.assess')
-                li(class=(section == 'develop' ? 'active' : null)): a(href="/developmentplans")= t('nav.develop')
+                  //- Others
+                  li(class=(section == 'assess' ? 'active' : null)): a(href="/assessments")= t('nav.assess')
+                  li(class=(section == 'develop' ? 'active' : null)): a(href="/developmentplans")= t('nav.develop')
 
-              //- Guide
-              li.dropdown(class=(section == 'guide' ? 'active' : null))
-                a.dropdown-toggle(href="#",data-toggle="dropdown")
-                  | #{t("nav.guide")} 
-                  span.caret
-                ul.dropdown-menu(role="menu")
-                  li: a(href="/skills/english")= t('nav.englishskill')
-                  li: a(href="/skills/hard")= t('nav.hardskills')
-                  li: a(href="/skills/soft")= t('nav.softskills')
-                  li.divider
-                  li: a(href="/blog")= t('nav.blog')
-                  li: a(href="/gallery")= t('nav.gallery')
-                  li: a(href="/contact")= t('nav.contact')
             ul.nav.navbar-nav.navbar-right
               if user
                 li: a(href='/employee')= user.name.first
                 //- admin-only nav links 
-                if _.contains(roleNames, 'master') || _.contains(roleNames, 'owner')
+                if hasRole(user, authorizations, 'master') || hasRole(user, authorizations, 'owner')
                   li.dropdown(class=(section == 'dashboard' ? 'active' : null))
                     a.dropdown-toggle(href="#",data-toggle="dropdown")
                       span.glyphicon.glyphicon-dashboard  
@@ -124,8 +112,21 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
                 //- join or login
                 li: a(href='/join')= t('nav.signup') 
                 li: a(href='/login',title="#{t('nav.signin')}"): span.glyphicon.glyphicon-log-in
-              //- BETA/Release?
-              p.navbar-text= t('nav.version')
+              
+              //- Guide
+              li.dropdown(class=(section == 'guide' ? 'active' : null))
+                a.dropdown-toggle(href="#",data-toggle="dropdown")
+                  | #{t("nav.guide")} 
+                  span.caret
+                ul.dropdown-menu(role="menu")
+                  li: a(href="/skills/english")= t('nav.englishskill')
+                  li: a(href="/skills/hard")= t('nav.hardskills')
+                  li: a(href="/skills/soft")= t('nav.softskills')
+                  li.divider
+                  li: a(href="/blog")= t('nav.blog')
+                  li: a(href="/gallery")= t('nav.gallery')
+                  li: a(href="/contact")= t('nav.contact')
+
               //- language switch
               //- disabled untill formal support
                 li.dropdown
@@ -165,9 +166,8 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
     //- you can upgrade to 2.1.1 (also bundled) for better performance.
     script(src='/js/lib/jquery/jquery-1.11.1.min.js')
 
-    //- Customise which Bootstrap javascript files are served by including
-    //- them specifically here, instead of bootstrap-3.2.0.min.js
-    script(src='/js/lib/bootstrap/bootstrap-3.2.0.min.js')
+    //- Bootstrap javascript 
+    script(src='/js/lib/bootstrap/bootstrap.min.js')
 
     //- bootstrap-datepicker
     script(src='/js/lib/bootstrap-datepicker/bootstrap-datepicker.min.js')

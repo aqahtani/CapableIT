@@ -31,7 +31,7 @@ exports = module.exports = function (req, res) {
         if (req.body) {
             var today = new Date();
             var newAssessment = {
-                'organization': locals.orgId,
+                'organization': locals.organization,
                 'status': 'draft',
                 'doneBy': locals.filters.employee,
                 'employee': req.body.employee,

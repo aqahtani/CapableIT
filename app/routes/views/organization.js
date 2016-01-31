@@ -10,7 +10,7 @@ exports = module.exports = function(req, res) {
 	// Init locals
     locals.section = 'organize';
     locals.filters = {
-        organization: req.params.organization || locals.orgId
+        organization: req.params.organization || locals.organization
     };
     
     // Load the current organization

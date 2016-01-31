@@ -40,16 +40,14 @@ exports.initLocals = function(req, res, next) {
     // get the organization id of the current user
     // and make available to all routes/views
     if (req.user) {
-        locals.orgId = req.user.organization;
+        locals.organization = req.user.organization;
         // a global tenant filter to be used in queries 
         locals.orgFilter = { 'organization' : req.user.organization };
-        locals.roleNames = req.session.roleNames;
         locals.authorizations = req.session.authorizations;
     }
     else {
-        locals.orgId = null;
+        locals.organization = null;
         locals.orgFilter = null;
-        locals.roleNames = null;
         locals.authorizations = null;
     }
     
@@ -128,7 +126,7 @@ exports.authorizeUser = function (action) {
 
         var userId = req.user.id, 
             userRoles = req.user.roles,
-            orgId = req.user.organization,
+            organization = req.user.organization,
             resource = req.path,
             // get authorizations from res as it was prepared by initLocals
             authorizations = res.locals.authorizations;
@@ -160,41 +158,6 @@ exports.authorizeUser = function (action) {
             // otherwise return nothing
             return callback();
         };
-
-
-        // OLD isUserAuthorized
-        //var isUserAuthorized = function (callback) {
-        //    var q = keystone.list('UserAuthorization').model.findOne()
-        //        .where({
-        //            'organization': orgId,
-        //            'user': userId,
-        //            'resource' : { "$in": [resource, resourceAny] }
-        //        }).populate('user permissions');
-            
-        //    q.exec(function (err, userAuth) {
-        //        if (err) {
-        //            callback(err, null);
-        //        }
-        //        else if (!userAuth) {
-        //            // no user authorizations found
-        //            callback(null, null);
-        //        }
-        //        else {
-        //            // user authorization found, check if permitted
-        //            // get user's permissions from the populated 'permissions'
-        //            var permissions = _.pluck(userAuth.permissions, 'name');
-                    
-        //            var isAllowed = _.contains(permissions, '*') || _.contains(permissions, action);
-                    
-        //            if (!isAllowed) {
-        //                callback(null, null);
-        //            }
-        //            else {
-        //                callback(null, { "user" : userAuth.user.name.full, "permissions" : permissions });
-        //            }
-        //        }
-        //    });
-        //}
         
         // async function to check role authorization
         var isRoleAuthorized = function (callback) {
@@ -224,47 +187,7 @@ exports.authorizeUser = function (action) {
             // otherwise return nothing
             return callback();
         };
-
-        // OLD 
-        //var isRoleAuthorized = function (callback) {
-        //    var q = keystone.list('RoleAuthorization').model.find()
-        //        .where({
-        //            'organization': orgId,
-        //            'role': { "$in" : userRoles },
-        //            'resource' : { "$in": [ resource, resourceAny ]}
-        //        }).populate('role permissions');
-            
-        //    q.exec(function (err, roleAuths) {
-        //        if (err) {
-        //            callback(err, null);
-        //        }
-        //        else if (!roleAuths) {
-        //            // no role authorizations found
-        //            callback(null, null);
-        //        }
-        //        else {
-        //            // role authorization(s) found, check if permitted
-        //            // get the populated 'permissions' for each role
-                    
-        //            roles = _.pluck(_.pluck(roleAuths, 'role'), 'name');
-        //            // 1: pluck the permissions out, and flatten at one level
-        //            var combinedPermissions = _.flatten(_.pluck(roleAuths, 'permissions'), true);
-        //            // 2: pluck the permission names
-        //            var permissions = _.pluck(combinedPermissions, 'name');
-                    
-        //            // allowed if a match or *
-        //            var isAllowed = _.contains(permissions, '*') || _.contains(permissions, action);
-                    
-        //            if (!isAllowed) {
-        //                callback(null, null);
-        //            }
-        //            else {
-        //                callback(null, { "type": "roles: " + roles, "permissions" : permissions });
-        //            }
-        //        }
-        //    });
-        //}
-        
+     
         async.parallel({
             userPermissions : isUserAuthorized,
             rolePermissions : isRoleAuthorized

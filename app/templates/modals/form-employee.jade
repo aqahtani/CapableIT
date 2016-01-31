@@ -1,16 +1,21 @@
 ﻿include form-mixins
 
 //- Modal: Edit Employee Form
-mixin modalEmployee(modalId, employee, englishLevels, eduLevelOptions, engTestOptions)
+mixin modalEditEmployee(modalId, employee, englishLevels, eduLevelOptions, engTestOptions)
   .modal.fade(id="#{modalId}")
     .modal-dialog.modal-lg
-      form(method='post').form-horizontal.modal-content
+      form(method='post',enctype='multipart/form-data').form-horizontal.modal-content
         .modal-header
           button(type="button", data-dismiss="modal").close
             span(aria-hidden="true") &times;
             span.sr-only Close
-          h4.modal-title Employee
+          h4.modal-title Edit Employee
         .modal-body
+          .row
+            .col-sm-12
+              .form-group.form-group-sm(class=validationErrors.photo ? 'has-error' : null)
+                label(for='photo').col-sm-2.control-label Photo
+                .col-sm-10: input(type='file', name='photo_upload', id='photo').form-control
           .row
             .col-sm-6
               input(type='hidden', name='action', value='update')
@@ -71,4 +76,30 @@ mixin modalEmployee(modalId, employee, englishLevels, eduLevelOptions, engTestOp
                     
         .modal-footer
           button(type='submit').btn.btn-primary Submit
-          button(type="button", data-dismiss="modal").btn.btn-danger Cancel
+          button(type="button", data-dismiss="modal").btn.btn-default Cancel
+
+//- Modal: Delete Employee Form
+mixin modalDeleteEmployee(modalId, employee)
+  .modal.fade(id="#{modalId}")
+    .modal-dialog
+      form(method='post').modal-content
+        input(type='hidden', name='action', value='delete')
+        input(type='hidden', name='empId', value=employee.id)
+        .modal-header
+          button(type="button", data-dismiss="modal").close
+            span(aria-hidden="true") &times;
+            span.sr-only Close
+          h4.modal-title Delete Employee
+        .modal-body
+          p Are you sure you want to delete this employee?
+
+          dl.dl-horizontal
+            dt Name
+            dd #{employee.name.full}
+            dd #{employee.arName}
+
+          p.text-danger All related <strong>assessments</strong> and <strong>plans</strong> will be deleted as well!
+          
+        .modal-footer
+          button(type='submit').btn.btn-danger Delete
+          button(type="button", data-dismiss="modal").btn Cancel

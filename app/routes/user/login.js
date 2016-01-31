@@ -73,10 +73,7 @@ exports = module.exports = function (req, res) {
                 userRoles: getUserRoles,
                 roleAuthorizations: ['userRoles', getRoleAuthorizations]
             }, function (err, results) {
-                if (!err) {
-                    req.session.roleNames = _.pluck(results.userRoles, 'name');
-                    req.session.authorizations = results;
-                };
+                if (!err) req.session.authorizations = results;
 
                 // welcome the user
                 req.flash('success', 'Welcome ' + user.name.first);

@@ -41,7 +41,7 @@ mixin developmentplanDetail(developmentplan, activities, developmentMethods, har
     .col-sm-12
       h3 Development Acitivities
         //- button to trigger add modal only on 'create' permission
-        if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
+        if canDo(user, permits, 'edit')
           .pull-right: a(href="#", data-toggle="modal", data-target="#formAddDevelopmentActivityModal", title="Add Activity"): span.glyphicon.glyphicon-plus-sign
 
       hr
@@ -68,7 +68,7 @@ mixin developmentplanDetail(developmentplan, activities, developmentMethods, har
                   +flag-completed(activity.completed)
                 td.text-center
                   //- button to trigger edit/delete modals only on 'edit' permission
-                  if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
+                  if canDo(user, permits, 'edit')
                     span.text-left
                       +modalEditDevelopmentActivity('formEditDevelopmentActivityModal' + activity.id, activity)
                       +modalDeleteDevelopmentActivity('formDeleteDevelopmentActivityModal' + activity.id, activity)

@@ -19,6 +19,8 @@
   <ItemGroup>
     <Content Include="package.json" />
     <Compile Include="lib\content.js" />
+    <Compile Include="public\js\lib\bootstrap\bootstrap.js" />
+    <Compile Include="public\js\lib\bootstrap\bootstrap.min.js" />
     <Compile Include="public\js\lib\select2\js\i18n\ar.js" />
     <Compile Include="public\js\lib\select2\js\i18n\az.js" />
     <Compile Include="public\js\lib\select2\js\i18n\bg.js" />
@@ -93,20 +95,6 @@
     <Compile Include="public\js\employee-ui.js" />
     <Compile Include="public\js\lib\bootstrap-datepicker\bootstrap-datepicker.min.js" />
     <Compile Include="public\js\lib\chartjs\Chart.min.js" />
-    <Compile Include="public\js\lib\bootstrap\affix.js" />
-    <Compile Include="public\js\lib\bootstrap\alert.js" />
-    <Compile Include="public\js\lib\bootstrap\bootstrap-3.2.0.js" />
-    <Compile Include="public\js\lib\bootstrap\bootstrap-3.2.0.min.js" />
-    <Compile Include="public\js\lib\bootstrap\button.js" />
-    <Compile Include="public\js\lib\bootstrap\carousel.js" />
-    <Compile Include="public\js\lib\bootstrap\collapse.js" />
-    <Compile Include="public\js\lib\bootstrap\dropdown.js" />
-    <Compile Include="public\js\lib\bootstrap\modal.js" />
-    <Compile Include="public\js\lib\bootstrap\popover.js" />
-    <Compile Include="public\js\lib\bootstrap\scrollspy.js" />
-    <Compile Include="public\js\lib\bootstrap\tab.js" />
-    <Compile Include="public\js\lib\bootstrap\tooltip.js" />
-    <Compile Include="public\js\lib\bootstrap\transition.js" />
     <Compile Include="public\js\lib\jquery\jquery-1.11.1.js" />
     <Compile Include="public\js\lib\jquery\jquery-1.11.1.min.js" />
     <Compile Include="public\js\lib\jquery\jquery-2.1.1.js" />

@@ -86,7 +86,7 @@ User.schema.post('save', function (user) {
     }
 });
 
-// assign user roles given as names: e.g. 'edit', 'view', ...
+// assign user roles given as names: e.g. 'owner', 'employee', ...
 User.schema.methods.assignRoles = function (roleNames, done) {
     var user = this;
     var async = require("async");

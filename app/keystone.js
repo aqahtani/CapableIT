@@ -87,6 +87,7 @@ keystone.set('locals', {
     utils: keystone.utils,
     editable: keystone.content.editable,
     canDo: citContent.canDo,
+    hasRole: citContent.hasRole,
     citversion: pjson.version
 });
 

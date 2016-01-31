@@ -8,41 +8,29 @@
 
 var Content = function () { };
 
-/* OLDer canDo functions:
-
-Content.prototype.canEdit = function (user, permits) {
-    // if not valid user object or not permits
-    // then consider not editable (false) 
-    if (!user || !permits) return false;
-    
-    // get a combined list of permittions
-    var permissions = _.flatten(_.pluck(permits, 'permissions'), true);
-    // user can edit if given either 'edit' or '*' permission
-    return _.contains(permissions, 'edit') || _.contains(permissions, '*');
-};
-
-Content.prototype.canDelete = function (user, permits) {
-    // if not valid user object or not permits
-    // then consider not editable (false) 
-    if (!user || !permits) return false;
-    
-    // get a combined list of permittions
-    var permissions = _.flatten(_.pluck(permits, 'permissions'), true);
-    // user can edit if given either 'delete' or '*' permission
-    return _.contains(permissions, 'delete') || _.contains(permissions, '*');
-};
-*/
-
 Content.prototype.canDo = function (user, permits, action) {
     // if not valid user object or not permits
-    // then consider not editable (false) 
+    // then consider not cannot do! (false) 
     if (!user || !permits || !action) return false;
     
     // get a combined list of permittions
     var permissions = _.flatten(_.pluck(permits, 'permissions'), true);
 
-    // user can 'action' if given either 'action' or '*' permission
-    return _.contains(permissions, action) || _.contains(permissions, '*');
+    // user can 'action' if given either 'action' or '*' permission for all 
+    // permissions except for 'approve' which needs to be mentioned by name
+    if (action === 'approve') return _.contains(permissions, action)
+    else return _.contains(permissions, action) || _.contains(permissions, '*');
+};
+
+Content.prototype.hasRole = function (user, authorizations, role) {
+    // if no valid user object or no authorizations, or not given role name
+    // then consider not cannot do! (false) 
+    if (!user || !authorizations || !role) return false;
+    
+    // get a list of role names
+    var roleNames = _.pluck(authorizations.userRoles, 'name');
+    
+    return _.contains(roleNames, role);
 };
 
 /**

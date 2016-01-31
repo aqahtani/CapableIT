@@ -18,7 +18,7 @@ exports = module.exports = function(req, res) {
         
         // create a new activity and save
         var newPlan = new DevelopmentPlan.model({
-            organization: locals.orgId, //global orgId
+            organization: locals.organization, //global organization
             employee: req.user.employee, // current user employee id
             period: req.body.period,
             goals: req.body.goals,

@@ -1,7 +1,8 @@
 ﻿var keystone = require('keystone'),
     Types = keystone.Field.Types,
     qrImage = require('qr-image'),
-    uniqueValidator = require('mongoose-unique-validator');
+    uniqueValidator = require('mongoose-unique-validator'),
+    async = require("async");;
 
 /**
  * Employee Model
@@ -17,7 +18,7 @@ var Employee = new keystone.List('Employee', {
 Employee.add({
     name: { type: Types.Name, initial: true, required: true, index: true, unique: true },
     arName: { type: Types.Text, initial: true, label: 'Arabic Name', index: true, unique: true },
-    empId: { type: Types.Text, initial: true, required: true, index: true, unique: true, label: 'Employee ID' },
+    empId: { type: Types.Text, label: 'Employee ID' },
     email: { type: Types.Email, initial: true, required: true, index: true, unique: true, lowercase: true },	
     telephone: { type: Types.Text },
     mobile: { type: Types.Text }
@@ -62,6 +63,9 @@ Employee.schema.pre('save', function (next) {
     }
     next();
 });
+
+// PRE MIDDLEWARE 
+// ==============
 
 // set/reset manager if job is changed
 Employee.schema.pre('save', function (next) {
@@ -118,12 +122,12 @@ Employee.schema.pre('save', function (next) {
     else next();
 });
 
+// SCHEMA METHODS
+// ==============
+
 // set manager, department, and function of employee from his job
 Employee.schema.methods.setManager = function (job, done) {
     var employee = this;
-    
-    // otherwise, go and find the manager of the assigned job
-    var async = require("async");
     
     // this one to get job reporting
     var getJob = function (callback) {
@@ -190,9 +194,6 @@ Employee.schema.methods.setManager = function (job, done) {
 Employee.schema.methods.authorizeManager = function (manager, done) {
     var employee = this;
     
-    // otherwise, go and find the manager of the assigned job
-    var async = require("async");
-    
     // get user from manager employee id 
     // and simply pass the callback as is (no need to raise error on empty result)
     var getManagerUser = function (callback) {
@@ -216,6 +217,51 @@ Employee.schema.methods.authorizeManager = function (manager, done) {
         managerAuthorization: ['managerUser', authorizeManager]
     }, done);
 };
+
+// POST MIDDLEWARE
+// ===============
+// make sure that associated assessments, development plans, and authorizations 
+// are removed as well when an employee is removed 
+Employee.schema.post('remove', function (employee) {
+        
+    // async: remove related assessments
+    var removeAssessments = function (callback) {
+        keystone.list('Assessment').model.find()
+        .where({
+            'organization': employee.organization,
+            'employee': employee.id
+        }).exec(function (err, docs) {
+            async.each(docs, function (doc, done) {
+                doc.remove(done);
+            }, callback)
+        });
+        
+    };
+    
+    // async: remove related development plans
+    var removeDevelopmentPlans = function (callback) {
+        keystone.list('DevelopmentPlan').model.find()
+        .where({
+            'organization': employee.organization,
+            'employee': employee.id
+        }).exec(function (err, docs) {
+            async.each(docs, function (doc, done) {
+                doc.remove(done);
+            }, callback)
+        });
+    };
+    
+    // async: remove related authorizations
+    var removeAuthorizations = function (callback) {
+        keystone.list('UserAuthorization').model.removeResource(
+            employee.organization, 
+            '/employee/' + employee.id,
+            callback);
+    };
+    
+    async.parallel([removeAssessments, removeDevelopmentPlans, removeAuthorizations]);
+});
+
 
 /**
  * Plugins

@@ -15,9 +15,9 @@ exports = module.exports = function(req, res) {
     // Load the organization information
     view.on('init', function (next) {
         // loadup the organization if the user has one
-        if (locals.orgId) {
+        if (locals.organization) {
             var q = keystone.list('Organization').model.findOne()
-            .where({ _id : locals.orgId });
+            .where({ _id : locals.organization });
             
             q.exec(function (err, result) {
                 if (!err && !result) {

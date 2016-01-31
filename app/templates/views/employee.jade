@@ -7,11 +7,16 @@ include ../mixins/assessment-brief
 block js
   script(src="/js/lib/chartjs/Chart.min.js")
   script(src="/js/employee-ui.js")
+  //-script(src="/js/lib/cloundinary/jquery.ui.widget.js")
+  //-script(src="/js/lib/cloundinary/jquery.iframe-transport.js")
+  //-script(src="/js/lib/cloundinary/jquery.fileupload.js")
+  //-script(src="/js/lib/cloundinary/jquery.cloudinary.js")
 
 block content
   //- embed the employee form modal
   if employee
-    +modalEmployee('formEmployeeModal', employee, englishLevels, eduLevelOptions, engTestOptions)
+    +modalEditEmployee('formEditEmployeeModal', employee, englishLevels, eduLevelOptions, engTestOptions)
+    +modalDeleteEmployee('formDeleteEmployeeModal', employee)
     +modalBusinessCard('bcardModal', employee)
   //- display the employee
   .container
@@ -22,11 +27,15 @@ block content
         else
           h2 Employee Profile 
             //- button to trigger business card modal 
-            //-button(type="button", data-toggle="modal", data-target="#bcardModal").btn.btn-info.pull-right Business Card
             small: a(href="#", data-toggle="modal", data-target="#bcardModal"): span.glyphicon.glyphicon-paperclip
-            //- button to trigger edit modal only on 'edit' permission
-            if _.contains(authorized.permissions, 'edit') || _.contains(authorized.permissions, '*')
-              button(type="button", data-toggle="modal", data-target="#formEmployeeModal").btn.btn-primary.pull-right Edit
+            .pull-right
+              //- buttons to trigger edit and delete modals based on permissions
+              if canDo(user, permits, 'edit')
+                a(href="#", data-toggle="modal", data-target="#formEditEmployeeModal", title="Edit Employee"): span.glyphicon.glyphicon-edit
+              | 
+              if canDo(user, permits, 'delete')
+                a(href="#", data-toggle="modal", data-target="#formDeleteEmployeeModal", title="Delete Employee"): span.glyphicon.glyphicon-remove-circle
+              
           hr
           +employeeDetail(employee)
           
