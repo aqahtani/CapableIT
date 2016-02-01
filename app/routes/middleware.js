@@ -195,20 +195,19 @@ exports.authorizeUser = function (action) {
             if (err) {
                 // something wrong happened!
                 req.flash('error', err.message);
-                res.redirect('/');
+                return res.redirect('/');
             }
             
             // if not permissions could be found, then inform and redirect the user
             if (!results.userPermissions && !results.rolePermissions) {
                 // no user/role authorizations found
                 req.flash('error', 'You do not have permission to perform this action!');
-                res.redirect('/');
+                return res.redirect('/');
             };
 
-            // all went well, set authorized to returned results
+            // all went well, set permits to returned results
             var permits = [];
             if (results.userPermissions) permits.push(results.userPermissions);
-            
             if (results.rolePermissions) permits.push(results.rolePermissions);         
             
             // add to locals to be used by views
