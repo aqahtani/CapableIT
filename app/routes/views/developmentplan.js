@@ -270,7 +270,8 @@ exports = module.exports = function(req, res) {
                 title: req.body.title,
                 method: req.body.method,
                 deadline: req.body.deadline,
-                completed: req.body.completed,
+                duration: req.body.duration,
+                progress: req.body.progress,
                 targetHardSkills: req.body.targetHardSkills,
                 targetSoftSkills: req.body.targetSoftSkills,
                 remarks: req.body.remarks
@@ -328,7 +329,7 @@ exports = module.exports = function(req, res) {
             
             updater.process(req.body, {
                 flashErrors: true,
-                fields: 'title, method, targetHardSkills, targetSoftSkills, deadline, completed, remarks',
+                fields: 'title, method, targetHardSkills, targetSoftSkills, deadline, duration, progress, remarks',
                 errorMessage: 'There was a problem with your update:'
             }, function (err, result) {
                 if (err) {

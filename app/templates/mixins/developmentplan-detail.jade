@@ -54,6 +54,8 @@ mixin developmentplanDetail(developmentplan, activities, developmentMethods, har
             th Title
             th Method
             th Deadline
+            th.text-center Duration (days)
+            th.text-center Progress (%)
             th.text-center Completed?
             th.text-center Actions
             each activity, i in activities
@@ -64,8 +66,9 @@ mixin developmentplanDetail(developmentplan, activities, developmentMethods, har
                   a(href="#", data-toggle="modal", data-target="#viewDevelopmentActivityModal" + activity.id)= activity.title 
                 td= activity.method.title
                 td= activity._.deadline.format('YYYY-MM-DD')
-                td.text-center
-                  +flag-completed(activity.completed)
+                td.text-center= activity.duration
+                td: +percent(activity.progress)
+                td.text-center: +flag-completed(activity.completed)
                 td.text-center
                   //- button to trigger edit/delete modals only on 'edit' permission
                   if canDo(user, permits, 'edit')

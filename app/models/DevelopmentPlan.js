@@ -45,14 +45,25 @@ DevelopmentActivity.add({
     developmentPlan: { type: Types.Relationship, ref: 'DevelopmentPlan', filters: { organization: ':organization' }, required: true, initial: true, index: true },
     title: { type: Types.Text, initial: true, required: true },
     method: { type: Types.Relationship, ref: 'DevelopmentMethod', initial: true, index: true },
+    deadline: { type: Types.Date, format: 'YYYY-MM-DD', initial: true, required: true },
+    duration: { type: Types.Number, min: 0.5, initial: true, required: true },
+    progress: { type: Types.Number, min: 0, max: 100, default: 0, required: true, index: true },
     targetHardSkills: { type: Types.Relationship, ref: 'HardSkill', many: true },
     targetSoftSkills: { type: Types.Relationship, ref: 'SoftSkill', many: true },
-    deadline: { type: Types.Date, format: 'YYYY-MM-DD', initial: true, required: true },
-    completed: { type: Types.Boolean, default: false, index: true },
     remarks: { type: Types.Textarea, height: 150 },
 });
 
-DevelopmentActivity.defaultColumns = 'organization|10%, employee, title, method, deadline, completed';
+DevelopmentActivity.schema.virtual('completed').get(function () {
+    // completed is whether or not progress is 100%
+    return this.progress === 100;
+});
+
+DevelopmentActivity.schema.virtual('completed').set(function (value) {
+    // set progress to 100% when completed is true 
+    if (value) this.set('progress', 100);
+});
+
+DevelopmentActivity.defaultColumns = 'organization|10%, employee, title, method, deadline, duration, progress, completed';
 DevelopmentActivity.register();
 
 
