@@ -67,7 +67,7 @@ exports = module.exports = function(req, res) {
                     req.flash('success', 'Update successfully completed.');
                 }
                 //next();
-                res.redirect('back');
+                return res.redirect('back');
             });
 
         });
@@ -107,7 +107,7 @@ exports = module.exports = function(req, res) {
                     req.flash('success', 'Assessment has been analyzed successfully.');
                 }
                 //next();
-                res.redirect('back');
+                return res.redirect('back');
             });
         });
     });
@@ -145,7 +145,7 @@ exports = module.exports = function(req, res) {
                     req.flash('success', 'Assessment has been reset successfully.');
                 }
                 next();
-                //res.redirect('back');
+                //return res.redirect('back');
             });
         });
     });

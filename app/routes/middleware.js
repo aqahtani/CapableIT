@@ -110,7 +110,7 @@ exports.requireUser = function(req, res, next) {
 	if (!req.user) {
         req.flash('error', 'Please sign in to access this page.');
         req.session.returnTo = req.path;
-        res.redirect('/login');
+        return res.redirect('/login');
 	} else {
 		next();
 	}

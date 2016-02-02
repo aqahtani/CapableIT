@@ -16,7 +16,7 @@ exports = module.exports = function (req, res) {
         //    logo: keystone.get('signin logo')
         //});
 
-        res.redirect('/');
+        return res.redirect('/');
     });
 
     //view.render('user/login');

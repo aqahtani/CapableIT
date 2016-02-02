@@ -149,7 +149,7 @@ exports = module.exports = function(req, res) {
                     req.flash('success', 'Update successfully completed.');
                     req.flash('warning', 'Development plan approval has been reset');
                 }
-                res.redirect('back');
+                return res.redirect('back');
             });
 
         });
@@ -179,7 +179,7 @@ exports = module.exports = function(req, res) {
                 
                 // delete successful!
                 req.flash('success', 'Delete successfully completed.');
-                res.redirect('/developmentplans');
+                return res.redirect('/developmentplans');
 
             });
             
@@ -213,7 +213,7 @@ exports = module.exports = function(req, res) {
                 
                 // approved successful!
                 req.flash('success', 'Successfully completed.');
-                res.redirect('back');
+                return res.redirect('back');
             });
         });
     });
@@ -295,7 +295,7 @@ exports = module.exports = function(req, res) {
                 developmentPlan.save(function (err) {
                     req.flash('success', 'Add activity successfully completed.');
                     req.flash('warning', 'Development plan approval has been reset');
-                    res.redirect('back');
+                    return res.redirect('back');
                 });
             });
         });
@@ -345,7 +345,7 @@ exports = module.exports = function(req, res) {
                     }
                     req.flash('success', 'Update activity successfully completed.');
                     req.flash('warning', 'Development plan approval has been reset');
-                    res.redirect('back');
+                    return res.redirect('back');
                 });
             });
 
@@ -371,7 +371,7 @@ exports = module.exports = function(req, res) {
                 } 
                 req.flash('success', 'Delete activity successfully completed.');
                 req.flash('warning', 'Development plan approval has been reset');
-                res.redirect('back');
+                return res.redirect('back');
             });
                 
         });

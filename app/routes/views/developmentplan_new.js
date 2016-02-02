@@ -38,7 +38,7 @@ exports = module.exports = function(req, res) {
                 
             // create successful!
             req.flash('success', 'Add development plan successfully completed.');
-            res.redirect('back');
+            return res.redirect('back');
         });
     });
     

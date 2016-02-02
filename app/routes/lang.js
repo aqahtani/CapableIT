@@ -14,6 +14,6 @@ exports = module.exports = function (req, res) {
 
     // redirect the request back to the referrer 
     // will default to / when missing
-	res.redirect('back');
+	return res.redirect('back');
 
 };
