@@ -271,10 +271,8 @@ exports = module.exports = function(req, res) {
                 method: req.body.method,
                 deadline: req.body.deadline,
                 completed: req.body.completed,
-                targetSkills: {
-                    professional: req.body.targetHardSkills,
-                    behavioral: req.body.targetSoftSkills
-                },
+                targetHardSkills: req.body.targetHardSkills,
+                targetSoftSkills: req.body.targetSoftSkills,
                 remarks: req.body.remarks
             });
             
