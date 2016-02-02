@@ -131,12 +131,12 @@ exports.create = {
             "description": "Pursue a certification or qualificatoin in a specific field.",
             "remarks": "Very good to develop and achieve qualification together",
             "examples": [
-                "PMP",
-                "TOGAF",
-                "ITIL",
-                "COBIT",
-                "CCNA",
-                "CISSP"
+                "PMP - Project Management Professional",
+                "TOGAF 9 Foundation -  The Open Group Architecture Forum",
+                "ITIL Foundation - Information Technology Infrastructure Library",
+                "COBIT 5 - Control Objectives for Information and Related Technology ",
+                "CCNA - Cisco Certified Network Associate",
+                "CISSP - Certified Information Systems Security Professional"
             ]
         },
     ]

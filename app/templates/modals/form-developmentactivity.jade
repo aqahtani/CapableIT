@@ -168,15 +168,12 @@ mixin modalViewDevelopmentActivity(modalId, activity)
           dl
             dt Target Skills
             dd
-              .row
-                .col-sm-6
-                  if activity.targetHardSkills
-                    each thSkill in activity.targetHardSkills
-                      +skillLabel(thSkill, 'label-danger')
-                .col-sm-6
-                  if activity.targetSoftSkills
-                    each tsSkill in activity.targetSoftSkills
-                      +skillLabel(tsSkill, 'label-warning')
+              if activity.targetHardSkills
+                each thSkill in activity.targetHardSkills
+                  +skillLabel(thSkill, 'label-danger')
+              if activity.targetSoftSkills
+                each tsSkill in activity.targetSoftSkills
+                  +skillLabel(tsSkill, 'label-warning')
           hr
           dl
             dt Remarks
