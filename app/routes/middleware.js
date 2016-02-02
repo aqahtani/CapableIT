@@ -10,7 +10,8 @@
 
 var _ = require('underscore'),
 	querystring = require('querystring'),
-    keystone = require('keystone');
+    keystone = require('keystone'),
+    async = require('async');;
 
 /**
 	Initialises the standard view locals
@@ -43,19 +44,17 @@ exports.initLocals = function(req, res, next) {
         locals.organization = req.user.organization;
         // a global tenant filter to be used in queries 
         locals.orgFilter = { 'organization' : req.user.organization };
-        locals.authorizations = req.session.authorizations;
     }
     else {
         locals.organization = null;
         locals.orgFilter = null;
-        locals.authorizations = null;
     }
     
     // reset authorizations
+    locals.authorizations = null;
     locals.permits = null; 
     
     next();
-	
 };
 
 /**
@@ -124,26 +123,52 @@ exports.requireUser = function(req, res, next) {
 exports.authorizeUser = function (action) {
     return function (req, res, next) {
 
-        var userId = req.user.id, 
-            userRoles = req.user.roles,
+        var user = req.user, 
             organization = req.user.organization,
-            resource = req.path,
-            // get authorizations from res as it was prepared by initLocals
-            authorizations = res.locals.authorizations;
+            resource = req.path;
         
         // get an '*' version of the path
         var regex = new RegExp('/[^/]*$');
         var resourceAny = resource.replace(regex, '/*');
+                
+        // setup async calls to retrieve user and role permissions
+        // 1. get user authorizations of the current user
+        var getUserAuthorizations = function (callback) {
+            keystone.list('UserAuthorization').model.find()
+                .where('organization', organization)
+                .where('user', user.id)
+                .populate('permissions')
+                .exec(callback);
+        };
         
-        var async = require('async');
+        // 2. find roles the user
+        var getUserRoles = function (callback) {
+            keystone.list('Role').model.find()
+                .where({ '_id': { "$in" : user.roles } })
+                .exec(callback);
+        };
         
-        // async function to check user authorization
-        
-        var isUserAuthorized = function (callback) {
-            // get user authorizations from locals
-            // searching on the given resource or * 
-            var userAuthOnResource = _.findWhere(authorizations.userAuthorizations, { "resource": resource });
-            var userAuthOnAny = _.findWhere(authorizations.userAuthorizations, { "resource": resourceAny });
+        // 3. get role authorizations of the current user
+        var getRoleAuthorizations = function (callback, results) {
+            // results.userRoles contains roles assigned to user
+            var userRoles = results.userRoles;
+
+            keystone.list('RoleAuthorization').model.find()
+                .where('organization', organization)
+                .where('role').in(userRoles)
+                .populate('role')
+                .populate('permissions')
+                .exec(callback);
+        };
+
+        // 4. check user authorization
+        var isUserAuthorized = function (callback, results) {
+            // results.userAuthorizations contains authorizations assigned to user
+            var userAuthorizations = results.userAuthorizations;
+
+            // get user authorizations searching on the given resource or * 
+            var userAuthOnResource = _.findWhere(userAuthorizations, { "resource": resource });
+            var userAuthOnAny = _.findWhere(userAuthorizations, { "resource": resourceAny });
             
             // pluck permissions for each auth and unionize
             var permissions = [];
@@ -159,12 +184,14 @@ exports.authorizeUser = function (action) {
             return callback();
         };
         
-        // async function to check role authorization
-        var isRoleAuthorized = function (callback) {
-            // get role authorizations from locals
-            // searching on the given resource or * 
-            var roleAuthOnResource = _.findWhere(authorizations.roleAuthorizations, { "resource": resource });
-            var roleAuthOnAny = _.findWhere(authorizations.roleAuthorizations, { "resource": resourceAny });
+        // 5. check role authorization
+        var isRoleAuthorized = function (callback, results) {
+            // results.roleAuthorizations contains authorizations assigned to role
+            var roleAuthorizations = results.roleAuthorizations;
+
+            // get role permissions searching on the given resource or * 
+            var roleAuthOnResource = _.findWhere(roleAuthorizations, { "resource": resource });
+            var roleAuthOnAny = _.findWhere(roleAuthorizations, { "resource": resourceAny });
             
             // pluck permissions for each auth and unionize
             var permissions = [];
@@ -188,9 +215,12 @@ exports.authorizeUser = function (action) {
             return callback();
         };
      
-        async.parallel({
-            userPermissions : isUserAuthorized,
-            rolePermissions : isRoleAuthorized
+        async.auto({
+            userAuthorizations: getUserAuthorizations,
+            userRoles: getUserRoles,
+            roleAuthorizations: ['userRoles', getRoleAuthorizations],
+            userPermissions : ['userAuthorizations', isUserAuthorized],
+            rolePermissions : ['roleAuthorizations', isRoleAuthorized]
         }, function (err, results) {
             if (err) {
                 // something wrong happened!
@@ -198,7 +228,7 @@ exports.authorizeUser = function (action) {
                 return res.redirect('/');
             }
             
-            // if not permissions could be found, then inform and redirect the user
+            // if no permissions could be found, then inform and redirect the user
             if (!results.userPermissions && !results.rolePermissions) {
                 // no user/role authorizations found
                 req.flash('error', 'You do not have permission to perform this action!');
@@ -211,7 +241,10 @@ exports.authorizeUser = function (action) {
             if (results.rolePermissions) permits.push(results.rolePermissions);         
             
             // add to locals to be used by views
+            res.locals.authorizations = results;
+            // add a shortcut to a combined list of permissions
             res.locals.permits = permits;
+            
             next();
         });
     }

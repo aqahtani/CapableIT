@@ -162,7 +162,7 @@ DevelopmentPlan.schema.pre('save', function (next) {
                     plan.organization,
                     results.managerUser._id,
                     '/developmentplan/' + plan.id,
-                    ['approve', 'view','edit'], callback);
+                    ['approve', 'view', 'edit'], callback);
             }
             else {
                 callback();
