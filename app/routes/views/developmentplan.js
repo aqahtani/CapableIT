@@ -128,7 +128,7 @@ exports = module.exports = function(req, res) {
             
             if (!developmentPlan) {
                 // no results 
-                req.flash('warning', 'We cannot find a matching development plan');
+                req.flash('error', 'We cannot find a matching development plan');
                 return next();
             }
 
@@ -147,7 +147,7 @@ exports = module.exports = function(req, res) {
                     locals.validationErrors = err.errors;
                 } else {
                     req.flash('success', 'Update successfully completed.');
-                    req.flash('warning', 'Development plan approval has been reset');
+                    //req.flash('warning', 'Development plan approval has been reset');
                 }
                 return res.redirect('back');
             });
@@ -257,7 +257,7 @@ exports = module.exports = function(req, res) {
             
             if (!developmentPlan) {
                 // no results 
-                req.flash('warning', 'We cannot find a matching development plan');
+                req.flash('error', 'We cannot find a matching development plan');
                 return next();
             }
             
@@ -294,7 +294,7 @@ exports = module.exports = function(req, res) {
                 developmentPlan.approved = false;
                 developmentPlan.save(function (err) {
                     req.flash('success', 'Add activity successfully completed.');
-                    req.flash('warning', 'Development plan approval has been reset');
+                    //req.flash('warning', 'Development plan approval has been reset');
                     return res.redirect('back');
                 });
             });
@@ -320,7 +320,7 @@ exports = module.exports = function(req, res) {
             
             if (!developmentactivity) {
                 // no results 
-                req.flash('warning', 'We cannot find a matching development activity');
+                req.flash('error', 'We cannot find a matching development activity');
                 return next();
             }
             
@@ -344,7 +344,7 @@ exports = module.exports = function(req, res) {
                         return next();
                     }
                     req.flash('success', 'Update activity successfully completed.');
-                    req.flash('warning', 'Development plan approval has been reset');
+                    //req.flash('warning', 'Development plan approval has been reset');
                     return res.redirect('back');
                 });
             });
@@ -370,7 +370,7 @@ exports = module.exports = function(req, res) {
                     return next();
                 } 
                 req.flash('success', 'Delete activity successfully completed.');
-                req.flash('warning', 'Development plan approval has been reset');
+                //req.flash('warning', 'Development plan approval has been reset');
                 return res.redirect('back');
             });
                 
