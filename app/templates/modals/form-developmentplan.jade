@@ -4,8 +4,8 @@
 mixin modalNewDevelopmentPlan(modalId)
   .modal.fade(id="#{modalId}")
     .modal-dialog.modal-lg
-      form(method="post", action="/developmentplans/new").modal-content
-        input(type='hidden', name='action', value='create')
+      form(method="post").modal-content
+        input(type='hidden', name='action', value='create-developmentplan')
         .modal-header
           button(type="button", data-dismiss="modal").close
             span(aria-hidden="true") &times;

@@ -84,8 +84,7 @@ exports = module.exports = function(app) {
     app.get('/assessments', middleware.requireUser, routes.views.assessments);
     
     // Development Plans Routes
-    app.get('/developmentplans', middleware.requireUser, routes.views.developmentplans);
-    app.post('/developmentplans/new', middleware.requireUser, middleware.authorizeUser('create'), routes.views.developmentplan_new);
+    app.all('/developmentplans', middleware.requireUser, middleware.requireRole('employee'), routes.views.developmentplans);
     app.get('/developmentplan/:developmentplan', middleware.requireUser, middleware.authorizeUser('view'), routes.views.developmentplan);
     app.post('/developmentplan/:developmentplan', middleware.requireUser, middleware.authorizeUser('edit'), routes.views.developmentplan);
     

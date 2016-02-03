@@ -115,7 +115,6 @@
     <Compile Include="routes\middleware.js" />
     <Compile Include="routes\user\logout.js" />
     <Compile Include="routes\user\login.js" />
-    <Compile Include="routes\views\developmentplan_new.js" />
     <Compile Include="routes\views\developmentplan.js" />
     <Compile Include="routes\views\developmentplans.js" />
     <Compile Include="routes\dashboard\assessments.js" />

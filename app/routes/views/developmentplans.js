@@ -14,6 +14,7 @@ exports = module.exports = function(req, res) {
     locals.filters = {
 		employee: req.user.employee
     };
+    locals.validationErrors = {};
 
     locals.data = {
         directReports : [],
@@ -107,6 +108,35 @@ exports = module.exports = function(req, res) {
             locals.data.reportsDevelopmentPlans = results.developmentPlans;
             next();
         });		
+    });
+    
+    // Create a new development plan
+    view.on('post', { action: 'create-developmentplan' }, function (next) {
+        
+        // create a new activity and save
+        var newPlan = new DevelopmentPlan.model({
+            organization: locals.organization, //global organization
+            employee: req.user.employee, // current user employee id
+            period: req.body.period,
+            goals: req.body.goals,
+            strengths: req.body.strengths,
+            weaknesses: req.body.weaknesses
+        });
+        
+        newPlan.save(function (err, doc) {
+            if (err) {
+                req.flash('error', {
+                    type: 'ValidationError',
+                    title: 'There was an error creating your development plan:',
+                    list: _.pluck(err.errors, 'message')
+                });
+                return res.redirect('back');
+            }
+            
+            // create successful!
+            req.flash('success', 'Add development plan successfully completed.');
+            return res.redirect('/developmentplan/' + doc.id);
+        });
     });
 
 	// Render the view
