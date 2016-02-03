@@ -1,17 +1,23 @@
+//- **************************************
+//- DASHBOARD/employees
+//- **************************************
+
 extends ../../layouts/default
-include ../../mixins/paging
+include ../../modals/form-employee
 
 block content
   .container
     .row
       .col-sm-12
         section
+          +modalAddEmployee('formAddEmployeeModal', jobs)
           h2 Employees 
+            .pull-right: a(href="#", data-toggle="modal", data-target="#formAddEmployeeModal", title="Add Employee"): span.glyphicon.glyphicon-plus-sign
           hr
           if !employees
             h3 No employees can be found
           else
-            table.datatables.table.table-striped
+            table.table.table-striped.table-condensed.datatables
               thead
                 tr
                   th #
@@ -20,25 +26,18 @@ block content
                   th Job
                   th Department
                   th Function
-                  th Email
-                  th Mobile
-                  th Telephone
-
+                  th Actions
               tbody
                 each emp, i in employees
                   tr
                     td #{i+1}
                     td: a(href="/employee/" + emp.id) #{emp.name.full}
-                    td  #{emp.arName}
+                    td #{emp.arName}
                     td  
                       if emp.job
                         a(href="/job/" + emp.job.id) #{emp.job.title}
-                    td  
-                      if emp.orgDepartment 
-                        | #{emp.orgDepartment.name}
-                    td  
-                      if emp.orgFunction
-                        | #{emp.orgFunction.name}
-                    td  #{emp.email}
-                    td  #{emp.mobile}
-                    td  #{emp.telephone}
+                    td= emp.orgDepartment ? emp.orgDepartment.name : '-'
+                    td= emp.orgFunction ? emp.orgFunction.name : '-'
+                    td
+                      +modalJobAssignment('formAssignJobModal' + emp.id, emp, jobs)
+                      a(href="#", data-toggle="modal", data-target="#formAssignJobModal" + emp.id, title="Change Job Assignment"): span.glyphicon.glyphicon-edit

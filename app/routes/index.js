@@ -90,11 +90,10 @@ exports = module.exports = function(app) {
     app.post('/developmentplan/:developmentplan', middleware.requireUser, middleware.authorizeUser('edit'), routes.views.developmentplan);
     
     // Dashboard Routes
-    app.get('/dashboard/assessments', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.assessments);
-    app.post('/dashboard/assessments', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.assessments);
-    app.get('/dashboard/developmentplans', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.developmentplans);
-    app.get('/dashboard/employees', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.employees);
-
+    app.all('/dashboard/assessments', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.assessments);
+    app.all('/dashboard/developmentplans', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.developmentplans);
+    app.all('/dashboard/employees', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.employees);
+    
     // Admin Routes
     
 

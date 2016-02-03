@@ -109,9 +109,6 @@ exports = module.exports = function (req, res) {
         });
 
     });
-    
-    // UPDATE employee job!!!
-    // ...
 
     // DELETE employee
     view.on('post', { action: 'delete' }, function (next) {

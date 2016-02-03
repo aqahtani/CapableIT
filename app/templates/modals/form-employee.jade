@@ -1,10 +1,57 @@
 ﻿include form-mixins
 
+//- Modal: Add Employee Form
+mixin modalAddEmployee(modalId, jobs)
+  .modal.fade(id="#{modalId}")
+    .modal-dialog.modal-lg
+      form(method='post').form-horizontal.modal-content
+        input(type='hidden', name='action', value='create-employee')
+        .modal-header
+          button(type="button", data-dismiss="modal").close
+            span(aria-hidden="true") &times;
+            span.sr-only Close
+          h4.modal-title Add Employee
+        .modal-body
+          .row
+            .col-sm-6
+              .form-group(class=validationErrors.firstName ? 'has-error' : null)
+                label(for='firstName').col-sm-4.control-label First Name
+                .col-sm-8: input(type='text', name='firstName', id='firstName', required).form-control
+            .col-sm-6
+              .form-group(class=validationErrors.lastName ? 'has-error' : null)
+                label(for='lastName').col-sm-4.control-label Last Name
+                .col-sm-8: input(type='text', name='lastName', id='lastName', required).form-control
+          .row
+            .col-sm-12
+              .form-group(class=validationErrors.arName ? 'has-error' : null)
+                label(for='arName').col-sm-2.control-label Arabic Name
+                .col-sm-10: input(type='text', name='arName', id='arName').form-control
+          .row
+            .col-sm-6
+              .form-group(class=validationErrors.empId ? 'has-error' : null)
+                label(for='empId').col-sm-4.control-label Employee ID
+                .col-sm-8: input(type='text', name='empId', id='empId').form-control
+            .col-sm-6
+              .form-group(class=validationErrors.email ? 'has-error' : null)
+                label(for='email').col-sm-4.control-label Email
+                .col-sm-8: input(type='email', name='email', id='email', required).form-control
+          .row
+            .col-sm-12
+              .form-group(class=validationErrors.job ? 'has-error' : null)
+                label(for='job').col-sm-2.control-label Job
+                .col-sm-10: +formSelect2List('job', jobs)
+
+        .modal-footer
+          button(type='submit').btn.btn-primary Create
+          button(type="button", data-dismiss="modal").btn.btn-default Cancel
+
+
 //- Modal: Edit Employee Form
 mixin modalEditEmployee(modalId, employee, eduLevelOptions, engTestOptions)
   .modal.fade(id="#{modalId}")
     .modal-dialog.modal-lg
       form(method='post',enctype='multipart/form-data').form-horizontal.modal-content
+        input(type='hidden', name='action', value='update')
         .modal-header
           button(type="button", data-dismiss="modal").close
             span(aria-hidden="true") &times;
@@ -36,7 +83,6 @@ mixin modalEditEmployee(modalId, employee, eduLevelOptions, engTestOptions)
             .col-sm-9
               .row
                 .col-sm-6
-                  input(type='hidden', name='action', value='update')
                   .form-group.form-group-sm(class=validationErrors.name ? 'has-error' : null)
                     label(for='name').col-sm-4.control-label Name
                     .col-sm-8: input(type='text', name='name.full', id='name', value=employee.name.full).form-control
@@ -128,4 +174,33 @@ mixin modalDeleteEmployee(modalId, employee)
           
         .modal-footer
           button(type='submit').btn.btn-danger Delete
+          button(type="button", data-dismiss="modal").btn Cancel
+
+//- Modal: Job Assignment Form
+mixin modalJobAssignment(modalId, employee, jobs)
+  .modal.fade(id="#{modalId}")
+    .modal-dialog
+      form(method='post').modal-content
+        input(type='hidden', name='action', value='assign-job')
+        input(type='hidden', name='empId', value=employee.id)
+        .modal-header
+          button(type="button", data-dismiss="modal").close
+            span(aria-hidden="true") &times;
+            span.sr-only Close
+          h4.modal-title Job Assignment
+        .modal-body
+          p Which job you want to reassign this employee to?
+
+          dl.dl-horizontal
+            dt Name
+            dd #{employee.name.full} | #{employee.arName}
+            dd
+            dt Current Job
+            dd= employee.job ? employee.job.title : '-'
+            dd
+            dt New Job
+            dd: +formSelect2List('job', jobs, employee.job)
+
+        .modal-footer
+          button(type='submit').btn.btn-danger Assign
           button(type="button", data-dismiss="modal").btn Cancel
