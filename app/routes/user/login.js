@@ -33,17 +33,22 @@ exports = module.exports = function (req, res) {
 
         var onSuccess = function (user) {
             locals.user = user;
-
-            // alert the user if he hasn't verified his account yet!
-            if (!user.isVerified) {
-                req.flash('warning', 'You have not verified your account yet!');
-            }
-            
-            // welcome the user
-            req.flash('success', 'Welcome ' + user.name.first);
-
-            // redirect to the original requested page
-            return res.redirect(locals.returnTo);
+                        
+            // find the role names of the user
+            keystone.list('Role').model.find()
+            .where('_id').in(user.roles)
+            .exec(function (err, roles) {
+                if (!err) req.session.roleNames = _.pluck(roles, 'name');
+                
+                // welcome the user
+                req.flash('success', 'Welcome ' + user.name.first);
+                
+                // alert the user if he hasn't verified his account yet!
+                if (!user.isVerified) req.flash('warning', 'You have not verified your account yet!');
+                
+                // redirect to the original requested page
+                return res.redirect(locals.returnTo);
+            });
         };
         
         // sign the user in using lib from keystone

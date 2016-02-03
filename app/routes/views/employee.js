@@ -43,7 +43,7 @@ exports = module.exports = function (req, res) {
     view.query('employee', keystone.list('Employee').model.findOne()
         .where(locals.orgFilter)//always apply tenant filter first
         .where('_id', locals.filters.employee)
-        .populate('organization orgDepartment orgFunction english.level')
+        .populate('organization orgDepartment orgFunction')
         .populate('job', 'code title altTitle')
         .populate('manager', 'name arName')
     );
@@ -61,9 +61,6 @@ exports = module.exports = function (req, res) {
         .populate('professional.skills', 'title')
         .populate('behavioral.skills', 'title')
     );
-    
-    // query all english levels
-    view.query('englishLevels', keystone.list('EnglishLevel').model.find());    
     
     /*
      * Manipulate an Employee: Update and Delete
@@ -97,7 +94,7 @@ exports = module.exports = function (req, res) {
             
             updater.process(req.body, {
                 flashErrors: true,
-                fields: 'name, arName, empId, email, telephone, mobile, english.level, english.test, english.score, education.field, education.level, certificates, bio, photo',
+                fields: 'name, arName, empId, email, telephone, mobile, birthDate, formalTitle, english.test, english.score, education.field, education.level, certificates, bio, photo',
                 errorMessage: 'There was a problem with your update:'
             }, function (err, result) {
                 if (err) {
@@ -106,13 +103,16 @@ exports = module.exports = function (req, res) {
                     req.flash('success', 'Update successfully completed.');
                 }
                 //next();
-                res.redirect('back');
+                return res.redirect('back');
             });
 
         });
 
     });
     
+    // UPDATE employee job!!!
+    // ...
+
     // DELETE employee
     view.on('post', { action: 'delete' }, function (next) {
         
@@ -137,7 +137,7 @@ exports = module.exports = function (req, res) {
                 
                 // delete successful!
                 req.flash('success', 'Delete successfully completed.');
-                res.redirect('/employees');
+                return res.redirect('/employees');
 
             });
             

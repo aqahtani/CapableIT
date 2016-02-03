@@ -30,8 +30,7 @@ Employee.add({
     manager: { type: Types.Relationship, ref: 'Employee', filters: { organization: ':organization' }, index: true}
 }, 'Education and Certification', {
     english: {
-        level: { type: Types.Relationship, ref: 'EnglishLevel' },
-        test: { type: Types.Select, options: 'None, TOEFL IBT, IELTS', default: 'None' },
+        test: { type: Types.Select, options: 'None, Aptis, IELTS, TOEFL IBT', default: 'None' },
         score: { type: Types.Number }
     },
     education: {
@@ -98,7 +97,7 @@ Employee.schema.pre('save', function (next) {
     else next();
 });
 
-// set/reset manager if job is changed
+// authorize manager if job is changed
 Employee.schema.pre('save', function (next) {
     var employee = this;
     

@@ -11,7 +11,8 @@
 var _ = require('underscore'),
 	querystring = require('querystring'),
     keystone = require('keystone'),
-    async = require('async');;
+    async = require('async'),
+    util = require('util');
 
 /**
 	Initialises the standard view locals
@@ -36,18 +37,20 @@ exports.initLocals = function(req, res, next) {
     ];
     
     locals.t = req.t;	
-    locals.user = req.user;
-
+    
     // get the organization id of the current user
     // and make available to all routes/views
     if (req.user) {
         locals.organization = req.user.organization;
         // a global tenant filter to be used in queries 
         locals.orgFilter = { 'organization' : req.user.organization };
+        locals.user = req.user;
+        locals.user.roleNames = req.session.roleNames;
     }
     else {
         locals.organization = null;
         locals.orgFilter = null;
+        locals.user = null;
     }
     
     // reset authorizations
@@ -114,6 +117,57 @@ exports.requireUser = function(req, res, next) {
 	} else {
 		next();
 	}
+};
+
+
+/**
+	Prevents people from accessing protected pages when they don't have specific roles
+ */
+
+exports.requireRole = function (role) {
+    return function (req, res, next) {
+        var user = req.user, 
+            organization = req.user.organization;
+        
+        /*
+        // 1. fetch the given role
+        var getTargetRole = function (callback) {
+            keystone.list('Role').model.findOne()
+                .where('name', role)
+                .exec(callback);
+        };
+
+        // 2. find roles of the user
+        var getUserRoles = function (callback) {
+            keystone.list('Role').model.find()
+                .where('_id').in(user.roles)
+                .exec(callback);
+        };
+        
+        async.auto({
+            targetRole: getTargetRole,
+            userRoles: getUserRoles
+        }, */
+            
+        keystone.list('Role').model.findOne()
+        .where('_id').in(user.roles)
+        .where('name', role)
+        .exec(function (err, targetRole) {
+            if (err) {
+                // something wrong happened!
+                req.flash('error', err.message);
+                return res.redirect('/');
+            };
+            
+            if (!targetRole) {
+                // user doesn't have a matching role
+                req.flash('error', 'You need to have "' + role + '" role to access this page!');
+                return res.redirect('/');
+            }
+            
+            next();
+        });
+    };
 };
 
 /**

@@ -7,15 +7,11 @@ include ../mixins/assessment-brief
 block js
   script(src="/js/lib/chartjs/Chart.min.js")
   script(src="/js/employee-ui.js")
-  //-script(src="/js/lib/cloundinary/jquery.ui.widget.js")
-  //-script(src="/js/lib/cloundinary/jquery.iframe-transport.js")
-  //-script(src="/js/lib/cloundinary/jquery.fileupload.js")
-  //-script(src="/js/lib/cloundinary/jquery.cloudinary.js")
 
 block content
   //- embed the employee form modal
   if employee
-    +modalEditEmployee('formEditEmployeeModal', employee, englishLevels, eduLevelOptions, engTestOptions)
+    +modalEditEmployee('formEditEmployeeModal', employee, eduLevelOptions, engTestOptions)
     +modalDeleteEmployee('formDeleteEmployeeModal', employee)
     +modalBusinessCard('bcardModal', employee)
   //- display the employee

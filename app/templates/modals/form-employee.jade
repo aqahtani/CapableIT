@@ -1,7 +1,7 @@
 ﻿include form-mixins
 
 //- Modal: Edit Employee Form
-mixin modalEditEmployee(modalId, employee, englishLevels, eduLevelOptions, engTestOptions)
+mixin modalEditEmployee(modalId, employee, eduLevelOptions, engTestOptions)
   .modal.fade(id="#{modalId}")
     .modal-dialog.modal-lg
       form(method='post',enctype='multipart/form-data').form-horizontal.modal-content
@@ -12,58 +12,84 @@ mixin modalEditEmployee(modalId, employee, englishLevels, eduLevelOptions, engTe
           h4.modal-title Edit Employee
         .modal-body
           .row
+            .col-sm-3
+              .text-center
+                //- OLD file input: no preview 
+                  .form-group.form-group-sm(class=validationErrors.photo ? 'has-error' : null)
+                    label(for='photo').col-sm-2.control-label Photo
+                    .col-sm-10: input(type='file', name='photo_upload', id='photo').form-control
+              
+                //- NEW file input using jasny-bootstrap
+                .fileinput.fileinput-new(data-provides='photo_upload')
+                  .fileinput-new.thumbnail(style='width: 150px; height: 150px;')
+                    if employee.photo.exists
+                      img(src=employee._.photo.fit(150,150))
+                    else 
+                      img(data-src='holder.js/150x150')
+                  .fileinput-exists.fileinput-preview.thumbnail(style='width: 150px; height: 150px;')
+                  .btn-group.btn-group-sm.btn-group-justified
+                    .btn.btn-info.btn-file
+                      span change
+                      input(type='file', name='photo_upload')
+                    .btn.btn-default.fileinput-exists(data-dismiss='fileinput') reset
+
+            .col-sm-9
+              .row
+                .col-sm-6
+                  input(type='hidden', name='action', value='update')
+                  .form-group.form-group-sm(class=validationErrors.name ? 'has-error' : null)
+                    label(for='name').col-sm-4.control-label Name
+                    .col-sm-8: input(type='text', name='name.full', id='name', value=employee.name.full).form-control
+                .col-sm-6
+                  .form-group.form-group-sm(class=validationErrors.arName ? 'has-error' : null)
+                    label(for='arName').col-sm-4.control-label Arabic Name
+                    .col-sm-8: input(type='text', name='arName', id='arName', value=employee.arName).form-control
+              .row
+                .col-sm-6
+                  .form-group.form-group-sm(class=validationErrors.empId ? 'has-error' : null)
+                    label(for='empId').col-sm-4.control-label Employee ID
+                    .col-sm-8: input(type='text', name='empId', id='empId', value=employee.empId).form-control
+                .col-sm-6
+                  .form-group.form-group-sm(class=validationErrors.email ? 'has-error' : null)
+                    label(for='email').col-sm-4.control-label Email
+                    .col-sm-8: input(type='text', name='email', id='email', value=employee.email).form-control
+              .row
+                .col-sm-6
+                  .form-group.form-group-sm(class=validationErrors.telephone ? 'has-error' : null)
+                    label(for='telephone').col-sm-4.control-label Telephone
+                    .col-sm-8: input(type='text', name='telephone', id='telephone', value=employee.telephone).form-control
+                .col-sm-6
+                  .form-group.form-group-sm(class=validationErrors.mobile ? 'has-error' : null)
+                    label(for='mobile').col-sm-4.control-label Mobile
+                    .col-sm-8: input(type='text', name='mobile', id='mobile', value=employee.mobile).form-control
+              .row
+                .col-sm-6
+                  .form-group.form-group-sm(class=validationErrors.birthDate ? 'has-error' : null)
+                    label(for='birthDate').col-sm-4.control-label Birth Date
+                    .col-sm-8: input(type='text', name='birthDate', id='birthDate', value=employee._.birthDate.format('YYYY-MM-DD')).form-control.datepicker
+                .col-sm-6
+                  .form-group.form-group-sm(class=validationErrors.formalTitle ? 'has-error' : null)
+                    label(for='formalTitle').col-sm-4.control-label Formal Title
+                    .col-sm-8: input(type='text', name='formalTitle', id='formalTitle', value=employee.formalTitle).form-control
+
+          hr
+          .row
             .col-sm-12
-              .form-group.form-group-sm(class=validationErrors.photo ? 'has-error' : null)
-                label(for='photo').col-sm-2.control-label Photo
-                .col-sm-10: input(type='file', name='photo_upload', id='photo').form-control
+              .form-group.form-group-sm(class=validationErrors.bio ? 'has-error' : null)
+                label(for='bio').col-sm-2.control-label About/Bio
+                .col-sm-10: textarea(name='bio', id='bio', rows='3', placeholder='about you').form-control= employee.bio
+          hr
           .row
             .col-sm-6
-              input(type='hidden', name='action', value='update')
-              .form-group.form-group-sm(class=validationErrors.name ? 'has-error' : null)
-                label(for='name').col-sm-4.control-label Name
-                .col-sm-8: input(type='text', name='name.full', id='name', value=employee.name.full).form-control
-            .col-sm-6
-              .form-group.form-group-sm(class=validationErrors.arName ? 'has-error' : null)
-                label(for='arName').col-sm-4.control-label  Arabic Name
-                .col-sm-8: input(type='text', name='arName', id='arName', value=employee.arName).form-control
-          .row
-            .col-sm-6
-              .form-group.form-group-sm(class=validationErrors.empId ? 'has-error' : null)
-                label(for='empId').col-sm-4.control-label  Employee ID
-                .col-sm-8: input(type='text', name='empId', id='empId', value=employee.empId).form-control
-            .col-sm-6
-              .form-group.form-group-sm(class=validationErrors.email ? 'has-error' : null)
-                label(for='email').col-sm-4.control-label  Email
-                .col-sm-8: input(type='text', name='email', id='email', value=employee.email).form-control
-          .row
-            .col-sm-6
-              .form-group.form-group-sm(class=validationErrors.telephone ? 'has-error' : null)
-                label(for='telephone').col-sm-4.control-label  Telephone
-                .col-sm-8: input(type='text', name='telephone', id='telephone', value=employee.telephone).form-control
-            .col-sm-6
-              .form-group.form-group-sm(class=validationErrors.mobile ? 'has-error' : null)
-                label(for='mobile').col-sm-4.control-label  Mobile
-                .col-sm-8: input(type='text', name='mobile', id='mobile', value=employee.mobile).form-control
-          .row
-            .col-sm-12
-              .form-group(class=validationErrors.bio ? 'has-error' : null)
-                label(for='bio').col-sm-2.control-label  About/Bio
-                .col-sm-10: textarea(name='bio', id='bio', rows='3').form-control= employee.bio
-          .row
-            hr
-            .col-sm-6
-              .form-group.form-group-sm(class=validationErrors['english.level'] ? 'has-error' : null)
-                label(for='english.level').col-sm-4.control-label  English Level
-                .col-sm-8: +formEnglishLeveler('english.level', englishLevels, employee.english.level)
               .form-group.form-group-sm(class=validationErrors['english.test'] ? 'has-error' : null)
-                label(for='english.test').col-sm-4.control-label  English Test
+                label(for='english.test').col-sm-4.control-label English Test
                 .col-sm-8: +formSelectInput('english.test', engTestOptions, employee.english.test) 
               .form-group.form-group-sm(class=validationErrors['english.score'] ? 'has-error' : null)
-                label(for='english.score').col-sm-4.control-label  Test Score
+                label(for='english.score').col-sm-4.control-label Test Score
                 .col-sm-8: input(type='text', name='english.score', id='english.score', value=employee.english.score).form-control
             .col-sm-6
               .form-group.form-group-sm(class=validationErrors['education.field'] ? 'has-error' : null)
-                label(for='education.field').col-sm-4.control-label  Education Field
+                label(for='education.field').col-sm-4.control-label Education Field
                 .col-sm-8: input(type='text', name='education.field', id='education.field', value=employee.education.field).form-control
               .form-group.form-group-sm(class=validationErrors['education.level'] ? 'has-error' : null)
                 label(for='education.level').col-sm-4.control-label  Education Level
@@ -71,7 +97,7 @@ mixin modalEditEmployee(modalId, employee, englishLevels, eduLevelOptions, engTe
           .row
             .col-sm-12
               .form-group.form-group-sm(class=validationErrors.certificates ? 'has-error' : null)
-                label(for='certificates').col-sm-2.control-label  Certificates
+                label(for='certificates').col-sm-2.control-label Certificates
                 .col-sm-10: +formMultiText('certificates', employee.certificates)
                     
         .modal-footer

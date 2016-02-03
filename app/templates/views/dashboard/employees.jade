@@ -1,0 +1,20 @@
+extends ../../layouts/default
+include ../../mixins/paging
+
+block content
+  .container
+    .row
+      .col-sm-12
+        section
+          h2 Employees 
+          hr
+          if !employees
+            h3 No employees can be found
+          else
+            table.table.table-striped
+              th #
+              th Employee
+              each emp, i in employees
+                tr
+                  td #{i+1}
+                  td: a(href="/employee/" + emp.id) #{emp.name.full}        

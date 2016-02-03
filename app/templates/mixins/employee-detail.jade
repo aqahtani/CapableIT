@@ -8,7 +8,7 @@ mixin employeeDetail(employee)
         if employee.photo.exists
           img(src=employee._.photo.fit(150,150),alt="employee photo")
         else
-          img(src="/images/employee.png")
+          img(data-src='holder.js/150x150')
     .col-md-10
       .row
         .col-md-2: +fieldLabel("Name")
@@ -41,7 +41,7 @@ mixin employeeDetail(employee)
         .col-md-4: h4= employee.email   
       .row
         .col-md-2: +fieldLabel("Birth Date")
-        .col-md-4: h4= employee._.birthDate.format('MMMM Do, YYYY')
+        .col-md-4: h4= employee._.birthDate.format('YYYY-MM-DD')
         .col-md-2: +fieldLabel("Formal Title")
         .col-md-4: h4= employee.formalTitle
   
@@ -56,7 +56,7 @@ mixin employeeDetail(employee)
   h3 Education and Certification        
   .row
     .col-sm-6
-      .panel.panel-success
+      .panel.panel-default
         .panel-heading
           h4 Education
         .panel-body
@@ -67,18 +67,13 @@ mixin employeeDetail(employee)
                 | #{employee.education.field}  
                 .badge= employee.education.level
           .row
-            .col-md-3: +fieldLabel("English Level")
-            .col-md-9: h4
-              if employee.english.level
-                +englishLeveler(null, employee.english.level)
-          .row
             .col-md-3: +fieldLabel("English Test")
             .col-md-9
               h4
                 | #{employee.english.test}  
                 .badge= employee.english.score
     .col-sm-6
-      .panel.panel-info
+      .panel.panel-default
         .panel-heading
           h4 Certification
         if employee.certificates.length

@@ -22,15 +22,13 @@ Content.prototype.canDo = function (user, permits, action) {
     else return _.contains(permissions, action) || _.contains(permissions, '*');
 };
 
-Content.prototype.hasRole = function (user, authorizations, role) {
+Content.prototype.hasRole = function (user, role) {
     // if no valid user object or no authorizations, or not given role name
     // then consider not cannot do! (false) 
-    if (!user || !authorizations || !role) return false;
+    if (!user || !role) return false;
     
-    // get a list of role names
-    var roleNames = _.pluck(authorizations.userRoles, 'name');
-    
-    return _.contains(roleNames, role);
+    // is role in the list of user's role names
+    return _.contains(user.roleNames, role);
 };
 
 /**

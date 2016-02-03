@@ -13,6 +13,9 @@
         //allowClear: true
     });
     
+    // jasny-bootstrap: fileinput
+    $('.fileinput').fileinput();
+    
     // popovers and tooltips, whenever they are under .bs-component
     $('.bs-component [data-toggle="popover"]').popover();
     $('.bs-component [data-toggle="tooltip"]').tooltip();

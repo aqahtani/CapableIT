@@ -21,6 +21,9 @@
     <Compile Include="lib\content.js" />
     <Compile Include="public\js\lib\bootstrap\bootstrap.js" />
     <Compile Include="public\js\lib\bootstrap\bootstrap.min.js" />
+    <Compile Include="public\js\lib\holderjs\holder.min.js" />
+    <Compile Include="public\js\lib\jasny-bootstrap\js\jasny-bootstrap.js" />
+    <Compile Include="public\js\lib\jasny-bootstrap\js\jasny-bootstrap.min.js" />
     <Compile Include="public\js\lib\select2\js\i18n\ar.js" />
     <Compile Include="public\js\lib\select2\js\i18n\az.js" />
     <Compile Include="public\js\lib\select2\js\i18n\bg.js" />
@@ -70,6 +73,7 @@
     <Compile Include="public\js\lib\select2\js\select2.full.min.js" />
     <Compile Include="public\js\lib\select2\js\select2.js" />
     <Compile Include="public\js\lib\select2\js\select2.min.js" />
+    <Compile Include="routes\dashboard\employees.js" />
     <Compile Include="routes\dashboard\developmentplans.js" />
     <Compile Include="updates\0.0.2-update-assessment-periods.js" />
     <Compile Include="updates\0.0.4-sfia-v6-reset.js" />
@@ -152,6 +156,9 @@
     <Content Include="public\images\kplogo_32.png" />
     <Content Include="public\images\logo.svg" />
     <Content Include="public\js\lib\bootstrap-datepicker\bootstrap-datepicker3.min.css" />
+    <Content Include="public\js\lib\jasny-bootstrap\css\jasny-bootstrap.css" />
+    <Content Include="public\js\lib\jasny-bootstrap\css\jasny-bootstrap.css.map" />
+    <Content Include="public\js\lib\jasny-bootstrap\css\jasny-bootstrap.min.css" />
     <Content Include="public\js\lib\select2\css\select2-bootstrap.min.css" />
     <Content Include="public\js\lib\select2\css\select2.css" />
     <Content Include="public\js\lib\select2\css\select2.min.css" />
@@ -357,6 +364,7 @@
     <Content Include="templates\modals\form-assessment.jade" />
     <Content Include="templates\modals\business-card.jade" />
     <Content Include="templates\modals\form-mixins.jade" />
+    <Content Include="templates\views\dashboard\employees.jade" />
     <Content Include="templates\views\dashboard\developmentplans.jade" />
     <Content Include="templates\views\developmentplan.jade" />
     <Content Include="templates\views\developmentplans.jade" />
@@ -383,6 +391,7 @@
     <Content Include="templates\views\employee.jade" />
     <Content Include="templates\views\errors\404.jade" />
     <Content Include="templates\views\errors\500.jade" />
+    <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="config" />
@@ -398,8 +407,12 @@
     <Folder Include="public\js\lib\" />
     <Folder Include="public\js\lib\bootstrap-datepicker\" />
     <Folder Include="public\js\lib\bootstrap\" />
+    <Folder Include="public\js\lib\jasny-bootstrap\" />
+    <Folder Include="public\js\lib\jasny-bootstrap\css\" />
+    <Folder Include="public\js\lib\jasny-bootstrap\js\" />
     <Folder Include="public\js\lib\jquery\" />
     <Folder Include="public\js\lib\chartjs\" />
+    <Folder Include="public\js\lib\holderjs\" />
     <Folder Include="public\js\lib\select2\" />
     <Folder Include="public\js\lib\select2\css\" />
     <Folder Include="public\js\lib\select2\js\" />
@@ -414,6 +427,7 @@
     <Folder Include="routes" />
     <Folder Include="routes\api\" />
     <Folder Include="routes\dashboard\" />
+    <Folder Include="routes\admin\" />
     <Folder Include="routes\user\" />
     <Folder Include="routes\views" />
     <Folder Include="templates" />

@@ -4,9 +4,9 @@
         //-span.thumbnail.qrcode!= employee.qrCode
         span.img-thumbnail
           if employee.photo.exists
-            img(src=employee._.photo.fit(100,100),alt="employee photo")
+            img(src=employee._.photo.fit(150,150),alt="employee photo")
           else
-            img(src="/images/employee.png")
+            img(data-src='holder.js/150x150')
     .panel-body 
       center
         p.text-primary: a(href='/employee/' + employee.id)= employee.name.full

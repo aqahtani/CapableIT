@@ -48,6 +48,7 @@ var routes = {
     views: importRoutes('./views'),
     userViews: importRoutes('./user'),
     dashboardViews: importRoutes('./dashboard'),
+    adminViews: importRoutes('./admin'),
     api: importRoutes('./api'),
 };
 
@@ -89,10 +90,14 @@ exports = module.exports = function(app) {
     app.post('/developmentplan/:developmentplan', middleware.requireUser, middleware.authorizeUser('edit'), routes.views.developmentplan);
     
     // Dashboard Routes
-    app.get('/dashboard/assessments', middleware.requireUser, middleware.authorizeUser('view'), routes.dashboardViews.assessments);
-    app.post('/dashboard/assessments', middleware.requireUser, middleware.authorizeUser('edit'), routes.dashboardViews.assessments);
-    app.get('/dashboard/developmentplans', middleware.requireUser, middleware.authorizeUser('view'), routes.dashboardViews.developmentplans);
+    app.get('/dashboard/assessments', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.assessments);
+    app.post('/dashboard/assessments', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.assessments);
+    app.get('/dashboard/developmentplans', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.developmentplans);
+    app.get('/dashboard/employees', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.employees);
+
+    // Admin Routes
     
+
     // API: new assessment
     app.post('/api/assess/new', middleware.requireUser, routes.api.assess);
     

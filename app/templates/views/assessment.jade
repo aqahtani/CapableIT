@@ -35,7 +35,7 @@ block content
                 ul.dropdown-menu(role="menu",aria-labelledby="actionMenu")
                   if canDo(user, permits, 'edit')
                     li(role="presentation"): a(role="menuitem", tabindex="-1", href="#", data-toggle="modal", data-target="#formAssessmentModal") Edit
-                  if hasRole(user, authorizations, 'master')
+                  if hasRole(user, 'owner')
                     if !assessment.analyzed
                       li(role="presentation"): a(role="menuitem", tabindex="-1", href="#", data-toggle="modal", data-target="#modalAnalyzeAssessment") Analyze
                     else
