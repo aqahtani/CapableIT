@@ -12,7 +12,6 @@ block content
   //- embed the employee form modal
   if employee
     +modalEditEmployee('formEditEmployeeModal', employee, eduLevelOptions, engTestOptions)
-    +modalDeleteEmployee('formDeleteEmployeeModal', employee)
     +modalBusinessCard('bcardModal', employee)
   //- display the employee
   .container
@@ -28,9 +27,6 @@ block content
               //- buttons to trigger edit and delete modals based on permissions
               if canDo(user, permits, 'edit')
                 a(href="#", data-toggle="modal", data-target="#formEditEmployeeModal", title="Edit Employee"): span.glyphicon.glyphicon-edit
-              | 
-              if canDo(user, permits, 'delete')
-                a(href="#", data-toggle="modal", data-target="#formDeleteEmployeeModal", title="Delete Employee"): span.glyphicon.glyphicon-remove-circle
               
           hr
           +employeeDetail(employee)

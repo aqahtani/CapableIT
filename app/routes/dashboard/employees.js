@@ -103,6 +103,42 @@ exports = module.exports = function(req, res) {
         });
 
     });
+    
+    // DELETE employee
+    view.on('post', { action: 'delete-employee' }, function (next) {
+        
+        var empId = req.body.empId;
+
+        Employee.model.findOne()
+        .where(locals.orgFilter)//always apply tenant filter first
+        .where('_id', empId)
+        .exec(function (err, employee) {
+            if (err) {
+                req.flash('error', err);
+                return next();
+            }
+            
+            if (!employee) {
+                req.flash('error', 'Cannot find the employee profile to delete');
+                return next();
+            }
+            
+            // all is well, remove the employee
+            // note that you need to call remove on the doc so the middleware can be triggered!
+            employee.remove(function (err) {
+                if (err) {
+                    req.flash('error', err);
+                    return next();
+                }
+                
+                // delete successful!
+                req.flash('success', 'Delete successfully completed.');
+                return res.redirect('back');
+
+            });
+            
+        });
+    });
 
 	// Render the view
 	view.render('dashboard/employees');

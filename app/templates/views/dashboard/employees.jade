@@ -40,4 +40,7 @@ block content
                     td= emp.orgFunction ? emp.orgFunction.name : '-'
                     td
                       +modalJobAssignment('formAssignJobModal' + emp.id, emp, jobs)
-                      a(href="#", data-toggle="modal", data-target="#formAssignJobModal" + emp.id, title="Change Job Assignment"): span.glyphicon.glyphicon-edit
+                      +modalDeleteEmployee('formDeleteEmployeeModal' + emp.id, emp)
+                      a(href="#", data-toggle="modal", data-target="#formAssignJobModal" + emp.id, title="Change Job Assignment"): span.glyphicon.glyphicon-transfer
+                      | 
+                      a(href="#", data-toggle="modal", data-target="#formDeleteEmployeeModal" + emp.id, title="Delete Employee"): span.glyphicon.glyphicon-remove-circle

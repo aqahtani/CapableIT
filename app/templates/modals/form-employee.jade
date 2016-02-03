@@ -155,7 +155,7 @@ mixin modalDeleteEmployee(modalId, employee)
   .modal.fade(id="#{modalId}")
     .modal-dialog
       form(method='post').modal-content
-        input(type='hidden', name='action', value='delete')
+        input(type='hidden', name='action', value='delete-employee')
         input(type='hidden', name='empId', value=employee.id)
         .modal-header
           button(type="button", data-dismiss="modal").close
@@ -167,10 +167,11 @@ mixin modalDeleteEmployee(modalId, employee)
 
           dl.dl-horizontal
             dt Name
-            dd #{employee.name.full}
-            dd #{employee.arName}
+            dd #{employee.name.full} | #{employee.arName}
 
-          p.text-danger All related <strong>assessments</strong> and <strong>plans</strong> will be deleted as well!
+          p.text-danger 
+            span.glyphicon.glyphicon-exclamation-sign
+            |  All related <strong>assessments</strong> and <strong>plans</strong> will be deleted as well!
           
         .modal-footer
           button(type='submit').btn.btn-danger Delete
@@ -194,10 +195,9 @@ mixin modalJobAssignment(modalId, employee, jobs)
           dl.dl-horizontal
             dt Name
             dd #{employee.name.full} | #{employee.arName}
-            dd
             dt Current Job
             dd= employee.job ? employee.job.title : '-'
-            dd
+            br
             dt New Job
             dd: +formSelect2List('job', jobs, employee.job)
 
