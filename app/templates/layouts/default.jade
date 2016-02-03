@@ -22,12 +22,16 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
 
     //- bootstrap-datepicker styles
     link(rel="stylesheet", href="/js/lib/bootstrap-datepicker/bootstrap-datepicker3.min.css")
+    
     //- select2 styles
     link(rel="stylesheet", href="/js/lib/select2/css/select2.min.css")
     link(rel="stylesheet", href="/js/lib/select2/css/select2-bootstrap.min.css")
 
     //- jasny bootstrap (fileupload and other things) styles
     link(rel="stylesheet", href="/js/lib/jasny-bootstrap/css/jasny-bootstrap.min.css")
+
+    //- datatables
+    link(rel="stylesheet", href="/js/lib/datatables/css/dataTables.bootstrap.min.css")
 
     //- This file provides the default styling for the KeystoneJS Content Editor
     if user && user.canAccessKeystone
@@ -169,7 +173,7 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
     //- jQuery 1.11.1 is included by default, and required by both Bootstrap
     //- and the KeystoneJS Content Editor. If you are not targeting IE8,
     //- you can upgrade to 2.1.1 (also bundled) for better performance.
-    script(src='/js/lib/jquery/jquery-1.11.1.min.js')
+    script(src='/js/lib/jquery/jquery-2.1.1.min.js')
 
     //- Bootstrap javascript 
     script(src='/js/lib/bootstrap/bootstrap.min.js')
@@ -185,6 +189,10 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
 
     //- holder.js
     script(src='/js/lib/holderjs/holder.min.js')
+
+    //- datatables
+    script(src='/js/lib/datatables/js/jquery.dataTables.min.js')
+    script(src='/js/lib/datatables/js/dataTables.bootstrap.min.js')
 
     //- custom ui javascript
     script(src='/js/ui.js')

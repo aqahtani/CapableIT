@@ -15,8 +15,9 @@ exports = module.exports = function(req, res) {
     // 1: load all employees
     view.query('employees', Employee.model.find()
         .where(locals.orgFilter)
-        .select('name arName job')
         .populate('job', 'title')
+        .populate('orgDepartment', 'name')
+        .populate('orgFunction', 'name')
         .sort('name.first name.last')
     );
     

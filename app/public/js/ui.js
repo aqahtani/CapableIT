@@ -16,6 +16,11 @@
     // jasny-bootstrap: fileinput
     $('.fileinput').fileinput();
     
+    // DataTables for any table with ".datatable" class
+    $(document).ready(function () {
+        $('.datatables').DataTable();
+    });
+    
     // popovers and tooltips, whenever they are under .bs-component
     $('.bs-component [data-toggle="popover"]').popover();
     $('.bs-component [data-toggle="tooltip"]').tooltip();

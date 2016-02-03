@@ -11,10 +11,34 @@ block content
           if !employees
             h3 No employees can be found
           else
-            table.table.table-striped
-              th #
-              th Employee
-              each emp, i in employees
+            table.datatables.table.table-striped
+              thead
                 tr
-                  td #{i+1}
-                  td: a(href="/employee/" + emp.id) #{emp.name.full}        
+                  th #
+                  th Name
+                  th Arabic
+                  th Job
+                  th Department
+                  th Function
+                  th Email
+                  th Mobile
+                  th Telephone
+
+              tbody
+                each emp, i in employees
+                  tr
+                    td #{i+1}
+                    td: a(href="/employee/" + emp.id) #{emp.name.full}
+                    td  #{emp.arName}
+                    td  
+                      if emp.job
+                        a(href="/job/" + emp.job.id) #{emp.job.title}
+                    td  
+                      if emp.orgDepartment 
+                        | #{emp.orgDepartment.name}
+                    td  
+                      if emp.orgFunction
+                        | #{emp.orgFunction.name}
+                    td  #{emp.email}
+                    td  #{emp.mobile}
+                    td  #{emp.telephone}
