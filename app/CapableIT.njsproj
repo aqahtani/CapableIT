@@ -78,7 +78,8 @@
     <Compile Include="routes\dashboard\employees.js" />
     <Compile Include="routes\dashboard\developmentplans.js" />
     <Compile Include="updates\0.0.2-update-assessment-periods.js" />
-    <Compile Include="updates\0.0.4-sfia-v6-reset.js" />
+    <Compile Include="updates\0.1.2-sfia-v6-cats.js" />
+    <Compile Include="updates\0.1.1-sfia-v6-reset.js" />
     <Compile Include="updates\sfia6.js" />
     <Compile Include="keystone.js" />
     <Compile Include="config\i18next.js" />
@@ -128,9 +129,8 @@
     <Compile Include="routes\views\job.js" />
     <Compile Include="routes\user\verify.js" />
     <Compile Include="templates\modals\form-employee.jade" />
-    <Compile Include="updates\0.0.5-sfia-v6-skills-sorted.js" />
+    <Compile Include="updates\0.1.3-sfia-v6-skills-sorted.js" />
     <Compile Include="updates\0.0.2-english-levels.js" />
-    <Compile Include="updates\0.0.2-org.js" />
     <Compile Include="updates\0.0.3-development-methods.js" />
     <Compile Include="updates\0.0.1-soft-skills.js" />
     <Compile Include="updates\0.0.1-sfia-levels.js" />

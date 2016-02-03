@@ -12,10 +12,6 @@ var keystone = require('keystone'),
     HardSkill = keystone.list('HardSkill'),
     _ = require('underscore');
 
-// load categories, subcategories of the SFIA v6
-var categories = require('./sfia6.js').categories;
-var subCategories = require('./sfia6.js').subCategories;
-
 // a function to delete all v5 categories
 var delCats = function (callback) {
     console.log('Deleting existing categories ...');
@@ -36,18 +32,6 @@ var delRetiredSkills = function (callback) {
     HardSkill.model.find({ code : { $in : skillsToRetire } }).remove(callback);
 };
 
-// a function to create v6 categories and sub-categories
-var createV6 = function (callback) {
-    keystone.createItems({
-        HardSkillCategory: categories,
-        HardSkillSubCategory: subCategories
-    }, function (err, stats) {
-        stats && console.log(stats.message);
-        callback(err);
-    });
-};
-
-exports = module.exports = function (done) {
-    
-    async.series([delCats, delSubCats, delRetiredSkills, createV6], done);
+exports = module.exports = function (done) {    
+    async.parallel([delCats, delSubCats, delRetiredSkills], done);
 };

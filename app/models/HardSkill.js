@@ -37,7 +37,7 @@ var HardSkillSubCategory = new keystone.List('HardSkillSubCategory', {
 HardSkillSubCategory.add({
     number: { type: Types.Number, required: true, initial: true },
     title: { type: Types.Text, required: true, initial: true },
-    category: { type: Types.Relationship, ref: 'HardSkillCategory', initial: true, required: true, index: true }
+    category: { type: Types.Relationship, ref: 'HardSkillCategory', initial: true, index: true }
 });
 
 HardSkillSubCategory.defaultColumns = 'category, number, title';
@@ -76,8 +76,8 @@ HardSkill.add({
     number: { type: Types.Number, required: true, initial: true },
     code: { type: Types.Text, required: true, initial: true },
     title: { type: Types.Text, required: true, initial: true },
-    category: { type: Types.Relationship, ref: 'HardSkillCategory', initial: true, required: true, index: true },
-    subCategory: { type: Types.Relationship, ref: 'HardSkillSubCategory', filters: { category: ':category' }, initial: true, required: true, index: true },
+    category: { type: Types.Relationship, ref: 'HardSkillCategory', initial: true, index: true },
+    subCategory: { type: Types.Relationship, ref: 'HardSkillSubCategory', filters: { category: ':category' }, initial: true, index: true },
     description: { type: Types.Textarea },
 }, 'Skill Levels', {
     levels: {
