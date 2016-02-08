@@ -30,9 +30,9 @@ mixin jobDetail(job, englishlevels, hardlevels, softlevels)
   hr
   h3 RESPONSIBILITIES
   ul.list-group
-    for task, index in job.jobTasks
+    for task, index in job.tasks
       li.list-group-item
-        | #{task.title}
+        | #{task}
         .badge= job.authorities[index]
   hr
   h3 JOB CONTEXT

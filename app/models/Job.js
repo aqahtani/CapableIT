@@ -16,7 +16,7 @@ var Job = new keystone.List('Job', {
 
 Job.add({
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true, index: true },
-    code: { type: Types.Text, initial: true, index: true, unique: true },
+    code: { type: Types.Text, initial: true, index: true },
     title: { type: Types.Text, initial: true, required: true, index: true },
     altTitle: { type: Types.Text, initial: true, index: true, label: 'Alternative Title' },
     reportsTo: { type: Types.Relationship, ref: 'Job', filters: { organization: ':organization' }, initial: true  },
@@ -28,6 +28,7 @@ Job.add({
     orgFunction: { type: Types.Relationship, ref: 'OrgFunction', filters: { organization: ':organization', department: ':orgDepartment' }, initial: true, label: 'Function' }
 }, 'Responsibilities', {
     jobTasks: { type: Types.Relationship, ref: 'JobTask', filters: { organization: ':organization' }, many: true },
+    tasks: { type: Types.TextArray },
     authorities: { type: Types.TextArray }
 }, 'Job Context', {
     environment: { type: Types.Text },
