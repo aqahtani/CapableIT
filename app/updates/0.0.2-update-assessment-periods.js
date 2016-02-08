@@ -7,5 +7,5 @@ var keystone = require('keystone'),
     Assessment = keystone.list('Assessment');
 
 exports = module.exports = function(done) {
-    Assessment.model.update({ 'period' : '2015H1' }, { 'period' : '2015' }, { multi: true }, done);
+    Assessment.model.update({ 'period' : { $in: [null, '2015H1', '2015H2'] } }, { 'period' : '2015' }, { multi: true }, done);
 };
