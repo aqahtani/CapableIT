@@ -1,6 +1,7 @@
 var keystone = require('keystone'),
     Types = keystone.Field.Types,
-    qrImage = require('qr-image');
+    qrImage = require('qr-image'),
+    async = require("async");
 
 /**
  * Job Model
@@ -56,6 +57,9 @@ Job.relationship({ path: 'employees', ref: 'Employee', refPath: 'job' });
 
 Job.defaultColumns = 'organization|10%, code, title, slug, reportsTo, orgDepartment, orgFunction';
 
+// PRE MIDDLEWARE 
+// ==============
+
 // auto create qrcode once a new student is created
 Job.schema.pre('save', function (next) {
     if (this.isNew) {
@@ -64,5 +68,38 @@ Job.schema.pre('save', function (next) {
     }
     next();
 });
+
+// POST MIDDLEWARE
+// ===============
+
+// make sure that associated assessments and authorizations
+// are removed as well when a job is removed 
+Job.schema.post('remove', function (job) {
+    
+    // async: remove related assessments
+    var removeAssessments = function (callback) {
+        keystone.list('Assessment').model.find()
+        .where({
+            'organization': job.organization,
+            'job': job.id
+        }).exec(function (err, docs) {
+            async.each(docs, function (doc, done) {
+                doc.remove(done);
+            }, callback)
+        });
+        
+    };
+    
+    // async: remove related authorizations
+    var removeAuthorizations = function (callback) {
+        keystone.list('UserAuthorization').model.removeResource(
+            job.organization, 
+            '/job/' + job.id,
+            callback);
+    };
+    
+    async.parallel([removeAssessments, removeAuthorizations]);
+});
+
 
 Job.register();

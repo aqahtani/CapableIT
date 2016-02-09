@@ -1,7 +1,8 @@
 ﻿var keystone = require('keystone'),
     Types = keystone.Field.Types,
     uniqueValidator = require('mongoose-unique-validator'),
-    _ = require('underscore');
+    _ = require('underscore'),
+    async = require("async");
 
 /**
  * Assessment Model
@@ -54,11 +55,13 @@ Assessment.defaultColumns = 'organization|10%, createdAt, employee, doneBy, job,
  */
 //Assessment.schema.plugin(uniqueValidator, { message: '{PATH} already exists' });
 
+// PRE MIDDLEWARE 
+// ==============
+
 Assessment.schema.pre('save', function (next) {
     var assessment = this;
     
     if (this.isNew) {
-        var async = require("async");
         // We don't actually execute the async action here
         // this one to get Job data
         var getJobSkills = function (callback) {
@@ -161,16 +164,43 @@ Assessment.schema.pre('save', function (next) {
     }
 });
 
+
+// POST MIDDLEWARE 
+// ===============
+
 // make sure that associated authorizations are removed
 // when an assessment is removed as well
 Assessment.schema.post('remove', function (assessment) {
-    keystone.list('UserAuthorization').model.removeResource(
-        assessment.organization, 
-        '/assessment/' + assessment.id,
-        function (err) {
-            console.log('Assessment (%s) has been removed along with its authorizations', assessment._id);
-        });
+    
+    // async: remove related authorizations
+    var removeAuthorizations = function (callback) {
+        keystone.list('UserAuthorization').model.removeResource(
+            assessment.organization, 
+            '/assessment/' + assessment.id,
+            callback);
+    };
+    
+    // async: clear hard skills
+    var resetHards = function (callback) {
+        keystone.list('HardSkillGap').model.remove({ 'assessment' : assessment.id }, callback);
+    };
+    
+    // async: clear soft skills
+    var resetSofts = function (callback) {
+        keystone.list('SoftSkillGap').model.remove({ 'assessment' : assessment.id }, callback);
+    };
+    
+    // async: clear english skills
+    var resetEnglish = function (callback) {
+        keystone.list('EnglishSkillGap').model.remove({ 'assessment' : assessment.id }, callback);
+    };
+
+    async.parallel([resetHards, resetSofts, resetEnglish, removeAuthorizations]);
 });
+
+
+// SCHEMA METHODS
+// ==============
 
 /* Schema Method: extractGaps()
  * extracts gaps from the current assessment into HardSkillGaps & SoftSkillGaps
@@ -179,7 +209,6 @@ Assessment.schema.methods.extractGaps = function (done) {
     var assessment = this;
     // only extract if not already done before
     if (!assessment.analyzed) {
-        var async = require("async");
         
         // this one to get Job data
         var getJob = function (callback) {
@@ -326,7 +355,6 @@ Assessment.schema.methods.extractGaps = function (done) {
  */
 Assessment.schema.methods.resetGaps = function (done) {
     var assessment = this;
-    var async = require("async");
     
     // async function to clear hard skills
     var resetHards = function (callback) {

@@ -2,7 +2,7 @@
     Types = keystone.Field.Types,
     qrImage = require('qr-image'),
     uniqueValidator = require('mongoose-unique-validator'),
-    async = require("async");;
+    async = require("async");
 
 /**
  * Employee Model
