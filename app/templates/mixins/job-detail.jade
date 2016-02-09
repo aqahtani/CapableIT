@@ -20,13 +20,9 @@ mixin jobDetail(job, englishlevels, hardlevels, softlevels)
         +englishLeveler(job.english.level, null)
   .row
     .col-sm-2: +fieldLabel("Department")
-    .col-sm-4
-      if job.orgDepartment
-        h4= job.orgDepartment.name
+    .col-sm-4: h4= job.orgDepartment ? job.orgDepartment.title : '-'
     .col-sm-2: +fieldLabel("Function")
-    .col-sm-4
-      if job.orgFunction
-        h4= job.orgFunction.name
+    .col-sm-4: h4= job.orgFunction ? job.orgFunction.title : '-'
   hr
   h3 RESPONSIBILITIES
   ul.list-group

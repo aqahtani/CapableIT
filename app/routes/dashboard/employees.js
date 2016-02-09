@@ -20,8 +20,8 @@ exports = module.exports = function(req, res) {
     view.query('employees', Employee.model.find()
         .where(locals.orgFilter)
         .populate('job', 'title')
-        .populate('orgDepartment', 'name')
-        .populate('orgFunction', 'name')
+        .populate('orgDepartment', 'title')
+        .populate('orgFunction', 'title')
         .sort('name.first name.last')
     );
     

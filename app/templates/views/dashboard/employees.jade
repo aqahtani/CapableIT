@@ -36,8 +36,8 @@ block content
                     td  
                       if emp.job
                         a(href="/job/" + emp.job.id) #{emp.job.title}
-                    td= emp.orgDepartment ? emp.orgDepartment.name : '-'
-                    td= emp.orgFunction ? emp.orgFunction.name : '-'
+                    td= emp.orgDepartment ? emp.orgDepartment.title : '-'
+                    td= emp.orgFunction ? emp.orgFunction.title : '-'
                     td
                       +modalJobAssignment('formAssignJobModal' + emp.id, emp, jobs)
                       +modalDeleteEmployee('formDeleteEmployeeModal' + emp.id, emp)

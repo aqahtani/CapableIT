@@ -4,7 +4,9 @@
 
 var keystone = require('keystone'),
     _ = require('underscore'),
-    Job = keystone.list('Job');
+    Job = keystone.list('Job'),
+    OrgDepartment = keystone.list('OrgDepartment'),
+    OrgFunction = keystone.list('OrgFunction');
 
 exports = module.exports = function (req, res) {
     
@@ -15,13 +17,25 @@ exports = module.exports = function (req, res) {
     locals.section = 'dashboard';
     locals.validationErrors = {};
 
-    // Load all organization jobs
+    // 1. Load all organization jobs
     view.query('jobs', Job.model.find()
         .where(locals.orgFilter)
-        .populate('orgDepartment', 'name')
-        .populate('orgFunction', 'name')
+        .populate('orgDepartment', 'title')
+        .populate('orgFunction', 'title')
         .populate('reportsTo', 'title altTitle')
         .sort('title')
+    );
+    
+    // 2. Load all organization departments
+    view.query('orgDepts', OrgDepartment.model.find()
+        .where(locals.orgFilter)
+        .sort('name')
+    );
+    
+    // 3. Load all organization functions
+    view.query('orgFuncs', OrgFunction.model.find()
+        .where(locals.orgFilter)
+        .sort('name')
     );
     
     // Create a new job

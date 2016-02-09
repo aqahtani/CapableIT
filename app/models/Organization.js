@@ -8,13 +8,15 @@ var keystone = require('keystone'),
  */
 
 var OrgDepartment = new keystone.List('OrgDepartment', {
+    map: { name: 'title' },
+    autokey: { path: 'slug', from: 'title', unique: true },
     defaultSort: 'organization name',
     drilldown: 'organization'
 });
 
 OrgDepartment.add({
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true, index: true },
-    name: { type: Types.Text, required: true, initial: true },
+    title: { type: Types.Text, required: true, initial: true },
     code: { type: Types.Text, required: true, initial: true, uppercase: true },
     color: { type: Types.Color, initial: true },
     description: { type: Types.Textarea }
@@ -34,13 +36,15 @@ OrgDepartment.register();
  */
 
 var OrgFunction = new keystone.List('OrgFunction', {
+    map: { name: 'title' },
+    autokey: { path: 'slug', from: 'title', unique: true },
     defaultSort: 'organization department name',
     drilldown: 'organization department'
 });
 
 OrgFunction.add({
     organization: { type: Types.Relationship, ref: 'Organization', required: true, initial: true, index: true },
-    name: { type: Types.Text, required: true, initial: true },
+    title: { type: Types.Text, required: true, initial: true },
     code: { type: Types.Text, required: true, initial: true, uppercase: true },
     department: { type: Types.Relationship, ref: 'OrgDepartment', filters: { organization: ':organization' }, required: true, initial: true, index: true }, 
     description: { type: Types.Textarea }

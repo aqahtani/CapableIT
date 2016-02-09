@@ -169,7 +169,7 @@ mixin modalDeleteEmployee(modalId, employee)
             dt Name
             dd #{employee.name.full} | #{employee.arName}
 
-          p.text-danger 
+          .alert.alert-danger(role="alert")
             span.glyphicon.glyphicon-exclamation-sign
             |  All related <strong>assessments</strong> and <strong>plans</strong> will be deleted as well!
           

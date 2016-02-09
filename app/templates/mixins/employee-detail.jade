@@ -23,13 +23,9 @@ mixin employeeDetail(employee)
         .col-md-4: h4= employee.empId
       .row
         .col-md-2: +fieldLabel("Department")
-        .col-md-4
-          if employee.orgDepartment
-            h4= employee.orgDepartment.name
+        .col-md-4: h4= employee.orgDepartment ? employee.orgDepartment.title : '-'
         .col-md-2: +fieldLabel("Function")
-        .col-md-4
-          if employee.orgFunction
-            h4= employee.orgFunction.name
+        .col-md-4: h4= employee.orgFunction ? employee.orgFunction.title : '-'
       hr
       .row
         .col-md-2: +fieldLabel("Mobile")
