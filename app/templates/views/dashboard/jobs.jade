@@ -1,0 +1,44 @@
+//- **************************************
+//- DASHBOARD/jobs
+//- **************************************
+
+extends ../../layouts/default
+include ../../modals/form-job
+
+block content
+  .container
+    .row
+      .col-sm-12
+        section
+          +modalAddJob('formAddJobModal', jobs)
+          h2 Jobs 
+            .pull-right: a(href="#", data-toggle="modal", data-target="#formAddJobModal", title="Add Job"): span.glyphicon.glyphicon-plus-sign
+          hr
+          if !jobs
+            h3 No jobs can be found
+          else
+            table.table.table-striped.table-condensed.datatables
+              thead
+                tr
+                  th #
+                  th Title
+                  th Arabic Title
+                  th Department
+                  th Function
+                  th Actions
+              tbody
+                each job, i in jobs
+                  tr
+                    td #{i+1}
+                    td: a(href="/job/" + job.id) #{job.title}
+                    td #{job.altTitle}
+                    td= job.orgDepartment ? job.orgDepartment.title : '-'
+                    td= job.orgFunction ? job.orgFunction.title : '-'
+                    td
+                      //- filter functions to match the current department
+                      - var filteredFuncs = _.where(orgFuncs, { department: job.orgDepartment });
+                      +modalDeptAssignment('formAssignDeptModal' + job.id, job, orgDepts, filteredFuncs)
+                      +modalDeleteJob('formDeleteJobModal' + job.id, job)
+                      a(href="#", data-toggle="modal", data-target="#formAssignDeptModal" + job.id, title="Change Department/Function Assignment"): span.glyphicon.glyphicon-transfer
+                      | 
+                      a(href="#", data-toggle="modal", data-target="#formDeleteJobModal" + job.id, title="Delete Job"): span.glyphicon.glyphicon-remove-circle

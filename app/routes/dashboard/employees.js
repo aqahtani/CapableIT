@@ -41,7 +41,7 @@ exports = module.exports = function(req, res) {
             arName: req.body.arName,
             empId: req.body.empId,
             email: req.body.email,
-            job: req.body.job
+            job: req.body.job === '' ? null : req.body.job
         });
         
         newEmployee.save(function (err, doc) {

@@ -9,10 +9,8 @@ block content
   if developmentPlan
     +modalEditDevelopmentPlan('formEditDevelopmentPlanModal', developmentPlan)
     +modalDeleteDevelopmentPlan('formDeleteDevelopmentPlanModal', developmentPlan)
-    if developmentPlan.approved
-      +modalApproveDevelopmentPlan('formApproveDevelopmentPlanModal', developmentPlan, 'unapprove')
-    else
-      +modalApproveDevelopmentPlan('formApproveDevelopmentPlanModal', developmentPlan, 'approve')
+    +modalApproveDevelopmentPlan('formApproveDevelopmentPlanModal', developmentPlan, 'approve')
+    +modalApproveDevelopmentPlan('formUnapproveDevelopmentPlanModal', developmentPlan, 'unapprove')
 
   //- display the development plan
   .container
@@ -36,6 +34,8 @@ block content
               | 
               if canDo(user, permits, 'approve')
                 a(href="#", data-toggle="modal", data-target="#formApproveDevelopmentPlanModal", title="Approve Plan"): span.glyphicon.glyphicon-check
+                |  
+                a(href="#", data-toggle="modal", data-target="#formUnapproveDevelopmentPlanModal", title="Unapprove Plan"): span.glyphicon.glyphicon-ban-circle
           hr          
           //- developmentPlan details
           +developmentplanDetail(developmentPlan, activities, developmentMethods, hardGaps, softGaps)

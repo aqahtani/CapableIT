@@ -39,7 +39,7 @@ mixin modalAddEmployee(modalId, jobs)
             .col-sm-12
               .form-group(class=validationErrors.job ? 'has-error' : null)
                 label(for='job').col-sm-2.control-label Job
-                .col-sm-10: +formSelect2List('job', jobs)
+                .col-sm-10: +formSelect2ListOptional('job', jobs)
 
         .modal-footer
           button(type='submit').btn.btn-primary Create
@@ -199,7 +199,7 @@ mixin modalJobAssignment(modalId, employee, jobs)
             dd= employee.job ? employee.job.title : '-'
             br
             dt New Job
-            dd: +formSelect2List('job', jobs, employee.job)
+            dd: +formSelect2ListOptional('job', jobs, employee.job)
 
         .modal-footer
           button(type='submit').btn.btn-danger Assign

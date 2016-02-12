@@ -48,7 +48,10 @@ mixin flag-completed(completed)
 
 mixin flag-approved(approved, approvedBy)
   if approved
-    .label.label-success Approved by #{approvedBy.name.full}
+    .label.label-success 
+      | Approved by 
+      each approval in approvedBy 
+        span #{approval.name.full};  
   else
     .label.label-warning Unapproved
 

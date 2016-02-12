@@ -125,7 +125,7 @@ mixin modalApproveDevelopmentPlan(modalId, developmentplan, action)
   .modal.fade(id="#{modalId}")
     .modal-dialog
       form(method='post').modal-content
-        input(type='hidden', name='action', value='approve')
+        input(type='hidden', name='action', value=action)
         input(type='hidden', name='planId', value=developmentplan.id)
         .modal-header
           button(type="button", data-dismiss="modal").close

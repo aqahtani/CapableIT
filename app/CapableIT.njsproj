@@ -19,6 +19,8 @@
   <ItemGroup>
     <Content Include="package.json" />
     <Compile Include="lib\content.js" />
+    <Compile Include="models\ArticleCategory.js" />
+    <Compile Include="models\Article.js" />
     <Compile Include="public\js\lib\bootstrap\bootstrap.js" />
     <Compile Include="public\js\lib\bootstrap\bootstrap.min.js" />
     <Compile Include="public\js\lib\datatables\js\dataTables.bootstrap.min.js" />
@@ -78,6 +80,8 @@
     <Compile Include="routes\dashboard\employees.js" />
     <Compile Include="routes\dashboard\developmentplans.js" />
     <Compile Include="routes\dashboard\jobs.js" />
+    <Compile Include="routes\views\article.js" />
+    <Compile Include="routes\views\articles.js" />
     <Compile Include="updates\0.0.2-update-assessment-periods.js" />
     <Compile Include="updates\0.1.0-sfia-v6-skills-retire.js" />
     <Compile Include="updates\0.1.2-sfia-v6-cats-create.js" />
@@ -375,6 +379,7 @@
     <Content Include="templates\modals\business-card.jade" />
     <Content Include="templates\modals\form-job.jade" />
     <Content Include="templates\modals\form-mixins.jade" />
+    <Content Include="templates\views\articles.jade" />
     <Content Include="templates\views\dashboard\jobs.jade" />
     <Content Include="templates\views\dashboard\employees.jade" />
     <Content Include="templates\views\dashboard\developmentplans.jade" />
@@ -387,6 +392,7 @@
     <Content Include="templates\mixins\assessment-new.jade" />
     <Content Include="templates\views\gallery.jade" />
     <Content Include="templates\views\englishskill.jade" />
+    <Content Include="templates\views\article.jade" />
     <Content Include="templates\views\softskills.jade" />
     <Content Include="templates\views\home.jade" />
     <Content Include="templates\views\assessment.jade" />

@@ -54,6 +54,9 @@ Employee.relationship({ path: 'assessments', ref: 'Assessment', refPath: 'employ
 Employee.relationship({ path: 'developmentPlans', ref: 'DevelopmentPlan', refPath: 'employee' });
 Employee.relationship({ path: 'user', ref: 'User', refPath: 'employee' });
 
+// PRE MIDDLEWARE 
+// ==============
+
 // auto create qrqrCode once a new student is created
 Employee.schema.pre('save', function (next) {
     if (this.isNew) {
@@ -62,9 +65,6 @@ Employee.schema.pre('save', function (next) {
     }
     next();
 });
-
-// PRE MIDDLEWARE 
-// ==============
 
 // set/reset manager if job is changed
 Employee.schema.pre('save', function (next) {

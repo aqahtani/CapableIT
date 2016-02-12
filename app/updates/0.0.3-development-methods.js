@@ -128,7 +128,7 @@ exports.create = {
         {
             "title": "Certificatoin",
             "type": "On-The-Job",
-            "description": "Pursue a certification or qualificatoin in a specific field.",
+            "description": "Pursue a certification or qualification in a specific field.",
             "remarks": "Very good to develop and achieve qualification together",
             "examples": [
                 "PMP - Project Management Professional",

@@ -71,6 +71,8 @@ exports = module.exports = function(app) {
     app.get('/job/:job', middleware.requireUser, routes.views.job);
     app.get('/jobs', middleware.requireUser, routes.views.jobs);
     app.get('/employees', middleware.requireUser, routes.views.employees);
+    app.get('/articles/:category?', middleware.requireUser, routes.views.articles);
+    app.get('/article/:article', middleware.requireUser, routes.views.article);
     
     // Employee Routes (Authenticated/Authorized)
     app.get('/employee', middleware.requireUser, middleware.authorizeUser('view'), routes.views.employee);
@@ -92,10 +94,8 @@ exports = module.exports = function(app) {
     app.all('/dashboard/assessments', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.assessments);
     app.all('/dashboard/developmentplans', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.developmentplans);
     app.all('/dashboard/employees', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.employees);
+    app.all('/dashboard/jobs', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.jobs);
     
-    // Admin Routes
-    
-
     // API: new assessment
     app.post('/api/assess/new', middleware.requireUser, routes.api.assess);
     

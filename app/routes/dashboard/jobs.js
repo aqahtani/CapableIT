@@ -47,7 +47,7 @@ exports = module.exports = function (req, res) {
             title: req.body.title,
             altTitle: req.body.altTitle,
             code: req.body.code,
-            reportsTo: req.body.reportsTo
+            reportsTo: req.body.reportsTo === '' ? null : req.body.reportsTo
         });
         
         newJob.save(function (err, doc) {
@@ -98,6 +98,50 @@ exports = module.exports = function (req, res) {
                 return res.redirect('back');
             });
         });
+    });
+    
+    // Change job department assignment
+    view.on('post', { action: 'assign-dept' }, function (next) {
+        
+        // set locals for edit form
+        locals.validationErrors = {};
+        
+        var jobId = req.body.jobId;
+        
+        // find the job
+        Job.model.findOne()
+        .where(locals.orgFilter)//always apply tenant filter first
+        .where('_id', jobId)
+        .exec(function (err, job) {
+            if (err) {
+                req.flash('error', err);
+                return next();
+            }
+            
+            if (!job) {
+                // no results 
+                req.flash('warning', 'We cannot find a matching job');
+                return next();
+            }
+            
+            // job found, update it
+            var updater = job.getUpdateHandler(req);
+            
+            updater.process(req.body, {
+                flashErrors: true,
+                fields: 'orgDepartment',
+                errorMessage: 'There was a problem with your update:'
+            }, function (err, result) {
+                if (err) {
+                    locals.validationErrors = err.errors;
+                } else {
+                    req.flash('success', 'Department assignment successfully completed.');
+                }
+                return res.redirect('back');
+            });
+
+        });
+
     });
 
     // Render the view

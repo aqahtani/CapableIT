@@ -64,7 +64,7 @@ mixin developmentplanDetail(developmentplan, activities, developmentMethods, har
                 td
                   +modalViewDevelopmentActivity('viewDevelopmentActivityModal' + activity.id, activity)
                   a(href="#", data-toggle="modal", data-target="#viewDevelopmentActivityModal" + activity.id)= activity.title 
-                td= activity.method.title
+                td= activity.method ? activity.method.title : '-'
                 td= activity._.deadline.format('YYYY-MM-DD')
                 td.text-center= activity.duration
                 td: +percent(activity.progress)

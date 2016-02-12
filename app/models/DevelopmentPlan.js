@@ -44,7 +44,7 @@ DevelopmentActivity.add({
     employee: { type: Types.Relationship, ref: 'Employee', filters: { organization: ':organization' }, required: true, initial: true, index: true },
     developmentPlan: { type: Types.Relationship, ref: 'DevelopmentPlan', filters: { organization: ':organization' }, required: true, initial: true, index: true },
     title: { type: Types.Text, initial: true, required: true },
-    method: { type: Types.Relationship, ref: 'DevelopmentMethod', initial: true, index: true },
+    method: { type: Types.Relationship, ref: 'DevelopmentMethod', initial: true, required: true, index: true },
     deadline: { type: Types.Date, format: 'YYYY-MM-DD', initial: true, required: true },
     duration: { type: Types.Number, min: 0.5, initial: true, required: true },
     progress: { type: Types.Number, min: 0, max: 100, default: 0, required: true, index: true },
@@ -64,6 +64,56 @@ DevelopmentActivity.schema.virtual('completed').set(function (value) {
 });
 
 DevelopmentActivity.defaultColumns = 'organization|10%, employee, title, method, deadline, duration, progress, completed';
+
+// PRE MIDDLEWARE 
+// ==============
+
+DevelopmentActivity.schema.pre('save', function (next) {
+    // approval of related development plan gets reset upon changes on:
+    // activity title, method, duration, and deadline.
+    this.needsApprovalReset = 
+        this.isNew ||
+        this.isModified('title') || 
+        this.isModified('method') ||
+        this.isModified('duration') ||
+        this.isModified('deadline');
+    next();
+});
+
+// POST MIDDLEWARE 
+// ===============
+
+// a function with a callback to reset approval of the related development plan 
+var resetDevelopmentPlanApproval = function (activity, callback) {
+    DevelopmentPlan.model.findOne()
+        .where({ 'organization': activity.organization })//always apply org filter first
+        .where({ '_id': activity.developmentPlan })
+        .exec(function (err, developmentPlan) {
+        if (err) return callback(err);
+        
+        developmentPlan.approved = false;
+        developmentPlan.save(callback);
+    });
+};
+
+DevelopmentActivity.schema.post('save', function (activity) {
+    // only reset approvals if needed
+    if (activity.needsApprovalReset) {
+        resetDevelopmentPlanApproval(activity, function (err) {
+            if (err) return console.log("Error in resetting approvals: %j", err);
+            // else, all is well, take no action
+        });
+    };
+});
+
+DevelopmentActivity.schema.post('remove', function (activity) {
+    // always reset approvals upon activity removal  
+    resetDevelopmentPlanApproval(activity, function (err) {
+        if (err) return console.log("Error in resetting approvals: %j", err);
+        // else, all is well, take no action
+    });
+});
+
 DevelopmentActivity.register();
 
 
@@ -82,8 +132,8 @@ DevelopmentPlan.add({
     employee: { type: Types.Relationship, ref: 'Employee', filters: { organization: ':organization' }, required: true, initial: true, index: true },
     createdAt: { type: Date, required: true, default: Date.now },
     status: { type: Types.Select, options: 'draft, final, archived', required: true, default: 'draft', index: true },
-    approved: { type: Types.Boolean, default: false, index: true },
-    approvedBy: { type: Types.Relationship, ref: 'Employee', filters: { organization: ':organization' } },
+    //approved: { type: Types.Boolean, default: false, index: true },
+    approvedBy: { type: Types.Relationship, ref: 'Employee', filters: { organization: ':organization' }, many: true },
     // period: indicates the period of assessment such as 2014, 2015, ...
     period: { type: Types.Text, match: [/^\d\d\d\d$/, "The period has to match a valid year YYYY ({VALUE})"], required: true, initial: true, index: true },
     goals: { type: Types.Textarea, height: 150 },
@@ -91,13 +141,26 @@ DevelopmentPlan.add({
     weaknesses: { type: Types.Textarea, height: 150 },
 });
 
-DevelopmentPlan.defaultColumns = 'organization|10%, employee, createdAt, period, status, approved';
+DevelopmentPlan.defaultColumns = 'organization|10%, employee, createdAt, period, status, approvedBy';
 DevelopmentPlan.relationship({ path: 'activities', ref: 'DevelopmentActivity', refPath: 'developmentPlan' });
+
+DevelopmentPlan.schema.virtual('approved').get(function () {
+    // approved whenever the approval list is not empty
+    return !_.isEmpty(this.approvedBy);
+});
+
+DevelopmentPlan.schema.virtual('approved').set(function (value) {
+    // reset approval list on approved = false
+    if (!value) this.set('approvedBy', []);
+});
 
 
 /**
  * Plugins
  */
+
+// PRE MIDDLEWARE 
+// ==============
 
 DevelopmentPlan.schema.pre('save', function (next) {
     var plan = this;
@@ -209,6 +272,10 @@ DevelopmentPlan.schema.pre('save', function (next) {
         next();
     }
 });
+
+
+// POST MIDDLEWARE 
+// ===============
 
 // make sure that associated development activities and authorizations are removed
 // when a development plan is removed as well

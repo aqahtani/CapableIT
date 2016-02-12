@@ -135,12 +135,12 @@ exports = module.exports = function(req, res) {
             // developmentPlan found, update it
             var updater = developmentPlan.getUpdateHandler(req);
             
-            // reset approval of the plan upon any edit
-            req.body.approved = false;
+            // reset approvals of the plan upon any edit on major fields
+            req.body.approvedBy = [];
 
             updater.process(req.body, {
                 flashErrors: true,
-                fields: 'status, approved, period, goals, strengths, weaknesses',
+                fields: 'status, approvedBy, period, goals, strengths, weaknesses',
                 errorMessage: 'There was a problem with your update:'
             }, function (err, result) {
                 if (err) {
@@ -186,10 +186,15 @@ exports = module.exports = function(req, res) {
         });
     });
     
-    // [UN]APPROVE developmentPlan    
+    // APPROVE developmentPlan    
     view.on('post', { action: 'approve' }, function (next) {
+        var planId = req.body.planId;
+        var employee = locals.filters.employee;
         
-        DevelopmentPlan.model.findById(req.body.planId).exec(function (err, developmentPlan) {
+        DevelopmentPlan.model.findOne()
+        .where(locals.orgFilter)//always apply org filter first
+        .where({ '_id': planId })
+        .exec(function (err, developmentPlan) {
             if (err) {
                 req.flash('error', err);
                 return next();
@@ -200,11 +205,62 @@ exports = module.exports = function(req, res) {
                 return next();
             }
             
-            // all is well, toggle the development plan 'approved' flag, and set/reset approvedBy
+            // all is well, update approval list of the development plan 
             // note that you need to call save on the doc so the middleware can be triggered!
-            developmentPlan.approved = !developmentPlan.approved;
-            developmentPlan.approvedBy = (developmentPlan.approved ? locals.filters.employee : null);
-
+            
+            // only push the employee if he didn't approve already
+            var exists = _.find(developmentPlan.approvedBy, function (value) { return _.isEqual(value, employee); });
+            
+            if (exists) {
+                // already approved!
+                req.flash('info', 'You have already approved this development plan.');
+                return res.redirect('back');
+            };
+            
+            // else, go and update approvals lis
+            developmentPlan.approvedBy.push(employee);
+                
+            developmentPlan.save(function (err) {
+                if (err) {
+                    req.flash('error', err);
+                    return next();
+                };
+                    
+                // approve successful!
+                req.flash('success', 'Successfully updated the approval list of the development plan.');
+                return res.redirect('back');
+            });
+            
+        });
+    });
+    
+    // RESET Approval of developmentPlan    
+    view.on('post', { action: 'unapprove' }, function (next) {
+        var planId = req.body.planId;
+        var employee = locals.filters.employee;
+        
+        DevelopmentPlan.model.findOne()
+        .where(locals.orgFilter)//always apply org filter first
+        .where({ '_id': planId })
+        .exec(function (err, developmentPlan) {
+            if (err) {
+                req.flash('error', err);
+                return next();
+            }
+            
+            if (!developmentPlan) {
+                req.flash('error', 'Cannot find the development plan');
+                return next();
+            }
+            
+            // all is well, unapprove the development plan 
+            // note that you need to call save on the doc so the middleware can be triggered!
+            
+            // remove this employee from approvals list
+            // simple equality doesn't work on ObjectId's 
+            // that's why I'm using isEqual() to compare contents of two object ids
+            developmentPlan.approvedBy = _.reject(developmentPlan.approvedBy, function (value) { return _.isEqual(value, employee); });
+            
             developmentPlan.save(function (err) {
                 if (err) {
                     req.flash('error', err);
@@ -212,38 +268,23 @@ exports = module.exports = function(req, res) {
                 }
                 
                 // approved successful!
-                req.flash('success', 'Successfully completed.');
+                req.flash('success', 'Successfully removed your approval from the development plan.');
                 return res.redirect('back');
             });
         });
     });
 
+
     /*
      * Manipulate related activities: Create, Update, and Delete
-     */
-
-    // async functions: 
-    //var getDevelopmentPlan = function (callback) { 
-    //    DevelopmentPlan.model.findOne()
-    //        .where(locals.orgFilter)//always apply org filter first
-    //        .where({ '_id': locals.filters.developmentPlan })
-    //        .exec(callback);
-    //};
-    
-    var resetDevelopmentPlanApproval = function (callback) {
-        DevelopmentPlan.model.findOne()
-            .where(locals.orgFilter)//always apply org filter first
-            .where({ '_id': locals.filters.developmentPlan })
-            .exec(function (err, developmentPlan) {   
-                developmentPlan.approved = false;
-                developmentPlan.save(callback);
-        });
-    };
-    
+     */   
 
     // Create a single activity that belongs to development plan
     view.on('post', { action: 'create-activity' }, function (next) {
         
+        // set locals for edit form
+        locals.validationErrors = {};
+
         // get the current development plan to attach the activity to it
         var q = DevelopmentPlan.model.findOne()
             .where(locals.orgFilter)//always apply org filter first
@@ -268,7 +309,7 @@ exports = module.exports = function(req, res) {
                 employee: developmentPlan.employee,
                 developmentPlan: developmentPlan.id,
                 title: req.body.title,
-                method: req.body.method,
+                method: req.body.method === '' ? null : req.body.method,
                 deadline: req.body.deadline,
                 duration: req.body.duration,
                 progress: req.body.progress,
@@ -289,14 +330,9 @@ exports = module.exports = function(req, res) {
                     return next();
                 }
                 
-                // create activity successful!
-                // reset approval of the development plan
-                developmentPlan.approved = false;
-                developmentPlan.save(function (err) {
-                    req.flash('success', 'Add activity successfully completed.');
-                    //req.flash('warning', 'Development plan approval has been reset');
-                    return res.redirect('back');
-                });
+                req.flash('success', 'Add activity successfully completed.');
+                //req.flash('warning', 'Development plan approval has been reset');
+                return res.redirect('back');
             });
         });
     });
@@ -336,17 +372,9 @@ exports = module.exports = function(req, res) {
                     locals.validationErrors = err.errors;
                     return next();
                 };
-                
-                // update successful!
-                resetDevelopmentPlanApproval(function (err) {
-                    if (err) {
-                        req.flash('error', err);
-                        return next();
-                    }
-                    req.flash('success', 'Update activity successfully completed.');
-                    //req.flash('warning', 'Development plan approval has been reset');
-                    return res.redirect('back');
-                });
+                // else, update is successful
+                req.flash('success', 'Update activity successfully completed.');
+                return res.redirect('back');
             });
 
         });
@@ -355,25 +383,31 @@ exports = module.exports = function(req, res) {
     
     // Delete a single activity that belongs to development plan
     view.on('post', { action: 'delete-activity' }, function (next) {
-        // find the assessment, and remove it
-        DevelopmentActivity.model.findById(req.body.activityId)
-        .remove(function (err) {
+        // find the activity
+        DevelopmentActivity.model.findOne()
+        .where(locals.orgFilter)//always apply org filter first
+        .where({ '_id': req.body.activityId })
+        .exec(function (err, activity) {
             if (err) {
                 req.flash('error', err);
                 return next();
-            }
+            };
             
-            // delete successful!
-            resetDevelopmentPlanApproval(function (err) {
+            if (!activity) {
+                req.flash('error', 'Cannot find the development activity to delete');
+                return next();
+            };
+            // remove it
+            activity.remove(function (err) {
                 if (err) {
                     req.flash('error', err);
                     return next();
-                } 
+                };
+
+                // remove successful!
                 req.flash('success', 'Delete activity successfully completed.');
-                //req.flash('warning', 'Development plan approval has been reset');
                 return res.redirect('back');
-            });
-                
+            }); 
         });
     });
     
