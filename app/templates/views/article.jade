@@ -1,0 +1,30 @@
+extends ../layouts/default
+
+block content
+  .container: .row: .col-sm-12
+    article
+      p: a(href='/articles') &larr; back to the articles
+      hr
+      if !article
+        h2 Invalid Article.
+      else
+        header
+          h2= article.title
+          .well.well-sm
+            h5 Posted 
+              if article.publishedDate
+                | on #{article._.publishedDate.format('MMMM Do, YYYY')} 
+              if article.categories && article.categories.length
+                | in 
+                each cat, cat_i in article.categories
+                  a(href='/articles/' + cat.key)= cat.name
+                  if cat_i < article.categories.length - 1
+                    | , 
+                  else
+                    |  
+              if article.author
+                | by #{article.author.name.first}
+        .article
+          if article.image.exists
+            .image-wrap: img(src=article._.image.fit(750,450)).img-responsive
+          != article.content.full

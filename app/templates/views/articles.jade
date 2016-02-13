@@ -1,0 +1,53 @@
+extends ../layouts/default
+include ../mixins/paging
+
+mixin article(article)
+  .post
+    h3: a(href='/article/' + article.slug)= article.title
+    h4.text-muted Posted 
+      if article.publishedDate
+        | on #{article._.publishedDate.format('MMMM Do, YYYY')} 
+      if article.categories && article.categories.length
+        | in 
+        each cat, i in article.categories
+          a(href='/articles/' + cat.key)= cat.name
+          if i < article.categories.length - 1
+            | , 
+          else
+            |  
+      if article.author
+        | by #{article.author.name.first}
+    if article.image.exists
+      img(src=article._.image.fit(160,160)).img.pull-right
+    p!= article.content.brief
+    if article.content.extended
+      p.read-more: a(href='/article/' + article.slug) Read more...
+
+block content
+  .container: .row
+    .col-sm-8
+      h2= data.category ? data.category.name : 'Articles'
+
+      if filters.category && !data.category
+        h3.text-muted Invalid Category.
+      else
+        if data.articles.results.length
+          +showing(data.articles, 'articles')
+          hr
+          each article in data.articles.results
+            +article(article)
+          hr
+          +pages(data.articles)
+        else
+          if data.category
+            h3.text-muted There are no articles in the category #{data.category.name}.
+          else
+            h3.text-muted There are no articles yet.
+    
+    if data.categories.length
+      .col-sm-4
+        h2 Categories
+        .list-group
+          a(href='/articles', class=!data.category ? 'active' : false).list-group-item All Categories
+          each cat in data.categories
+            a(href='/articles/' + cat.key, class=data.category && data.category.id == cat.id ? 'active' : false).list-group-item= cat.name
