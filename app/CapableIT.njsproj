@@ -18,9 +18,12 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Content Include="package.json" />
-    <Compile Include="lib\content.js" />
+    <Compile Include="utils\keystone-rest.js" />
+    <Compile Include="utils\logger.js" />
+    <Compile Include="utils\content.js" />
     <Compile Include="models\ArticleCategory.js" />
     <Compile Include="models\Article.js" />
+    <Compile Include="models\Log.js" />
     <Compile Include="public\js\lib\bootstrap\bootstrap.js" />
     <Compile Include="public\js\lib\bootstrap\bootstrap.min.js" />
     <Compile Include="public\js\lib\datatables\js\dataTables.bootstrap.min.js" />
@@ -89,7 +92,7 @@
     <Compile Include="updates\0.0.1-jobtasks-simplify.js" />
     <Compile Include="updates\sfia6.js" />
     <Compile Include="keystone.js" />
-    <Compile Include="config\i18next.js" />
+    <Compile Include="utils\i18next.js" />
     <Compile Include="models\DevelopmentPlan.js" />
     <Compile Include="models\Assessment.js" />
     <Compile Include="models\Employee.js" />
@@ -412,12 +415,13 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="config" />
+    <Folder Include="utils\" />
     <Folder Include="locales" />
     <Folder Include="locales\ar" />
     <Folder Include="locales\en" />
     <Folder Include="models" />
     <Folder Include="lib\" />
+    <Folder Include="logs\" />
     <Folder Include="public\" />
     <Folder Include="public\fonts\" />
     <Folder Include="public\images\" />
