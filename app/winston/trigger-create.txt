@@ -1,0 +1,4 @@
+﻿This file is here just to make sure logs directory gets created upon git push!
+
+winston error:
+uncaughtException: ENOENT: no such file or directory, open 'D:\home\site\wwwroot\logs\all-logs.log'
