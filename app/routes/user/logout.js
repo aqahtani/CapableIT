@@ -1,21 +1,13 @@
 ﻿var keystone = require('keystone'),
-    session = keystone.session;
+    session = keystone.session,
+    logger = require("../../utils/logger");
 
 exports = module.exports = function (req, res) {
-    
-    session.signout(req, res, function () {
-        //if ('string' === typeof keystone.get('signout redirect')) {
-        //    return res.redirect(keystone.get('signout redirect'));
-        //} else if ('function' === typeof keystone.get('signout redirect')) {
-        //    return keystone.get('signout redirect')(req, res);
-        //} else {
-        //    return res.redirect('/keystone');
-        //}
-        
-        //keystone.render(req, res, 'signout', {
-        //    logo: keystone.get('signin logo')
-        //});
+    var user = req.user;
 
+    session.signout(req, res, function () {
+        logger.info('[logout] User signed out', logger.details({ 'User': user }));
+        req.flash('success', 'You have been successfully logged out.  Come back again!');
         return res.redirect('/');
     });
 

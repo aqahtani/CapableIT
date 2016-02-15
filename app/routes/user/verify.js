@@ -1,16 +1,17 @@
 ﻿var keystone = require('keystone'),
-    session = keystone.session,
     User = keystone.list('User'),
     Organization = keystone.list('Organization'),
     Employee = keystone.list('Employee'),
-    VerificationToken = keystone.list('VerificationToken');
+    VerificationToken = keystone.list('VerificationToken'),
+    async = require("async"),
+    logger = require("../../utils/logger");
 
 exports = module.exports = function (req, res) {
     var view = new keystone.View(req, res),
         locals = res.locals;
     
     // Set locals
-    locals.section = 'join';
+    locals.section = 'user';
     //locals.formData = req.body || {};
     //locals.validationErrors = {};
     //locals.step = '1'; // default step: signup user
@@ -22,15 +23,13 @@ exports = module.exports = function (req, res) {
     locals.data = {
         verified : false,
         orgLinked: false,
-        empLinked: false,
-        dump: {}
+        empLinked: false
     }
     
     view.on('get', function (next) {
         var tkn = locals.filters.token;
-        var async = require("async");
         
-        // finds the given token and returns user attached
+        // async: finds the given token and returns user attached
         var findToken = function (callback) {
             var q = VerificationToken.model.findOne()
                     .where({ 'token': tkn })
@@ -53,7 +52,7 @@ exports = module.exports = function (req, res) {
             });
         }
         
-        // sets isVerified for the user upon successful verification
+        // async: sets isVerified for the user upon successful verification
         var verifyUser = function (callback, results) {
             var user = results.user;
             if (!user) {
@@ -68,7 +67,7 @@ exports = module.exports = function (req, res) {
             });
         }
         
-        // links user to his organization if a matching one is found
+        // async: links user to his organization if a matching one is found
         var linkOrg = function (callback, results) {
             // get the domain part from the email
             var userId = results.user.id;
@@ -88,7 +87,7 @@ exports = module.exports = function (req, res) {
             });
         }
         
-        // links user to his employee profile if a matching one is found
+        // async: links user to his employee profile if a matching one is found
         var linkEmp = function (callback, results) {
             // get user's email
             var userId = results.user.id;
@@ -131,16 +130,17 @@ exports = module.exports = function (req, res) {
         }, function (err, results) {
             // All tasks are done now and you have results as an object 
             if (err) {
+                logger.error('[verify] User cannot verify email', logger.details({ 'Error': err }));
                 req.flash('error', err);
-            }
-            else {
-                // successful: set locals and do next()
-                locals.data.verified = results.verified;
-                locals.data.orgLinked = results.orgLinked;
-                locals.data.empLinked = results.empLinked;
-                //locals.data.dump = results;
-            }
-            next();
+                return next();
+            };
+            
+            // successful: log and set locals
+            logger.info('[verify] User email verified', logger.details({ 'User': results.user }));
+            locals.data.verified = results.verified;
+            locals.data.orgLinked = results.orgLinked;
+            locals.data.empLinked = results.empLinked;
+            return next();
         });
     });
     

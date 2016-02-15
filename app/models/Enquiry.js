@@ -53,9 +53,9 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
             to: admins,
             from: {
                 name: 'CapableIT',
-                email: 'info@knowledge-passion.com'
+                email: 'no-reply@knowledge-passion.com'
             },
-            subject: 'New Enquiry for CapableIT',
+            subject: '[CapableIT] New Enquiry',
             enquiry: enqiury
         }, callback);
 		

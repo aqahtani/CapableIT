@@ -12,8 +12,7 @@ var _ = require('underscore'),
 	querystring = require('querystring'),
     keystone = require('keystone'),
     logger = require("../utils/logger"),
-    async = require('async'),
-    util = require('util');
+    async = require('async');
 
 /**
 	Initialises the standard view locals
@@ -67,7 +66,7 @@ exports.initLocals = function(req, res, next) {
 exports.initErrorHandlers = function (req, res, next) {
     
     res.err = function (err, title, message) {
-        logger.error('Server 500 error', { "error": err });
+        logger.error('[500] Server Error ', message, logger.details({ 'Error': err }));
         res.status(500).render('errors/500', {
             err: err,
             errorTitle: title,
@@ -77,7 +76,7 @@ exports.initErrorHandlers = function (req, res, next) {
     }
     
     res.notfound = function (title, message) {
-        logger.warn('Requested page cannot be found!', { "url": req.url });
+        logger.warn('[404] Page not found', logger.details({ 'Url': req.url }));
         res.status(404).render('errors/404', {
             errorTitle: title,
             errorMsg: message

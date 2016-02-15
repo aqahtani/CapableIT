@@ -18,6 +18,9 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Content Include="package.json" />
+    <Compile Include="routes\user\profile.js" />
+    <Compile Include="routes\user\reverify.js" />
+    <Compile Include="routes\user\verification.js" />
     <Compile Include="utils\keystone-rest.js" />
     <Compile Include="utils\logger.js" />
     <Compile Include="utils\content.js" />
@@ -404,6 +407,7 @@
     <Content Include="templates\views\jobs.jade" />
     <Content Include="templates\views\user\logout.jade" />
     <Content Include="templates\views\user\login.jade" />
+    <Content Include="templates\views\user\profile.jade" />
     <Content Include="templates\views\user\verify.jade" />
     <Content Include="templates\views\user\join.jade" />
     <Content Include="templates\views\post.jade" />

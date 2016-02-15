@@ -1,7 +1,11 @@
-﻿var winston = require('winston');
+﻿var winston = require('winston'),
+    util = require('util'),
+    _ = require('underscore');
 
-//Requiring `winston-mongodb` will expose `winston.transports.MongoDB`
+// Requiring `winston-mongodb` will expose `winston.transports.MongoDB`
 require('winston-mongodb').MongoDB;
+// Requiring `winston-mail` will expose `winston.transports.Mail`
+require('winston-mail').Mail;
 
 winston.emitErrs = true;
 
@@ -27,6 +31,20 @@ var logger = new winston.Logger({
             handleExceptions: true,
             db: process.env.MONGO_URI,
             collection: 'logs'
+            // tried to do capping but it didn't work, may be because
+            // the collection has already been created by keystone!
+            //capped: true, // try to create new log collection as capped
+            //cappedMax: 20 // capped collection in number of documents
+        }),
+        new winston.transports.Mail({
+            level: 'error',
+            handleExceptions: true,
+            to: 'admin@knowledge-passion.com',
+            from: 'winston@cit.knowledge-passion.net',
+            host: process.env.MANDRILL_HOST,
+            username: process.env.MANDRILL_USERNAME,
+            password: process.env.MANDRILL_API_KEY,
+            subject: '[CapableIT] winston: {{level}} {{msg}}'
         })
     ],
     exitOnError: false
@@ -37,4 +55,10 @@ module.exports.stream = {
     write: function (message, encoding) {
         logger.verbose(message);
     }
+};
+
+// a helper function to log metadata under details key
+// this is going to be picked up by Keystone AdminUI nicely
+module.exports.details = function (meta) {
+    return { "details": util.inspect(meta) };
 };

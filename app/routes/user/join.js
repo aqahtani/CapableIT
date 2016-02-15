@@ -1,24 +1,23 @@
 ﻿var keystone = require('keystone'),
-    session = keystone.session,
-    User = keystone.list('User');
+    User = keystone.list('User'),
+    async = require('async'),
+    logger = require('../../utils/logger'),
+    verification = require('./verification'); // helper async functions 
 
 exports = module.exports = function (req, res) {
     var view = new keystone.View(req, res),
         locals = res.locals;
     
     // Set locals
-    locals.section = 'join';
+    locals.section = 'user';
     locals.formData = req.body || {};
     locals.validationErrors = {};
     locals.step = '1'; // default step: signup user
-    //locals.dump = '';
     
     // Step 1: create a new user
     view.on('post', { action: 'join' }, function (next) {
-        
-        var async = require("async");
-        
-        var createUser = function (callback) {    
+        // async: create a new user
+        var createUser = function (callback) {
             var newUser = new User.model(),
                 updater = newUser.getUpdateHandler(req);
             
@@ -26,63 +25,40 @@ exports = module.exports = function (req, res) {
                 flashErrors: true,
                 fields: 'name, email, password',
                 errorMessage: 'There was a problem with your registration:'
-            }, function (err, result) {
+            }, function (err, user) {
                 if (err) {
                     locals.validationErrors = err.errors;
                     callback(err, null);
                 } else {
                     req.flash('success', "Congrats, you're registered.");
-                    callback(null, result.item);
+                    callback(null, user);
                 }
             });
-        }
+        };
         
-        var createToken = function (callback, results) {
-            var VerificationToken = keystone.list('VerificationToken');
-            var userId = results.user._id;
-            VerificationToken.model.create({ 'user': userId }, function (err, vtoken) {
-                if (err) return callback(err);
-                // saved!
-                callback(null, vtoken);
-            });
-        }
-        
-        var sendVerificationEmail = function (callback, results) {
-            var user = results.user;
-            var token = results.token;
+        // other async functions come from ./verification.js
 
-            new keystone.Email('user-verification').send({
-                to: user.email,
-                from: {
-                    name: 'CapableIT',
-                    email: 'info@knowledge-passion.com'
-                },
-                subject: 'CapableIT - Verify Your Email',
-                user: user,
-                token: token
-            }, callback);
-        }
-        
-        // call the create functions in serial
+        // call the create functions 
         async.auto({
             user: createUser, 
-            token: ['user', createToken],
-            email: ['user', 'token', sendVerificationEmail]
+            token: ['user', verification.createToken],
+            email: ['user', 'token', verification.sendVerificationEmail]
         }, 
         function (err, results) {
             // All tasks are done now and you have results as an object 
-            
             if (err) {
                 locals.step = '1';
-            }
-            else {
-                locals.step = '2';
-                //locals.dump = results;
-            }
-            next();
+                logger.error('[join] Error in user registration', logger.details({ 'Error': err }));
+                return next();
+            };
+            
+            // all is well, move to step 2
+            logger.info('[join] New user joined', logger.details({ 'User': results.user }));
+            locals.step = '2';
+            return next();
         });
         
     });
-
+    
     view.render('user/join');
-}
+};

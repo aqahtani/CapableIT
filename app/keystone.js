@@ -94,12 +94,15 @@ keystone.set('email locals', {
     logo_width: 200,
     logo_height: 35,
     theme: {
-        email_bg: '#F9F9F9',
-        link_color: '#EE7700',
+        email_bg: '#FFFFFF',
+        body_bg: '#FAFAFA',
+        link_color: '#89D7ED',
+        text_color: '#6A5A5B',
+        text_muted: '#C1D3C8',
         buttons: {
-            color: '#fff',
-            background_color: '#626262',
-            border_color: '#4D4D4D'
+            color: '#FFFFFF',
+            background_color: '#6A5A5B',
+            border_color: '#6A5A5B'
         }
     }
 });

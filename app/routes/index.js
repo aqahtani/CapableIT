@@ -48,7 +48,6 @@ var routes = {
     views: importRoutes('./views'),
     userViews: importRoutes('./user'),
     dashboardViews: importRoutes('./dashboard'),
-    adminViews: importRoutes('./admin'),
     api: importRoutes('./api'),
 };
 
@@ -104,6 +103,9 @@ exports = module.exports = function(app) {
     app.all('/verify/:token', routes.userViews.verify);
     app.all('/login', routes.userViews.login);
     app.all('/logout', routes.userViews.logout);
+    // User routes that require logged in user account
+    app.get('/profile', middleware.requireUser, routes.userViews.profile);
+    app.all('/reverify', middleware.requireUser, routes.userViews.reverify);
     
     // language switching routes
     app.get('/lang/:language', require('./lang'));

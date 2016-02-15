@@ -3,7 +3,7 @@
     User = keystone.list('User'),
     _ = require('underscore'),
     async = require('async'),
-    util = require('util');
+    logger = require("../../utils/logger");
 
 exports = module.exports = function (req, res) {
     var view = new keystone.View(req, res),
@@ -27,6 +27,7 @@ exports = module.exports = function (req, res) {
         
         // prepare callbacks for success and failure
         var onFail = function () {
+            logger.warn('[login] Failed sign in attempt', logger.details({ 'Request Body': req.body }));
             req.flash('error', 'Sorry, that email and password combo are not valid.');
             next();
         };
@@ -41,11 +42,13 @@ exports = module.exports = function (req, res) {
                 if (!err) req.session.roleNames = _.pluck(roles, 'name');
                 
                 // welcome the user
+                logger.info('[login] User signed in', logger.details({ 'User': user }));
                 req.flash('success', 'Welcome ' + user.name.first);
                 
                 // alert the user if he hasn't verified his account yet!
-                if (!user.isVerified) req.flash('warning', 'You have not verified your account yet!');
-                
+                if (!user.isVerified) {
+                    req.flash('warning', 'You have not verified your account yet.  Please check your email, or request to resend verification');
+                };
                 // redirect to the original requested page
                 return res.redirect(locals.returnTo);
             });

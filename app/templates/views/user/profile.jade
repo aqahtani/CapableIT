@@ -1,0 +1,63 @@
+extends ../../layouts/default
+include ../../mixins/commons
+    
+block content
+  .container: .row: .col-md-12
+    //- user profile
+    section
+      if user
+        h2 Profile
+        hr
+        .row
+          .col-md-6
+            .row
+              .col-md-4: +fieldLabel("Name")
+              .col-md-8: h4= user.name.full
+
+            .row
+              .col-md-4: +fieldLabel("Email")
+              .col-md-8: h4= user.email
+    
+            if user.organization
+              .row
+                .col-md-4: +fieldLabel("Organization")
+                .col-md-8: h4: a(href='/organization')= user.organization.name
+    
+            if user.employee
+              .row
+                .col-md-4: +fieldLabel("Employee")
+                .col-md-8: h4: a(href='/employee')= user.employee.name.full
+    
+            if !_.isEmpty(user.roles)
+              .row
+                .col-md-4: +fieldLabel("Roles")
+                .col-md-8: h4 
+                  each role in user.roles
+                    .label.label-primary= role.label
+          .col-md-6
+            if !user.isVerified
+              .alert.alert-warning You have not verified your email, yet.  Please, check your email.
+              .pull-right: a.btn.btn-info(href='/reverify', role='button') Resend Verification
+
+    hr
+    //- user authorizations
+    section
+      if !_.isEmpty(userAuthorizations)
+        .panel.panel-primary
+          .panel-heading
+            h4 Authorizations
+          .panel-body
+            table.table.table-striped.table-condensed.datatables
+              thead
+                tr
+                  th #
+                  th Resource
+                  th Permissions
+              tbody
+                each auth, i in userAuthorizations
+                  tr
+                    td #{i+1}
+                    td: a(href=auth.resource)= auth.resource
+                    td= _.pluck(auth.permissions,'name')
+        
+  
