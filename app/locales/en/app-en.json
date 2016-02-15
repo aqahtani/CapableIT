@@ -32,7 +32,7 @@
         "softskills": "Behavioral Skills",
         "dashboard": "Dashboard",
         "assessments": "Assessments",
-        "developmentplans": "Development Plans"
+        "developmentplans": "Development Plans",
+        "profile":  "User Profile"
     }
-
 }

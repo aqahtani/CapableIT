@@ -5,37 +5,37 @@ block content
   .container: .row: .col-md-12
     //- user profile
     section
-      if user
-        h2 Profile
+      if userProfile
+        h2 User Profile
         hr
         .row
           .col-md-6
             .row
               .col-md-4: +fieldLabel("Name")
-              .col-md-8: h4= user.name.full
+              .col-md-8: h4= userProfile.name.full
 
             .row
               .col-md-4: +fieldLabel("Email")
-              .col-md-8: h4= user.email
+              .col-md-8: h4= userProfile.email
     
-            if user.organization
+            if userProfile.organization
               .row
                 .col-md-4: +fieldLabel("Organization")
-                .col-md-8: h4: a(href='/organization')= user.organization.name
+                .col-md-8: h4: a(href='/organization')= userProfile.organization.name
     
-            if user.employee
+            if userProfile.employee
               .row
                 .col-md-4: +fieldLabel("Employee")
-                .col-md-8: h4: a(href='/employee')= user.employee.name.full
+                .col-md-8: h4: a(href='/employee')= userProfile.employee.name.full
     
-            if !_.isEmpty(user.roles)
+            if !_.isEmpty(userProfile.roles)
               .row
                 .col-md-4: +fieldLabel("Roles")
                 .col-md-8: h4 
-                  each role in user.roles
+                  each role in userProfile.roles
                     .label.label-primary= role.label
           .col-md-6
-            if !user.isVerified
+            if !userProfile.isVerified
               .alert.alert-warning You have not verified your email, yet.  Please, check your email.
               .pull-right: a.btn.btn-info(href='/reverify', role='button') Resend Verification
 

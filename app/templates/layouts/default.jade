@@ -75,7 +75,20 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
             ul.nav.navbar-nav.navbar-left
               //- Home
               li(class=(section == 'home' ? 'active' : null)): a(href='/')= t('nav.home')
-                
+              //- Guide
+              li.dropdown(class=(section == 'guide' ? 'active' : null))
+                a.dropdown-toggle(href="#",data-toggle="dropdown")
+                  | #{t("nav.guide")} 
+                  span.caret
+                ul.dropdown-menu(role="menu")
+                  li: a(href="/skills/english")= t('nav.englishskill')
+                  li: a(href="/skills/hard")= t('nav.hardskills')
+                  li: a(href="/skills/soft")= t('nav.softskills')
+                  li.divider
+                  li: a(href="/blog")= t('nav.blog')
+                  li: a(href="/gallery")= t('nav.gallery')
+                  li: a(href="/contact")= t('nav.contact')
+  
               //- display nav links only for logged in users
               if user
                 
@@ -100,6 +113,7 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
 
             ul.nav.navbar-nav.navbar-right
               if user
+                li(class=(section == 'user' ? 'active' : null)): a(href='/profile', title="#{t('nav.profile')}"): span.glyphicon.glyphicon-user
                 li: a(href='/employee')= user.name.first
                 //- admin-only nav links 
                 if hasRole(user, 'owner')
@@ -123,20 +137,6 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
                 li: a(href='/join')= t('nav.signup') 
                 li: a(href='/login',title="#{t('nav.signin')}"): span.glyphicon.glyphicon-log-in
               
-              //- Guide
-              li.dropdown(class=(section == 'guide' ? 'active' : null))
-                a.dropdown-toggle(href="#",data-toggle="dropdown")
-                  | #{t("nav.guide")} 
-                  span.caret
-                ul.dropdown-menu(role="menu")
-                  li: a(href="/skills/english")= t('nav.englishskill')
-                  li: a(href="/skills/hard")= t('nav.hardskills')
-                  li: a(href="/skills/soft")= t('nav.softskills')
-                  li.divider
-                  li: a(href="/blog")= t('nav.blog')
-                  li: a(href="/gallery")= t('nav.gallery')
-                  li: a(href="/contact")= t('nav.contact')
-
               //- language switch
               //- disabled untill formal support
                 li.dropdown

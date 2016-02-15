@@ -16,7 +16,7 @@ exports = module.exports = function (req, res) {
     };
 
     // 1. query current user
-    view.query('user', User.model.findById(locals.filters.user)
+    view.query('userProfile', User.model.findById(locals.filters.user)
         .populate('organization employee roles')
     );
     
