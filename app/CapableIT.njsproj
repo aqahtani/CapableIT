@@ -17,6 +17,7 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Content Include="logs\trigger-create.txt" />
     <Content Include="package.json" />
     <Compile Include="routes\user\profile.js" />
     <Compile Include="routes\user\reverify.js" />
@@ -419,13 +420,13 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="logs\" />
     <Folder Include="utils\" />
     <Folder Include="locales" />
     <Folder Include="locales\ar" />
     <Folder Include="locales\en" />
     <Folder Include="models" />
     <Folder Include="lib\" />
-    <Folder Include="logs\" />
     <Folder Include="public\" />
     <Folder Include="public\fonts\" />
     <Folder Include="public\images\" />
