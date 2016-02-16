@@ -32,7 +32,7 @@ exports = module.exports = function (req, res) {
         function (err, results) {
             // All tasks are done now and you have results as an object 
             if (err) {
-                logger.error('[resend-verification] Error in sending verification email', logger.details({ 'Error': err }));
+                logger.warn('[resend-verification] Error in sending verification email', logger.details({ 'Error': err }));
                 req.flash('error', 'Cannot send verification email!');
                 return res.redirect('/profile');
             };

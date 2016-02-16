@@ -1,6 +1,6 @@
 {
   "name": "Capable-IT",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Capable-IT to manage IT Capabilities",
   "private": true,
   "dependencies": {

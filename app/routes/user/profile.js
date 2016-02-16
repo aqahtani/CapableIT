@@ -26,6 +26,25 @@ exports = module.exports = function (req, res) {
         .populate('permissions')
     );
     
+    // Change password
+    view.on('post', { action: 'change-password' }, function (next) {
+        
+        if (!req.body.password || !req.body.password_confirm) {
+            req.flash('error', 'Please fill in all password fields.');
+            return next();
+        }
+        
+        req.user.getUpdateHandler(req).process(req.body, {
+            fields: 'password',
+            flashErrors: true
+        }, function (err) {
+            if (err) return next();
+            // all is well
+            req.flash('success', 'Your password has been changed successfully.');
+            return next();
+        });
+    });
+    
     // Render the view
     view.render('user/profile');
 };

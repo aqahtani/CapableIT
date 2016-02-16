@@ -2,26 +2,32 @@ extends ../../layouts/auth
     
 block content
   if user
-    p Hi #{user.name.first},
+    h3 Hi #{user.name.first},
+    hr
     p You're already signed in.
     .toolbar
       .btn-group
         if user.isAdmin
           a(href='/keystone').btn.btn-primary Open Keystone
-        a(href='/logout').btn.btn-danger Logout
+        a(href='/logout').btn.btn-danger.pull-right Logout
 
-  else 
+  else
+    h3 Login to #{t("brand")}
+    hr 
     form(method="post")
       input(type='hidden', name='action', value='login')
       .form-group
-        label(for='email') Email
-        input(type='email', name='email', id='email', value=formData.email).form-control
+        label(for='email').control-label.sr-only Email
+        input(type='email', name='email', id='email', value=formData.email, placeholder='Email').form-control
       .form-group
-        label(for='password') Password
-        input(type='password', name='password', id='password').form-control
-      .form-actions
-      button(type='submit').btn.btn-primary Login
-
+        label(for='password').control-label.sr-only Password
+        input(type='password', name='password', id='password', placeholder='Password').form-control
+      .form-group
+        button(type='submit').btn.btn-primary.pull-right Login
+        br
+        a(href='/forgot-password') Forgot Passward?
+        br
+    
 block js
   //- Only focus the field after the shake animation is complete
   if messages && messages.error.length

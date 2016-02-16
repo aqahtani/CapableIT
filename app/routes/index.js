@@ -106,7 +106,7 @@ exports = module.exports = function(app) {
     app.all('/reset-password/:key', routes.userViews['reset-password']);
     app.all('/verify-email/:key', routes.userViews['verify-email']);
     // User routes that require logged in user account
-    app.get('/profile', middleware.requireUser, routes.userViews.profile);
+    app.all('/profile', middleware.requireUser, routes.userViews.profile);
     app.all('/resend-verification', middleware.requireUser, routes.userViews['resend-verification']);
     
     

@@ -1,15 +1,43 @@
 extends ../../layouts/default
 include ../../mixins/commons
     
+//- Modal: Change User Password
+mixin modalChangePassword(modalId)
+  .modal.fade(id="#{modalId}")
+    .modal-dialog
+      form(method='post', autocomplete='off').modal-content
+        input(type='hidden', name='action', value='change-password')
+        .modal-header
+          button(type="button", data-dismiss="modal").close
+            span(aria-hidden="true") &times;
+            span.sr-only Close
+          h4.modal-title Change Password
+        .modal-body
+          .form-group
+            label(for='password').control-label.sr-only New Password
+            input(type='password', name='password', id='password', placeholder='New Password', required).form-control
+          .form-group
+            label(for='password_confirm').control-label.sr-only  Confirm Password
+            input(type='password', name='password_confirm', id='password_confirm', placeholder='Confirm Password', required).form-control
+        .modal-footer
+          button(type='submit').btn.btn-danger Change
+          button(type="button", data-dismiss="modal").btn.btn-default Cancel
+
+
 block content
+  +modalChangePassword('formChangePasswordModal')
   .container: .row: .col-md-12
     //- user profile
     section
       if userProfile
         h2 User Profile
         hr
+        //- user alerts go here!
+        .row: .col-md-12
+          if !userProfile.isVerified
+            .alert.alert-warning You have not verified your email, yet.  Please, check your email.
         .row
-          .col-md-6
+          .col-md-8
             .row
               .col-md-4: +fieldLabel("Name")
               .col-md-8: h4= userProfile.name.full
@@ -34,10 +62,11 @@ block content
                 .col-md-8: h4 
                   each role in userProfile.roles
                     .label.label-primary= role.label
-          .col-md-6
+          .col-md-4
+            //- profile actions
+            a.btn.btn-info.btn-lg.btn-block(href='#', data-toggle='modal', data-target='#formChangePasswordModal') Change Password
             if !userProfile.isVerified
-              .alert.alert-warning You have not verified your email, yet.  Please, check your email.
-              .pull-right: a.btn.btn-info(href='/resend-verification', role='button') Resend Verification
+              a.btn.btn-warning.btn-lg.btn-block(href='/resend-verification', role='button') Resend Verification
 
     hr
     //- user authorizations

@@ -49,7 +49,7 @@ exports = module.exports = function (req, res) {
             // All tasks are done now and you have results as an object 
             if (err) {
                 locals.step = '1';
-                logger.error('[join] Error in user registration', logger.details({ 'Error': err }));
+                logger.warn('[join] Error in user registration', logger.details({ 'Error': err }));
                 return next();
             };
             
