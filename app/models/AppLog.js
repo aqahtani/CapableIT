@@ -4,17 +4,17 @@ var keystone = require('keystone'),
     _ = require('underscore');
 
 /**
- * Log Model
- * =========
+ * AppLog Model
+ * ============
  */
 
-var Log = new keystone.List('Log', {
+var AppLog = new keystone.List('AppLog', {
     nocreate: true,
     noedit: true,
     defaultSort: '-timestamp'
 });
 
-Log.add({
+AppLog.add({
     // set expires to number of seconds
     // examples: 30 days = 2592000, 14 days = 1209600, 7 days = 604800
     timestamp: { type: Types.Datetime, expires: 1209600 },
@@ -25,6 +25,6 @@ Log.add({
     }
 });
 
-Log.defaultColumns = 'timestamp, level, message';
+AppLog.defaultColumns = 'timestamp, level, message';
 
-Log.register();
+AppLog.register();

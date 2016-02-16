@@ -33,7 +33,7 @@
     <Compile Include="utils\content.js" />
     <Compile Include="models\ArticleCategory.js" />
     <Compile Include="models\Article.js" />
-    <Compile Include="models\Log.js" />
+    <Compile Include="models\AppLog.js" />
     <Compile Include="public\js\lib\bootstrap\bootstrap.js" />
     <Compile Include="public\js\lib\bootstrap\bootstrap.min.js" />
     <Compile Include="public\js\lib\datatables\js\dataTables.bootstrap.min.js" />

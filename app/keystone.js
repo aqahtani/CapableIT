@@ -136,7 +136,7 @@ keystone.set('nav', {
     'Behavioral Skills': ['english-levels', 'soft-levels', 'soft-skills'],
     'Users': ['users', 'permissions', 'roles', 'user-authorizations', 'role-authorizations'],
     'Content': ['posts', 'post-categories', 'galleries', 'enquiries'],
-    'System': ['logs']
+    'System': ['app-logs']
 });
 
 // keystone-rest: restify selected models

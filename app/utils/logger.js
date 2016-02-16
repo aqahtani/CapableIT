@@ -30,7 +30,7 @@ var logger = new winston.Logger({
             level: 'info',
             handleExceptions: true,
             db: process.env.MONGO_URI,
-            collection: 'logs'
+            collection: 'applogs'
             // tried to do capping but it didn't work, may be because
             // the collection has already been created by keystone!
             //capped: true, // try to create new log collection as capped
