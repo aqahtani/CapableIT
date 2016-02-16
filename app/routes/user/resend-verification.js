@@ -1,8 +1,7 @@
 ﻿var keystone = require('keystone'),
     User = keystone.list('User'),
     async = require('async'),
-    logger = require('../../utils/logger'),
-    verification = require('./verification'); // helper async functions 
+    logger = require('../../utils/logger'); 
 
 exports = module.exports = function (req, res) {
     var view = new keystone.View(req, res),
@@ -20,28 +19,31 @@ exports = module.exports = function (req, res) {
             User.model.findById(user.id).exec(callback);
         };
 
-        // other async functions come from ./verification.js
+        var resendVerification = function (callback, results) {
+            var user = results.user;
+            user.verifyEmail(callback);
+        };
 
         // call the create functions 
         async.auto({
             user: getUser, 
-            token: ['user', verification.createToken],
-            email: ['user', 'token', verification.sendVerificationEmail]
+            resend: ['user', resendVerification]
         }, 
         function (err, results) {
             // All tasks are done now and you have results as an object 
             if (err) {
-                logger.error('[reverify] Error in sending verification email', logger.details({ 'Error': err }));
+                logger.error('[resend-verification] Error in sending verification email', logger.details({ 'Error': err }));
                 req.flash('error', 'Cannot send verification email!');
-                return next();
+                return res.redirect('/profile');
             };
             // all is well
-            logger.info('[reverify] Verification email sent', logger.details({ 'User': results.user }));
+            logger.info('[resend-verification] Verification email sent', logger.details({ 'User': results.user }));
             req.flash('success', 'Verification email sent, please check your email.');
-            return next();
+            return res.redirect('/profile');
         });
         
     });
     
+    // Render the view
     view.render('home');
 };

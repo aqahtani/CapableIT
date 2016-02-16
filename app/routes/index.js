@@ -100,12 +100,15 @@ exports = module.exports = function(app) {
     
     // User routes: registration and authentication 
     app.all('/join', routes.userViews.join);
-    app.all('/verify/:token', routes.userViews.verify);
     app.all('/login', routes.userViews.login);
     app.all('/logout', routes.userViews.logout);
+    app.all('/forgot-password', routes.userViews['forgot-password']);
+    app.all('/reset-password/:key', routes.userViews['reset-password']);
+    app.all('/verify-email/:key', routes.userViews['verify-email']);
     // User routes that require logged in user account
     app.get('/profile', middleware.requireUser, routes.userViews.profile);
-    app.all('/reverify', middleware.requireUser, routes.userViews.reverify);
+    app.all('/resend-verification', middleware.requireUser, routes.userViews['resend-verification']);
+    
     
     // language switching routes
     app.get('/lang/:language', require('./lang'));

@@ -17,11 +17,17 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Content Include="templates\emails\reset-password.jade" />
+    <Content Include="templates\emails\verify-email.jade" />
+    <Content Include="templates\views\user\reset-password.jade" />
+    <Content Include="templates\views\user\forgot-password.jade" />
     <Content Include="winston\trigger-create.txt" />
     <Content Include="package.json" />
+    <Compile Include="routes\user\forgot-password.js" />
     <Compile Include="routes\user\profile.js" />
-    <Compile Include="routes\user\reverify.js" />
-    <Compile Include="routes\user\verification.js" />
+    <Compile Include="routes\user\reset-password.js" />
+    <Compile Include="routes\user\resend-verification.js" />
+    <Compile Include="routes\user\verify-email.js" />
     <Compile Include="utils\keystone-rest.js" />
     <Compile Include="utils\logger.js" />
     <Compile Include="utils\content.js" />
@@ -111,7 +117,6 @@
     <Compile Include="models\Job.js" />
     <Compile Include="models\Organization.js" />
     <Compile Include="models\Authorization.js" />
-    <Compile Include="models\VerificationToken.js" />
     <Compile Include="models\User.js" />
     <Compile Include="public\js\employee-ui.js" />
     <Compile Include="public\js\lib\bootstrap-datepicker\bootstrap-datepicker.min.js" />
@@ -140,7 +145,6 @@
     <Compile Include="routes\views\hardskills.js" />
     <Compile Include="routes\views\jobs.js" />
     <Compile Include="routes\views\job.js" />
-    <Compile Include="routes\user\verify.js" />
     <Compile Include="templates\modals\form-employee.jade" />
     <Compile Include="updates\0.1.3-sfia-v6-skills-create.js" />
     <Compile Include="updates\0.0.2-english-levels.js" />
@@ -360,7 +364,6 @@
     <Content Include="public\styles\site\variables.flatly.less" />
     <Content Include="templates\emails\button.jade" />
     <Content Include="templates\emails\email.jade" />
-    <Content Include="templates\emails\user-verification.jade" />
     <Content Include="templates\emails\enquiry-notification.jade" />
     <Content Include="templates\emails\styles\default.jade" />
     <Content Include="templates\emails\styles\ink.jade" />
@@ -409,7 +412,7 @@
     <Content Include="templates\views\user\logout.jade" />
     <Content Include="templates\views\user\login.jade" />
     <Content Include="templates\views\user\profile.jade" />
-    <Content Include="templates\views\user\verify.jade" />
+    <Content Include="templates\views\user\verify-email.jade" />
     <Content Include="templates\views\user\join.jade" />
     <Content Include="templates\views\post.jade" />
     <Content Include="templates\views\organization.jade" />

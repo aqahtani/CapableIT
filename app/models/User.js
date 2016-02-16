@@ -21,9 +21,11 @@ User.add({
     organization: { type: Types.Relationship, ref: 'Organization', index: true },
     employee: { type: Types.Relationship, ref: 'Employee', filters: { organization : ':organization' }, index: true }
 }, 'Verification', {
-    isVerified: { type: Boolean, label: 'Email verified', index: true, default: false }
+    isVerified: { type: Boolean, label: 'Email verified?', index: true, default: false },
+    resetPasswordKey: { type: String, noedit: true },
+    emailVerificationKey: { type: String, noedit: true }
 }, 'Permissions', {
-    isAdmin: { type: Boolean, label: 'Can access Keystone', index: true },
+    isAdmin: { type: Boolean, label: 'Can access Keystone?', index: true },
     roles: { type: Types.Relationship, ref: 'Role', many: true }
 });
 
@@ -38,7 +40,6 @@ User.schema.virtual('canAccessKeystone').get(function () {
  */
 
 User.relationship({ ref: 'Post', refPath: 'author' });
-User.relationship({ ref: 'VerificationToken', refPath: 'user' });
 User.relationship({ ref: 'UserAuthorization', refPath: 'user' });
 
 /**
@@ -85,6 +86,57 @@ User.schema.post('save', function (user) {
         );
     }
 });
+
+// password reset
+User.schema.methods.resetPassword = function (next) {
+    
+    var user = this;
+    
+    user.resetPasswordKey = keystone.utils.randomString([16, 24]);
+    
+    user.save(function (err) {
+        
+        if (err) return next(err);
+        
+        // send email
+        new keystone.Email('reset-password').send({
+            user: user,
+            subject: '[CapableIT] Reset your password',
+            to: user.email,
+            from: {
+                name: 'CapableIT',
+                email: 'no-reply@cit.knowledge-passion.net'
+            }
+        }, next);
+
+    });
+};
+
+// email verification
+User.schema.methods.verifyEmail = function (next) {
+    
+    var user = this;
+    
+    user.emailVerificationKey = keystone.utils.randomString([16, 24]);
+    
+    user.save(function (err) {
+        
+        if (err) return next(err);
+        
+        // send email
+        new keystone.Email('verify-email').send({
+            user: user,
+            subject: '[CapableIT] Please verify your email address',
+            to: user.email,
+            from: {
+                name: 'CapableIT',
+                email: 'no-reply@cit.knowledge-passion.net'
+            }
+        }, next);
+		
+    });
+	
+}
 
 // assign user roles given as names: e.g. 'owner', 'employee', ...
 User.schema.methods.assignRoles = function (roleNames, done) {

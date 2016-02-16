@@ -3,7 +3,6 @@ extends email
 block body-contents
   h3 Hi #{user.name.first},
   p.text-larger Thank you for signing up with #{brand}
-  
   p.text-larger Please, click the button below to verify your email
   p &nbsp;
-  +button({ url: '/root/verify/' + token.token, label: 'Verify' })
+  +button({ url: '/root/verify-email/' + user.emailVerificationKey, label: 'Verify Email' })

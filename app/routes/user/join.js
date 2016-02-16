@@ -1,8 +1,7 @@
 ﻿var keystone = require('keystone'),
     User = keystone.list('User'),
     async = require('async'),
-    logger = require('../../utils/logger'),
-    verification = require('./verification'); // helper async functions 
+    logger = require('../../utils/logger');
 
 exports = module.exports = function (req, res) {
     var view = new keystone.View(req, res),
@@ -36,13 +35,15 @@ exports = module.exports = function (req, res) {
             });
         };
         
-        // other async functions come from ./verification.js
-
+        var sendVerification = function (callback, results) {
+            var user = results.user;
+            user.verifyEmail(callback);
+        };
+        
         // call the create functions 
         async.auto({
             user: createUser, 
-            token: ['user', verification.createToken],
-            email: ['user', 'token', verification.sendVerificationEmail]
+            send: ['user', sendVerification]
         }, 
         function (err, results) {
             // All tasks are done now and you have results as an object 

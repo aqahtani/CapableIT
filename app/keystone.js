@@ -134,7 +134,7 @@ keystone.set('nav', {
     'Development': ['development-plans', 'development-activities', 'development-methods'],
     'Professional Skills': ['hard-skill-categories', 'hard-skill-sub-categories', 'hard-levels', 'hard-skills'],
     'Behavioral Skills': ['english-levels', 'soft-levels', 'soft-skills'],
-    'Users': ['users', 'verification-tokens', 'permissions', 'roles', 'user-authorizations', 'role-authorizations'],
+    'Users': ['users', 'permissions', 'roles', 'user-authorizations', 'role-authorizations'],
     'Content': ['posts', 'post-categories', 'galleries', 'enquiries'],
     'System': ['logs']
 });
