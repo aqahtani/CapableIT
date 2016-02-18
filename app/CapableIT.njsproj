@@ -17,17 +17,55 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Content Include="public\home\css\font-awesome.min.css" />
+    <Content Include="public\home\css\ie8.css" />
+    <Content Include="public\home\css\images\overlay.png" />
+    <Content Include="public\home\css\images\shadow.png" />
+    <Content Include="public\home\css\main.css" />
+    <Content Include="public\home\fonts\fontawesome-webfont.eot" />
+    <Content Include="public\home\fonts\fontawesome-webfont.svg" />
+    <Content Include="public\home\fonts\fontawesome-webfont.ttf" />
+    <Content Include="public\home\fonts\fontawesome-webfont.woff" />
+    <Content Include="public\home\fonts\fontawesome-webfont.woff2" />
+    <Content Include="public\home\fonts\FontAwesome.otf" />
+    <Content Include="public\images\banner.jpg" />
+    <Content Include="public\home\js\ie\backgroundsize.min.htc" />
+    <Content Include="public\home\js\ie\PIE.htc" />
+    <Content Include="public\images\kplogo_200.png" />
+    <Content Include="public\images\pic01.jpg" />
+    <Content Include="public\images\pic02.jpg" />
+    <Content Include="public\images\pic03.jpg" />
+    <Content Include="public\images\pic04.jpg" />
+    <Content Include="public\images\pic05.jpg" />
+    <Content Include="public\images\pic06.jpg" />
+    <Content Include="public\images\pic07.jpg" />
+    <Content Include="public\images\pic08.jpg" />
+    <Content Include="public\images\pic09.jpg" />
+    <Content Include="public\images\pic10.jpg" />
+    <Content Include="robots.txt" />
     <Content Include="templates\emails\reset-password.jade" />
     <Content Include="templates\emails\verify-email.jade" />
+    <Content Include="templates\views\home.jade" />
     <Content Include="templates\views\user\reset-password.jade" />
     <Content Include="templates\views\user\forgot-password.jade" />
     <Content Include="winston\trigger-create.txt" />
     <Content Include="package.json" />
+    <Compile Include="public\home\js\home-ui.js" />
+    <Compile Include="public\home\js\ie\html5shiv.js" />
+    <Compile Include="public\home\js\ie\respond.min.js" />
+    <Compile Include="public\home\js\jquery.dropotron.min.js" />
+    <Compile Include="public\home\js\jquery.min.js" />
+    <Compile Include="public\home\js\main.js" />
+    <Compile Include="public\home\js\skel-viewport.min.js" />
+    <Compile Include="public\home\js\skel.min.js" />
+    <Compile Include="public\home\js\util.js" />
+    <Compile Include="routes\api\contact.js" />
     <Compile Include="routes\user\forgot-password.js" />
     <Compile Include="routes\user\profile.js" />
     <Compile Include="routes\user\reset-password.js" />
     <Compile Include="routes\user\resend-verification.js" />
     <Compile Include="routes\user\verify-email.js" />
+    <Compile Include="routes\views\home.js" />
     <Compile Include="utils\keystone-rest.js" />
     <Compile Include="utils\logger.js" />
     <Compile Include="utils\content.js" />
@@ -158,7 +196,7 @@
     <Compile Include="routes\views\blog.js" />
     <Compile Include="routes\views\contact.js" />
     <Compile Include="routes\views\gallery.js" />
-    <Compile Include="routes\views\home.js" />
+    <Compile Include="routes\views\home_old.js" />
     <Compile Include="routes\user\join.js" />
     <Compile Include="routes\views\post.js" />
     <Compile Include="routes\views\organization.js" />
@@ -404,7 +442,7 @@
     <Content Include="templates\views\englishskill.jade" />
     <Content Include="templates\views\article.jade" />
     <Content Include="templates\views\softskills.jade" />
-    <Content Include="templates\views\home.jade" />
+    <Content Include="templates\views\home_old.jade" />
     <Content Include="templates\views\assessment.jade" />
     <Content Include="templates\views\employees.jade" />
     <Content Include="templates\views\hardskills.jade" />
@@ -423,6 +461,12 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="public\home\" />
+    <Folder Include="public\home\css\" />
+    <Folder Include="public\home\css\images\" />
+    <Folder Include="public\home\fonts\" />
+    <Folder Include="public\home\js\" />
+    <Folder Include="public\home\js\ie\" />
     <Folder Include="winston\" />
     <Folder Include="utils\" />
     <Folder Include="locales" />

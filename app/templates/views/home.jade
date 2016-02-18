@@ -1,19 +1,219 @@
-extends ../layouts/default
+﻿doctype html
+html
+  head
+    title #{t("brand")}
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    //if lte IE 8
+      script(src='/home/js/ie/html5shiv.js')
+    link(rel='stylesheet', href='/home/css/main.css')
+    //if lte IE 8
+      link(rel='stylesheet', href='/home/css/ie8.css')
+  body.homepage
+    #page-wrapper
+      //- Header
+      #header-wrapper.wrapper
+        #header
+          //- Logo
+          #logo
+            h1
+              img(src='/images/kplogo_200.png', width='70', style='vertical-align:middle;')
+              |   
+              a(href='/', style='vertical-align:middle; font-size: 200%; text-transform: none; font-variant: small-caps;') CapableIT
+            p(style='font-size: 150%;') A platform to manage your IT capabilities
+          //- Nav
+          nav#nav(style='text-align: right;')
+            ul(style='box-shadow: none;')
+              li
+                a.button.style1(href='/login') Login
+              li
+                a.button.style2(href='/join') Join
 
-block content
-  .container: .jumbotron
-    p.text-center: img(src='/images/kpcit_400.png', width='400')
-    h1 Welcome
-    p This is #{t("brand")} from <a href='http://knowledge-passion.com', target='_blank'>Knowledge-Passion Consulting</a>.
-    p 
-      | #{t("brand")} is a cloud service that automates stages of the Capability Management Cycle:
-      | Organize, Acquire, Deploy, Assess, Appraise, Develop, and Reward.
-    p It is based on the <a href='http://www.sfia-online.org', target='_blank'>Skills Framework for the Information Age (SFIA)</a> from the SFIA Foundation.
+      //- Intro
+      #intro-wrapper.wrapper.style1
+        .title The Introduction
+        section#intro.container
+          p.style1 So in case you were wondering what this is all about ...
+          p.style2
+            | CapableIT is a cloud platform that automates
+            br.mobile-hide
+            | stages of the IT Capability Management Cycle
+            //-a.nobr(href='http://html5up.net') HTML5 UP
+          p.style1
+            | It is based on the Skills Framework for the Information Age (
+            a(href='http://www.sfia-online.org/') SFIA
+            | )
+          //-ul.actions
+            li
+              a.button.style3.big(href='#main') More
+
+      //- Main
+      .wrapper.style2
+        .title The Details
+        #main.container
+          //- Image
+          //-a.image.featured(href='#')
+            img(src='/images/pic01.jpg', alt='')
+          //- Features
+          section#features
+            header.style1
+              h2 Organize IT within a Capability Management Framework 
+              p Where progressive steps build on each other to find the right direction, structure, and capacity to run IT.
+            .feature-list
+              .row
+                .12u
+                  section
+                    h3.icon.fa-sitemap Organize
+                    p Build and formalize IT organization structure.  Design work/jobs and formalize roles and responsibilities.
+              .row
+                .4u(class='12u(mobile)')
+                  section
+                    h3.icon.fa-users Acquire
+                    p Recruit people and set your selection criteria according to skills and capabilities defined.
+                .4u(class='12u(mobile)')
+                  section
+                    h3.icon.fa-tasks Deploy
+                    p Assign work and map to org structure.  Set objectives/metrics for performance management.
+                .4u(class='12u(mobile)')
+                  section
+                    h3.icon.fa-check-square-o Assess
+                    p Assess capabilities/skills of employees against assigned jobs.
+              .row
+                .4u(class='12u(mobile)')
+                  section
+                    h3.icon.fa-cogs Develop
+                    p Learning and development plans for all individuals targeting to bridge gaps in capabilities and performance.
+                .4u(class='12u(mobile)')
+                  section
+                    h3.icon.fa-percent Appraise
+                    p Analyze current performance against set metrics.  Identify reasons for current performance and suggest solutions.
+                .4u(class='12u(mobile)')
+                  section
+                    h3.icon.fa-money Reward
+                    p Build employee value proposition and plan compensation and benefits.
+            
+            ul.actions.actions-centered
+              li
+                a.button.style1.big(href='/login') Login
+              li
+                a.button.style2.big(href='/join') Join
+      
+      //- Highlights
+      .wrapper.style3
+        .title The Rational
+        #highlights.container
+          .row(class='150%')
+            .4u(class='12u(mobile)')
+              section.highlight
+                //-a.image.featured(href='#')
+                  img(src='/images/pic02.jpg', alt='')
+                .icon.fa-bullseye.fa-4x
+                br
+                h3 Targeted 
+                  br
+                  | Recruitment & Selection
+                //-p Recruitment & Selection
+                //-ul.actions
+                  li
+                    a.button.style1(href='#') Learn More
+            .4u(class='12u(mobile)')
+              section.highlight
+                //-a.image.featured(href='#')
+                  img(src='/images/pic03.jpg', alt='')
+                .icon.fa-book.fa-4x
+                br
+                h3 Informed 
+                  br
+                  | Training & Development
+                //-p Training & Development
+                //-ul.actions
+                  li
+                    a.button.style1(href='#') Learn More
+            .4u(class='12u(mobile)')
+              section.highlight
+                //-a.image.featured(href='#')
+                  img(src='/images/pic04.jpg', alt='')
+                .icon.fa-cubes.fa-4x
+                br
+                h3 Effective 
+                  br
+                  | Performance & Reward
+                //-p Performance & Reward
+                //-ul.actions
+                  li
+                    a.button.style1(href='#') Learn More
+
+      //- Footer
+      #footer-wrapper.wrapper
+        .title Reach Out
+        #footer.container
+          header.style1
+            h2 Interested in Developing your IT Capabilities?
+            p Reach out to us to know more about CapableIT for IT Capability Development & Management
+          hr
+          .row(class='150%')
+            .6u(class='12u(mobile)')
+              // Contact Form
+              section
+                form#contact-form(method='post')
+                  .row(class='50%')
+                    .6u(class='12u(mobile)')
+                      input#contact-name(type='text', name='name', placeholder='Name')
+                    .6u(class='12u(mobile)')
+                      input#contact-email(type='email', name='email', placeholder='Email')
+                  .row(class='50%')
+                    .12u
+                      textarea#contact-message(name='message', placeholder='Message', rows='4')
+                      #contact-alert &nbsp;
+                  .row
+                    .12u
+                      ul.actions
+                        li
+                          a#contact-send.button.style1 Send
+                            //-span.fa.fa-circle-o-notch.fa-spin
+                        li
+                          input.style2(type='reset', value='Reset')
+            .6u(class='12u(mobile)')
+              //- Contact
+              section.feature-list.small
+                .row
+                  .12u(class='12u(mobile)')
+                    section
+                      h3.icon.fa-comment Social
+                      p
+                        a(href='http://twitter.com/alq_abdurrahman') @alq_abdurrahman
+                        br
+                        a(href='http://in.linkedin.com/in/aqahtani') linkedin.com/aqahtani
+                        br
+                        a(href='http://blog.knowledge-passion.com/') blog.knowledge-passion.com
+                .row
+                  .12u(class='12u(mobile)')
+                    section
+                      h3.icon.fa-envelope Email
+                      p
+                        a(href='mailto:info@knowledge-passion.com') info@knowledge-passion.com
+                  //-.6u(class='12u(mobile)')
+                    section
+                      h3.icon.fa-phone Phone
+                      p
+                        | (000) 555-0000
+          hr
+        #copyright
+          ul
+            li © CapableIT
+            li
+              | Design By: 
+              a(href='http://html5up.net') HTML5 UP
     
-    if !user
-      hr 
-      p
-        a(href='/login').btn.btn-lg.btn-info Login
-        |  or 
-        a(href='/join').btn.btn-lg.btn-primary Join
-      p.text-primary Remember to use your organization's email address.
+    //- Scripts
+    script(src='/home/js/jquery.min.js')
+    script(src='/home/js/jquery.dropotron.min.js')
+    script(src='/home/js/skel.min.js')
+    script(src='/home/js/skel-viewport.min.js')
+    script(src='/home/js/util.js')
+    //if lte IE 8
+      script(src='/home/js/ie/respond.min.js')
+    script(src='/home/js/main.js')
+    script(src='/home/js/home-ui.js')
+        
+

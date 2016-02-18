@@ -95,8 +95,9 @@ exports = module.exports = function(app) {
     app.all('/dashboard/employees', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.employees);
     app.all('/dashboard/jobs', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.jobs);
     
-    // API: new assessment
-    app.post('/api/assess/new', middleware.requireUser, routes.api.assess);
+    // API
+    app.post('/api/assess/new', middleware.requireUser, routes.api.assess); //new assessment
+    app.post('/api/contact', routes.api.contact); //new enquiry
     
     // User routes: registration and authentication 
     app.all('/join', routes.userViews.join);
