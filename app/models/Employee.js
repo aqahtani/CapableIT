@@ -16,8 +16,8 @@ var Employee = new keystone.List('Employee', {
 });
 
 Employee.add({
-    name: { type: Types.Name, initial: true, required: true, index: true, unique: true },
-    arName: { type: Types.Text, initial: true, label: 'Arabic Name', index: true, unique: true },
+    name: { type: Types.Name, initial: true, required: true, index: true },
+    arName: { type: Types.Text, initial: true, label: 'Arabic Name', index: true },
     empId: { type: Types.Text, label: 'Employee ID' },
     email: { type: Types.Email, initial: true, required: true, index: true, unique: true, lowercase: true },	
     telephone: { type: Types.Text },
