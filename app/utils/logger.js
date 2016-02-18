@@ -60,5 +60,5 @@ module.exports.stream = {
 // a helper function to log metadata under details key
 // this is going to be picked up by Keystone AdminUI nicely
 module.exports.details = function (meta) {
-    return { "details": util.inspect(meta) };
+    return { "details": util.inspect(meta, { depth : null }) };
 };
