@@ -2,8 +2,10 @@ extends ../../layouts/default
 
 block content
   .container
-    h1 Error (500)
-    p.lead Sorry, the site has encountered an error.
+    .jumbotron: .text-center
+      p.text-muted: span.glyphicon.glyphicon-4x.glyphicon-fire
+      h2 Server Error (500)
+      p.lead Sorry, the site has encountered an error.
     //- display error message on development env only
     if env === 'development'
       pre= err
