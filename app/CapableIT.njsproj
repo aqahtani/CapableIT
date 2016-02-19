@@ -45,7 +45,7 @@
     <Content Include="robots.txt" />
     <Content Include="templates\emails\reset-password.jade" />
     <Content Include="templates\emails\verify-email.jade" />
-    <Content Include="templates\views\home.jade" />
+    <Content Include="templates\views\home\home.jade" />
     <Content Include="templates\views\user\reset-password.jade" />
     <Content Include="templates\views\user\forgot-password.jade" />
     <Content Include="winston\trigger-create.txt" />
@@ -65,7 +65,7 @@
     <Compile Include="routes\user\reset-password.js" />
     <Compile Include="routes\user\resend-verification.js" />
     <Compile Include="routes\user\verify-email.js" />
-    <Compile Include="routes\views\home.js" />
+    <Compile Include="routes\home\home.js" />
     <Compile Include="utils\keystone-rest.js" />
     <Compile Include="utils\logger.js" />
     <Compile Include="utils\content.js" />
@@ -196,7 +196,7 @@
     <Compile Include="routes\views\blog.js" />
     <Compile Include="routes\views\contact.js" />
     <Compile Include="routes\views\gallery.js" />
-    <Compile Include="routes\views\home_old.js" />
+    <Compile Include="routes\home\home_old.js" />
     <Compile Include="routes\user\join.js" />
     <Compile Include="routes\views\post.js" />
     <Compile Include="routes\views\organization.js" />
@@ -442,7 +442,7 @@
     <Content Include="templates\views\englishskill.jade" />
     <Content Include="templates\views\article.jade" />
     <Content Include="templates\views\softskills.jade" />
-    <Content Include="templates\views\home_old.jade" />
+    <Content Include="templates\views\home\home_old.jade" />
     <Content Include="templates\views\assessment.jade" />
     <Content Include="templates\views\employees.jade" />
     <Content Include="templates\views\hardskills.jade" />
@@ -467,6 +467,8 @@
     <Folder Include="public\home\fonts\" />
     <Folder Include="public\home\js\" />
     <Folder Include="public\home\js\ie\" />
+    <Folder Include="routes\home\" />
+    <Folder Include="templates\views\home\" />
     <Folder Include="winston\" />
     <Folder Include="utils\" />
     <Folder Include="locales" />
@@ -505,7 +507,6 @@
     <Folder Include="routes" />
     <Folder Include="routes\api\" />
     <Folder Include="routes\dashboard\" />
-    <Folder Include="routes\admin\" />
     <Folder Include="routes\user\" />
     <Folder Include="routes\views" />
     <Folder Include="templates" />

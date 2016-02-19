@@ -46,6 +46,7 @@ keystone.set('500', function (err, req, res, next) {
 // Import Route Controllers
 var routes = {
     views: importRoutes('./views'),
+    homeViews: importRoutes('./home'),
     userViews: importRoutes('./user'),
     dashboardViews: importRoutes('./dashboard'),
     api: importRoutes('./api'),
@@ -54,8 +55,9 @@ var routes = {
 // Setup Route Bindings
 exports = module.exports = function(app) {    
 	
+    // landing page
+    app.get('/', routes.homeViews.home);
     // Public views
-    app.get('/', routes.views.home);
     app.get('/blog/:category?', routes.views.blog);
     app.get('/blog/post/:post', routes.views.post);
     app.get('/gallery', routes.views.gallery);
