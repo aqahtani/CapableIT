@@ -69,12 +69,12 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
               span.icon-bar
             //-.navbar-brand
               img.logo(src="/images/kplogo_32.png")
-            a.navbar-brand(href='/')
+            a.navbar-brand(href=home)
               span= t("brand")
           .collapse.navbar-collapse
             ul.nav.navbar-nav.navbar-left
-              //- Home
-              li(class=(section == 'home' ? 'active' : null)): a(href='/')= t('nav.home')
+              //- Home: not needed, as the brand will link to it!
+              //- li(class=(section == 'home' ? 'active' : null)): a(href=home)= t('nav.home')
               //- Guide
               li.dropdown(class=(section == 'guide' ? 'active' : null))
                 a.dropdown-toggle(href="#",data-toggle="dropdown")

@@ -36,7 +36,12 @@ exports.initLocals = function(req, res, next) {
         { label: t('nav.develop'),      key: 'development',     href: '/developmentplans' }
     ];
     
-    locals.t = req.t;	
+    locals.t = req.t;
+
+    // a url to be used to return to wheneven you want to go back to CIT home
+    // for now, it is set to /organization
+    // might be changed in the future to a landing page for logged in users
+    locals.home = '/organization';
     
     // get the organization id of the current user
     // and make available to all routes/views
@@ -129,7 +134,8 @@ exports.requireUser = function(req, res, next) {
 exports.requireRole = function (role) {
     return function (req, res, next) {
         var user = req.user, 
-            organization = req.user.organization;
+            organization = req.user.organization,
+            locals = res.locals;
         
         /*
         // 1. fetch the given role
@@ -158,13 +164,13 @@ exports.requireRole = function (role) {
             if (err) {
                 // something wrong happened!
                 req.flash('error', err.message);
-                return res.redirect('/');
+                return res.redirect(locals.home);
             };
             
             if (!targetRole) {
                 // user doesn't have a matching role
                 req.flash('error', 'You need to have "' + role + '" role to access this page!');
-                return res.redirect('/');
+                return res.redirect(locals.home);
             }
             
             next();
@@ -181,6 +187,7 @@ exports.authorizeUser = function (action) {
 
         var user = req.user, 
             organization = req.user.organization,
+            locals = res.locals,
             resource = req.path;
         
         // get an '*' version of the path
@@ -281,14 +288,14 @@ exports.authorizeUser = function (action) {
             if (err) {
                 // something wrong happened!
                 req.flash('error', err.message);
-                return res.redirect('/');
+                return res.redirect(locals.home);
             }
             
             // if no permissions could be found, then inform and redirect the user
             if (!results.userPermissions && !results.rolePermissions) {
                 // no user/role authorizations found
                 req.flash('error', 'You do not have permission to perform this action!');
-                return res.redirect('/');
+                return res.redirect(locals.home);
             };
 
             // all went well, set permits to returned results

@@ -22,7 +22,7 @@ exports = module.exports = function (req, res) {
         }
         
         // get the redirect url, or set it to /
-        locals.returnTo = req.session.returnTo ? req.session.returnTo : '/';
+        locals.returnTo = req.session.returnTo ? req.session.returnTo : locals.home;
         delete req.session.returnTo; // clean up the session
         
         // prepare callbacks for success and failure

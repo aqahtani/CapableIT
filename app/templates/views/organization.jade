@@ -4,7 +4,10 @@ include ../mixins/employee-brief
           
 block intro
   .container
-    header
+
+block content
+  .container: .row: .col-md-12
+      header
       if !organization
         h2 Invalid Organization.
       else
@@ -18,31 +21,30 @@ block intro
             .img-thumbnail
               if organization.logo.exists
                 img(src=organization._.logo.fit(150,150))         
-    hr
+      hr
 
-block content
-  .container
-    .row
-      .col-sm-6
-        //- show jobs
-        if jobs
-          .panel.panel-default
-            .panel-heading: h3 Jobs
-            .list-group
-              each job in jobs
-                a(href='/job/' + job.id).list-group-item
-                  +jobBrief(job)
-            a(href="/jobs").btn.btn-default.pull-right more jobs
-        else
-          h3.text-muted There are no jobs yet.
+      section
+        .row
+          .col-sm-6
+            //- show jobs
+            if jobs
+              .panel.panel-default
+                .panel-heading: h3 Jobs
+                .list-group
+                  each job in jobs
+                    a(href='/job/' + job.id).list-group-item
+                      +jobBrief(job)
+                a(href="/jobs").btn.btn-default.pull-right more jobs
+            else
+              h3.text-muted There are no jobs yet.
 
-      .col-sm-6
-        //- show employees
-        if employees
-          .panel.panel-default
-            .panel-heading: h3 Employees
-            .list-group
-              each employee in employees
-                a(href='/employee/' + employee.id).list-group-item
-                  +employeeBrief(employee)
-            a(href="/employees").btn.btn-default.pull-right more employees
+          .col-sm-6
+            //- show employees
+            if employees
+              .panel.panel-default
+                .panel-heading: h3 Employees
+                .list-group
+                  each employee in employees
+                    a(href='/employee/' + employee.id).list-group-item
+                      +employeeBrief(employee)
+                a(href="/employees").btn.btn-default.pull-right more employees
