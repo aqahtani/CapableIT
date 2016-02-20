@@ -59,6 +59,7 @@
     <Compile Include="public\home\js\skel-viewport.min.js" />
     <Compile Include="public\home\js\skel.min.js" />
     <Compile Include="public\home\js\util.js" />
+    <Compile Include="public\js\azure-appinsights.js" />
     <Compile Include="routes\api\contact.js" />
     <Compile Include="routes\user\forgot-password.js" />
     <Compile Include="routes\user\profile.js" />

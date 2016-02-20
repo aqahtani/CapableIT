@@ -53,7 +53,7 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
             to: admins,
             from: {
                 name: 'CapableIT',
-                email: 'no-reply@cit.knowledge-passion.net'
+                email: 'no-reply@' + process.env.DOMAIN
             },
             subject: '[CapableIT] New Enquiry',
             enquiry: enqiury

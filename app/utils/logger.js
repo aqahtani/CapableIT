@@ -40,7 +40,7 @@ var logger = new winston.Logger({
             level: 'error',
             handleExceptions: true,
             to: 'admin@knowledge-passion.com',
-            from: 'winston@cit.knowledge-passion.net',
+            from: 'winston@' + process.env.DOMAIN,
             host: process.env.MANDRILL_HOST,
             username: process.env.MANDRILL_USERNAME,
             password: process.env.MANDRILL_API_KEY,

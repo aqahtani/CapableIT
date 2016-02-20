@@ -9,6 +9,9 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
     title #{t("brand")}
     link(href="/styles/site-#{t('direction')}.min.css", rel="stylesheet", media="all")
     link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+    //- Azure Application Insights
+    script(src='/js/azure-appinsights.js')
+
     block css
       
   body

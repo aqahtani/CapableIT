@@ -105,7 +105,7 @@ User.schema.methods.resetPassword = function (next) {
             to: user.email,
             from: {
                 name: 'CapableIT',
-                email: 'no-reply@cit.knowledge-passion.net'
+                email: 'no-reply@' + process.env.DOMAIN
             }
         }, next);
 
@@ -130,7 +130,7 @@ User.schema.methods.verifyEmail = function (next) {
             to: user.email,
             from: {
                 name: 'CapableIT',
-                email: 'no-reply@cit.knowledge-passion.net'
+                email: 'no-reply@' + process.env.DOMAIN
             }
         }, next);
 		
