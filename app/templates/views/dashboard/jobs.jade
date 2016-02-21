@@ -35,9 +35,7 @@ block content
                     td= job.orgDepartment ? job.orgDepartment.title : '-'
                     td= job.orgFunction ? job.orgFunction.title : '-'
                     td
-                      //- filter functions to match the current department
-                      - var filteredFuncs = _.where(orgFuncs, { department: job.orgDepartment });
-                      +modalDeptAssignment('formAssignDeptModal' + job.id, job, orgDepts, filteredFuncs)
+                      +modalDeptAssignment('formAssignDeptModal' + job.id, job, orgDepts, orgFuncs)
                       +modalDeleteJob('formDeleteJobModal' + job.id, job)
                       a(href="#", data-toggle="modal", data-target="#formAssignDeptModal" + job.id, title="Change Department/Function Assignment"): span.glyphicon.glyphicon-transfer
                       | 
