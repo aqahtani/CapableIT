@@ -4,16 +4,16 @@ include ../modals/form-developmentplan
 include ../mixins/flags
 
 
-block content
-  //- embed the developmentplan form modals
-  if developmentPlan
-    +modalEditDevelopmentPlan('formEditDevelopmentPlanModal', developmentPlan)
-    +modalDeleteDevelopmentPlan('formDeleteDevelopmentPlanModal', developmentPlan)
-    +modalApproveDevelopmentPlan('formApproveDevelopmentPlanModal', developmentPlan, 'approve')
-    +modalApproveDevelopmentPlan('formUnapproveDevelopmentPlanModal', developmentPlan, 'unapprove')
-
+block content  
   //- display the development plan
   .container
+    //- embed the developmentplan form modals
+    if developmentPlan
+      +modalEditDevelopmentPlan('formEditDevelopmentPlanModal', developmentPlan)
+      +modalDeleteDevelopmentPlan('formDeleteDevelopmentPlanModal', developmentPlan)
+      +modalApproveDevelopmentPlan('formApproveDevelopmentPlanModal', developmentPlan, 'approve')
+      +modalApproveDevelopmentPlan('formUnapproveDevelopmentPlanModal', developmentPlan, 'unapprove')
+
     .row: .col-sm-12
       article
         if !developmentPlan

@@ -13,8 +13,14 @@
     // select2: enhanced select
     $(".select2").select2({
         theme: "bootstrap",
-        placeholder: "Select ...",
+        //placeholder: "Select ...",
         //allowClear: true
+    });
+    
+    $(".multiple-select2").select2({
+        theme: "bootstrap",
+        placeholder: "Select ...",
+        allowClear: true
     });
     
     // jasny-bootstrap: fileinput

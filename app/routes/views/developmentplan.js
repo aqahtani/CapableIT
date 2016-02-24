@@ -60,9 +60,15 @@ exports = module.exports = function(req, res) {
         
         // async function to load current development plan
         var getDevelopmentPlan = function (callback) {
-            DevelopmentPlan.model.findById(locals.filters.developmentPlan)
-                .populate('organization employee approvedBy')
-                .exec(callback);
+            DevelopmentPlan.model.findOne()
+            .where(locals.orgFilter) //always apply tenant filter first
+            .where('_id', locals.filters.developmentPlan)
+            .populate('organization employee approvedBy')
+            .exec(function (err, developmentPlan) {
+                if (err || !developmentPlan) return callback(t('flash.warn.nomatch'));
+                // development plan found, return it
+                callback(null, developmentPlan);
+            });
         };
         
         var getHardGaps = function (callback, results) {
@@ -96,13 +102,13 @@ exports = module.exports = function(req, res) {
         }, function (err, results) {
             if (err) {
                 req.flash('error', err);
-                return next();
+                return res.redirect('/developmentplans');
             };
             
             locals.developmentPlan = results.developmentPlan;
             locals.hardGaps = results.hardGaps;
             locals.softGaps = results.softGaps;
-            next();
+            return next();
         });
     });
 
@@ -362,6 +368,11 @@ exports = module.exports = function(req, res) {
             // developmentactivity found, update it
             var updater = developmentactivity.getUpdateHandler(req);
             
+            // make sure that target skills are set to empty if not submitted
+            if (!req.body.targetHardSkills) req.body.targetHardSkills = [];
+            if (!req.body.targetSoftSkills) req.body.targetSoftSkills = [];
+
+            console.log('### req.body: %j', req.body);
             updater.process(req.body, {
                 flashErrors: true,
                 fields: 'title, method, targetHardSkills, targetSoftSkills, deadline, duration, progress, remarks',

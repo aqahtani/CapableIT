@@ -123,8 +123,8 @@ mixin formSelect2ListOptional(inputName, list, selected)
 
 //- Select form field with enhanced select2 functionality + multiple selection
 mixin formSelect2Multiple(inputName, options, selectedOptions)
-
-  select(name='#{inputName}', id='#{inputName}', multiple='multiple', style='width: 100%').form-control.select2
+  select(name='#{inputName}[]', id='#{inputName}', style='width: 100%', multiple).form-control.multiple-select2
+    //-option
     each option in options
       //- for some reason, the following condition doesn't work!
       //- if selectedOptions &&_.contains(selectedOptions, option.id)
@@ -137,7 +137,7 @@ mixin formSelect2Multiple(inputName, options, selectedOptions)
         each value in selectedOptions
           if value == option.id
             - picked = true
-
+      //selectedOptions && _.find(selectedOptions, function(val){ _.isEqual(val, option.id) }) 
       if picked
         option(value='#{option.id}', selected)= option.title
       else

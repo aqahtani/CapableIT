@@ -33,7 +33,7 @@ var options = {
         addPath:  "locales/{{lng}}/{{ns}}-{{lng}}.json",
     },
     detection: detectionOptions,
-    debug: true
+    debug: false
 };
 
 i18next
