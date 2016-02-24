@@ -4,7 +4,8 @@
 exports = module.exports = function (req, res) {
     
     var view = new keystone.View(req, res),
-        locals = res.locals;
+        locals = res.locals,
+        t = req.t;
     
     locals.title = 'Reset Password';
     
@@ -13,7 +14,7 @@ exports = module.exports = function (req, res) {
         User.model.findOne().where('resetPasswordKey', req.params.key).exec(function (err, user) {
             if (err) return next(err);
             if (!user) {
-                req.flash('error', "Sorry, that reset password key isn't valid.");
+                req.flash('error', t('flash.error.key_invalid'));
                 return res.redirect('/forgot-password');
             }
             locals.found = user;
@@ -25,7 +26,7 @@ exports = module.exports = function (req, res) {
     view.on('post', { action: 'reset-password' }, function (next) {
         
         if (req.body.password != req.body.password_confirm) {
-            req.flash('error', 'Please make sure both passwords match.');
+            req.flash('error', t('flash.error.password_match'));
             return next();
         }
         
@@ -33,7 +34,7 @@ exports = module.exports = function (req, res) {
         locals.found.resetPasswordKey = '';
         locals.found.save(function (err) {
             if (err) return next(err);
-            req.flash('success', 'Successfully changed your password, please login in.');
+            req.flash('success', t('flash.success.update'));
             res.redirect('/login');
         });
 		

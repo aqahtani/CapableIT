@@ -10,18 +10,18 @@ mixin modalChangePassword(modalId)
         .modal-header
           button(type="button", data-dismiss="modal").close
             span(aria-hidden="true") &times;
-            span.sr-only Close
-          h4.modal-title Change Password
+            span.sr-only= t('cmd.close')
+          h4.modal-title= t('header.change_password')
         .modal-body
           .form-group
-            label(for='password').control-label.sr-only New Password
-            input(type='password', name='password', id='password', placeholder='New Password', required).form-control
+            label(for='password').control-label.sr-only= t('label.new_password')
+            input(type='password', name='password', id='password', placeholder='#{t("label.new_password")}', required).form-control
           .form-group
-            label(for='password_confirm').control-label.sr-only  Confirm Password
-            input(type='password', name='password_confirm', id='password_confirm', placeholder='Confirm Password', required).form-control
+            label(for='password_confirm').control-label.sr-only= t('label.confirm_password')
+            input(type='password', name='password_confirm', id='password_confirm', placeholder='#{t("label.confirm_password")}', required).form-control
         .modal-footer
-          button(type='submit').btn.btn-danger Change
-          button(type="button", data-dismiss="modal").btn.btn-default Cancel
+          button(type='submit').btn.btn-danger= t('cmd.change_password')
+          button(type="button", data-dismiss="modal").btn.btn-default= t('cmd.cancel')
 
 
 block content
@@ -30,43 +30,43 @@ block content
     //- user profile
     section
       if userProfile
-        h2 User Profile
+        h2= t('header.profile')
         hr
         //- user alerts go here!
         .row: .col-md-12
           if !userProfile.isVerified
-            .alert.alert-warning You have not verified your email, yet.  Please, check your email.
+            .alert.alert-warning= t('msg.email_not_verified')
         .row
           .col-md-8
             .row
-              .col-md-4: +fieldLabel("Name")
+              .col-md-4: +fieldLabel(t('label.name'))
               .col-md-8: h4= userProfile.name.full
 
             .row
-              .col-md-4: +fieldLabel("Email")
+              .col-md-4: +fieldLabel(t('label.email'))
               .col-md-8: h4= userProfile.email
     
             if userProfile.organization
               .row
-                .col-md-4: +fieldLabel("Organization")
+                .col-md-4: +fieldLabel(t('label.organization'))
                 .col-md-8: h4: a(href='/organization')= userProfile.organization.name
     
             if userProfile.employee
               .row
-                .col-md-4: +fieldLabel("Employee")
+                .col-md-4: +fieldLabel(t('label.employee'))
                 .col-md-8: h4: a(href='/employee')= userProfile.employee.name.full
     
             if !_.isEmpty(userProfile.roles)
               .row
-                .col-md-4: +fieldLabel("Roles")
+                .col-md-4: +fieldLabel(t('label.roles'))
                 .col-md-8: h4 
                   each role in userProfile.roles
                     .label.label-primary= role.label
           .col-md-4
             //- profile actions
-            a.btn.btn-info.btn-lg.btn-block(href='#', data-toggle='modal', data-target='#formChangePasswordModal') Change Password
+            a.btn.btn-info.btn-lg.btn-block(href='#', data-toggle='modal', data-target='#formChangePasswordModal')= t('cmd.change_password')
             if !userProfile.isVerified
-              a.btn.btn-warning.btn-lg.btn-block(href='/resend-verification', role='button') Resend Verification
+              a.btn.btn-warning.btn-lg.btn-block(href='/resend-verification', role='button')= t('cmd.resend_verification')
 
     hr
     //- user authorizations
@@ -74,14 +74,14 @@ block content
       if !_.isEmpty(userAuthorizations)
         .panel.panel-primary
           .panel-heading
-            h4 Authorizations
+            h4= t('header.authorizations')
           .panel-body
             table.table.table-striped.table-condensed.datatables
               thead
                 tr
                   th #
-                  th Resource
-                  th Permissions
+                  th= t('label.resource')
+                  th= t('label.permissions')
               tbody
                 each auth, i in userAuthorizations
                   tr

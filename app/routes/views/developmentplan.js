@@ -8,7 +8,8 @@ var keystone = require('keystone'),
 exports = module.exports = function(req, res) {
 	
 	var view = new keystone.View(req, res),
-		locals = res.locals;
+        locals = res.locals,
+        t = req.t;
 	
 	// Set locals
 	locals.section = 'develop';
@@ -128,7 +129,7 @@ exports = module.exports = function(req, res) {
             
             if (!developmentPlan) {
                 // no results 
-                req.flash('error', 'We cannot find a matching development plan');
+                req.flash('warning', t('flash.warn.nomatch'));
                 return next();
             }
 
@@ -141,13 +142,12 @@ exports = module.exports = function(req, res) {
             updater.process(req.body, {
                 flashErrors: true,
                 fields: 'status, approvedBy, period, goals, strengths, weaknesses',
-                errorMessage: 'There was a problem with your update:'
+                errorMessage: t('flash.error.update')
             }, function (err, result) {
                 if (err) {
                     locals.validationErrors = err.errors;
                 } else {
-                    req.flash('success', 'Update successfully completed.');
-                    //req.flash('warning', 'Development plan approval has been reset');
+                    req.flash('success', t('flash.success.update'));
                 }
                 return res.redirect('back');
             });
@@ -165,7 +165,7 @@ exports = module.exports = function(req, res) {
             }
             
             if (!developmentPlan) {
-                req.flash('error', 'Cannot find the development plan to delete');
+                req.flash('warning', t('flash.warn.nomatch'));
                 return next();
             }
             
@@ -178,7 +178,7 @@ exports = module.exports = function(req, res) {
                 }
                 
                 // delete successful!
-                req.flash('success', 'Delete successfully completed.');
+                req.flash('success', t('flash.success.delete'));
                 return res.redirect('/developmentplans');
 
             });
@@ -201,7 +201,7 @@ exports = module.exports = function(req, res) {
             }
             
             if (!developmentPlan) {
-                req.flash('error', 'Cannot find the development plan');
+                req.flash('warning', t('flash.warn.nomatch'));
                 return next();
             }
             
@@ -213,7 +213,7 @@ exports = module.exports = function(req, res) {
             
             if (exists) {
                 // already approved!
-                req.flash('info', 'You have already approved this development plan.');
+                req.flash('info', t('flash.info.approved'));
                 return res.redirect('back');
             };
             
@@ -227,7 +227,7 @@ exports = module.exports = function(req, res) {
                 };
                     
                 // approve successful!
-                req.flash('success', 'Successfully updated the approval list of the development plan.');
+                req.flash('success', t('flash.success.approve'));
                 return res.redirect('back');
             });
             
@@ -249,7 +249,7 @@ exports = module.exports = function(req, res) {
             }
             
             if (!developmentPlan) {
-                req.flash('error', 'Cannot find the development plan');
+                req.flash('warning', t('flash.warn.nomatch'));
                 return next();
             }
             
@@ -268,7 +268,7 @@ exports = module.exports = function(req, res) {
                 }
                 
                 // approved successful!
-                req.flash('success', 'Successfully removed your approval from the development plan.');
+                req.flash('success', t('flash.success.unapprove'));
                 return res.redirect('back');
             });
         });
@@ -298,7 +298,7 @@ exports = module.exports = function(req, res) {
             
             if (!developmentPlan) {
                 // no results 
-                req.flash('error', 'We cannot find a matching development plan');
+                req.flash('warning', t('flash.warn.nomatch'));
                 return next();
             }
             
@@ -324,14 +324,13 @@ exports = module.exports = function(req, res) {
                     locals.validationErrors = err.errors;
                     req.flash('error', {
                         type: 'ValidationError',
-                        title: 'There was an error creating your development activity:',
+                        title: t('flash.error.create'),
                         list: _.pluck(err.errors, 'message')
                     });
                     return next();
                 }
                 
-                req.flash('success', 'Add activity successfully completed.');
-                //req.flash('warning', 'Development plan approval has been reset');
+                req.flash('success', t('flash.success.create'));
                 return res.redirect('back');
             });
         });
@@ -356,7 +355,7 @@ exports = module.exports = function(req, res) {
             
             if (!developmentactivity) {
                 // no results 
-                req.flash('error', 'We cannot find a matching development activity');
+                req.flash('warning', t('flash.warn.nomatch'));
                 return next();
             }
             
@@ -366,14 +365,14 @@ exports = module.exports = function(req, res) {
             updater.process(req.body, {
                 flashErrors: true,
                 fields: 'title, method, targetHardSkills, targetSoftSkills, deadline, duration, progress, remarks',
-                errorMessage: 'There was a problem with your update:'
+                errorMessage: t('flash.error.update')
             }, function (err, result) {
                 if (err) {
                     locals.validationErrors = err.errors;
                     return next();
                 };
                 // else, update is successful
-                req.flash('success', 'Update activity successfully completed.');
+                req.flash('success', t('flash.success.update'));
                 return res.redirect('back');
             });
 
@@ -394,7 +393,7 @@ exports = module.exports = function(req, res) {
             };
             
             if (!activity) {
-                req.flash('error', 'Cannot find the development activity to delete');
+                req.flash('warning', t('flash.warn.nomatch'));
                 return next();
             };
             // remove it
@@ -405,7 +404,7 @@ exports = module.exports = function(req, res) {
                 };
 
                 // remove successful!
-                req.flash('success', 'Delete activity successfully completed.');
+                req.flash('success', t('flash.success.delete'));
                 return res.redirect('back');
             }); 
         });

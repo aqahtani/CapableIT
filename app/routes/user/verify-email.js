@@ -7,7 +7,8 @@
 
 exports = module.exports = function (req, res) {
     var view = new keystone.View(req, res),
-        locals = res.locals;
+        locals = res.locals,
+        t = req.t;
     
     // Set locals
     locals.section = 'user';
@@ -34,8 +35,8 @@ exports = module.exports = function (req, res) {
                 if (err) return callback(err);
                 if (!user) {
                     // user is not found! 
-                    var e = new Error("Sorry, that email verification key isn't valid!");
-                    return callback(e);
+                    //var e = new Error(t('flash.error.key_invalid'));
+                    return callback(t('flash.error.key_invalid'));
                 }
                 // key is valid, and user found
                 user.isVerified = true;
@@ -118,8 +119,8 @@ exports = module.exports = function (req, res) {
             
             // successful: log and set locals
             logger.info('[verify-email] User email verified', logger.details({ 'User': results.user }));
-            req.flash('success', 'You have successfully verified your email');
-            locals.data.verified = results.verified;
+            req.flash('success', t('flash.success.verified'));
+            locals.data.user = results.user;
             locals.data.orgLinked = results.orgLinked;
             locals.data.empLinked = results.empLinked;
             return next();

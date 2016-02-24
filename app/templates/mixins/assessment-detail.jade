@@ -3,27 +3,27 @@
 //- Assessment in Details
 mixin assessmentDetail(assessment, englishlevels, hardlevels, softlevels)
   .row
-    .col-sm-2: +fieldLabel("Assessment For")
+    .col-sm-2: +fieldLabel(t('label.assessment_for'))
     .col-sm-4
       if assessment.employee
         h4: a(href='/employee/' + assessment.employee.id)= assessment.employee.name.full
-    .col-sm-2: +fieldLabel("Assessment By")
+    .col-sm-2: +fieldLabel(t('label.assessment_by'))
     .col-sm-4
       if assessment.doneBy
         h4: a(href='/employee/' + assessment.doneBy.id)= assessment.doneBy.name.full
   .row
-    .col-sm-2: +fieldLabel("Job Assessed")
+    .col-sm-2: +fieldLabel(t('label.job_assessed'))
     .col-sm-4
       if assessment.job
         h4: a(href='/job/' + assessment.job.id)= assessment.job.title
-    .col-sm-2: +fieldLabel("Assessment Date")
+    .col-sm-2: +fieldLabel(t('label.date'))
     .col-sm-4: h4= assessment._.createdAt.format('YYYY-MM-DD')
   .row
-    .col-sm-2.col-sm-offset-6: +fieldLabel("English Level")
+    .col-sm-2.col-sm-offset-6: +fieldLabel(t('label.english_level'))
     .col-sm-4: h4: +englishLeveler(assessment.english.targetLevel, assessment.english.currentLevel)
   
   hr
-  h3 Overview Assessment
+  h3= t('header.overview_assessment')
   blockquote
     p.multi-line= assessment.overview
     p
@@ -34,24 +34,24 @@ mixin assessmentDetail(assessment, englishlevels, hardlevels, softlevels)
     .col-sm-6
       .panel.panel-success
         .panel-heading
-          h4 Knowledge
+          h4= t('header.knowledge')
         .panel-body
           p.multi-line= assessment.knowledge
   
     .col-sm-6
       .panel.panel-info
         .panel-heading
-          h4 Experience & Qualifications
+          h4= t('header.experience_and_qualifications')
         .panel-body
           p.multi-line= assessment.experience
 
   hr
-  h3 Skill Assessment
+  h3= t('header.skill_assessment')
   .row
     .col-sm-6
       .panel.panel-danger
         .panel-heading
-          h4 Professional Skills
+          h4= t('header.professional_skills')
         .panel-body
           .well.well-sm: +levellabels(hardlevels,'label-danger')
           for hardSkill, index in assessment.professional.skills
@@ -60,7 +60,7 @@ mixin assessmentDetail(assessment, englishlevels, hardlevels, softlevels)
     .col-sm-6
       .panel.panel-warning
         .panel-heading
-          h4 Behavioral Skills
+          h4= t('header.behavioral_skills')
         .panel-body
           .well.well-sm: +levellabels(softlevels,'label-warning')
           for softSkill, index in assessment.behavioral.skills
@@ -69,7 +69,7 @@ mixin assessmentDetail(assessment, englishlevels, hardlevels, softlevels)
     .col-sm-12
       .panel.panel-primary
         .panel-heading
-          h4 Skill Radars
+          h4= t('header.skill_radars')
         .panel-body        
           .row
             .col-sm-6

@@ -6,8 +6,8 @@ mixin modalBusinessCard(modalId, employee)
         .modal-header
           button(type="button", data-dismiss="modal").close
             span(aria-hidden="true") &times;
-            span.sr-only Close
-          h4.modal-title Business Card
+            span.sr-only= t('cmd.close')
+          h4.modal-title= t('header.business_card')
         .modal-body   
           .well.business-card
             .row
@@ -29,9 +29,11 @@ mixin modalBusinessCard(modalId, employee)
                   br
                   | #{employee.organization.altTitle}
                   br
-                  | M #{employee.mobile} | T #{employee.telephone}
+                  span.glyphicon.glyphicon-phone
+                  |  #{employee.mobile} | 
+                  span.glyphicon.glyphicon-phone-alt
+                  |  #{employee.telephone}
                   br
+                  span.glyphicon.glyphicon-envelope
+                  |   
                   a(href="mailto:#{employee.email}") #{employee.email}
-
-        //-.modal-footer
-          button(type="button", data-dismiss="modal").btn.btn-danger Close

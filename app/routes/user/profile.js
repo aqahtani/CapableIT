@@ -7,7 +7,8 @@ var keystone = require('keystone'),
 exports = module.exports = function (req, res) {
     
     var view = new keystone.View(req, res),
-        locals = res.locals;
+        locals = res.locals,
+        t = req.t;
     
     // Set locals
     locals.section = 'user';
@@ -30,17 +31,18 @@ exports = module.exports = function (req, res) {
     view.on('post', { action: 'change-password' }, function (next) {
         
         if (!req.body.password || !req.body.password_confirm) {
-            req.flash('error', 'Please fill in all password fields.');
+            req.flash('error', t('flash.error.required'));
             return next();
         }
         
         req.user.getUpdateHandler(req).process(req.body, {
             fields: 'password',
-            flashErrors: true
+            flashErrors: true,
+            errorMessage: t('flash.error.update')
         }, function (err) {
             if (err) return next();
             // all is well
-            req.flash('success', 'Your password has been changed successfully.');
+            req.flash('success', t('flash.success.update'));
             return next();
         });
     });

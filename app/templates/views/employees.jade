@@ -9,7 +9,7 @@ block content
         //- show employees
         if employees.results.length
           section
-            +showing(employees, 'employee')
+            +showing(employees, t('label.employee'))
             hr
             //- display employees 4 at a time
             - var len = employees.results.length

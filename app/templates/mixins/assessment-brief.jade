@@ -1,4 +1,6 @@
-﻿mixin assessmentBrief(assessment)
+﻿include flags
+
+mixin assessmentBrief(assessment)
   //- set the color of the assessment based on the status 
   case assessment.status
     when 'draft'
@@ -12,10 +14,10 @@
 
   a.list-group-item(href='/assessment/' + assessment.id, class=kind)
     span= assessment.employee.name.full
-    strong  as  
+    strong= ' ' + t('label.as') + ' '  
     span= assessment.job.title
-    strong  by  
+    strong= ' ' + t('label.by') + ' '
     span= assessment.doneBy.name.full
-    strong  on  
+    strong= ' ' + t('label.dated') + ' '
     span= assessment._.createdAt.format('YYYY-MM-DD')
-    .badge= assessment.status
+    +badge-status(assessment.status)

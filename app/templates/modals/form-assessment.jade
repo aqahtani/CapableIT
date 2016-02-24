@@ -1,5 +1,41 @@
 ﻿include form-mixins
 
+mixin assessBtn(employee, job)
+  if employee && job
+    a(
+      href='#'
+      data-toggle='modal', 
+      data-target='#assessModal',
+      data-employee-name="#{employee.name.full}",
+      data-employee-id="#{employee.id}",
+      data-job-title="#{job.title}",
+      data-job-id="#{job.id}"): span.glyphicon.glyphicon-list-alt.glyphicon-lg 
+
+//- Modal: New Assessment
+mixin modalNewAssessment()
+  #assessModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='assessModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal')
+            span(aria-hidden='true') &times;
+            span.sr-only= t('cmd.close')
+          h4#assessModalLabel.modal-title= t('header.new_assessment')
+        .modal-body
+          #dataMessage.alert.hidden
+          dl.dl-horizontal
+            dt= t('label.employee')
+            dd#employeeName
+            dt= t('label.job')
+            dd#jobTitle 
+          form.form-horizontal
+            input#employeeId(type="hidden", name="employeeId")
+            input#jobId(type="hidden", name="jobId")
+        .modal-footer
+          button#create-assessment.btn.btn-danger(type='button')= t('cmd.create')
+          a#view-assessment.btn.btn-info.hidden(href="#")= t('cmd.view')
+          button.btn.btn-default(type='button', data-dismiss="modal")= t('cmd.close')
+
 //- Modal: Edit Assessment Form
 mixin modalAssessment(modalId, assessment, englishLevels)
   .modal.fade(id="#{modalId}")
@@ -9,39 +45,38 @@ mixin modalAssessment(modalId, assessment, englishLevels)
         .modal-header
           button(type="button", data-dismiss="modal").close
             span(aria-hidden="true") &times;
-            span.sr-only Close
-          h4.modal-title Assessment
+            span.sr-only= t('cmd.close')
+          h4.modal-title= t('header.edit_assessment')
         .modal-body
           //- 1: Overview Assessment
           .panel.panel-default
             .panel-heading(data-cursor="hand", data-toggle="collapse", data-target="#overviewPanel")
-              h4 General Assessment
+              h4= t('header.overview_assessment')
             #overviewPanel.panel-body.collapse.in
               .row
                 .col-sm-12
                   .form-group(class=validationErrors.overview ? 'has-error' : null)
-                    label(for='overview').control-label  Overview
                     textarea(name='overview', id='overview', rows='3').form-control= assessment.overview
           
           //- 2: Knowledge, Experience, and Qualifications Assessment
           .panel.panel-success
             .panel-heading(data-cursor="hand", data-toggle="collapse", data-target="#generalPanel")
-              h4 Knowledge, Experience and Qualifications
+              h4 #{t('header.knowledge')}, #{t('header.experience_and_qualifications')}
             #generalPanel.panel-body.collapse
               .row
                 .col-sm-6
                   .form-group(class=validationErrors.knowledge ? 'has-error' : null)
-                    label(for='knowledge').control-label  Knowledge
+                    label(for='knowledge').control-label= t('header.knowledge')
                     textarea(name='knowledge', id='knowledge', rows='3').form-control= assessment.knowledge
                 .col-sm-6
                   .form-group(class=validationErrors.experience ? 'has-error' : null)
-                    label(for='experience').control-label  Experience & Qualifications
+                    label(for='experience').control-label= t('header.experience_and_qualifications')
                     textarea(name='experience', id='experience', rows='3').form-control= assessment.experience
           
           //- 3: English Skill Level 
           .panel.panel-info
             .panel-heading(data-toggle="collapse", data-target="#englishPanel")
-              h4 English Skill Assessment
+              h4= t('label.english_level')
             #englishPanel.panel-body.collapse
               .form-group.form-group-sm(class=validationErrors['english.currentLevel'] ? 'has-error' : null)
                 +formEnglishLeveler('english.currentLevel', englishLevels, assessment.english.currentLevel)
@@ -49,7 +84,7 @@ mixin modalAssessment(modalId, assessment, englishLevels)
           //- 4: Hard Skill Assessment 
           .panel.panel-danger
             .panel-heading(data-toggle="collapse", data-target="#hardskillsPanel")
-              h4 Professional Skills Assessment
+              h4= t('header.professional_skills')
             #hardskillsPanel.panel-body.collapse
               .form-group.form-group-xm(class=validationErrors['professional.currentLevels'] ? 'has-error' : null)
                 for hardSkill, index in assessment.professional.skills
@@ -58,7 +93,7 @@ mixin modalAssessment(modalId, assessment, englishLevels)
           //- 5: Soft Skill Assessment 
           .panel.panel-warning
             .panel-heading(data-toggle="collapse", data-target="#softskillsPanel")
-              h4 Behavioral Skills Assessment
+              h4= t('header.behavioral_skills')
             #softskillsPanel.panel-body.collapse
               .form-group.form-group(class=validationErrors['behavioral.currentLevels'] ? 'has-error' : null)
                 for softSkill, index in assessment.behavioral.skills
@@ -67,5 +102,47 @@ mixin modalAssessment(modalId, assessment, englishLevels)
         .modal-footer
           //- status input HERE
           span.pull-left: +formSelectInput('status', statusOptions, assessment.status)
-          button(type='submit').btn.btn-primary Submit
-          button(type="button", data-dismiss="modal").btn.btn-danger Cancel
+          button(type='submit').btn.btn-danger= t('cmd.update')
+          button(type="button", data-dismiss="modal").btn.btn-default= t('cmd.cancel')
+
+//- Modal: [Un]Analyze Assessment
+mixin modalAnalyzeAssessment(assessment, action)
+  #modalAnalyzeAssessment.modal.fade(tabindex='-1', role='dialog', aria-labelledby='analyzeModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        form(method='post')
+          input(type='hidden', name='action', value='#{action}')
+          .modal-header
+            button.close(type='button', data-dismiss='modal')
+              span(aria-hidden='true') &times;
+              span.sr-only= t('cmd.close')
+            h4#analyzeModalLabel.modal-title= t('header.assessment_analysis')
+          .modal-body
+            dl.dl-horizontal
+              dt= t('label.employee')
+              dd= assessment.employee.name.full
+              dt= t('label.job')
+              dd= assessment.job.title
+              dt= t('label.by')
+              dd= assessment.doneBy.name.full
+          .modal-footer
+            button(type='submit').btn.btn-danger= t('cmd.' + action)
+            button.btn.btn-default(type='button', data-dismiss="modal")= t('cmd.cancel')
+
+//- Modal: [Un]Analyze All Assessment
+mixin modalAnalyzeAll(modalId, action)
+  .modal.fade(id="#{modalId}")
+    .modal-dialog
+      .modal-content
+        form(method='post')
+          input(type='hidden', name='action', value='#{action}')
+          .modal-header
+            button.close(type='button', data-dismiss='modal')
+              span(aria-hidden='true') &times;
+              span.sr-only= t('cmd.close')
+            h4.modal-title= t('header.total_assessment_analysis')
+          .modal-body
+            p.lead.text-danger= t('msg.confirm')
+          .modal-footer
+            button(type='submit').btn.btn-danger= t('cmd.' + action)
+            button.btn.btn-default(type='button', data-dismiss="modal")= t('cmd.cancel')

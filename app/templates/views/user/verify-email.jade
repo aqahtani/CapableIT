@@ -1,14 +1,17 @@
 extends ../../layouts/auth
     
 block content
-  if data.verified
-    p.text-primary Thank you for verifying your email, you can now 
-      a(href='/login').btn.btn-success login
+  if data.user
+    h3 #{data.user.name.first},
+    p.text-primary
+      span= t('msg.verify_thankyou')
+      |   
+      a(href='/login').btn.btn-success= t('cmd.login')
 
   if data.orgLinked
-    p: small.text-info We have also linked your account to your organization
+    p: small.text-info= t('msg.org_linked')
 
   if data.empLinked
-    p: small.text-info And linked your account to your employee profile
+    p: small.text-info= t('msg.emp_linked') 
 
         

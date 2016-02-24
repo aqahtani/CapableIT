@@ -8,43 +8,45 @@ block intro
 block content
   .container: .row: .col-md-12
       header
-      if !organization
-        h2 Invalid Organization.
-      else
-        //- show organization info
-        .row
-          .col-xs-10
-            h2= organization.title
-            h3.text-muted= organization.altTitle
-            h3.text-muted: a(href="//#{organization.url}",target="_blank") #{organization.url}
-          .col-xs-2
-            .img-thumbnail
-              if organization.logo.exists
-                img(src=organization._.logo.fit(150,150))         
+        if !organization
+          h2= t('msg.invalid_organization')
+        else
+          //- show organization info
+          .row
+            .col-xs-10
+              h2= organization.title
+              h3.text-muted= organization.altTitle
+              h3.text-muted: a(href="//#{organization.url}",target="_blank") #{organization.url}
+            .col-xs-2
+              .img-thumbnail
+                if organization.logo.exists
+                  img(src=organization._.logo.fit(150,150))         
       hr
 
       section
         .row
           .col-sm-6
             //- show jobs
-            if jobs
-              .panel.panel-default
-                .panel-heading: h3 Jobs
+            .panel.panel-default
+              .panel-heading: h3= t('header.jobs')
+              if jobs
                 .list-group
                   each job in jobs
                     a(href='/job/' + job.id).list-group-item
                       +jobBrief(job)
-                a(href="/jobs").btn.btn-default.pull-right more jobs
-            else
-              h3.text-muted There are no jobs yet.
+                  .list-group-item: a(href="/jobs").btn.btn-block.btn-default= t('label.more')
+              else
+                p.lead.text-muted= t('msg.none')
 
           .col-sm-6
             //- show employees
-            if employees
-              .panel.panel-default
-                .panel-heading: h3 Employees
+            .panel.panel-default
+              .panel-heading: h3= t('header.employees')
+              if employees
                 .list-group
                   each employee in employees
                     a(href='/employee/' + employee.id).list-group-item
                       +employeeBrief(employee)
-                a(href="/employees").btn.btn-default.pull-right more employees
+                  .list-group-item: a(href="/employees").btn.btn-block.btn-default= t('label.more')
+              else
+                p.lead.text-muted= t('msg.none')

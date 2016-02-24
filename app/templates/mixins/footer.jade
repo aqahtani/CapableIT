@@ -2,11 +2,15 @@
   #footer
     .row
       .col-sm-4
-        p.text-muted.pull-left &copy; <a href="http://knowledge-passion.com" target="_blank">Knowledge-Passion</a>
+        p.text-muted.pull-left 
+          span &copy;  
+          a(href="http://knowledge-passion.com", target="_blank")= t('kpc')
       .col-sm-4 
         if permits
           p.text-muted.text-center 
             each permit in permits
               small <strong>#{permit.type}</strong>: #{permit.permissions};    
       .col-sm-4 
-        p.text-muted.pull-right #{t("brand")} v#{citversion} #{t('nav.version')} #{t('poweredby')} <a href="http://keystonejs.com" target="_blank">KeystoneJS</a>
+        p.text-muted.pull-right 
+          span #{t("brand")} v#{citversion} #{t('nav.version')} #{t('poweredby')}  
+          a(href="http://keystonejs.com", target="_blank") KeystoneJS

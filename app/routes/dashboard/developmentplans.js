@@ -13,7 +13,6 @@ exports = module.exports = function(req, res) {
     // 1: Load all development plans
     view.query('developmentPlans', DevelopmentPlan.model.find()
         .where(locals.orgFilter)
-        .where('status', 'final')
         .populate('approvedBy', 'name arName')
         .sort('-createdAt')
     );

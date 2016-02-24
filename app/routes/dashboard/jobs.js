@@ -11,7 +11,8 @@ var keystone = require('keystone'),
 exports = module.exports = function (req, res) {
     
     var view = new keystone.View(req, res),
-        locals = res.locals;
+        locals = res.locals,
+        t = req.t;
     
     // Set locals
     locals.section = 'dashboard';
@@ -54,14 +55,14 @@ exports = module.exports = function (req, res) {
             if (err) {
                 req.flash('error', {
                     type: 'ValidationError',
-                    title: 'There was an error creating the job:',
+                    title: t('flash.error.create'),
                     list: _.pluck(err.errors, 'message')
                 });
                 return res.redirect('back');
             };
             
             // create successful!
-            req.flash('success', 'Add job successfully completed.');
+            req.flash('success', t('flash.success.create'));
             return res.redirect('/job/' + doc.id);
         });
     });
@@ -81,7 +82,7 @@ exports = module.exports = function (req, res) {
             }
             
             if (!doc) {
-                req.flash('error', 'Cannot find the job profile to delete');
+                req.flash('warning', t('flash.warn.nomatch'));
                 return next();
             }
             
@@ -89,12 +90,12 @@ exports = module.exports = function (req, res) {
             // note that you need to call remove on the doc so the middleware can be triggered!
             doc.remove(function (err) {
                 if (err) {
-                    req.flash('error', err);
+                    req.flash('error', t('flash.error.delete'));
                     return next();
                 }
                 
                 // delete successful!
-                req.flash('success', 'Delete job successfully completed.');
+                req.flash('success', t('flash.success.delete'));
                 return res.redirect('back');
             });
         });
@@ -120,7 +121,7 @@ exports = module.exports = function (req, res) {
             
             if (!job) {
                 // no results 
-                req.flash('warning', 'We cannot find a matching job');
+                req.flash('warning', t('flash.warn.nomatch'));
                 return next();
             }
             
@@ -129,13 +130,13 @@ exports = module.exports = function (req, res) {
             
             updater.process(req.body, {
                 flashErrors: true,
-                fields: 'orgDepartment',
-                errorMessage: 'There was a problem with your update:'
+                fields: 'orgDepartment, orgFunction',
+                errorMessage: t('flash.error.update')
             }, function (err, result) {
                 if (err) {
                     locals.validationErrors = err.errors;
                 } else {
-                    req.flash('success', 'Department assignment successfully completed.');
+                    req.flash('success', t('flash.success.update'));
                 }
                 return res.redirect('back');
             });

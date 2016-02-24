@@ -1,4 +1,4 @@
-﻿/*
+﻿/* AppInsights PRODUCTION Server
 To collect end-user usage analytics about your application,
 insert the following script into each page you want to track.
 Place this code immediately before the closing </head> tag,

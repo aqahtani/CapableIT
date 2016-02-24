@@ -18,15 +18,17 @@ block content
     .row: .col-sm-12
       article
         if !employee
-          h2 no employee information.
+          h2= t('msg.invalid_employee')
         else
-          h2 Employee Profile 
+          h2= t('header.employee_profile')
             //- button to trigger business card modal 
-            small: a(href="#", data-toggle="modal", data-target="#bcardModal"): span.glyphicon.glyphicon-paperclip
+            small
+              |   
+              a(href="#", data-toggle="modal", data-target="#bcardModal", title="#{t('cmd.view_business_card')}"): span.glyphicon.glyphicon-paperclip
             .pull-right
               //- buttons to trigger edit and delete modals based on permissions
               if canDo(user, permits, 'edit')
-                a(href="#", data-toggle="modal", data-target="#formEditEmployeeModal", title="Edit Employee"): span.glyphicon.glyphicon-edit
+                a(href="#", data-toggle="modal", data-target="#formEditEmployeeModal", title="#{t('cmd.edit')}"): span.glyphicon.glyphicon-edit
               
           hr
           +employeeDetail(employee)
@@ -34,12 +36,12 @@ block content
           //- The following displays a summary of assessments and skill gaps
           hr
           if !assessments.length
-            p No assessments found for this employee
+            h3= t('msg.no_assessments')
           else
             //- a brief list of assessments
             .panel.panel-default
               .panel-heading
-                h4 Assessments
+                h4= t('header.assessments')
               .list-group
                 each assessment in assessments
                   +assessmentBrief(assessment)
@@ -49,7 +51,7 @@ block content
             - var primeA = _.find(assessments, function(a) { return a.prime; })
             .panel.panel-danger
               .panel-heading
-                h4 Professional Skills Radar
+                h4= t('header.professional_skills_radar')
               .panel-body        
                 .row
                   .col-sm-9
@@ -70,14 +72,14 @@ block content
                       )
                   .col-sm-3
                     ul#hardGapsChartLegend.list-group
-                      li.list-group-item Legend
-                      li.list-group-item.list-group-item-danger Target Levels
-                      li.list-group-item.list-group-item-info Self Assessment
-                      li.list-group-item.list-group-item-success Prime Assessment
+                      li.list-group-item= t('label.legend')
+                      li.list-group-item.list-group-item-danger= t('label.target_levels')
+                      li.list-group-item.list-group-item-info= t('label.self_assessment')
+                      li.list-group-item.list-group-item-success= t('label.prime_assessment')
 
             .panel.panel-warning
               .panel-heading
-                h4 Behavioral Skills Radar
+                h4= t('header.behavioral_skills_radar')
               .panel-body
                 .row
                   .col-sm-9
@@ -98,7 +100,7 @@ block content
                       )
                   .col-sm-3
                     ul#softGapsChartLegend.list-group
-                      li.list-group-item Legend
-                      li.list-group-item.list-group-item-warning Target Levels
-                      li.list-group-item.list-group-item-info Self Assessment
-                      li.list-group-item.list-group-item-success Prime Assessment 
+                      li.list-group-item= t('label.legend')
+                      li.list-group-item.list-group-item-warning= t('label.target_levels')
+                      li.list-group-item.list-group-item-info= t('label.self_assessment')
+                      li.list-group-item.list-group-item-success= t('label.prime_assessment')

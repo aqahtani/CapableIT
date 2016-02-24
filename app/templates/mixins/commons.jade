@@ -100,6 +100,7 @@ mixin englishLeveler(target, current)
 
 mixin levellabels(levels,kind)
   for level in levels
+    span &nbsp;
     .label(class=kind, style="display: inline-block;") #{level.grade}. #{level.title}
 
 //- Hard Skill Level: display a given skill with its levels
@@ -146,7 +147,7 @@ mixin topLink()
 
 
 mixin skillLabel(skill,kind)
-  h4: span.label.field-label(class=kind)= skill.title
+  h4: span.label(class=kind)= skill.title
 
 mixin percent(value)
   .progress

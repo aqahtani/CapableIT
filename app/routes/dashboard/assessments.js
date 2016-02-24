@@ -5,7 +5,8 @@ var keystone = require('keystone'),
 exports = module.exports = function(req, res) {
 	
 	var view = new keystone.View(req, res),
-		locals = res.locals;
+        locals = res.locals,
+        t = req.t;
 	
 	// Set locals
 	locals.section = 'dashboard';
@@ -49,7 +50,7 @@ exports = module.exports = function(req, res) {
             }
             
             if (!assessments.length) {
-                req.flash('info', 'Cannot find assessments to analyze (prime and not analyzed before)');
+                req.flash('warning', t('flash.warn.no_assessments_to_analyze'));
                 return next();
             }
             
@@ -66,10 +67,10 @@ exports = module.exports = function(req, res) {
                 if (err) {
                     // One of the iterations produced an error.
                     // All processing will now stop.
-                    req.flash('error', 'Analysis aborted due to a failed assessment');
+                    req.flash('error', t('flash.error.analyze'));
                     next(err);
                 } else {
-                    req.flash('success', 'All assessments have been analyzed successfully');
+                    req.flash('success', t('flash.success.analyze'));
                     next();
                 }
             });
@@ -94,7 +95,7 @@ exports = module.exports = function(req, res) {
             }
             
             if (!assessments.length) {
-                req.flash('info', 'Cannot find assessments to unanalyze');
+                req.flash('warning', t('flash.warn.no_assessments_to_unanalyze'));
                 return next();
             }
             
@@ -111,10 +112,10 @@ exports = module.exports = function(req, res) {
                 if (err) {
                     // One of the iterations produced an error.
                     // All processing will now stop.
-                    req.flash('error', 'Unanalysis aborted due to a failed assessment');
+                    req.flash('error', t('flash.error.unanalyze'));
                     next(err);
                 } else {
-                    req.flash('success', 'All assessments have been reset successfully');
+                    req.flash('success', t('flash.success.unanalyze'));
                     next();
                 }
             });

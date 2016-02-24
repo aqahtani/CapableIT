@@ -11,34 +11,34 @@ mixin employeeDetail(employee)
           img(data-src='holder.js/150x150')
     .col-md-10
       .row
-        .col-md-2: +fieldLabel("Name")
+        .col-md-2: +fieldLabel(t('label.name'))
         .col-md-4: h4= employee.name.full
         .col-md-6: h4= employee.arName
       .row
-        .col-md-2: +fieldLabel("Job Title")
+        .col-md-2: +fieldLabel(t('label.job_title'))
         .col-md-4
           if employee.job
             h4: a(href='/job/' + employee.job.id)= employee.job.title
-        .col-md-2: +fieldLabel("Employee ID")
+        .col-md-2: +fieldLabel(t('label.employee_id'))
         .col-md-4: h4= employee.empId
       .row
-        .col-md-2: +fieldLabel("Department")
+        .col-md-2: +fieldLabel(t('label.department'))
         .col-md-4: h4= employee.orgDepartment ? employee.orgDepartment.title : '-'
-        .col-md-2: +fieldLabel("Function")
+        .col-md-2: +fieldLabel(t('label.function'))
         .col-md-4: h4= employee.orgFunction ? employee.orgFunction.title : '-'
       hr
       .row
-        .col-md-2: +fieldLabel("Mobile")
+        .col-md-2: +fieldLabel(t('label.mobile'))
         .col-md-4: h4= employee.mobile
-        .col-md-2: +fieldLabel("Telephone")
+        .col-md-2: +fieldLabel(t('label.telephone'))
         .col-md-4: h4= employee.telephone
       .row
-        .col-md-2: +fieldLabel("Email")
+        .col-md-2: +fieldLabel(t('label.email'))
         .col-md-4: h4= employee.email   
       .row
-        .col-md-2: +fieldLabel("Birth Date")
+        .col-md-2: +fieldLabel(t('label.birthdate'))
         .col-md-4: h4= employee._.birthDate.format('YYYY-MM-DD')
-        .col-md-2: +fieldLabel("Formal Title")
+        .col-md-2: +fieldLabel(t('label.formal_title'))
         .col-md-4: h4= employee.formalTitle
   
   //- output bio if exists
@@ -49,21 +49,21 @@ mixin employeeDetail(employee)
       p: footer.pull-right= employee.name.first
 
   hr
-  h3 Education and Certification        
+  h3=t('header.education_and_certification')        
   .row
     .col-sm-6
       .panel.panel-default
         .panel-heading
-          h4 Education
+          h4=t('header.education')
         .panel-body
           .row
-            .col-md-3: +fieldLabel("Education")
+            .col-md-3: +fieldLabel(t('label.education'))
             .col-md-9
               h4 
                 | #{employee.education.field}  
                 .badge= employee.education.level
           .row
-            .col-md-3: +fieldLabel("English Test")
+            .col-md-3: +fieldLabel(t('label.english_test'))
             .col-md-9
               h4
                 | #{employee.english.test}  
@@ -71,7 +71,7 @@ mixin employeeDetail(employee)
     .col-sm-6
       .panel.panel-default
         .panel-heading
-          h4 Certification
+          h4=t('header.certification')
         if employee.certificates.length
           ul.list-group
             each cert in employee.certificates

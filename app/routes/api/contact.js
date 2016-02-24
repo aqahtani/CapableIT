@@ -10,7 +10,8 @@ var keystone = require('keystone'),
 exports = module.exports = function (req, res) {
     
     var view = new keystone.View(req, res),
-        locals = res.locals;
+        locals = res.locals,
+        t = req.t;
     
     var data = {
         message: ''
@@ -29,11 +30,10 @@ exports = module.exports = function (req, res) {
             fields: 'name, email, enquiryType, message'
         }, function (err) {
             if (err) {
-                //logger.warn('[contact] Cannot submit an enquiry', logger.details({ 'Error' : err }));
-                data.message = 'Oops, please make sure you fill all fields appropriately';
+                data.message = t('flash.error.required');
             } else {
                 logger.info('[contact] New enquiry posted', logger.details({ 'Enquiry' : enquiry }));
-                data.message = 'We\'ve got your message, thanks!';
+                data.message = t('flash.success.contact');
             }
             next();
         });

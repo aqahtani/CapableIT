@@ -116,9 +116,11 @@ exports.flashMessages = function(req, res, next) {
 	Prevents people from accessing protected pages when they're not signed in
  */
 
-exports.requireUser = function(req, res, next) {
+exports.requireUser = function (req, res, next) {
+    var t = req.t;
+
 	if (!req.user) {
-        req.flash('error', 'Please sign in to access this page.');
+        req.flash('error', t('flash.error.nologin'));
         req.session.returnTo = req.path;
         return res.redirect('/login');
 	} else {
@@ -135,7 +137,8 @@ exports.requireRole = function (role) {
     return function (req, res, next) {
         var user = req.user, 
             organization = req.user.organization,
-            locals = res.locals;
+            locals = res.locals,
+            t = req.t;
         
         /*
         // 1. fetch the given role
@@ -169,7 +172,7 @@ exports.requireRole = function (role) {
             
             if (!targetRole) {
                 // user doesn't have a matching role
-                req.flash('error', 'You need to have "' + role + '" role to access this page!');
+                req.flash('error', t('flash.error.norole') + ' [' + role + '] ');
                 return res.redirect(locals.home);
             }
             
@@ -188,6 +191,7 @@ exports.authorizeUser = function (action) {
         var user = req.user, 
             organization = req.user.organization,
             locals = res.locals,
+            t = req.t,
             resource = req.path;
         
         // get an '*' version of the path
@@ -294,7 +298,7 @@ exports.authorizeUser = function (action) {
             // if no permissions could be found, then inform and redirect the user
             if (!results.userPermissions && !results.rolePermissions) {
                 // no user/role authorizations found
-                req.flash('error', 'You do not have permission to perform this action!');
+                req.flash('error', t('flash.error.notauthorized'));
                 return res.redirect(locals.home);
             };
 

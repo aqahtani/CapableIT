@@ -2,30 +2,29 @@ extends ../../layouts/auth
     
 block content
   if user
-    h3 Hi #{user.name.first},
-    hr
-    p You're already signed in.
+    h3 #{user.name.first},
+    p= t('msg.already_signedin')
     .toolbar
       .btn-group
         if user.isAdmin
-          a(href='/keystone').btn.btn-primary Open Keystone
-        a(href='/logout').btn.btn-danger.pull-right Logout
+          a(href='/keystone').btn.btn-primary Keystone
+        a(href='/logout').btn.btn-danger= t('cmd.logout')
 
   else
-    h3 Login to #{t("brand")}
+    h3= t('header.login')
     hr 
     form(method="post")
       input(type='hidden', name='action', value='login')
       .form-group
-        label(for='email').control-label.sr-only Email
-        input(type='email', name='email', id='email', value=formData.email, placeholder='Email').form-control
+        label(for='email').control-label.sr-only= t('label.email')
+        input(type='email', name='email', id='email', value=formData.email, placeholder='#{t("label.email")}').form-control
       .form-group
-        label(for='password').control-label.sr-only Password
-        input(type='password', name='password', id='password', placeholder='Password').form-control
+        label(for='password').control-label.sr-only= t('label.password')
+        input(type='password', name='password', id='password', placeholder='#{t("label.password")}').form-control
       .form-group
-        button(type='submit').btn.btn-primary.pull-right Login
+        button(type='submit').btn.btn-primary.pull-right= t('cmd.login')
         br
-        a(href='/forgot-password') Forgot Passward?
+        a(href='/forgot-password')= t('label.forgot_passward')
         br
     
 block js

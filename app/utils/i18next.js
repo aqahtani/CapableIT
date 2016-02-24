@@ -20,17 +20,21 @@ var detectionOptions = {
 var options = {
     lng: 'en',
     preload: ['ar'],
-    fallbackLng: 'en',
-    saveMissing: true,
     ns: ['app'], 
-    defaultNS: 'app',  
+    defaultNS: 'app',
+    fallbackLng: 'en',
+    //fallbackNS: 'app',
+    saveMissing: true,
+    saveMissingTo: 'all',
     backend: {
-        loadPath: "locales/{{lng}}/{{ns}}-{{lng}}.json"
+        // path where resources get loaded from
+        loadPath: "locales/{{lng}}/{{ns}}-{{lng}}.json",
+        // path to post missing resources
+        addPath:  "locales/{{lng}}/{{ns}}-{{lng}}.json",
     },
     detection: detectionOptions,
-    debug: false
+    debug: true
 };
-
 
 i18next
   .use(i18nextMiddleware.LanguageDetector)

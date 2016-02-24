@@ -12,7 +12,8 @@ var keystone = require('keystone'),
 exports = module.exports = function (req, res) {
     
     var view = new keystone.View(req, res),
-        locals = res.locals;
+        locals = res.locals,
+        t = req.t;
     
     // Set locals
     locals.filters = {
@@ -46,7 +47,7 @@ exports = module.exports = function (req, res) {
                 }
                 // item created
                 locals.data.created = true;
-                locals.data.message = 'A new assessment has been created';
+                locals.data.message = t('flash.success.create');
                 locals.data.assessment = doc.id;
 
                 next();

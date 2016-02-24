@@ -5,7 +5,8 @@
 
 exports = module.exports = function (req, res) {
     var view = new keystone.View(req, res),
-        locals = res.locals;
+        locals = res.locals,
+        t = req.t;
     
     // Set locals
     locals.section = 'user';
@@ -23,13 +24,13 @@ exports = module.exports = function (req, res) {
             updater.process(req.body, {
                 flashErrors: true,
                 fields: 'name, email, password',
-                errorMessage: 'There was a problem with your registration:'
+                errorMessage: t('flash.error.register')
             }, function (err, user) {
                 if (err) {
                     locals.validationErrors = err.errors;
                     callback(err, null);
                 } else {
-                    req.flash('success', "Congrats, you're registered.");
+                    req.flash('success', t('flash.success.register'));
                     callback(null, user);
                 }
             });

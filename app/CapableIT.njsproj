@@ -42,6 +42,9 @@
     <Content Include="public\images\pic08.jpg" />
     <Content Include="public\images\pic09.jpg" />
     <Content Include="public\images\pic10.jpg" />
+    <Content Include="public\js\lib\bootstrap-datetimepicker\css\bootstrap-datetimepicker-standalone.css" />
+    <Content Include="public\js\lib\bootstrap-datetimepicker\css\bootstrap-datetimepicker.css" />
+    <Content Include="public\js\lib\bootstrap-datetimepicker\css\bootstrap-datetimepicker.min.css" />
     <Content Include="robots.txt" />
     <Content Include="templates\emails\reset-password.jade" />
     <Content Include="templates\emails\verify-email.jade" />
@@ -59,7 +62,10 @@
     <Compile Include="public\home\js\skel-viewport.min.js" />
     <Compile Include="public\home\js\skel.min.js" />
     <Compile Include="public\home\js\util.js" />
+    <Compile Include="public\js\azure-appinsights-dev.js" />
     <Compile Include="public\js\azure-appinsights.js" />
+    <Compile Include="public\js\lib\bootstrap-datetimepicker\js\bootstrap-datetimepicker.min.js" />
+    <Compile Include="public\js\lib\moment\moment-with-locales.min.js" />
     <Compile Include="routes\api\contact.js" />
     <Compile Include="routes\user\forgot-password.js" />
     <Compile Include="routes\user\profile.js" />
@@ -158,7 +164,6 @@
     <Compile Include="models\Authorization.js" />
     <Compile Include="models\User.js" />
     <Compile Include="public\js\employee-ui.js" />
-    <Compile Include="public\js\lib\bootstrap-datepicker\bootstrap-datepicker.min.js" />
     <Compile Include="public\js\lib\chartjs\Chart.min.js" />
     <Compile Include="public\js\lib\jquery\jquery-1.11.1.js" />
     <Compile Include="public\js\lib\jquery\jquery-1.11.1.min.js" />
@@ -213,7 +218,6 @@
     <Content Include="public\images\kpcit_400.png" />
     <Content Include="public\images\kplogo_32.png" />
     <Content Include="public\images\logo.svg" />
-    <Content Include="public\js\lib\bootstrap-datepicker\bootstrap-datepicker3.min.css" />
     <Content Include="public\js\lib\datatables\css\dataTables.bootstrap.min.css" />
     <Content Include="public\js\lib\datatables\images\sort_asc.png" />
     <Content Include="public\js\lib\datatables\images\sort_asc_disabled.png" />
@@ -438,7 +442,6 @@
     <Content Include="templates\views\assessments.jade" />
     <Content Include="templates\views\blog.jade" />
     <Content Include="templates\views\contact.jade" />
-    <Content Include="templates\mixins\assessment-new.jade" />
     <Content Include="templates\views\gallery.jade" />
     <Content Include="templates\views\englishskill.jade" />
     <Content Include="templates\views\article.jade" />
@@ -448,7 +451,6 @@
     <Content Include="templates\views\employees.jade" />
     <Content Include="templates\views\hardskills.jade" />
     <Content Include="templates\views\jobs.jade" />
-    <Content Include="templates\views\user\logout.jade" />
     <Content Include="templates\views\user\login.jade" />
     <Content Include="templates\views\user\profile.jade" />
     <Content Include="templates\views\user\verify-email.jade" />
@@ -468,6 +470,10 @@
     <Folder Include="public\home\fonts\" />
     <Folder Include="public\home\js\" />
     <Folder Include="public\home\js\ie\" />
+    <Folder Include="public\js\lib\bootstrap-datetimepicker\" />
+    <Folder Include="public\js\lib\bootstrap-datetimepicker\css\" />
+    <Folder Include="public\js\lib\bootstrap-datetimepicker\js\" />
+    <Folder Include="public\js\lib\moment\" />
     <Folder Include="routes\home\" />
     <Folder Include="templates\views\home\" />
     <Folder Include="winston\" />
@@ -482,7 +488,6 @@
     <Folder Include="public\images\" />
     <Folder Include="public\js\" />
     <Folder Include="public\js\lib\" />
-    <Folder Include="public\js\lib\bootstrap-datepicker\" />
     <Folder Include="public\js\lib\bootstrap\" />
     <Folder Include="public\js\lib\datatables\css\" />
     <Folder Include="public\js\lib\datatables\images\" />

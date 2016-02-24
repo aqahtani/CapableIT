@@ -2,7 +2,7 @@
 
 mixin developmentplanBrief(developmentPlan)
   //- set the color of the plan based on the status 
-  //-case developmentPlan.status
+  case developmentPlan.status
     when 'draft'
       - var kind = 'list-group-item-warning'
     when 'final'
@@ -14,9 +14,26 @@ mixin developmentplanBrief(developmentPlan)
 
   a.list-group-item(href='/developmentplan/' + developmentPlan.id, class=kind)
     span= developmentPlan.employee.name.full
-    strong  on  
+    strong= ' ' + t('label.dated') + ' '
     span= developmentPlan._.createdAt.format('YYYY-MM-DD')
     .pull-right
-      +flag-approved(developmentPlan.approved, developmentPlan.approvedBy)
-      +flag-status(developmentPlan.status)
-    //-.badge= developmentPlan.status 
+      +badge-status(developmentPlan.status)
+      +badge-approved(developmentPlan.approved, developmentPlan.approvedBy)
+
+mixin developmentplanButton(developmentPlan)
+  //- set the color of the plan based on the status 
+  case developmentPlan.status
+    when 'draft'
+      - var kind = 'btn-warning'
+    when 'final'
+      - var kind = 'btn-success'
+    when 'archived'
+      - var kind = 'btn-danger'
+    default
+      - var kind = ''
+
+  a.btn.btn-sm(href='/developmentplan/' + developmentPlan.id, class=kind)
+    span= developmentPlan._.createdAt.format('YYYY-MM-DD')
+    +badge-status(developmentPlan.status)
+    +badge-approved(developmentPlan.approved, developmentPlan.approvedBy)
+      

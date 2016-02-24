@@ -3,19 +3,17 @@ extends ../layouts/default
 block content
   .container: .row: .col-sm-12
     article
-      p: a(href='/articles') &larr; back to the articles
-      hr
       if !article
-        h2 Invalid Article.
+        h2= t('msg.invalid_article')
       else
         header
           h2= article.title
           .well.well-sm
-            h5 Posted 
+            h5 #{t('label.posted')}  
               if article.publishedDate
-                | on #{article._.publishedDate.format('MMMM Do, YYYY')} 
+                | #{t('label.dated')} #{article._.publishedDate.format('MMMM Do, YYYY')} 
               if article.categories && article.categories.length
-                | in 
+                | #{t('label.in')}  
                 each cat, cat_i in article.categories
                   a(href='/articles/' + cat.key)= cat.name
                   if cat_i < article.categories.length - 1
@@ -23,7 +21,7 @@ block content
                   else
                     |  
               if article.author
-                | by #{article.author.name.first}
+                | #{t('label.by')} #{article.author.name.first}
         .article
           if article.image.exists
             .image-wrap: img(src=article._.image.fit(750,450)).img-responsive

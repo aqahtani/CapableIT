@@ -1,7 +1,6 @@
 extends ../layouts/default
 include ../mixins/assessment-detail
 include ../modals/form-assessment
-include ../modals/assessment-analyze
 include ../mixins/flags
 
 block js
@@ -21,25 +20,23 @@ block content
     .row: .col-sm-12
       article
         if !assessment
-          h2 Invalid Assessment.
+          h2= t('msg.invalid_assessment')
         else
-          h2 Capability Assessment
-            .badge= assessment.status
-            +flag-prime(assessment.prime)
-            +flag-analyzed(assessment.analyzed)
+          h2= t('header.capability_assessment')
+            small
+              +label-status(assessment.status)
+              +label-prime(assessment.prime)
+              +label-analyzed(assessment.analyzed)
             .pull-right
-              .dropdown
-                button.btn.btn-default.dropdown-toggle(type="button",id="actionMenu",data-toggle="dropdown",aria-expanded="true")
-                  span Actions
-                  span.caret
-                ul.dropdown-menu(role="menu",aria-labelledby="actionMenu")
-                  if canDo(user, permits, 'edit')
-                    li(role="presentation"): a(role="menuitem", tabindex="-1", href="#", data-toggle="modal", data-target="#formAssessmentModal") Edit
-                  if hasRole(user, 'owner')
-                    if !assessment.analyzed
-                      li(role="presentation"): a(role="menuitem", tabindex="-1", href="#", data-toggle="modal", data-target="#modalAnalyzeAssessment") Analyze
-                    else
-                      li(role="presentation"): a(role="menuitem", tabindex="-1", href="#", data-toggle="modal", data-target="#modalAnalyzeAssessment") Unanalyze
+              if canDo(user, permits, 'edit')
+                a(href="#", data-toggle="modal", data-target="#formAssessmentModal", title="#{t('cmd.edit')}"): span.glyphicon.glyphicon-edit
+              if hasRole(user, 'owner')
+                |  
+                if !assessment.analyzed
+                  a(href="#", data-toggle="modal", data-target="#modalAnalyzeAssessment", title="#{t('cmd.analyze')}"): span.glyphicon.glyphicon-tasks
+                else
+                  a(href="#", data-toggle="modal", data-target="#modalAnalyzeAssessment", title="#{t('cmd.unanalyze')}"): span.glyphicon.glyphicon-tasks
+          
           hr
           //- assessment details
           +assessmentDetail(assessment, englishlevels, hardlevels, softlevels)

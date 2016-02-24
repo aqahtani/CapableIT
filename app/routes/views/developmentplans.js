@@ -7,7 +7,8 @@ var keystone = require('keystone'),
 exports = module.exports = function(req, res) {
 	
 	var view = new keystone.View(req, res),
-		locals = res.locals;
+        locals = res.locals,
+        t = req.t;
 	
 	// Set locals
 	locals.section = 'develop';
@@ -127,14 +128,14 @@ exports = module.exports = function(req, res) {
             if (err) {
                 req.flash('error', {
                     type: 'ValidationError',
-                    title: 'There was an error creating your development plan:',
+                    title: t('flash.error.create'),
                     list: _.pluck(err.errors, 'message')
                 });
                 return res.redirect('back');
             }
             
             // create successful!
-            req.flash('success', 'Add development plan successfully completed.');
+            req.flash('success', t('flash.success.create'));
             return res.redirect('/developmentplan/' + doc.id);
         });
     });

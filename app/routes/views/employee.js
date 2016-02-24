@@ -6,7 +6,8 @@ var keystone = require('keystone'),
 exports = module.exports = function (req, res) {
     
     var view = new keystone.View(req, res),
-        locals = res.locals;
+        locals = res.locals,
+        t = req.t;
     
     // Set locals
     locals.section = 'organize';
@@ -85,7 +86,7 @@ exports = module.exports = function (req, res) {
             
             if (!emp) {
                 // no results 
-                req.flash('warning', 'We cannot find a matching employee profile');
+                req.flash('warning', t('flash.warn.nomatch'));
                 return next();
             }
             
@@ -95,12 +96,12 @@ exports = module.exports = function (req, res) {
             updater.process(req.body, {
                 flashErrors: true,
                 fields: 'name, arName, empId, email, telephone, mobile, birthDate, formalTitle, english.test, english.score, education.field, education.level, certificates, bio, photo',
-                errorMessage: 'There was a problem with your update:'
+                errorMessage: t('flash.error.update')
             }, function (err, result) {
                 if (err) {
                     locals.validationErrors = err.errors;
                 } else {
-                    req.flash('success', 'Update successfully completed.');
+                    req.flash('success', t('flash.success.update'));
                 }
                 //next();
                 return res.redirect('back');

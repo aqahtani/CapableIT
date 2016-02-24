@@ -2,68 +2,68 @@
 
 //- Job Description in Details
 mixin jobDetail(job, englishlevels, hardlevels, softlevels)
-  h2 JOB DESCRIPTION
+  h2= t('header.job')
   hr
   .row
-    .col-sm-2: +fieldLabel("Job Title")
+    .col-sm-2: +fieldLabel(t('label.job_title'))
     .col-sm-4: h4= job.title
-    .col-sm-2: +fieldLabel("Alternative Title")
+    .col-sm-2: +fieldLabel(t('label.job_alternative'))
     .col-sm-4: h4= job.altTitle
   .row
-    .col-sm-2: +fieldLabel("Reports To")
+    .col-sm-2: +fieldLabel(t('label.reports_to'))
     .col-sm-4
       if job.reportsTo
         h4: a(href='/job/' + job.reportsTo.id)= job.reportsTo.title
-    .col-md-2: +fieldLabel("English Level")
+    .col-md-2: +fieldLabel(t('label.english_level'))
     .col-md-4: h4
       if job.english.level
         +englishLeveler(job.english.level, null)
   .row
-    .col-sm-2: +fieldLabel("Department")
+    .col-sm-2: +fieldLabel(t('label.department'))
     .col-sm-4: h4= job.orgDepartment ? job.orgDepartment.title : '-'
-    .col-sm-2: +fieldLabel("Function")
+    .col-sm-2: +fieldLabel(t('label.function'))
     .col-sm-4: h4= job.orgFunction ? job.orgFunction.title : '-'
   hr
-  h3 RESPONSIBILITIES
+  h3= t('header.responsibilities')
   ul.list-group
     for task, index in job.tasks
       li.list-group-item
         | #{task}
         .badge= job.authorities[index]
   hr
-  h3 JOB CONTEXT
+  h3= t('header.job_context')
   .row
-    .col-sm-2: +fieldLabel("Environment")
+    .col-sm-2: +fieldLabel(t('label.environment'))
     .col-sm-10: h4= job.environment
   .row
-    .col-sm-2: +fieldLabel("Audience")
+    .col-sm-2: +fieldLabel(t('label.audience'))
     .col-sm-10: h4= job.audience
   .row
-    .col-sm-2: +fieldLabel("Internal")
+    .col-sm-2: +fieldLabel(t('label.internal'))
     .col-sm-10: h4= job.internal
   .row
-    .col-sm-2: +fieldLabel("External")
+    .col-sm-2: +fieldLabel(t('label.external'))
     .col-sm-10: h4= job.external
   hr
-  h3 CAPABILITIES
+  h3= t('header.capabilities')
   .row
     .col-sm-6
       .panel.panel-success
         .panel-heading
-          h4 Knowledge
+          h4= t('header.knowledge')
         .panel-body
           p.multi-line= job.knowledge
     .col-sm-6
       .panel.panel-info
         .panel-heading
-          h4 Experience & Qualifications
+          h4= t('header.experience_and_qualifications')
         .panel-body
           p.multi-line= job.experience
   .row
     .col-sm-6
       .panel.panel-danger
         .panel-heading
-          h4 Professional Skills
+          h4= t('header.professional_skills')
         .panel-body
           .well.well-sm: +levellabels(hardlevels,'label-danger')
           for hardSkill, index in job.professional.skills
@@ -71,7 +71,7 @@ mixin jobDetail(job, englishlevels, hardlevels, softlevels)
     .col-sm-6
       .panel.panel-warning
         .panel-heading
-          h4 Behavioral Skills
+          h4= t('header.behavioral_skills')
         .panel-body
           .well.well-sm: +levellabels(softlevels,'label-warning')
           for softSkill, index in job.behavioral.skills

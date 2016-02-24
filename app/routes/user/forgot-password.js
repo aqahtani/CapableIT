@@ -4,7 +4,8 @@
 exports = module.exports = function (req, res) {
     
     var view = new keystone.View(req, res),
-        locals = res.locals;
+        locals = res.locals,
+        t = req.t;
     
     view.on('post', { action: 'send-password' }, function (next) {
         
@@ -12,16 +13,16 @@ exports = module.exports = function (req, res) {
             if (err) return next(err);
             
             if (!user) {
-                req.flash('error', "Sorry, we don't recognise that email address.");
+                req.flash('error', t('flash.error.email_invalid'));
                 return next();
             }
             
             user.resetPassword(function (err) {
                 if (err) {
-                    req.flash('error', "Sorry, we cannot send a reset password email.");
+                    req.flash('error', t('flash.error.reset_email'));
                     return next();
                 }
-                req.flash('success', 'We have emailed you a link to reset your password. Please follow the instructions in your email.');
+                req.flash('success', t('flash.success.reset_email'));
                 res.redirect('/login');
             });
         });

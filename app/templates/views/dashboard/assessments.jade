@@ -1,8 +1,14 @@
+//- **************************************
+//- DASHBOARD/assessments
+//- **************************************
+
 extends ../../layouts/default
 include ../../mixins/paging
 include ../../mixins/assessment-brief
+include ../../modals/form-assessment
 
 block content
+  
   //- rearrange the assessments to be indexed by employee id
   - var assessmentsByEmp = _.groupBy(assessments, 'employee')
 
@@ -11,27 +17,23 @@ block content
       .col-sm-12
         section
           if !employees
-            h2 No employees can be found
+            h2= t('msg.none')
           else
-            h2 Employees and Final Assessments
-            hr
-            .row
-              .col-sm-6
-                form(method='post')
-                  input(type='hidden', name='action', value='analyzeall')
-                  button(type='submit').btn.btn-primary Analyze All
-              .col-sm-6
-                form(method='post')
-                  input(type='hidden', name='action', value='resetall')
-                  button(type='submit').btn.btn-primary Reset All
+            +modalAnalyzeAll('formAnalyzeAllModal', 'analyzeall')
+            +modalAnalyzeAll('formResetAllModal', 'resetall')
+            h2= t('header.assessments')
+              .pull-right
+                a(href="#", data-toggle="modal", data-target="#formAnalyzeAllModal", title="#{ t('cmd.analyzeall') }"): span.glyphicon.glyphicon-tasks
+                |  
+                a(href="#", data-toggle="modal", data-target="#formResetAllModal", title="#{ t('cmd.resetall') }"): span.glyphicon.glyphicon-repeat
             hr
             table.table.table-striped
               th #
-              th Employee
-              th Assessments
-              th Self
-              th Prime
-              th Others
+              th= t('label.employee')
+              th= t('label.assessments')
+              th= t('label.self_assessment')
+              th= t('label.prime_assessment')
+              th= t('label.others_assessments')
               each emp, i in employees
                 - var empAssessments = assessmentsByEmp[emp.id]
                 tr
@@ -48,7 +50,7 @@ block content
                     td
                       - var selfA = _.find(empAssessments, function(a) { return a.employee == a.doneBy.id; })
                       if selfA
-                        a.btn.btn-sm.btn-default(href="/assessment/" + selfA.id) Self
+                        a.btn.btn-sm.btn-default(href="/assessment/" + selfA.id)= t('label.self_assessment')
                     //- prime assessment
                     td
                       - var primeA = _.find(empAssessments, function(a) { return a.prime; })
@@ -59,17 +61,6 @@ block content
                       each a in empAssessments
                         if (!a.prime) && (a.employee != a.doneBy.id)
                           a.btn.btn-sm.btn-info(href="/assessment/" + a.id) #{a.doneBy.name.full}
-                          span  
-      .col-sm-6
-        //-pre= JSON.stringify(assessmentsByEmp, null, 4)
-        //-section
-          if !assessments
-            h2 No final assessments can be found
-          else
-            h2 The organization has the following assessments as final (#{assessments.length})
-            hr
-            .list-group
-              each assessment in assessments
-                +assessmentBrief(assessment)
+                          span &nbsp;
     
               

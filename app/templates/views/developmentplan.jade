@@ -17,25 +17,26 @@ block content
     .row: .col-sm-12
       article
         if !developmentPlan
-          h2 Invalid Development Plan.
+          h2= t('msg.invalid_development_plan')
         else
-          h2 Development Plan
-            //-.badge= developmentPlan.status
+          h2= t('header.development_plan')
             small
-              +flag-status(developmentPlan.status)
-              +flag-approved(developmentPlan.approved, developmentPlan.approvedBy)
+              |  
+              +label-status(developmentPlan.status)
+              |  
+              +label-approved(developmentPlan.approved, developmentPlan.approvedBy)
             .pull-right
               //- buttons to trigger edit, delete, and approve modals based on permissions
               if canDo(user, permits, 'edit')
-                a(href="#", data-toggle="modal", data-target="#formEditDevelopmentPlanModal", title="Edit Plan"): span.glyphicon.glyphicon-edit
-              | 
+                a(href="#", data-toggle="modal", data-target="#formEditDevelopmentPlanModal", title="#{t('cmd.edit')}"): span.glyphicon.glyphicon-edit
+              |  
               if canDo(user, permits, 'delete')
-                a(href="#", data-toggle="modal", data-target="#formDeleteDevelopmentPlanModal", title="Delete Plan"): span.glyphicon.glyphicon-remove-circle
-              | 
+                a(href="#", data-toggle="modal", data-target="#formDeleteDevelopmentPlanModal", title="#{t('cmd.delete')}"): span.glyphicon.glyphicon-trash
+              |  
               if canDo(user, permits, 'approve')
-                a(href="#", data-toggle="modal", data-target="#formApproveDevelopmentPlanModal", title="Approve Plan"): span.glyphicon.glyphicon-check
+                a(href="#", data-toggle="modal", data-target="#formApproveDevelopmentPlanModal", title="#{t('cmd.approve')}"): span.glyphicon.glyphicon-check
                 |  
-                a(href="#", data-toggle="modal", data-target="#formUnapproveDevelopmentPlanModal", title="Unapprove Plan"): span.glyphicon.glyphicon-ban-circle
+                a(href="#", data-toggle="modal", data-target="#formUnapproveDevelopmentPlanModal", title="#{t('cmd.unapprove')}"): span.glyphicon.glyphicon-ban-circle
           hr          
           //- developmentPlan details
           +developmentplanDetail(developmentPlan, activities, developmentMethods, hardGaps, softGaps)

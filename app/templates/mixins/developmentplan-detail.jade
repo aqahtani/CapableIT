@@ -5,17 +5,17 @@ include ../modals/form-developmentactivity
 //- Development Plan in Details
 mixin developmentplanDetail(developmentplan, activities, developmentMethods, hardGaps, softGaps)
   .row
-    .col-sm-2: +fieldLabel("Employee")
+    .col-sm-2: +fieldLabel(t('label.employee'))
     .col-sm-4
       if developmentplan.employee
         h4: a(href='/employee/' + developmentplan.employee.id)= developmentplan.employee.name.full
-    .col-sm-2: +fieldLabel("Plan Date")
+    .col-sm-2: +fieldLabel(t('label.date'))
     .col-sm-4: h4= developmentplan._.createdAt.format('YYYY-MM-DD')
   .row
-    .col-sm-2: +fieldLabel("Period")
+    .col-sm-2: +fieldLabel(t('label.period'))
     .col-sm-4: h4=developmentplan.period
   hr
-  h3 Professional Goals/Motivations
+  h3= t('header.professional_goals_and_motivations')
   blockquote
     p.multi-line= developmentplan.goals
 
@@ -24,14 +24,14 @@ mixin developmentplanDetail(developmentplan, activities, developmentMethods, har
     .col-sm-6
       .panel.panel-default
         .panel-heading
-          h4 Strengths and Talents to Use (3-5)
+          h4= t('header.strengths_and_talents')
         .panel-body
           p.multi-line= developmentplan.strengths
   
     .col-sm-6
       .panel.panel-default
         .panel-heading
-          h4 Weaknesses to Develop (3-5)
+          h4= t('header.weaknesses_to_develop')
         .panel-body
           p.multi-line= developmentplan.weaknesses
   
@@ -39,25 +39,26 @@ mixin developmentplanDetail(developmentplan, activities, developmentMethods, har
   hr
   .row
     .col-sm-12
-      h3 Development Acitivities
+      h3= t('header.development_activities')
         //- button to trigger add modal only on 'create' permission
         if canDo(user, permits, 'edit')
-          .pull-right: a(href="#", data-toggle="modal", data-target="#formAddDevelopmentActivityModal", title="Add Activity"): span.glyphicon.glyphicon-plus-sign
+          .pull-right: a(href="#", data-toggle="modal", data-target="#formAddDevelopmentActivityModal", title="#{t('cmd.add')}"): span.glyphicon.glyphicon-plus-sign
 
       hr
       if !activities.length
-        h4 No activies found.  Click on the (+) sign to add a new one.
+        h4= t('msg.no_activies')
+        h4= t('msg.click_plus_sign')
       else
         .table-responsive
           table.table.table-condensed
             th #
-            th Title
-            th Method
-            th Deadline
-            th.text-center Duration (days)
-            th.text-center Progress (%)
-            th.text-center Completed?
-            th.text-center Actions
+            th= t('label.title')
+            th= t('label.method')
+            th= t('label.deadline')
+            th.text-center= t('label.duration')
+            th.text-center= t('label.progress')
+            th.text-center= t('label.completed')
+            th.text-center= t('label.actions')
             each activity, i in activities
               tr
                 td #{i+1}
@@ -75,32 +76,32 @@ mixin developmentplanDetail(developmentplan, activities, developmentMethods, har
                     span.text-left
                       +modalEditDevelopmentActivity('formEditDevelopmentActivityModal' + activity.id, activity)
                       +modalDeleteDevelopmentActivity('formDeleteDevelopmentActivityModal' + activity.id, activity)
-                    a(href="#", data-toggle="modal", data-target="#formEditDevelopmentActivityModal" + activity.id, title="Edit Activity"): span.glyphicon.glyphicon-edit
+                    a(href="#", data-toggle="modal", data-target="#formEditDevelopmentActivityModal" + activity.id, title="#{t('cmd.edit')}"): span.glyphicon.glyphicon-edit
                     |  
-                    a(href="#", data-toggle="modal", data-target="#formDeleteDevelopmentActivityModal" + activity.id, title="Delete Activity"): span.glyphicon.glyphicon-remove-circle
+                    a(href="#", data-toggle="modal", data-target="#formDeleteDevelopmentActivityModal" + activity.id, title="#{t('cmd.delete')}"): span.glyphicon.glyphicon-trash
       hr
       //- Skill Gaps
       .row
         .col-sm-6
           .panel.panel-danger
-            .panel-heading Top professional skill gaps to target
+            .panel-heading= t('header.professional_skill_gaps')
             .list-group
               for hardGap, index in _.first(hardGaps, 5)
                 .list-group-item
                   span.badge= hardGap.gap
                   span= hardGap.skill.title
-            .panel-footer
+            //-.panel-footer
               | More on professional skills can be found under 
               a(href='/skills/hard') Guide/Professional Skills
                     
         .col-sm-6
           .panel.panel-warning
-            .panel-heading Top behavioral skill gaps to target
+            .panel-heading= t('header.behavioral_skill_gaps')
             .list-group
               for softGap, index in _.first(softGaps, 5)
                 .list-group-item
                   span.badge= softGap.gap
                   span= softGap.skill.title
-            .panel-footer 
+            //-.panel-footer 
               | More on behavioral skills can be found under 
               a(href='/skills/soft') Guide/Behavioral Skills

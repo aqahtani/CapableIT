@@ -11,21 +11,21 @@ block content
       .col-sm-12
         section
           +modalAddJob('formAddJobModal', jobs)
-          h2 Jobs 
-            .pull-right: a(href="#", data-toggle="modal", data-target="#formAddJobModal", title="Add Job"): span.glyphicon.glyphicon-plus-sign
+          h2= t('header.jobs') 
+            .pull-right: a(href="#", data-toggle="modal", data-target="#formAddJobModal", title="#{ t('cmd.add') }"): span.glyphicon.glyphicon-plus-sign
           hr
           if !jobs
-            h3 No jobs can be found
+            h3= t('msg.none')
           else
             table.table.table-striped.table-condensed.datatables
               thead
                 tr
                   th #
-                  th Title
-                  th Arabic Title
-                  th Department
-                  th Function
-                  th Actions
+                  th= t('label.job_title')
+                  th= t('label.job_alternative')
+                  th= t('label.department')
+                  th= t('label.function')
+                  th= t('label.actions')
               tbody
                 each job, i in jobs
                   tr
@@ -37,6 +37,6 @@ block content
                     td
                       +modalDeptAssignment('formAssignDeptModal' + job.id, job, orgDepts, orgFuncs)
                       +modalDeleteJob('formDeleteJobModal' + job.id, job)
-                      a(href="#", data-toggle="modal", data-target="#formAssignDeptModal" + job.id, title="Change Department/Function Assignment"): span.glyphicon.glyphicon-transfer
+                      a(href="#", data-toggle="modal", data-target="#formAssignDeptModal" + job.id, title="#{ t('cmd.assign_dept') }"): span.glyphicon.glyphicon-transfer
                       | 
-                      a(href="#", data-toggle="modal", data-target="#formDeleteJobModal" + job.id, title="Delete Job"): span.glyphicon.glyphicon-remove-circle
+                      a(href="#", data-toggle="modal", data-target="#formDeleteJobModal" + job.id, title="#{ t('cmd.delete') }"): span.glyphicon.glyphicon-trash

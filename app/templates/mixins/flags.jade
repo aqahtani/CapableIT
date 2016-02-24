@@ -1,4 +1,16 @@
-﻿mixin flag-prime(prime)
+﻿mixin label-prime(prime)
+  if prime
+    .label.label-success= t('label.prime')
+  else
+    .label.label-warning= t('label.noprime')
+
+mixin label-analyzed(analyzed)
+  if analyzed
+    .label.label-info= t('label.analyzed')  
+  else
+    .label.label-danger= t('label.unanalyzed')
+
+mixin flag-prime(prime)
   span.bs-component
     if prime
       button(
@@ -46,16 +58,25 @@ mixin flag-completed(completed)
   else
     span.glyphicon.glyphicon-unchecked
 
-mixin flag-approved(approved, approvedBy)
+mixin label-approved(approved, approvedBy)
   if approved
-    .label.label-success 
-      | Approved by 
+    .label.label-success
+      span= t('label.approved_by') 
       each approval in approvedBy 
-        span #{approval.name.full};  
+        span  #{approval.name.full} ;  
   else
-    .label.label-warning Unapproved
+    .label.label-warning= t('label.unapproved')
 
-mixin flag-status(status)
+mixin badge-approved(approved, approvedBy)
+  if approved
+    .badge
+      span= t('label.approved_by')  
+      each approval in approvedBy 
+        span  #{approval.name.full} ;  
+  else
+    .badge= t('label.unapproved')
+
+mixin label-status(status)
   case status
     when 'draft'
       - var kind = 'label-warning'
@@ -65,4 +86,7 @@ mixin flag-status(status)
       - var kind = 'label-danger'
     default
       - var kind = ''
-  .label(class=kind)= status
+  .label(class=kind)= t('label.' + status)
+
+mixin badge-status(status)
+  .badge= t('label.' + status)

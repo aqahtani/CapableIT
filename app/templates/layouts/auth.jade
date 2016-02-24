@@ -10,7 +10,10 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
     link(href="/styles/site-#{t('direction')}.min.css", rel="stylesheet", media="all")
     link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
     //- Azure Application Insights
-    script(src='/js/azure-appinsights.js')
+    if env == 'development'
+      script(src='/js/azure-appinsights-dev.js')
+    if env == 'production'
+      script(src='/js/azure-appinsights.js')
 
     block css
       
@@ -18,7 +21,20 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
     .container
       .row: .col-sm-8.col-sm-offset-2
         p &nbsp;
+
         +flash-messages(messages)
+
+        h4.text-right
+          //- language switch
+          if t("language") == 'ar'
+            a(href="/lang/en")
+              span Change to English
+          else
+            a(href="/lang/ar")
+              span غير للعربية
+          |   
+          span.glyphicon.glyphicon-globe
+          
         .jumbotron.auth-body(class=messages && messages.error.length ? 'has-errors' : null)
           .text-center: a(href='/'): img(src='/images/kpcit_400.png', width=400, alt=brand)
           hr
@@ -28,7 +44,7 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
           +footer
            
     // jquery and bootstrap
-    script(src='/js/lib/jquery/jquery-1.11.1.min.js')
+    script(src='/js/lib/jquery/jquery-2.1.1.min.js')
     script(src='/js/lib/bootstrap/bootstrap.min.js')    
 
     //- Page Scripts

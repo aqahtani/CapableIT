@@ -1,6 +1,5 @@
 ﻿var keystone = require('keystone'),
     Types = keystone.Field.Types,
-    uniqueValidator = require('mongoose-unique-validator'),
     _ = require('underscore'),
     async = require("async");
 
@@ -53,7 +52,6 @@ Assessment.defaultColumns = 'organization|10%, createdAt, employee, doneBy, job,
 /**
  * Plugins
  */
-//Assessment.schema.plugin(uniqueValidator, { message: '{PATH} already exists' });
 
 // PRE MIDDLEWARE 
 // ==============

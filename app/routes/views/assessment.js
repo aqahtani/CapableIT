@@ -5,7 +5,8 @@ var keystone = require('keystone'),
 exports = module.exports = function(req, res) {
 	
 	var view = new keystone.View(req, res),
-		locals = res.locals;
+        locals = res.locals,
+        t = req.t;
 	
 	// Set locals
 	locals.section = 'assess';
@@ -49,7 +50,7 @@ exports = module.exports = function(req, res) {
             
             if (!assessment) {
                 // no results 
-                req.flash('warning', 'We cannot find a matching assessment');
+                req.flash('warning', t('flash.warn.nomatch'));
                 return next();
             }
 
@@ -59,12 +60,12 @@ exports = module.exports = function(req, res) {
             updater.process(req.body, {
                 flashErrors: true,
                 fields: 'status, overview, knowledge, experience, english.currentLevel, professional.currentLevels, behavioral.currentLevels',
-                errorMessage: 'There was a problem with your update:'
+                errorMessage: t('flash.error.update')
             }, function (err, result) {
                 if (err) {
                     locals.validationErrors = err.errors;
                 } else {
-                    req.flash('success', 'Update successfully completed.');
+                    req.flash('success', t('flash.success.update'));
                 }
                 //next();
                 return res.redirect('back');
@@ -89,13 +90,13 @@ exports = module.exports = function(req, res) {
             
             if (!assessment) {
                 // no results 
-                req.flash('warning', 'We cannot find a matching assessment');
+                req.flash('warning', t('flash.warn.nomatch'));
                 return next();
             }
             
             // check to see if the assessment has already been analyzed!
             if (assessment.analyzed) {
-                req.flash('info', 'Assessment has already been analyzed');
+                req.flash('info', t('flash.info.analyzed'));
                 return next();
             }
 
@@ -104,7 +105,7 @@ exports = module.exports = function(req, res) {
                 if (err) {
                     req.flash('error', err);
                 } else {
-                    req.flash('success', 'Assessment has been analyzed successfully.');
+                    req.flash('success', t('flash.success.analyze'));
                 }
                 //next();
                 return res.redirect('back');
@@ -127,13 +128,13 @@ exports = module.exports = function(req, res) {
             
             if (!assessment) {
                 // no results 
-                req.flash('warning', 'We cannot find a matching assessment');
+                req.flash('warning', t('flash.warn.nomatch'));
                 return next();
             }
             
             // check to see if the assessment has already been analyzed!
             if (!assessment.analyzed) {
-                req.flash('info', 'Assessment has has not yet been analyzed');
+                req.flash('info', t('flash.info.notanalyzed'));
                 return next();
             }
             
@@ -142,7 +143,7 @@ exports = module.exports = function(req, res) {
                 if (err) {
                     req.flash('error', err);
                 } else {
-                    req.flash('success', 'Assessment has been reset successfully.');
+                    req.flash('success', t('flash.success.unanalyze'));
                 }
                 next();
                 //return res.redirect('back');

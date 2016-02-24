@@ -7,21 +7,22 @@ block content
   +modalNewDevelopmentPlan('formNewDevelopmentPlanModal')
 
   .container
-    .page-header: h1 Development Plans
+    .page-header: h2= t('header.development_plans')
     .row
       section.col-sm-12
-        h3 Your Development Plans
-          .pull-right: a(href="#", data-toggle="modal", data-target="#formNewDevelopmentPlanModal", title="Add a new plan"): span.glyphicon.glyphicon-plus-sign
+        h3= t('header.your_development_plans')
+          .pull-right: a(href="#", data-toggle="modal", data-target="#formNewDevelopmentPlanModal", title="#{t('cmd.add')}"): span.glyphicon.glyphicon-plus-sign
         hr
         if !developmentplans.length
-          h4 you don't have any development plans.  Click on the (+) sign to add a new one.
+          h4= t('msg.no_development_plans')
+          h4= t('msg.click_plus_sign')
         else
           .list-group
             each ownDevPlan in developmentplans
               +developmentplanBrief(ownDevPlan)
     .row
       section.col-sm-12
-        h3 Development plans of your team
+        h3= t('header.team_development_plans')
         hr
         each reportsDevPlan in data.reportsDevelopmentPlans
           +developmentplanBrief(reportsDevPlan)

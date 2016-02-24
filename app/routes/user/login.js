@@ -7,7 +7,8 @@
 
 exports = module.exports = function (req, res) {
     var view = new keystone.View(req, res),
-        locals = res.locals;
+        locals = res.locals,
+        t = req.t;
     
     // Set locals
     locals.section = 'user';
@@ -17,7 +18,7 @@ exports = module.exports = function (req, res) {
     view.on('post', { action: 'login' }, function (next) {
 
         if (!req.body.email || !req.body.password) {
-            req.flash('error', 'Please enter your email address and password.');
+            req.flash('error', t('flash.error.login'));
             return next();
         }
         
@@ -28,7 +29,7 @@ exports = module.exports = function (req, res) {
         // prepare callbacks for success and failure
         var onFail = function () {
             logger.warn('[login] Failed sign in attempt', logger.details({ 'Request Body': req.body }));
-            req.flash('error', 'Sorry, that email and password combo are not valid.');
+            req.flash('error', t('flash.error.login'));
             next();
         };
 
@@ -43,11 +44,11 @@ exports = module.exports = function (req, res) {
                 
                 // welcome the user
                 logger.info('[login] User signed in', logger.details({ 'User': user }));
-                req.flash('success', 'Welcome ' + user.name.first);
+                req.flash('success', t('msg.welcome') + ' ' + user.name.first);
                 
                 // alert the user if he hasn't verified his account yet!
                 if (!user.isVerified) {
-                    req.flash('warning', 'You have not verified your account yet.  Please check your email, or request to resend verification');
+                    req.flash('warning', t('msg.email_not_verified'));
                 };
                 // redirect to the original requested page
                 return res.redirect(locals.returnTo);

@@ -1,10 +1,14 @@
 (function () {
   
-    // bootstrap-datepicker
-    $(".datepicker").datepicker({
-        autoclose: true,
-        format: 'yyyy-mm-dd'
+    // bootstrap-datetimepicker 
+    // https://eonasdan.github.io/bootstrap-datetimepicker
+    // date picker only
+    $(".datepicker").datetimepicker({
+        format: 'YYYY-MM-DD'
     });
+    
+    // date & time picker
+    $(".datetimepicker").datetimepicker();
     
     // select2: enhanced select
     $(".select2").select2({

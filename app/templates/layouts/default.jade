@@ -14,7 +14,10 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
     link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 
     //- Azure Application Insights
-    script(src='/js/azure-appinsights.js')
+    if env == 'development'
+      script(src='/js/azure-appinsights-dev.js')
+    if env == 'production'
+      script(src='/js/azure-appinsights.js')
 
     //- Customise the stylesheet for your site by editing /public/styles/site.less
     //- All .less files will be automatically compiled and minified in production.
@@ -23,9 +26,9 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
     //- file tells you.
     link(href="/styles/site-#{t('direction')}.min.css", rel="stylesheet", media="all")
 
-    //- bootstrap-datepicker styles
-    link(rel="stylesheet", href="/js/lib/bootstrap-datepicker/bootstrap-datepicker3.min.css")
-    
+    //- bootstrap-datetimepicker styles
+    link(rel="stylesheet", href="/js/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css")
+
     //- select2 styles
     link(rel="stylesheet", href="/js/lib/select2/css/select2.min.css")
     link(rel="stylesheet", href="/js/lib/select2/css/select2-bootstrap.min.css")
@@ -138,17 +141,21 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
               else
                 //- join or login
                 li: a(href='/join')= t('nav.signup') 
-                li: a(href='/login',title="#{t('nav.signin')}"): span.glyphicon.glyphicon-log-in
+                li: a(href='/login', title="#{t('nav.signin')}"): span.glyphicon.glyphicon-log-in
               
               //- language switch
-              //- disabled untill formal support
-                li.dropdown
-                  a.dropdown-toggle(href="#",data-toggle="dropdown")
-                    | #{t("language")} 
-                    span.caret
-                  ul.dropdown-menu(role="menu")
-                    li: a(href="/lang/ar") عربي
-                    li: a(href="/lang/en") English
+              if t("language") == 'ar'
+                li: a(href="/lang/en", title="Change to English"): span.glyphicon.glyphicon-globe
+              else
+                li: a(href="/lang/ar", title="غير للعربية"): span.glyphicon.glyphicon-globe
+
+              //-li.dropdown
+                a.dropdown-toggle(href="#",data-toggle="dropdown")
+                  | #{t("language")} 
+                  span.caret
+                ul.dropdown-menu(role="menu")
+                  li: a(href="/lang/ar") عربي
+                  li: a(href="/lang/en") English
 
     //- BODY
     #body
@@ -182,8 +189,11 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
     //- Bootstrap javascript 
     script(src='/js/lib/bootstrap/bootstrap.min.js')
 
-    //- bootstrap-datepicker
-    script(src='/js/lib/bootstrap-datepicker/bootstrap-datepicker.min.js')
+    //- MomentJS - required by bootstrap-datetimepicker!
+    script(src='/js/lib/moment/moment-with-locales.min.js')
+
+    //- bootstrap-datetimepicker
+    script(src='/js/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')
     
     //- select2
     script(src='/js/lib/select2/js/select2.min.js')

@@ -15,25 +15,25 @@ block content
   case step
     when "1" 
       //- Step 1: Create User
-      h3 Join #{t("brand")}
+      h3  #{t("header.join")} #{t("brand")}
       hr
       form(method='post')
         input(type='hidden', name='action', value='join')
         .form-group(class=validationErrors.name ? 'has-error' : null)
-          label(for='name').control-label.sr-only Name
-          input(type='text', name='name.full', id='name', value=formData['name.full'], placeholder='Full Name').form-control
+          label(for='name').control-label.sr-only= t('label.name')
+          input(type='text', name='name.full', id='name', value=formData['name.full'], placeholder='#{t("label.name")}').form-control
         .form-group(class=validationErrors.email ? 'has-error' : null)
-          label(for='email').control-label.sr-only Email
-          input(type='email', name='email', id='email', value=formData.email, placeholder='Email').form-control
+          label(for='email').control-label.sr-only= t('label.email')
+          input(type='email', name='email', id='email', value=formData.email, placeholder='#{t("label.email")}').form-control
         .form-group(class=validationErrors.password ? 'has-error' : null)
-          label(for='password').control-label.sr-only Password
-          input(type='password', name='password', id='password', value=formData.password, placeholder='Password').form-control
+          label(for='password').control-label.sr-only= t('label.password')
+          input(type='password', name='password', id='password', value=formData.password, placeholder='#{t("label.password")}').form-control
         .form-group
-          label(for='password_confirm').control-label.sr-only Confirm Password
-          input(type='password', name='password_confirm', id='password_confirm', placeholder='Confirm Password').form-control
+          label(for='password_confirm').control-label.sr-only= t('label.confirm_password')
+          input(type='password', name='password_confirm', id='password_confirm', placeholder='#{t("label.confirm_password")}').form-control
         .form-group
-          button(type='submit').btn.btn-lg.btn-primary.pull-right Join
+          button(type='submit').btn.btn-lg.btn-primary.pull-right= t('cmd.join')
           br
 
     default
-      h3 You now need to verify your email address
+      h3= t('msg.verify_email')

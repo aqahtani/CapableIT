@@ -1,15 +1,14 @@
 ﻿mixin showing(items, label)
   if items.results.length
     if items.totalPages > 1
-      h4.text-weight-normal Showing 
-        strong #{items.first}
-        |  to 
-        strong #{items.last}
-        |  of 
-        strong #{items.total}
-        |  #{utils.plural(items.results.length, label)}.
+      h4.text-weight-normal= t('label.showing') 
+        strong  #{items.first}  
+        span= t('label.to')  
+        strong  #{items.last}  
+        span= t('label.of') 
+        strong  #{items.total}
     else
-      h4.text-weight-normal Showing #{utils.plural(items.results.length, '* ' + label)}.
+      h4.text-weight-normal #{t('label.showing')} #{items.results.length}.
 
 mixin pages(items)
   if items.totalPages > 1

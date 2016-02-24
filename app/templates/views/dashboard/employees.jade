@@ -11,22 +11,22 @@ block content
       .col-sm-12
         section
           +modalAddEmployee('formAddEmployeeModal', jobs)
-          h2 Employees 
-            .pull-right: a(href="#", data-toggle="modal", data-target="#formAddEmployeeModal", title="Add Employee"): span.glyphicon.glyphicon-plus-sign
+          h2= t('header.employees') 
+            .pull-right: a(href="#", data-toggle="modal", data-target="#formAddEmployeeModal", title="#{ t('cmd.add') }"): span.glyphicon.glyphicon-plus-sign
           hr
           if !employees
-            h3 No employees can be found
+            h3= t('msg.none')
           else
             table.table.table-striped.table-condensed.datatables
               thead
                 tr
                   th #
-                  th Name
-                  th Arabic
-                  th Job
-                  th Department
-                  th Function
-                  th Actions
+                  th= t('label.name')
+                  th= t('label.arabic_name')
+                  th= t('label.job')
+                  th= t('label.department')
+                  th= t('label.function')
+                  th= t('label.actions')
               tbody
                 each emp, i in employees
                   tr
@@ -41,6 +41,6 @@ block content
                     td
                       +modalJobAssignment('formAssignJobModal' + emp.id, emp, jobs)
                       +modalDeleteEmployee('formDeleteEmployeeModal' + emp.id, emp)
-                      a(href="#", data-toggle="modal", data-target="#formAssignJobModal" + emp.id, title="Change Job Assignment"): span.glyphicon.glyphicon-transfer
+                      a(href="#", data-toggle="modal", data-target="#formAssignJobModal" + emp.id, title="#{ t('cmd.assign_job') }"): span.glyphicon.glyphicon-transfer
                       | 
-                      a(href="#", data-toggle="modal", data-target="#formDeleteEmployeeModal" + emp.id, title="Delete Employee"): span.glyphicon.glyphicon-remove-circle
+                      a(href="#", data-toggle="modal", data-target="#formDeleteEmployeeModal" + emp.id, title="#{ t('cmd.delete') }"): span.glyphicon.glyphicon-trash

@@ -14,7 +14,7 @@ mixin flash-message(message, type)
   div(class='alert alert-' + type + ' alert-dismissible')
     button.close(type="button",data-dismiss="alert")
       span(aria-hidden="true") &times;
-      span.sr-only Close
+      span.sr-only= t('cmd.close')
 
     if utils.isObject(message)
       if message.title

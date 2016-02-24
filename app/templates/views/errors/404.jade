@@ -3,5 +3,5 @@ extends ../../layouts/default
 block content
   .container: .jumbotron: .text-center
     p.text-muted: span.glyphicon.glyphicon-4x.glyphicon-exclamation-sign
-    h2 Page Not Found (404)
-    p.lead Sorry, the page you requested cannot be found!
+    h2= t('header.error_404')
+    p.lead= t('msg.error_404')
