@@ -372,7 +372,6 @@ exports = module.exports = function(req, res) {
             if (!req.body.targetHardSkills) req.body.targetHardSkills = [];
             if (!req.body.targetSoftSkills) req.body.targetSoftSkills = [];
 
-            console.log('### req.body: %j', req.body);
             updater.process(req.body, {
                 flashErrors: true,
                 fields: 'title, method, targetHardSkills, targetSoftSkills, deadline, duration, progress, remarks',

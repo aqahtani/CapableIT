@@ -1,7 +1,7 @@
 ﻿doctype html
 html
   head
-    title #{t("brand")}
+    title CapableIT
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     //if lte IE 8
@@ -31,13 +31,13 @@ html
           nav#nav(style='text-align: right;')
             ul(style='box-shadow: none;')
               if user
-                li: a.button.style1(href=home) Launch #{t("brand")}
-                li: a.button.style2(href='logout') #{t("nav.signout")}
+                li: a.button.style1(href=home) Launch CapableIT
+                li: a.button.style2(href='logout') Logout
                 if user.canAccessKeystone
-                  li: a.button.style2(href='/keystone') #{t("nav.keystone")}
+                  li: a.button.style2(href='/keystone') Keystone
               else 
-                li: a.button.style1(href='/login') #{t("nav.signin")}
-                li: a.button.style2(href='/join') #{t("nav.signup")}
+                li: a.button.style1(href='/login') Login
+                li: a.button.style2(href='/join') Join
 
       //- Intro
       #intro-wrapper.wrapper.style1
@@ -101,8 +101,8 @@ html
                     p Build employee value proposition and plan compensation and benefits.
             
             ul.actions.actions-centered
-              li: a.button.style1.big(href='/login') #{t("nav.signin")}
-              li: a.button.style2.big(href='/join') #{t("nav.signup")}
+              li: a.button.style1.big(href='/login') Login
+              li: a.button.style2.big(href='/join') Join
       
       //- Highlights
       .wrapper.style3

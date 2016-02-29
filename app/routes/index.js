@@ -98,6 +98,8 @@ exports = module.exports = function(app) {
     app.all('/dashboard/jobs', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.jobs);
     
     // API
+    app.get('/api/departments', middleware.requireUser, routes.api.departments); //list org departments
+    app.get('/api/functions', middleware.requireUser, routes.api.functions); //list org functions
     app.post('/api/assess/new', middleware.requireUser, routes.api.assess); //new assessment
     app.post('/api/contact', routes.api.contact); //new enquiry
     

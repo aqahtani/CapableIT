@@ -5,14 +5,20 @@
 extends ../../layouts/default
 include ../../modals/form-job
 
+block js
+  script(src='/js/job-ui.js')
+
 block content
   .container
     .row
       .col-sm-12
         section
-          +modalAddJob('formAddJobModal', jobs)
+          +modalAddJob(jobs)
+          +modalDeptAssignment()
+          +modalDeleteJob()
+
           h2= t('header.jobs') 
-            .pull-right: a(href="#", data-toggle="modal", data-target="#formAddJobModal", title="#{ t('cmd.add') }"): span.glyphicon.glyphicon-plus-sign
+            .pull-right: +addBtn()
           hr
           if !jobs
             h3= t('msg.none')
@@ -35,8 +41,8 @@ block content
                     td= job.orgDepartment ? job.orgDepartment.title : '-'
                     td= job.orgFunction ? job.orgFunction.title : '-'
                     td
-                      +modalDeptAssignment('formAssignDeptModal' + job.id, job, orgDepts, orgFuncs)
-                      +modalDeleteJob('formDeleteJobModal' + job.id, job)
-                      a(href="#", data-toggle="modal", data-target="#formAssignDeptModal" + job.id, title="#{ t('cmd.assign_dept') }"): span.glyphicon.glyphicon-transfer
+                      //- buttons
+                      +assignBtn(job)
                       | 
-                      a(href="#", data-toggle="modal", data-target="#formDeleteJobModal" + job.id, title="#{ t('cmd.delete') }"): span.glyphicon.glyphicon-trash
+                      +deleteBtn(job)
+                      //-a(href="#", data-toggle="modal", data-target="#formDeleteJobModal" + job.id, title="#{ t('cmd.delete') }"): span.glyphicon.glyphicon-trash

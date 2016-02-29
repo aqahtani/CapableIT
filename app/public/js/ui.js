@@ -10,19 +10,34 @@
     // date & time picker
     $(".datetimepicker").datetimepicker();
     
-    // select2: enhanced select
-    $(".select2").select2({
-        theme: "bootstrap",
-        //placeholder: "Select ...",
-        //allowClear: true
+    
+    // Selectize
+    $('.selectize-required').selectize({
+        valueField: '_id',
+        labelField: 'title',
+        searchField: 'title',
+        maxItems: 1,
+        create: false
+    });
+
+    $('.selectize-optional').selectize({
+        valueField: '_id',
+        labelField: 'title',
+        searchField: 'title',
+        allowEmptyOption: true,
+        maxItems: 1,
+        create: false
     });
     
-    $(".multiple-select2").select2({
-        theme: "bootstrap",
-        placeholder: "Select ...",
-        allowClear: true
+    $('.selectize-multiple').selectize({
+        valueField: '_id',
+        labelField: 'title',
+        searchField: 'title',
+        allowEmptyOption: true,
+        maxItems: null,
+        create: false
     });
-    
+
     // jasny-bootstrap: fileinput
     $('.fileinput').fileinput();
     

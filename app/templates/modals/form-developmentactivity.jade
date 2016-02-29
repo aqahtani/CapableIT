@@ -22,7 +22,7 @@ mixin modalAddDevelopmentActivity(modalId)
             .col-sm-6
               .form-group(class=validationErrors.method ? 'has-error' : null)
                 label(for='method').col-sm-4.control-label= t('label.method')
-                .col-sm-8: +formSelect2List('method', developmentMethods, null)
+                .col-sm-8: +formSelectizeListRequired('method', developmentMethods, null)
             
             .col-sm-6
               .form-group(class=validationErrors.duration ? 'has-error' : null)
@@ -44,13 +44,13 @@ mixin modalAddDevelopmentActivity(modalId)
             .col-sm-12
               .form-group(class=validationErrors.targetHardSkills ? 'has-error' : null)
                 label(for='targetHardSkills').col-sm-2.control-label= t('label.target_hard_skills')
-                .col-sm-10: +formSelect2Multiple('targetHardSkills', hardSkills)
+                .col-sm-10: +formSelectizeListMultiple('targetHardSkills', hardSkills)
 
           .row
             .col-sm-12
               .form-group(class=validationErrors.targetSoftSkills ? 'has-error' : null)
                 label(for='targetSoftSkills').col-sm-2.control-label= t('label.target_soft_skills')
-                .col-sm-10: +formSelect2Multiple('targetSoftSkills', softSkills)
+                .col-sm-10: +formSelectizeListMultiple('targetSoftSkills', softSkills)
           hr
           .row
             .col-sm-12
@@ -86,7 +86,7 @@ mixin modalEditDevelopmentActivity(modalId, activity)
             .col-sm-6
               .form-group(class=validationErrors.method ? 'has-error' : null)
                 label(for='method').col-sm-4.control-label= t('label.method')
-                .col-sm-8: +formSelect2List('method', developmentMethods, activity.method)
+                .col-sm-8: +formSelectizeListRequired('method', developmentMethods, activity.method)
 
             .col-sm-6
               .form-group(class=validationErrors.duration ? 'has-error' : null)
@@ -109,13 +109,13 @@ mixin modalEditDevelopmentActivity(modalId, activity)
             .col-sm-12
               .form-group(class=validationErrors.targetHardSkills ? 'has-error' : null)
                 label(for='targetHardSkills').col-sm-2.control-label= t('label.target_hard_skills')
-                .col-sm-10: +formSelect2Multiple('targetHardSkills', hardSkills, _.pluck(activity.targetHardSkills, '_id'))
+                .col-sm-10: +formSelectizeListMultiple('targetHardSkills', hardSkills, _.pluck(activity.targetHardSkills, '_id'))
 
           .row
             .col-sm-12
               .form-group(class=validationErrors.targetSoftSkills ? 'has-error' : null)
                 label(for='targetSoftSkills').col-sm-2.control-label= t('label.target_soft_skills')
-                .col-sm-10: +formSelect2Multiple('targetSoftSkills', softSkills, _.pluck(activity.targetSoftSkills, '_id'))
+                .col-sm-10: +formSelectizeListMultiple('targetSoftSkills', softSkills, _.pluck(activity.targetSoftSkills, '_id'))
           hr
           .row
             .col-sm-12

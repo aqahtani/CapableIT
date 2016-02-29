@@ -1,8 +1,14 @@
 ﻿include form-mixins
 
+mixin addBtn()
+  a(href="#"
+    title="#{ t('cmd.add') }"
+    data-toggle="modal"
+    data-target="#formAddJobModal"): span.glyphicon.glyphicon-plus-sign
+
 //- Modal: Add Job Form
-mixin modalAddJob(modalId, jobs)
-  .modal.fade(id="#{modalId}")
+mixin modalAddJob(jobs)
+  #formAddJobModal.modal.fade
     .modal-dialog.modal-lg
       form(method='post').form-horizontal.modal-content
         input(type='hidden', name='action', value='create-job')
@@ -30,7 +36,7 @@ mixin modalAddJob(modalId, jobs)
             .col-sm-12
               .form-group(class=validationErrors.reportsTo ? 'has-error' : null)
                 label(for='reportsTo').col-sm-2.control-label= t('label.reports_to')
-                .col-sm-10: +formSelect2ListOptional('reportsTo', jobs)
+                .col-sm-10: +formSelectizeListOptional('reportsTo', jobs)
 
         .modal-footer
           button(type='submit').btn.btn-primary= t('cmd.create')
@@ -118,13 +124,24 @@ mixin modalAddJob(modalId, jobs)
           button(type='submit').btn.btn-primary Submit
           button(type="button", data-dismiss="modal").btn.btn-default Cancel
 
+mixin deleteBtn(job)
+  if job
+    a(href='#',
+      title='#{ t("cmd.delete") }'
+      data-toggle='modal'
+      data-target='#formDeleteJobModal'
+      data-cit-job-id="#{job.id}"
+      data-cit-job-title="#{job.title}"
+      data-cit-job-alt-title="#{job.altTitle}"): span.glyphicon.glyphicon-trash
+
+
 //- Modal: Delete Job Form
-mixin modalDeleteJob(modalId, job)
-  .modal.fade(id="#{modalId}")
+mixin modalDeleteJob()
+  #formDeleteJobModal.modal.fade
     .modal-dialog
       form(method='post').modal-content
         input(type='hidden', name='action', value='delete-job')
-        input(type='hidden', name='jobId', value=job.id)
+        input#jobId(type='hidden', name='jobId')
         .modal-header
           button(type="button", data-dismiss="modal").close
             span(aria-hidden="true") &times;
@@ -135,7 +152,9 @@ mixin modalDeleteJob(modalId, job)
 
           dl.dl-horizontal
             dt= t('label.job_title')
-            dd #{job.title} | #{job.altTitle}
+            dd#jobTitle
+            dt= t('label.job_alternative')
+            dd#jobAltTitle
  
           .alert.alert-danger(role="alert")
             span.glyphicon.glyphicon-exclamation-sign
@@ -145,13 +164,28 @@ mixin modalDeleteJob(modalId, job)
           button(type='submit').btn.btn-danger= t('cmd.delete')
           button(type="button", data-dismiss="modal").btn.btn-default= t('cmd.cancel')
 
+
+mixin assignBtn(job)
+  if job
+    a(href='#',
+      title='#{ t("cmd.assign_dept") }'
+      data-toggle='modal'
+      data-target='#formAssignDeptModal'
+      data-cit-job-id="#{job.id}"
+      data-cit-job-title="#{job.title}"
+      data-cit-job-alt-title="#{job.altTitle}"
+      data-cit-job-department-title="#{ job.orgDepartment ? job.orgDepartment.title : '' }"
+      data-cit-job-department-id="#{ job.orgDepartment ? job.orgDepartment.id : '' }"
+      data-cit-job-function-title="#{ job.orgFunction ? job.orgFunction.title : '' }"
+      data-cit-job-function-id="#{ job.orgFunction ? job.orgFunction.id : '' }"): span.glyphicon.glyphicon-transfer
+
 //- Modal: Department/Function Assignment Form
-mixin modalDeptAssignment(modalId, job, orgDepts, orgFuncs)
-  .modal.fade(id="#{modalId}")
+mixin modalDeptAssignment()
+  #formAssignDeptModal.modal.fade
     .modal-dialog
       form(method='post').modal-content
         input(type='hidden', name='action', value='assign-dept')
-        input(type='hidden', name='jobId', value=job.id)
+        input#jobId(type='hidden', name='jobId')
         .modal-header
           button(type="button", data-dismiss="modal").close
             span(aria-hidden="true") &times;
@@ -159,18 +193,20 @@ mixin modalDeptAssignment(modalId, job, orgDepts, orgFuncs)
           h4.modal-title= t('header.assignment')
         .modal-body
           dl.dl-horizontal
-            dt= t('label.job')
-            dd #{job.title} | #{job.altTitle}
+            dt= t('label.job_title')
+            dd#jobTitle
+            dt= t('label.job_alternative')
+            dd#jobAltTitle
             dt= t('label.department')
-            dd= job.orgDepartment ? job.orgDepartment.title : '-'
+            dd#jobDepartmentTitle
             dt= t('label.function')
-            dd= job.orgFunction ? job.orgFunction.title : '-'
+            dd#jobFunctionTitle
             br
             dt= t('label.department')
-            dd: +formSelect2ListOptional('orgDepartment', orgDepts, job.orgDepartment)
+            dd: +formDepartmentSelectize()
             br
             dt= t('label.function')
-            dd: +formSelect2ListOptional('orgFunction', orgFuncs, job.orgFunction)
+            dd: +formFunctionSelectize()
 
         .modal-footer
           button(type='submit').btn.btn-danger= t('cmd.assign')

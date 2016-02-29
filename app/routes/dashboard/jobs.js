@@ -30,13 +30,13 @@ exports = module.exports = function (req, res) {
     // 2. Load all organization departments
     view.query('orgDepts', OrgDepartment.model.find()
         .where(locals.orgFilter)
-        .sort('name')
+        .sort('title')
     );
     
     // 3. Load all organization functions
     view.query('orgFuncs', OrgFunction.model.find()
         .where(locals.orgFilter)
-        .sort('name')
+        .sort('title')
     );
     
     // Create a new job
