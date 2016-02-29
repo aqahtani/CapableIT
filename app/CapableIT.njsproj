@@ -450,7 +450,6 @@
     <Folder Include="locales\ar" />
     <Folder Include="locales\en" />
     <Folder Include="models" />
-    <Folder Include="lib\" />
     <Folder Include="public\" />
     <Folder Include="public\fonts\" />
     <Folder Include="public\images\" />

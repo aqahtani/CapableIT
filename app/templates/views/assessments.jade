@@ -3,6 +3,9 @@ include ../mixins/paging
 include ../mixins/assessment-brief
 include ../modals/form-assessment
 
+block js
+  script(src="/js/assessment-ui.js")
+
 block content
   +modalNewAssessment
   .container: .row: .col-sm-12

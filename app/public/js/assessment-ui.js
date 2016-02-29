@@ -1,11 +1,77 @@
 (function () {
+    
+    // create-assessment button click posts data from modal to /assess/new
+    $('#create-assessment').on("click", function (e) {
+        var createBtn = $(this);
+        var modal = $("#assessModal");
+        var viewBtn = modal.find('#view-assessment');
+        var msgAlert = modal.find('#dataMessage');
+        var employeeId = modal.find('.modal-body input[name="employeeId"]').val();
+        var jobId = modal.find('.modal-body input[name="jobId"]').val();
+        
+        // initiate post with employee and job data
+        $.post("/api/assess/new", {
+            "employee": employeeId, 
+            "job": jobId
+        })
+        .done(function (data) {
+            if (data.created) {
+                msgAlert.text(data.message);
+                msgAlert.addClass('alert-success');
+                viewBtn.attr('href', '/assessment/' + data.assessment);
+                viewBtn.removeClass('hidden');
+            }
+            else {
+                msgAlert.text(data.message);
+                msgAlert.addClass('alert-danger');
+            }
+        })
+        .fail(function () {
+            msgAlert.text('Cannot create assessment at this time, please try again later.');
+            msgAlert.addClass('alert-danger');
+        })
+        .always(function () {
+            msgAlert.removeClass('hidden');
+            createBtn.addClass('hidden');
+        });
+    });
+    
+    // initialize modal on show
+    $('#assessModal').on('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = $(event.relatedTarget);
+        // Extract info from data-* attributes
+        var employeeName = button.data('employee-name');
+        var employeeId = button.data('employee-id');
+        var jobTitle = button.data('job-title');
+        var jobId = button.data('job-id');
+        
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this);
+        // set text and values of modal elements
+        modal.find('.modal-body input[name="employeeId"]').val(employeeId);
+        modal.find('.modal-body input[name="jobId"]').val(jobId);
+        modal.find('#employeeName').text(employeeName);
+        modal.find('#jobTitle').text(jobTitle);
+        
+        // reset shown/hidden buttons
+        modal.find('#view-assessment').addClass('hidden');
+        modal.find('#create-assessment').removeClass('hidden');
+        var msgAlert = modal.find('#dataMessage');
+        msgAlert.text('');
+        msgAlert.removeClass('alert-success alert-danger');
+        msgAlert.addClass('hidden');
+    });
+    
+    
+    /**** Assessment Skill Gaps Charting ****/
+
     // Make all charts created to be responsive, 
     // and resize when the browser window does
     Chart.defaults.global.responsive = true;
     Chart.defaults.global.maintainAspectRatio = false;
-
-    /**** Assessment Skill Gaps Charting ****/
-    
+        
     // get the hard and soft skill gaps
     var hardLabels = $("#hardGapsChart").data('cit-assessment-hardlabels');
     var hardTargets = $("#hardGapsChart").data('cit-assessment-hardtargets');
