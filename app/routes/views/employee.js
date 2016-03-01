@@ -36,10 +36,6 @@ exports = module.exports = function (req, res) {
     };
     */
 
-    // get education.level and english.test options from list fileds options
-    locals.eduLevelOptions = _.pluck(keystone.list('Employee').fields['education.level'].ops, 'value');
-    locals.engTestOptions = _.pluck(keystone.list('Employee').fields['english.test'].ops, 'value');
-    
     // query current employee
     view.query('employee', keystone.list('Employee').model.findOne()
         .where(locals.orgFilter)//always apply tenant filter first

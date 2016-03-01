@@ -106,6 +106,7 @@
     "edit_development_activity": "تعديل المهمة",
     "edit_development_plan": "تعديل خطة التطوير",
     "edit_employee": "تعديل الموظف",
+    "edit_job": "تعديل الوظيفة",
     "education": "التعليم",
     "education_and_certification": "التعليم والشهادات",
     "employee_profile": "الملف الوظيفي",
@@ -189,6 +190,9 @@
     "job_alternative": "المسمى العربي",
     "job_assessed": "الوظيفة المستهدفة",
     "job_code": "رقم الوظيفة",
+    "job_level": "المستوى الوظيفي",
+    "job_role": "الدور الوظيفي",
+    "job_senior": "أول؟",
     "job_title": "المسمى الوظيفي",
     "last_name": "الاسم الأخير",
     "legend": "الدليل",
@@ -198,6 +202,7 @@
     "more": "المزيد",
     "name": "الاسم",
     "new_password": "كلمة المرور الجديدة",
+    "no": "لا",
     "noprime": "غير معتمدة",
     "of": "من أصل",
     "optional": "اختياري",
@@ -230,7 +235,8 @@
     "to": "إلى",
     "type": "النوع",
     "unanalyzed": "لم يتم تحليلها",
-    "unapproved": "لم يوافق عليها حتى الآن"
+    "unapproved": "لم يوافق عليها حتى الآن",
+    "yes": "نعم"
   },
   "language": "ar",
   "msg": {

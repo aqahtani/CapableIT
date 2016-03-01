@@ -2,13 +2,21 @@
 
 //- Job Description in Details
 mixin jobDetail(job, englishlevels, hardlevels, softlevels)
-  h2= t('header.job')
-  hr
   .row
     .col-sm-2: +fieldLabel(t('label.job_title'))
     .col-sm-4: h4= job.title
     .col-sm-2: +fieldLabel(t('label.job_alternative'))
     .col-sm-4: h4= job.altTitle
+  .row
+    .col-sm-2: +fieldLabel(t('label.job_code'))
+    .col-sm-4: h4= job.code
+    .col-sm-2: +fieldLabel(t('label.job_role'))
+    .col-sm-4: h4= job.role
+  .row
+    .col-sm-2: +fieldLabel(t('label.job_level'))
+    .col-sm-4: h4= job.level
+    .col-sm-2: +fieldLabel(t('label.job_senior'))
+    .col-sm-4: h4= job.senior ? t('label.yes') : t('label.no')
   .row
     .col-sm-2: +fieldLabel(t('label.reports_to'))
     .col-sm-4
@@ -29,7 +37,8 @@ mixin jobDetail(job, englishlevels, hardlevels, softlevels)
     for task, index in job.tasks
       li.list-group-item
         | #{task}
-        .badge= job.authorities[index]
+        //.badge= job.authorities[index]
+        .pull-right: +authority(job.authorities[index])
   hr
   h3= t('header.job_context')
   .row

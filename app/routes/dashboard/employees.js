@@ -35,30 +35,29 @@ exports = module.exports = function(req, res) {
     // Create a new employee
     view.on('post', { action: 'create-employee' }, function (next) {
         
-        // create a new employee and save
+        // initialize a new employee 
         var newEmployee = new Employee.model( {
             organization: locals.organization, //global organization
-            name: { first: req.body.firstName, last: req.body.lastName },
-            arName: req.body.arName,
-            empId: req.body.empId,
-            email: req.body.email,
-            job: req.body.job === '' ? null : req.body.job
         });
         
-        newEmployee.save(function (err, doc) {
+        // and save using keystone update handler
+        var updater = newEmployee.getUpdateHandler(req);
+        
+        updater.process(req.body, {
+            flashErrors: true,
+            fields: 'name, arName, empId, email, job',
+            errorMessage: t('flash.error.create')
+        }, function (err, doc) {
             if (err) {
-                req.flash('error', {
-                    type: 'ValidationError',
-                    title: t('flash.error.create'),
-                    list: _.pluck(err.errors, 'message')
-                });
-                return res.redirect('back');
+                locals.validationErrors = err.errors;
+                return next();
             };
             
             // create successful!
             req.flash('success', t('flash.success.create'));
             return res.redirect('/employee/' + doc.id);
         });
+        
     });
 
     // Change employee job assignment

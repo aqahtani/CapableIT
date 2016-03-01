@@ -14,8 +14,6 @@ exports = module.exports = function(req, res) {
 		assessment: req.params.assessment
 	};
     
-    locals.statusOptions = _.pluck(Assessment.fields['status'].ops, 'value');
-
     // initialize edit/post variables
     locals.validationErrors = {};
     

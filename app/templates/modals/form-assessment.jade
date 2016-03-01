@@ -101,7 +101,7 @@ mixin modalAssessment(modalId, assessment, englishLevels)
          
         .modal-footer
           //- status input HERE
-          span.pull-left: +formSelectInput('status', statusOptions, assessment.status)
+          span.pull-left: +formKeystoneSelectFieldRequired('status', assessment.statusOptions, assessment.status)
           button(type='submit').btn.btn-danger= t('cmd.update')
           button(type="button", data-dismiss="modal").btn.btn-default= t('cmd.cancel')
 

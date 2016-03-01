@@ -114,30 +114,28 @@ exports = module.exports = function(req, res) {
     // Create a new development plan
     view.on('post', { action: 'create-developmentplan' }, function (next) {
         
-        // create a new activity and save
+        // create a new development plan and use update handler
         var newPlan = new DevelopmentPlan.model({
             organization: locals.organization, //global organization
-            employee: req.user.employee, // current user employee id
-            period: req.body.period,
-            goals: req.body.goals,
-            strengths: req.body.strengths,
-            weaknesses: req.body.weaknesses
+            employee: req.user.employee // current user employee id
         });
+        var updater = newPlan.getUpdateHandler(req);
         
-        newPlan.save(function (err, doc) {
+        updater.process(req.body, {
+            flashErrors: true,
+            fields: 'period, goals, strengths, weaknesses',
+            errorMessage: t('flash.error.create')
+        }, function (err, doc) {
             if (err) {
-                req.flash('error', {
-                    type: 'ValidationError',
-                    title: t('flash.error.create'),
-                    list: _.pluck(err.errors, 'message')
-                });
-                return res.redirect('back');
-            }
-            
+                locals.validationErrors = err.errors;
+                return next();
+            };
+
             // create successful!
             req.flash('success', t('flash.success.create'));
             return res.redirect('/developmentplan/' + doc.id);
         });
+
     });
 
 	// Render the view

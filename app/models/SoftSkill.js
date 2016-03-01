@@ -16,7 +16,7 @@ var EnglishLevel = new keystone.List('EnglishLevel', {
 });
 
 EnglishLevel.add({
-    category: { type: Types.Select, options: 'Proficient, Independent, Basic', default: 'Basic', initial: true },
+    category: { type: Types.Select, options: 'Proficient, Independent, Basic, None', default: 'Basic', initial: true },
     grade: { type: Types.Text, required: true, initial: true },
     number: { type: Types.Number, required: true, initial: true },
     title: { type: Types.Text, required: true, initial: true },

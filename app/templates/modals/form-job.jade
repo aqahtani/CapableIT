@@ -42,87 +42,126 @@ mixin modalAddJob(jobs)
           button(type='submit').btn.btn-primary= t('cmd.create')
           button(type="button", data-dismiss="modal").btn.btn-default= t('cmd.cancel')
 
+//- Modal: Edit Job Form and Edit Button
+mixin editBtn()
+  a(href="#"
+    title="#{ t('cmd.edit') }"
+    data-toggle="modal"
+    data-target="#formEditJobModal"): span.glyphicon.glyphicon-edit
 
-//- WORK-IN-PROGRESS Modal: Edit Job Form
-//-mixin modalEditJob(modalId, job, eduLevelOptions, engTestOptions)
-  .modal.fade(id="#{modalId}")
+mixin modalEditJob(job, jobs, englishlevels)
+  #formEditJobModal.modal.fade
     .modal-dialog.modal-lg
       form(method='post').form-horizontal.modal-content
         input(type='hidden', name='action', value='update-job')
         .modal-header
           button(type="button", data-dismiss="modal").close
             span(aria-hidden="true") &times;
-            span.sr-only Close
-          h4.modal-title Edit Job
+            span.sr-only= t('cmd.close')
+          //- modal header is replaced by the header on the first tab 
+            .modal-title
+          //- Nav tabs
+          ul.nav.nav-tabs(role='tablist')
+            li.active(role='presentation')
+              a(href='#job', aria-controls='job', role='tab', data-toggle='tab')= t('header.edit_job')
+            li(role='presentation')
+              a(href='#responsibilities', aria-controls='responsibilities', role='tab', data-toggle='tab')= t('header.responsibilities')
+            li(role='presentation')
+              a(href='#job_context', aria-controls='job_context', role='tab', data-toggle='tab')= t('header.job_context')
+            li(role='presentation')
+              a(href='#capabilities', aria-controls='capabilities', role='tab', data-toggle='tab')= t('header.capabilities')
+            li(role='presentation')
+              a(href='#professional', aria-controls='professional', role='tab', data-toggle='tab')= t('header.professional_skills')
+            li(role='presentation')
+              a(href='#behavioral', aria-controls='behavioral', role='tab', data-toggle='tab')= t('header.behavioral_skills')
         .modal-body
-          .row
-            .col-sm-6
-              .form-group.form-group-sm(class=validationErrors.name ? 'has-error' : null)
-                label(for='name').col-sm-4.control-label Name
-                .col-sm-8: input(type='text', name='name.full', id='name', value=job.name.full).form-control
-            .col-sm-6
-              .form-group.form-group-sm(class=validationErrors.arName ? 'has-error' : null)
-                label(for='arName').col-sm-4.control-label Arabic Name
-                .col-sm-8: input(type='text', name='arName', id='arName', value=job.arName).form-control
-          .row
-            .col-sm-6
-              .form-group.form-group-sm(class=validationErrors.empId ? 'has-error' : null)
-                label(for='empId').col-sm-4.control-label Job ID
-                .col-sm-8: input(type='text', name='empId', id='empId', value=job.empId).form-control
-            .col-sm-6
-              .form-group.form-group-sm(class=validationErrors.email ? 'has-error' : null)
-                label(for='email').col-sm-4.control-label Email
-                .col-sm-8: input(type='text', name='email', id='email', value=job.email).form-control
-          .row
-            .col-sm-6
-              .form-group.form-group-sm(class=validationErrors.telephone ? 'has-error' : null)
-                label(for='telephone').col-sm-4.control-label Telephone
-                .col-sm-8: input(type='text', name='telephone', id='telephone', value=job.telephone).form-control
-            .col-sm-6
-              .form-group.form-group-sm(class=validationErrors.mobile ? 'has-error' : null)
-                label(for='mobile').col-sm-4.control-label Mobile
-                .col-sm-8: input(type='text', name='mobile', id='mobile', value=job.mobile).form-control
-          .row
-            .col-sm-6
-              .form-group.form-group-sm(class=validationErrors.birthDate ? 'has-error' : null)
-                label(for='birthDate').col-sm-4.control-label Birth Date
-                .col-sm-8: input(type='text', name='birthDate', id='birthDate', value=job._.birthDate.format('YYYY-MM-DD')).form-control.datepicker
-            .col-sm-6
-              .form-group.form-group-sm(class=validationErrors.formalTitle ? 'has-error' : null)
-                label(for='formalTitle').col-sm-4.control-label Formal Title
-                .col-sm-8: input(type='text', name='formalTitle', id='formalTitle', value=job.formalTitle).form-control
+          //- Tab panes
+          .tab-content
+            #job.tab-pane.active.fade.in(role='tabpanel')
+              .row
+                .col-sm-6
+                  .form-group(class=validationErrors.title ? 'has-error' : null)
+                    label(for='title').col-sm-4.control-label= t('label.job_title')
+                    .col-sm-8: input(type='text', name='title', id='title', value=job.title, required).form-control
+                .col-sm-6
+                  .form-group(class=validationErrors.altTitle ? 'has-error' : null)
+                    label(for='altTitle').col-sm-4.control-label= t('label.job_alternative')
+                    .col-sm-8: input(type='text', name='altTitle', id='altTitle', value=job.altTitle).form-control
+              .row
+                .col-sm-6
+                  .form-group(class=validationErrors.code ? 'has-error' : null)
+                    label(for='code').col-sm-4.control-label= t('label.job_code')
+                    .col-sm-8: input(type='text', name='code', id='code', value=job.code).form-control
+                .col-sm-6
+                  .form-group(class=validationErrors.role ? 'has-error' : null)
+                    label(for='role').col-sm-4.control-label= t('label.job_role')
+                    .col-sm-8: +formKeystoneSelectFieldOptional('role', job.roleOptions, job.role)
+              .row
+                .col-sm-6
+                  .form-group(class=validationErrors.level ? 'has-error' : null)
+                    label(for='level').col-sm-4.control-label= t('label.job_level')
+                    .col-sm-8: input(type='number', min='0', step='1', name='level', id='level', value=job.level).form-control
+                .col-sm-6  
+                  .form-group(class=validationErrors.senior ? 'has-error' : null)
+                    label(for='senior').col-sm-4.control-label= t('label.job_senior') 
+                    .col-sm-8: .checkbox: label: input(type='checkbox', name='senior', checked=job.senior)
 
-          hr
-          .row
-            .col-sm-12
-              .form-group.form-group-sm(class=validationErrors.bio ? 'has-error' : null)
-                label(for='bio').col-sm-2.control-label About/Bio
-                .col-sm-10: textarea(name='bio', id='bio', rows='3', placeholder='about you').form-control= job.bio
-          hr
-          .row
-            .col-sm-6
-              .form-group.form-group-sm(class=validationErrors['english.test'] ? 'has-error' : null)
-                label(for='english.test').col-sm-4.control-label English Test
-                .col-sm-8: +formSelectInput('english.test', engTestOptions, job.english.test) 
-              .form-group.form-group-sm(class=validationErrors['english.score'] ? 'has-error' : null)
-                label(for='english.score').col-sm-4.control-label Test Score
-                .col-sm-8: input(type='text', name='english.score', id='english.score', value=job.english.score).form-control
-            .col-sm-6
-              .form-group.form-group-sm(class=validationErrors['education.field'] ? 'has-error' : null)
-                label(for='education.field').col-sm-4.control-label Education Field
-                .col-sm-8: input(type='text', name='education.field', id='education.field', value=job.education.field).form-control
-              .form-group.form-group-sm(class=validationErrors['education.level'] ? 'has-error' : null)
-                label(for='education.level').col-sm-4.control-label  Education Level
-                .col-sm-8: +formSelectInput('education.level', eduLevelOptions, job.education.level) 
-          .row
-            .col-sm-12
-              .form-group.form-group-sm(class=validationErrors.certificates ? 'has-error' : null)
-                label(for='certificates').col-sm-2.control-label Certificates
-                .col-sm-10: +formMultiText('certificates', job.certificates)
-                    
+              .row
+                .col-sm-12
+                  .form-group(class=validationErrors.reportsTo ? 'has-error' : null)
+                    label(for='reportsTo').col-sm-2.control-label= t('label.reports_to')
+                    .col-sm-10: +formSelectizeListOptional('reportsTo', jobs, job.reportsTo)
+                
+            #responsibilities.tab-pane.fade(role='tabpanel')
+              .row
+                .col-sm-12
+                  .form-group(class=validationErrors.tasks ? 'has-error' : null)
+                    .col-sm-12: +formResponsibilities(job.tasks, job.authorities)
+          
+            #job_context.tab-pane.fade(role='tabpanel')
+              .row
+                .col-sm-12
+                  .form-group(class=validationErrors.environment ? 'has-error' : null)
+                    label(for='environment').col-sm-2.control-label= t('label.environment')
+                    .col-sm-10: input(type='text', name='environment', id='environment', value=job.environment).form-control
+                  .form-group(class=validationErrors.audience ? 'has-error' : null)
+                    label(for='audience').col-sm-2.control-label= t('label.audience')
+                    .col-sm-10: input(type='text', name='audience', id='audience', value=job.audience).form-control
+                  .form-group(class=validationErrors.internal ? 'has-error' : null)
+                    label(for='internal').col-sm-2.control-label= t('label.internal')
+                    .col-sm-10: input(type='text', name='internal', id='internal', value=job.internal).form-control
+                  .form-group(class=validationErrors.external ? 'has-error' : null)
+                    label(for='external').col-sm-2.control-label= t('label.external')
+                    .col-sm-10: input(type='text', name='external', id='external', value=job.external).form-control
+          
+            #capabilities.tab-pane.fade(role='tabpanel')
+              .row
+                .col-sm-12
+                  .form-group(class=validationErrors['english.level'] ? 'has-error' : null)
+                    label(for='english.level').col-sm-2.control-label= t('label.english_level')
+                    .col-sm-10: +formEnglishLeveler('english.level', englishlevels, job.english.level)
+                  .form-group(class=validationErrors.knowledge ? 'has-error' : null)
+                    label(for='knowledge').col-sm-2.control-label= t('header.knowledge')
+                    .col-sm-10: textarea(name='knowledge', id='knowledge', rows='6').form-control= job.knowledge
+                  .form-group(class=validationErrors.experience ? 'has-error' : null)
+                    label(for='experience').col-sm-2.control-label= t('header.experience_and_qualifications')
+                    .col-sm-10: textarea(name='experience', id='experience', rows='6').form-control= job.experience
+            
+            #professional.tab-pane.fade(role='tabpanel')
+              .row
+                .col-sm-12
+                  .form-group(class=validationErrors['professional.skills'] ? 'has-error' : null)
+                    .col-sm-12: +formSelectHardSkills(job.professional.skills, job.professional.levels)
+            
+            #behavioral.tab-pane.fade(role='tabpanel')
+              .row
+                .col-sm-12
+                  .form-group(class=validationErrors['behavioral.skills'] ? 'has-error' : null)
+                    .col-sm-12: +formSelectSoftSkills(job.behavioral.skills, job.behavioral.levels)
+
         .modal-footer
-          button(type='submit').btn.btn-primary Submit
-          button(type="button", data-dismiss="modal").btn.btn-default Cancel
+          button(type='submit').btn.btn-primary= t('cmd.update')
+          button(type="button", data-dismiss="modal").btn.btn-default= t('cmd.cancel')
 
 mixin deleteBtn(job)
   if job

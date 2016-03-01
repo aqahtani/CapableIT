@@ -71,7 +71,7 @@ exports.initLocals = function(req, res, next) {
 exports.initErrorHandlers = function (req, res, next) {
     
     res.err = function (err, title, message) {
-        logger.error('[500] Server Error ', message, logger.details({ 'Error': err }));
+        logger.error('[500] Server Error ', message, logger.details({ 'Error': err, 'User': req.user }));
         res.status(500).render('errors/500', {
             err: err,
             errorTitle: title,

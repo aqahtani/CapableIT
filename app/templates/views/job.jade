@@ -1,11 +1,24 @@
 extends ../layouts/default
 include ../mixins/job-detail
+include ../modals/form-job
+
+block js
+  script(src='/js/job-ui.js')
 
 block content
+  //- embed the employee form modal
+  if job
+    +modalEditJob(job, jobs, englishlevels)
   .container
     .row: .col-sm-12
       article
         if !job
           h2= t('msg.invalid_job')
         else
+          h2= t('header.job')
+            .pull-right
+              //- buttons to trigger edit and delete modals based on permissions
+              if canDo(user, permits, 'edit')
+                +editBtn()
+          hr
           +jobDetail(job, englishlevels, hardlevels, softlevels)

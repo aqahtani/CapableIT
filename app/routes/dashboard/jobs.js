@@ -42,29 +42,29 @@ exports = module.exports = function (req, res) {
     // Create a new job
     view.on('post', { action: 'create-job' }, function (next) {
         
-        // create a new job and save
+        // initialize a new job 
         var newJob = new Job.model({
             organization: locals.organization, //global organization
-            title: req.body.title,
-            altTitle: req.body.altTitle,
-            code: req.body.code,
-            reportsTo: req.body.reportsTo === '' ? null : req.body.reportsTo
         });
         
-        newJob.save(function (err, doc) {
+        // and save using keystone update handler
+        var updater = newJob.getUpdateHandler(req);
+        
+        updater.process(req.body, {
+            flashErrors: true,
+            fields: 'title, altTitle, code, reportsTo',
+            errorMessage: t('flash.error.create')
+        }, function (err, doc) {
             if (err) {
-                req.flash('error', {
-                    type: 'ValidationError',
-                    title: t('flash.error.create'),
-                    list: _.pluck(err.errors, 'message')
-                });
-                return res.redirect('back');
+                locals.validationErrors = err.errors;
+                return next();
             };
             
             // create successful!
             req.flash('success', t('flash.success.create'));
             return res.redirect('/job/' + doc.id);
         });
+        
     });
     
     // DELETE job

@@ -91,7 +91,7 @@ mixin modalEditDevelopmentPlan(modalId, developmentplan)
           
         .modal-footer
           //- status input HERE
-          span.pull-left: +formSelectInput('status', statusOptions, developmentplan.status)
+          span.pull-left: +formKeystoneSelectFieldRequired('status', developmentplan.statusOptions, developmentplan.status)
           button(type='submit').btn.btn-primary= t('cmd.update')
           button(type="button", data-dismiss="modal").btn.btn-default= t('cmd.cancel')
 

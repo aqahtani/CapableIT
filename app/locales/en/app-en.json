@@ -106,6 +106,7 @@
     "edit_development_activity": "Edit Development Activity",
     "edit_development_plan": "Edit Development Plan",
     "edit_employee": "Edit Employee",
+    "edit_job": "Edit Job",
     "education": "Education",
     "education_and_certification": "Education & Certification",
     "employee_profile": "Employee Profile",
@@ -189,6 +190,9 @@
     "job_alternative": "Alternative Title",
     "job_assessed": "Job Assessed",
     "job_code": "Job Code",
+    "job_level": "Job Level",
+    "job_role": "Job Role",
+    "job_senior": "Senior?",
     "job_title": "Job Title",
     "last_name": "Last Name",
     "legend": "Legend",
@@ -198,6 +202,7 @@
     "more": "More",
     "name": "Name",
     "new_password": "New Password",
+    "no": "No",
     "noprime": "Not Prime",
     "of": "of",
     "optional": "optional",
@@ -230,7 +235,8 @@
     "to": "to",
     "type": "Type",
     "unanalyzed": "Not Analyzed",
-    "unapproved": "Unapproved"
+    "unapproved": "Unapproved",
+    "yes": "Yes"
   },
   "language": "en",
   "msg": {

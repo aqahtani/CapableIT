@@ -18,8 +18,6 @@ exports = module.exports = function(req, res) {
         employee: req.user.employee
     };
     
-    locals.statusOptions = _.pluck(DevelopmentPlan.fields['status'].ops, 'value');
-
     // initialize edit/post variables
     locals.validationErrors = {};
     
@@ -308,37 +306,31 @@ exports = module.exports = function(req, res) {
                 return next();
             }
             
-            // all is well, Go! 
-            // create a new activity and save
+            // all is well, Go!
+            // inistialize a new development activity  
             var newActivity = new DevelopmentActivity.model({
                 organization: developmentPlan.organization,
                 employee: developmentPlan.employee,
-                developmentPlan: developmentPlan.id,
-                title: req.body.title,
-                method: req.body.method === '' ? null : req.body.method,
-                deadline: req.body.deadline,
-                duration: req.body.duration,
-                progress: req.body.progress,
-                targetHardSkills: req.body.targetHardSkills,
-                targetSoftSkills: req.body.targetSoftSkills,
-                remarks: req.body.remarks
+                developmentPlan: developmentPlan.id
             });
             
-            newActivity.save(function (err) {
+            // and use keystone update handler to create it!
+            var updater = newActivity.getUpdateHandler(req);
+            
+            updater.process(req.body, {
+                flashErrors: true,
+                fields: 'title, method, targetHardSkills, targetSoftSkills, deadline, duration, progress, remarks',
+                errorMessage: t('flash.error.create')
+            }, function (err, result) {
                 if (err) {
-                    // req.flash('error', err);
                     locals.validationErrors = err.errors;
-                    req.flash('error', {
-                        type: 'ValidationError',
-                        title: t('flash.error.create'),
-                        list: _.pluck(err.errors, 'message')
-                    });
                     return next();
-                }
-                
+                };
+                // else, create is successful
                 req.flash('success', t('flash.success.create'));
                 return res.redirect('back');
             });
+
         });
     });
 

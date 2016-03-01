@@ -33,10 +33,10 @@ mixin infoIcon(title, description)
 //- Authority as RACI
 mixin authority(raci)
   case raci
-    when "RESPONSIBLE"
-      .label.label-warning= raci
     when "ACCOUNTABLE"
       .label.label-danger= raci
+    when "RESPONSIBLE"
+      .label.label-warning= raci
     when "CONSULTED"
       .label.label-success= raci
     when "INFORMED"
@@ -90,7 +90,7 @@ mixin softLeveler(skill, target, current)
 //- English Language Leveler
 mixin englishLeveler(target, current)
   .bs-component: .btn-group.btn-group-justified
-    for i in ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
+    for i in ['A0', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2']
       if (target && i == target.grade)
           +levelBox(target.title, i, "btn-default", target.description, target.color)
       else if (current && i == current.grade)

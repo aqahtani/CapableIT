@@ -78,15 +78,76 @@ mixin formMultiText(field, items)
           span.input-group-btn: button(type="button").btn.btn-danger.btn-remove-item: span.glyphicon.glyphicon-remove
     .btn.btn-info.btn-sm.btn-add-item: span.glyphicon.glyphicon-plus
 
+mixin formResponsibilities(tasks, authorities)
+  #field-responsibilities
+    div
+      each task, index in tasks
+        .input-group
+          span.input-group-addon: span.glyphicon.glyphicon-ok-sign
+          input(type="text", name="tasks", value=task).form-control
+          span.input-group-addon: span.glyphicon.glyphicon-user
+          +formSelectInput('authorities', ["ACCOUNTABLE", "RESPONSIBLE", "CONSULTED", "INFORMED"], authorities[index])
+          span.input-group-btn: button(type="button").btn.btn-danger.btn-remove-item: span.glyphicon.glyphicon-remove
+    .btn.btn-info.btn-sm.btn-add-item: span.glyphicon.glyphicon-plus
+
+mixin formSelectHardSkills(skills, levels)
+  #field-hard-skills(data-cit-hardskills=hardSkills)
+    div
+      each skill, index in skills
+        .input-group
+          span.input-group-addon: span.glyphicon.glyphicon-tasks
+          +formSelectList('professional.skills', hardSkills, skill)
+          span.input-group-addon: span.glyphicon.glyphicon-stats
+          input(type="number", step="1", min="1", max="7", name="professional.levels", value=levels[index], required).form-control
+          span.input-group-btn: button(type="button").btn.btn-danger.btn-remove-item: span.glyphicon.glyphicon-remove
+    .btn.btn-info.btn-sm.btn-add-item: span.glyphicon.glyphicon-plus
+
+mixin formSelectSoftSkills(skills, levels)
+  #field-soft-skills(data-cit-softskills=softSkills)
+    div
+      each skill, index in skills
+        .input-group
+          span.input-group-addon: span.glyphicon.glyphicon-tasks
+          +formSelectList('behavioral.skills', softSkills, skill)
+          span.input-group-addon: span.glyphicon.glyphicon-stats
+          input(type="number", step="1", min="1", max="5", name="behavioral.levels", value=levels[index], required).form-control
+          span.input-group-btn: button(type="button").btn.btn-warning.btn-remove-item: span.glyphicon.glyphicon-remove
+    .btn.btn-info.btn-sm.btn-add-item: span.glyphicon.glyphicon-plus
+
+
 //- A mixin to select/options for a Select Field
 //- which is for a simple list of text inputs
 mixin formSelectInput(field, items, selected)
-  select(name='#{field}', id='#{field}').form-control.input-sm
+  select(name='#{field}', id='#{field}').form-control
     each item in items
       if item == selected
         option(value="#{item}", selected)= item
       else
         option(value="#{item}")= item
+
+//- A mixin to select/options for a Select Field from Keystone
+//- when field is optional
+//- http://keystonejs.com/docs/database/#fieldtypes-select
+mixin formKeystoneSelectFieldOptional(inputName, fieldOptions, fieldValue)
+  select(name='#{inputName}', id='#{inputName}').form-control
+    option(value="")
+    each option in fieldOptions
+      if option.value == fieldValue
+        option(value="#{option.value}", selected)= option.label
+      else
+        option(value="#{option.value}")= option.label
+
+//- A mixin to select/options for a Select Field from Keystone
+//- when field is required
+//- http://keystonejs.com/docs/database/#fieldtypes-select
+mixin formKeystoneSelectFieldRequired(inputName, fieldOptions, fieldValue)
+  select(name='#{inputName}', id='#{inputName}').form-control
+    each option in fieldOptions
+      if option.value == fieldValue
+        option(value="#{option.value}", selected)= option.label
+      else
+        option(value="#{option.value}")= option.label
+
 
 //- a mixin to display a list as select input
 //- list is an array of objects (of the related list items from keystone)
