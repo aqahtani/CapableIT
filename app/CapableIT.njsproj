@@ -51,7 +51,7 @@
     <Content Include="public\js\lib\selectize\css\selectize.default.css" />
     <Content Include="public\js\lib\selectize\css\selectize.legacy.css" />
     <Content Include="public\js\lib\underscore\underscore-min.map" />
-    <Content Include="robots.txt" />
+    <Content Include="public\robots.txt" />
     <Content Include="templates\emails\reset-password.jade" />
     <Content Include="templates\emails\verify-email.jade" />
     <Content Include="templates\views\home\home.jade" />

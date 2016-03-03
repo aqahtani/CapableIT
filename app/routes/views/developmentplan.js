@@ -37,13 +37,13 @@ exports = module.exports = function(req, res) {
     );
     
     // 3: get all development methods
-    view.query('developmentMethods', keystone.list('DevelopmentMethod').model.find());
+    view.query('developmentMethods', keystone.list('DevelopmentMethod').model.find().sort('title'));
     
     // 4: get all hard skills to highlight in development plan
-    view.query('hardSkills', keystone.list('HardSkill').model.find());
+    view.query('hardSkills', keystone.list('HardSkill').model.find().sort('number'));
 
     // 5: get all soft skills to highlight in development plan
-    view.query('softSkills', keystone.list('SoftSkill').model.find());
+    view.query('softSkills', keystone.list('SoftSkill').model.find().sort('number'));
     
     // 5: get all soft skill gaps to highlight in development plan
     //view.query('softGaps', keystone.list('SoftSkillGap').model.find()
