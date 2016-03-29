@@ -2,7 +2,7 @@
 // customising the .env file in your project's root folder.
 require('dotenv').config({ silent: true });
 
-// Azure Application Insights
+// Azure Application Insights NodeSDK
 appInsights = require('applicationinsights');
 appInsights.setup().start();
 
