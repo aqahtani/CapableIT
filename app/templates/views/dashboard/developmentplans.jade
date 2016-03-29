@@ -70,7 +70,7 @@ block content
                     svg.glyph.stroked.flag
                       use(xlink:href='#stroked-flag')
                   .col-sm-9.col-lg-7.widget-right
-                    .large #{devPlansByStatus.final.length}
+                    .large= devPlansByStatus.final ? devPlansByStatus.final.length : 0
                     .text-muted Final
 
             .col-xs-12.col-md-6.col-lg-3
@@ -80,7 +80,7 @@ block content
                     svg.glyph.stroked.pencil
                       use(xlink:href='#stroked-pencil')
                   .col-sm-9.col-lg-7.widget-right
-                    .large #{devPlansByStatus.draft.length}
+                    .large= devPlansByStatus.draft ? devPlansByStatus.draft.length : 0
                     .text-muted Draft
 
             .col-xs-12.col-md-6.col-lg-3
