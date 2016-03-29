@@ -27,7 +27,8 @@
     "unapprove": "إلغاء الموافقة",
     "update": "تحديث",
     "view": "عرض",
-    "view_business_card": "عرض بطاقة العمل"
+    "view_business_card": "عرض بطاقة العمل",
+    "download": "تحميل"
   },
   "direction": "rtl",
   "flash": {
@@ -97,7 +98,7 @@
     "delete_development_plan": "حذف خطة التطوير",
     "delete_employee": "حذف الموظف",
     "delete_job": "حذف الوظيفة",
-    "development_activities": "الخطة العملية (مهام التطوير)",
+    "development_activities": "مهام التطوير",
     "development_activity": "مهمة تطوير",
     "development_plan": "خطة التطوير",
     "development_plan_approval": "الموافقة على خطة التطوير",
@@ -140,7 +141,9 @@
     "team_development_plans": "الخطط الخاصة بفريقك",
     "total_assessment_analysis": "التحليل الشامل للفجوات",
     "weaknesses_to_develop": "نقاط الضعف لتطويرها (3-5)",
-    "your_development_plans": "الخطط الخاصة بك"
+    "your_development_plans": "الخطط الخاصة بك",
+    "summary": "ملخص",
+    "dashboard": "صفحة التحكم"
   },
   "kpc": "شغف المعرفة للإستشارات",
   "label": {
@@ -148,6 +151,7 @@
     "agree": "موافق",
     "all": "الكل",
     "analyzed": "تم تحليلها",
+    "approved": "موافق عليها",
     "approved_by": "وافق عليها",
     "arabic_name": "الاسم بالعربية",
     "archived": "مؤرشف",
@@ -167,6 +171,7 @@
     "deadline": "الموعد النهائي",
     "department": "الإدارة",
     "development_plans": "خطط التطوير",
+    "download_csv": "تحميل CSV",
     "draft": "مسودة",
     "duration": "المدة (بالأيام)",
     "education": "التعليم",
@@ -226,6 +231,7 @@
     "select_option": "اختر ...",
     "self_assessment": "التقييم الذاتي",
     "showing": "إظهار",
+    "status": "الحالة",
     "target_hard_skills": "المهارات الفنية المستهدفة",
     "target_levels": "المستويات المطلوب",
     "target_soft_skills": "المهارات الشخصية المستهدفة",

@@ -122,19 +122,11 @@ html(dir="#{ t('direction') }",lang="#{ t('language') }")
                 li: a(href='/employee')= user.name.first
                 //- admin-only nav links 
                 if hasRole(user, 'owner')
-                  li.dropdown(class=(section == 'dashboard' ? 'active' : null))
-                    a.dropdown-toggle(href="#",data-toggle="dropdown")
-                      span.glyphicon.glyphicon-dashboard  
-                      //-span.caret
-                    ul.dropdown-menu(role="menu")
-                      li: a(href="/dashboard/jobs")= t('nav.jobs')
-                      li: a(href="/dashboard/employees")= t('nav.employees')
-                      li: a(href="/dashboard/assessments")= t('nav.assessments')
-                      li: a(href="/dashboard/developmentplans")= t('nav.developmentplans')
+                  li: a(href="/dashboard/", title='#{t("nav.dashboard")}'): span.glyphicon.glyphicon-dashboard  
                       
                 //- keystone admin ui
                 if user.canAccessKeystone
-                  li: a(href='/keystone',title="#{t('nav.keystone')}"): span.glyphicon.glyphicon-cog
+                  li: a(href='/keystone', title="#{t('nav.keystone')}"): span.glyphicon.glyphicon-cog
                 //- logout
                 li: a(href='/logout',title="#{t('nav.signout')}"): span.glyphicon.glyphicon-log-out
               else

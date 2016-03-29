@@ -2,47 +2,54 @@
 //- DASHBOARD/jobs
 //- **************************************
 
-extends ../../layouts/default
+extends ../../layouts/dashboard
 include ../../modals/form-job
 
 block js
   script(src='/js/job-ui.js')
 
-block content
-  .container
-    .row
-      .col-sm-12
-        section
-          +modalAddJob(jobs)
-          +modalDeptAssignment()
-          +modalDeleteJob()
+block header
+  .row
+    ol.breadcrumb
+      li
+        a(href='#')
+          svg.glyph.stroked.home
+            use(xlink:href='#stroked-home')
+      li.active= t('nav.jobs')
 
-          h2= t('header.jobs') 
-            .pull-right: +addBtn()
-          hr
-          if !jobs
-            h3= t('msg.none')
-          else
-            table.table.table-striped.table-condensed.datatables
-              thead
-                tr
-                  th #
-                  th= t('label.job_title')
-                  th= t('label.job_alternative')
-                  th= t('label.department')
-                  th= t('label.function')
-                  th= t('label.actions')
-              tbody
-                each job, i in jobs
-                  tr
-                    td #{i+1}
-                    td: a(href="/job/" + job.id) #{job.title}
-                    td #{job.altTitle}
-                    td= job.orgDepartment ? job.orgDepartment.title : '-'
-                    td= job.orgFunction ? job.orgFunction.title : '-'
-                    td
-                      //- buttons
-                      +assignBtn(job)
-                      | 
-                      +deleteBtn(job)
-                      //-a(href="#", data-toggle="modal", data-target="#formDeleteJobModal" + job.id, title="#{ t('cmd.delete') }"): span.glyphicon.glyphicon-trash
+block content
+  .row: .col-sm-12
+    section
+      +modalAddJob(jobs)
+      +modalDeptAssignment()
+      +modalDeleteJob()
+
+      h2= t('header.jobs') 
+        .pull-right: +addBtn()
+      hr
+      if !jobs
+        h3= t('msg.none')
+      else
+        table(data-toggle='table', data-show-toggle='true', data-show-columns='true', data-search='true', data-select-item-name='toolbar1', data-pagination='true')
+          thead
+            tr
+              th(data-sortable='true') #
+              th(data-sortable='true')= t('label.job_title')
+              th(data-sortable='true')= t('label.job_alternative')
+              th(data-sortable='true')= t('label.department')
+              th(data-sortable='true')= t('label.function')
+              th.text-center= t('label.actions')
+          tbody
+            each job, i in jobs
+              tr
+                td #{i+1}
+                td: a(href="/job/" + job.id) #{job.title}
+                td #{job.altTitle}
+                td= job.orgDepartment ? job.orgDepartment.title : '-'
+                td= job.orgFunction ? job.orgFunction.title : '-'
+                td.text-center
+                  //- buttons
+                  +assignBtn(job)
+                  | 
+                  +deleteBtn(job)
+                  //-a(href="#", data-toggle="modal", data-target="#formDeleteJobModal" + job.id, title="#{ t('cmd.delete') }"): span.glyphicon.glyphicon-trash

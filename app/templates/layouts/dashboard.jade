@@ -1,0 +1,177 @@
+﻿include ../mixins/flash-messages
+
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title #{t('brand')} - Dashboard
+
+    //- Azure Application Insights
+    if env == 'development'
+      script(src='/js/azure-appinsights-dev.js')
+    if env == 'production'
+      script(src='/js/azure-appinsights.js')
+
+    link(href='/dashboard/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/dashboard/css/datepicker3.css', rel='stylesheet')
+    link(href='/dashboard/css/bootstrap-table.css', rel='stylesheet')
+    link(href='/js/lib/selectize/css/selectize.bootstrap3.css', rel='stylesheet')
+    link(href='/dashboard/css/styles.css', rel='stylesheet')
+    // Icons
+    script(src='/dashboard/js/lumino.glyphs.js')
+    //
+      if lt IE 9
+      script(src='/dashboard/js/html5shiv.js')
+      script(src='/dashboard/js/respond.min.js')
+  body
+    nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+      .container-fluid
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#sidebar-collapse')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='/organization', title='CapableIT'): span.glyphicon.glyphicon-arrow-left
+          a.navbar-brand(href='/dashboard', title='#{t("nav.dashboard")}')
+            span= t("brand")
+            |  Admin
+          //-ul.user-menu
+            li.dropdown.pull-right
+              a.dropdown-toggle(href='#', data-toggle='dropdown')
+                svg.glyph.stroked.male-user
+                  use(xlink:href='#stroked-male-user')
+                |  User 
+                span.caret
+              ul.dropdown-menu(role='menu')
+                li
+                  a(href='#')
+                    svg.glyph.stroked.male-user
+                      use(xlink:href='#stroked-male-user')
+                    |  Profile
+                li
+                  a(href='#')
+                    svg.glyph.stroked.gear
+                      use(xlink:href='#stroked-gear')
+                    |  Settings
+                li
+                  a(href='#')
+                    svg.glyph.stroked.cancel
+                      use(xlink:href='#stroked-cancel')
+                    |  Logout
+      
+    #sidebar-collapse.col-sm-3.col-lg-2.sidebar
+      //-form(role='search')
+        .form-group
+          input.form-control(type='text', placeholder='Search')
+      ul.nav.menu
+        li(class=(section == 'dashboard' ? 'active' : null))
+          a(href='/dashboard/')
+            svg.glyph.stroked.dashboard-dial
+              use(xlink:href='#stroked-dashboard-dial')
+            span= t('nav.dashboard')
+
+        li(class=(section == 'jobs' ? 'active' : null))
+          a(href='/dashboard/jobs')
+            svg.glyph.stroked.app-window-with-content
+              use(xlink:href='#stroked-app-window-with-content')
+            span= t('nav.jobs')
+        
+        li(class=(section == 'employees' ? 'active' : null))
+          a(href='/dashboard/employees')
+            svg.glyph.stroked.male-user
+              use(xlink:href='#stroked-male-user')
+            span= t('nav.employees')
+
+        li(class=(section == 'assessments' ? 'active' : null))
+          a(href='/dashboard/assessments')
+            svg.glyph.stroked.clipboard-with-paper
+              use(xlink:href='#stroked-clipboard-with-paper')
+            span= t('nav.assessments')
+        
+        li(class=(section == 'developmentplans' ? 'active' : null))
+          a(href='/dashboard/developmentplans')
+            svg.glyph.stroked.blank-document
+              use(xlink:href='#stroked-blank-document')
+            span= t('nav.developmentplans')
+        
+        //-li.parent
+          a(href='#')
+            span(data-toggle='collapse', href='#sub-item-1')
+              svg.glyph.stroked.chevron-down
+                use(xlink:href='#stroked-chevron-down')
+            |  Dropdown
+          ul#sub-item-1.children.collapse
+            li
+              a(href='#')
+                svg.glyph.stroked.chevron-right
+                  use(xlink:href='#stroked-chevron-right')
+                |  Sub Item 1
+            li
+              a(href='#')
+                svg.glyph.stroked.chevron-right
+                  use(xlink:href='#stroked-chevron-right')
+                |  Sub Item 2
+            li
+              a(href='#')
+                svg.glyph.stroked.chevron-right
+                  use(xlink:href='#stroked-chevron-right')
+                |  Sub Item 3
+        
+        li.divider(role='presentation')
+        //-li
+          a(href='login.html')
+            svg.glyph.stroked.male-user
+              use(xlink:href='#stroked-male-user')
+            |  Login Page
+    
+    //- main
+    .col-sm-9.col-sm-offset-3.col-lg-10.col-lg-offset-2.main
+      //- page header 
+      block header
+
+      //- flash messages
+      .container
+        +flash-messages(messages)
+
+      //- main content
+      block content
+    
+    footer#footer.container-fluid.footer
+      .row
+        .col-sm-9.col-sm-offset-3.col-lg-10.col-lg-offset-2
+          hr
+          p.text-center
+            span &copy;  
+            a(href="http://knowledge-passion.com", target="_blank")= t('kpc')
+            |  
+            span #{t("brand")} v#{citversion} #{t('nav.version')} #{t('poweredby')}  
+            a(href="http://keystonejs.com", target="_blank") KeystoneJS
+
+    script(src='/dashboard/js/jquery-1.11.1.min.js')
+    script(src='/dashboard/js/bootstrap.min.js')
+    script(src='/dashboard/js/chart.min.js')
+    script(src='/dashboard/js/chart-data.js')
+    script(src='/dashboard/js/easypiechart.js')
+    script(src='/dashboard/js/easypiechart-data.js')
+    script(src='/dashboard/js/bootstrap-datepicker.js')
+    script(src='/dashboard/js/bootstrap-table.js')
+    script(src='/js/lib/selectize/js/standalone/selectize.min.js')
+    script.
+      $('#calendar').datepicker({
+      });
+      !function ($) {
+      $(document).on("click","ul.nav li.parent > a > span.icon", function(){
+      $(this).find('em:first').toggleClass("glyphicon-minus");
+      });
+      $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+      }(window.jQuery);
+      $(window).on('resize', function () {
+      if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+      })
+      $(window).on('resize', function () {
+      if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+      })
+
+    block js

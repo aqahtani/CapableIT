@@ -1,37 +1,175 @@
-extends ../../layouts/default
-//-include ../../mixins/flags
+//- **************************************
+//- DASHBOARD/developmentplans
+//- **************************************
+
+extends ../../layouts/dashboard
+include ../../mixins/commons
+include ../../mixins/flags
 include ../../mixins/developmentplan-brief
+include ../../modals/form-developmentactivity
+
+block header
+  .row
+    ol.breadcrumb
+      li
+        a(href='#')
+          svg.glyph.stroked.home
+            use(xlink:href='#stroked-home')
+      li.active= t('nav.developmentplans')
+  
+  //-.row
+    .col-lg-12
+      h1.page-header Development Plans
 
 block content
   //- rearrange the development plans to be indexed by employee id
   - var devPlansByEmp = _.groupBy(developmentPlans, 'employee')
+  - var devPlansByStatus = _.groupBy(developmentPlans, 'status')
+  - var devPlansApproved = _.where(developmentPlans, { approved: true })
 
-  .container
-    .row
-      .col-sm-12
-        section
-          if !employees
-            h2= t('msg.none')
-          else
-            h2= t('header.development_plans')
-            hr
-            table.table.table-striped
-              th #
-              th= t('label.employee')
-              th= t('label.development_plans')
-              each emp, i in employees
-                - var empDevPlans = devPlansByEmp[emp.id]
-                tr
-                  td #{i+1}
-                  td: a(href="/employee/" + emp.id) #{emp.name.full}
-                  if !empDevPlans
-                    td= t('msg.none')
-                  else
-                    td
-                      each p in empDevPlans
-                        +developmentplanButton(p)
-                        |   
-                      //-a.btn.btn-sm.btn-info(href="/developmentplan/" + p.id) Plan for #{p.period}
-                        +badge-status(p.status)
-                        +badge-approved(p.approved, p.approvedBy)
-                        span &nbsp;
+  .row: .col-sm-12
+    h3: ul.nav.nav-tabs(role='tablist')
+      li.active(role='presentation')
+        a(href='#summary', aria-controls='summary', role='tab', data-toggle='tab')= t('header.summary')
+      li(role='presentation')
+        a(href='#plans', aria-controls='plans', role='tab', data-toggle='tab')= t('header.development_plans')
+      li(role='presentation')
+        a(href='#activities', aria-controls='activities', role='tab', data-toggle='tab')= t('header.development_activities')
+    
+    .tab-content
+      //- Summary
+      section#summary.tab-pane.active.fade.in(role='tabpanel')
+        .jumbotron
+          .row
+            .col-xs-12.col-md-6.col-lg-3
+              .panel.panel-blue.panel-widget
+                .row.no-padding
+                  .col-sm-3.col-lg-5.widget-left
+                    svg.glyph.stroked.male-user
+                      use(xlink:href='#stroked-male-user')
+                  .col-sm-9.col-lg-7.widget-right
+                    .large #{employees.length}
+                    .text-muted Employees
+          
+          hr
+          .row
+            .col-xs-12.col-md-6.col-lg-3
+              .panel.panel-blue.panel-widget
+                .row.no-padding
+                  .col-sm-3.col-lg-5.widget-left
+                    svg.glyph.stroked.blank-document
+                      use(xlink:href='#stroked-blank-document')
+                  .col-sm-9.col-lg-7.widget-right
+                    .large #{developmentPlans.length}
+                    .text-muted Plans
+
+            .col-xs-12.col-md-6.col-lg-3
+              .panel.panel-teal.panel-widget
+                .row.no-padding
+                  .col-sm-3.col-lg-5.widget-left
+                    svg.glyph.stroked.flag
+                      use(xlink:href='#stroked-flag')
+                  .col-sm-9.col-lg-7.widget-right
+                    .large #{devPlansByStatus.final.length}
+                    .text-muted Final
+
+            .col-xs-12.col-md-6.col-lg-3
+              .panel.panel-orange.panel-widget
+                .row.no-padding
+                  .col-sm-3.col-lg-5.widget-left
+                    svg.glyph.stroked.pencil
+                      use(xlink:href='#stroked-pencil')
+                  .col-sm-9.col-lg-7.widget-right
+                    .large #{devPlansByStatus.draft.length}
+                    .text-muted Draft
+
+            .col-xs-12.col-md-6.col-lg-3
+              .panel.panel-red.panel-widget
+                .row.no-padding
+                  .col-sm-3.col-lg-5.widget-left
+                    svg.glyph.stroked.checkmark
+                      use(xlink:href='#stroked-checkmark')
+                  .col-sm-9.col-lg-7.widget-right
+                    .large #{devPlansApproved.length}
+                    .text-muted Approved
+          hr
+
+          .row
+            .col-xs-12.col-md-6.col-lg-3
+              .panel.panel-blue.panel-widget
+                .row.no-padding
+                  .col-sm-3.col-lg-5.widget-left
+                    svg.glyph.stroked.clipboard-with-paper
+                      use(xlink:href='#stroked-clipboard-with-paper')
+                  .col-sm-9.col-lg-7.widget-right
+                    .large #{activities.length}
+                    .text-muted Activities
+
+      //- Development Plans
+      section#plans.tab-pane.fade(role='tabpanel')
+        if !employees
+          h2= t('msg.none')
+        else
+          p: table.table.table-striped
+            th #
+            th= t('label.employee')
+            th= t('label.development_plans')
+            each emp, i in employees
+              - var empDevPlans = devPlansByEmp[emp.id]
+              tr
+                td #{i+1}
+                td: a(href="/employee/" + emp.id) #{emp.name.full}
+                if !empDevPlans
+                  td= t('msg.none')
+                else
+                  td
+                    each p in empDevPlans
+                      +developmentplanButton(p)
+                      |   
+
+      //- Development Activities 
+      section#activities.tab-pane.fade(role='tabpanel')
+        if !activities.length
+          h4= t('msg.none')
+        else
+          h2 &nbsp;
+            .pull-right 
+              small= t('label.download_csv')
+              |       
+              small: a(href="/admin/api/development-activities?format=csv", title="#{t('cmd.download')}"): span.glyphicon.glyphicon-download-alt
+          hr
+
+          .row
+            .col-lg-12
+              .panel.panel-default
+                .panel-heading Development Activities
+                .panel-body
+                  table(data-toggle='table', data-show-toggle='true', data-show-columns='true', data-search='true', data-select-item-name='toolbar1', data-pagination='true', data-sort-name='deadline')
+                    thead
+                      tr
+                        th(data-sortable='true') #
+                        th(data-sortable='true')= t('label.title')
+                        th(data-sortable='true')= t('label.employee')
+                        th(data-sortable='true')= t('label.status')
+                        th(data-sortable='true')= t('label.approved')
+                        th(data-sortable='true')= t('label.method')
+                        th(data-sortable='true')= t('label.deadline')
+                        th(data-sortable='true').text-center= t('label.duration')
+                        th(data-sortable='true').text-center= t('label.progress')
+                        th.text-center= t('label.completed')
+                    tbody
+                      each activity, i in activities
+                        tr
+                          td #{i+1}
+                          td
+                            +modalViewDevelopmentActivity('viewDevelopmentActivityModal' + activity.id, activity)
+                            a(href="#", data-toggle="modal", data-target="#viewDevelopmentActivityModal" + activity.id)= activity.title 
+                          td: a(href="/employee/" + activity.employee.id) #{activity.employee.name.full}
+                          td.text-center= activity.developmentPlan.status
+                          td.text-center= activity.developmentPlan.approved ? 'Yes' : 'No'
+                          td= activity.method ? activity.method.title : '-'
+                          td= activity._.deadline.format('YYYY-MM-DD')
+                          td.text-center= activity.duration
+                          td: +percent(activity.progress)
+                          td.text-center: +flag-completed(activity.completed)
+

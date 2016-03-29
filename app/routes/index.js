@@ -50,6 +50,7 @@ var routes = {
     userViews: importRoutes('./user'),
     dashboardViews: importRoutes('./dashboard'),
     api: importRoutes('./api'),
+    adminApi: importRoutes('./admin-api'),
 };
 
 // Setup Route Bindings
@@ -95,16 +96,20 @@ exports = module.exports = function(app) {
     app.post('/developmentplan/:developmentplan', middleware.requireUser, middleware.authorizeUser('edit'), routes.views.developmentplan);
     
     // Dashboard Routes
+    app.all('/dashboard/', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.home);
+    app.all('/dashboard/jobs', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.jobs);
+    app.all('/dashboard/employees', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.employees);
     app.all('/dashboard/assessments', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.assessments);
     app.all('/dashboard/developmentplans', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.developmentplans);
-    app.all('/dashboard/employees', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.employees);
-    app.all('/dashboard/jobs', middleware.requireUser, middleware.requireRole('owner'), routes.dashboardViews.jobs);
     
     // API
     app.get('/api/departments', middleware.requireUser, routes.api.departments); //list org departments
     app.get('/api/functions', middleware.requireUser, routes.api.functions); //list org functions
     app.post('/api/assess/new', middleware.requireUser, routes.api.assess); //new assessment
     app.post('/api/contact', routes.api.contact); //new enquiry
+    
+    // API Admin routes
+    app.get('/admin/api/development-activities', middleware.requireUser, middleware.requireRole('owner'), routes.adminApi['development-activities']); //list development-activities
     
     // User routes: registration and authentication 
     app.all('/join', routes.userViews.join);
@@ -123,5 +128,6 @@ exports = module.exports = function(app) {
     
     // allow CORS on /api routes
     app.all('/api*', middleware.allowOrigins);
+    app.all('/admin/api*', middleware.allowOrigins);
 	
 };

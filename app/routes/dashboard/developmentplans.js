@@ -1,6 +1,7 @@
 var keystone = require('keystone'),
     Employee = keystone.list('Employee'),
-    DevelopmentPlan = keystone.list('DevelopmentPlan');
+    DevelopmentPlan = keystone.list('DevelopmentPlan'),
+    DevelopmentActivity = keystone.list('DevelopmentActivity');
 
 exports = module.exports = function(req, res) {
 	
@@ -8,7 +9,7 @@ exports = module.exports = function(req, res) {
 		locals = res.locals;
 	
 	// Set locals
-	locals.section = 'dashboard';
+	locals.section = 'developmentplans';
     
     // 1: Load all development plans
     view.query('developmentPlans', DevelopmentPlan.model.find()
@@ -24,7 +25,13 @@ exports = module.exports = function(req, res) {
         .populate('job', 'title')
         .sort('name.first name.last')
     );
-
+    
+    // 3: Load all development activities
+    view.query('activities', DevelopmentActivity.model.find()
+        .where(locals.orgFilter)
+        .populate('organization employee developmentPlan method targetHardSkills targetSoftSkills')
+        .sort('deadline')
+    );
 
 	// Render the view
 	view.render('dashboard/developmentplans');

@@ -2,65 +2,71 @@
 //- DASHBOARD/assessments
 //- **************************************
 
-extends ../../layouts/default
+extends ../../layouts/dashboard
 include ../../mixins/paging
 include ../../mixins/assessment-brief
 include ../../modals/form-assessment
 
-block content
-  
+block header
+  .row
+    ol.breadcrumb
+      li
+        a(href='#')
+          svg.glyph.stroked.home
+            use(xlink:href='#stroked-home')
+      li.active= t('nav.assessments')
+
+block content  
   //- rearrange the assessments to be indexed by employee id
   - var assessmentsByEmp = _.groupBy(assessments, 'employee')
 
-  .container
-    .row
-      .col-sm-12
-        section
-          if !employees
-            h2= t('msg.none')
-          else
-            +modalAnalyzeAll('formAnalyzeAllModal', 'analyzeall')
-            +modalAnalyzeAll('formResetAllModal', 'resetall')
-            h2= t('header.assessments')
-              .pull-right
-                a(href="#", data-toggle="modal", data-target="#formAnalyzeAllModal", title="#{ t('cmd.analyzeall') }"): span.glyphicon.glyphicon-tasks
-                |  
-                a(href="#", data-toggle="modal", data-target="#formResetAllModal", title="#{ t('cmd.resetall') }"): span.glyphicon.glyphicon-repeat
-            hr
-            table.table.table-striped
-              th #
-              th= t('label.employee')
-              th= t('label.assessments')
-              th= t('label.self_assessment')
-              th= t('label.prime_assessment')
-              th= t('label.others_assessments')
-              each emp, i in employees
-                - var empAssessments = assessmentsByEmp[emp.id]
-                tr
-                  td #{i+1}
-                  td: a(href="/employee/" + emp.id) #{emp.name.full}
-                  if !empAssessments
-                    td 0
-                    td 
-                    td 
-                    td 
-                  else
-                    td #{empAssessments.length} 
-                    //- self assessment
-                    td
-                      - var selfA = _.find(empAssessments, function(a) { return a.employee == a.doneBy.id; })
-                      if selfA
-                        a.btn.btn-sm.btn-default(href="/assessment/" + selfA.id)= t('label.self_assessment')
-                    //- prime assessment
-                    td
-                      - var primeA = _.find(empAssessments, function(a) { return a.prime; })
-                      if primeA
-                        a.btn.btn-sm.btn-danger(href="/assessment/" + primeA.id) #{primeA.doneBy.name.full}
-                    //- other assessments
-                    td
-                      each a in empAssessments
-                        if (!a.prime) && (a.employee != a.doneBy.id)
-                          a.btn.btn-sm.btn-info(href="/assessment/" + a.id) #{a.doneBy.name.full}
-                          span &nbsp;
+  .row: .col-sm-12
+    section
+      if !employees
+        h2= t('msg.none')
+      else
+        +modalAnalyzeAll('formAnalyzeAllModal', 'analyzeall')
+        +modalAnalyzeAll('formResetAllModal', 'resetall')
+        h2= t('header.assessments')
+          .pull-right
+            a(href="#", data-toggle="modal", data-target="#formAnalyzeAllModal", title="#{ t('cmd.analyzeall') }"): span.glyphicon.glyphicon-tasks
+            |  
+            a(href="#", data-toggle="modal", data-target="#formResetAllModal", title="#{ t('cmd.resetall') }"): span.glyphicon.glyphicon-repeat
+        hr
+        table.table.table-striped
+          th #
+          th= t('label.employee')
+          th= t('label.assessments')
+          th= t('label.self_assessment')
+          th= t('label.prime_assessment')
+          th= t('label.others_assessments')
+          each emp, i in employees
+            - var empAssessments = assessmentsByEmp[emp.id]
+            tr
+              td #{i+1}
+              td: a(href="/employee/" + emp.id) #{emp.name.full}
+              if !empAssessments
+                td 0
+                td 
+                td 
+                td 
+              else
+                td #{empAssessments.length} 
+                //- self assessment
+                td
+                  - var selfA = _.find(empAssessments, function(a) { return a.employee == a.doneBy.id; })
+                  if selfA
+                    a.btn.btn-sm.btn-default(href="/assessment/" + selfA.id)= t('label.self_assessment')
+                //- prime assessment
+                td
+                  - var primeA = _.find(empAssessments, function(a) { return a.prime; })
+                  if primeA
+                    a.btn.btn-sm.btn-danger(href="/assessment/" + primeA.id) #{primeA.doneBy.name.full}
+                //- other assessments
+                td
+                  each a in empAssessments
+                    if (!a.prime) && (a.employee != a.doneBy.id)
+                      a.btn.btn-sm.btn-info(href="/assessment/" + a.id) #{a.doneBy.name.full}
+                      span &nbsp;
     
               

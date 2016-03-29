@@ -14,7 +14,7 @@ exports = module.exports = function(req, res) {
         t = req.t;
 	
 	// Set locals
-	locals.section = 'dashboard';
+	locals.section = 'employees';
     locals.validationErrors = {};
     
     // 1: load all employees

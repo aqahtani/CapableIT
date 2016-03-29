@@ -2,45 +2,52 @@
 //- DASHBOARD/employees
 //- **************************************
 
-extends ../../layouts/default
+extends ../../layouts/dashboard
 include ../../modals/form-employee
 
+block header
+  .row
+    ol.breadcrumb
+      li
+        a(href='#')
+          svg.glyph.stroked.home
+            use(xlink:href='#stroked-home')
+      li.active= t('nav.employees')
+
 block content
-  .container
-    .row
-      .col-sm-12
-        section
-          +modalAddEmployee('formAddEmployeeModal', jobs)
-          h2= t('header.employees') 
-            .pull-right: a(href="#", data-toggle="modal", data-target="#formAddEmployeeModal", title="#{ t('cmd.add') }"): span.glyphicon.glyphicon-plus-sign
-          hr
-          if !employees
-            h3= t('msg.none')
-          else
-            table.table.table-striped.table-condensed.datatables
-              thead
-                tr
-                  th #
-                  th= t('label.name')
-                  th= t('label.arabic_name')
-                  th= t('label.job')
-                  th= t('label.department')
-                  th= t('label.function')
-                  th= t('label.actions')
-              tbody
-                each emp, i in employees
-                  tr
-                    td #{i+1}
-                    td: a(href="/employee/" + emp.id) #{emp.name.full}
-                    td #{emp.arName}
-                    td  
-                      if emp.job
-                        a(href="/job/" + emp.job.id) #{emp.job.title}
-                    td= emp.orgDepartment ? emp.orgDepartment.title : '-'
-                    td= emp.orgFunction ? emp.orgFunction.title : '-'
-                    td
-                      +modalJobAssignment('formAssignJobModal' + emp.id, emp, jobs)
-                      +modalDeleteEmployee('formDeleteEmployeeModal' + emp.id, emp)
-                      a(href="#", data-toggle="modal", data-target="#formAssignJobModal" + emp.id, title="#{ t('cmd.assign_job') }"): span.glyphicon.glyphicon-transfer
-                      | 
-                      a(href="#", data-toggle="modal", data-target="#formDeleteEmployeeModal" + emp.id, title="#{ t('cmd.delete') }"): span.glyphicon.glyphicon-trash
+  .row: .col-sm-12
+    section
+      +modalAddEmployee('formAddEmployeeModal', jobs)
+      h2= t('header.employees') 
+        .pull-right: a(href="#", data-toggle="modal", data-target="#formAddEmployeeModal", title="#{ t('cmd.add') }"): span.glyphicon.glyphicon-plus-sign
+      hr
+      if !employees
+        h3= t('msg.none')
+      else
+        table(data-toggle='table', data-show-toggle='true', data-show-columns='true', data-search='true', data-select-item-name='toolbar1', data-pagination='true')
+          thead
+            tr
+              th(data-sortable='true') #
+              th(data-sortable='true')= t('label.name')
+              th(data-sortable='true')= t('label.arabic_name')
+              th(data-sortable='true')= t('label.job')
+              th(data-sortable='true')= t('label.department')
+              th(data-sortable='true')= t('label.function')
+              th.text-center= t('label.actions')
+          tbody
+            each emp, i in employees
+              tr
+                td #{i+1}
+                td: a(href="/employee/" + emp.id) #{emp.name.full}
+                td #{emp.arName}
+                td  
+                  if emp.job
+                    a(href="/job/" + emp.job.id) #{emp.job.title}
+                td= emp.orgDepartment ? emp.orgDepartment.title : '-'
+                td= emp.orgFunction ? emp.orgFunction.title : '-'
+                td.text-center
+                  +modalJobAssignment('formAssignJobModal' + emp.id, emp, jobs)
+                  +modalDeleteEmployee('formDeleteEmployeeModal' + emp.id, emp)
+                  a(href="#", data-toggle="modal", data-target="#formAssignJobModal" + emp.id, title="#{ t('cmd.assign_job') }"): span.glyphicon.glyphicon-transfer
+                  | 
+                  a(href="#", data-toggle="modal", data-target="#formDeleteEmployeeModal" + emp.id, title="#{ t('cmd.delete') }"): span.glyphicon.glyphicon-trash
