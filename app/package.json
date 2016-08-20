@@ -1,6 +1,6 @@
 {
   "name": "Capable-IT",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Capable-IT to manage IT Capabilities",
   "private": true,
   "dependencies": {
@@ -12,7 +12,7 @@
     "i18next-express-middleware": "^0.1.2",
     "i18next-node-fs-backend": "^0.0.6",
     "i18next-sprintf-postprocessor": "^0.0.6",
-    "keystone": "~0.3.16",
+    "keystone": "~0.3.22",
     "keystone-rest": "^0.9.0",
     "mongoose-unique-validator": "~0.6.1",
     "qr-image": "^3.1.0",
