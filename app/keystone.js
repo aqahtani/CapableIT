@@ -38,8 +38,12 @@ keystone.init({
     'mongo' : process.env.MONGO_URI,
     'cloudinary config' : process.env.CLOUDINARY_URL,
     
-    'mandrill api key' : process.env.MANDRILL_API_KEY,
-    'mandrill username' : process.env.MANDRILL_USERNAME,
+	// Changing from mandrill to mailgun 
+    //'mandrill api key' : process.env.MANDRILL_API_KEY,
+    //'mandrill username' : process.env.MANDRILL_USERNAME,
+	'email transport' : process.env.EMAIL_TRANSPORT,
+	'mailgun api key' : process.env.MAILGUN_API_KEY,
+	'mailgun domain' : process.env.MAILGUN_DOMAIN,
     
     'auto update': true,
     'session': true,
